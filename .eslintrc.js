@@ -9,7 +9,8 @@ module.exports = {
     'standard',
     'standard-react',
     // 'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended'
+    'plugin:react-hooks/recommended',
+    'plugin:react/recommended'
   ],
 
   parser: 'babel-eslint',
@@ -67,6 +68,7 @@ module.exports = {
       'standard-react',
       'plugin:@typescript-eslint/recommended',
       'plugin:react-hooks/recommended',
+      'plugin:react/recommended'
     ],
     // globals: { Atomics: 'readonly', SharedArrayBuffer: 'readonly' },
     parser: '@typescript-eslint/parser',
