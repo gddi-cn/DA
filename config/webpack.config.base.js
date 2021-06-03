@@ -1,11 +1,18 @@
 const paths = require('./config-utils/path');
+const getClientEnvironment = require('./config-utils/env');
 const fs = require('fs');
+const path = require('path')
+const webpack = require('webpack');
 const modules = require('./config-utils/modules');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+// const appPackageJson = require(paths.appPackageJson);
+const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 
-const appPackageJson = require(paths.appPackageJson);
 const useTypeScript = fs.existsSync(paths.appTsConfig);
 const reactRefreshOverlayEntry = require.resolve(
   'react-dev-utils/refreshOverlayInterop'
@@ -29,7 +36,7 @@ module.exports = function (webpackEnv) {
     output: {
       pathinfo: true,
       publicPath: paths.publicUrlOrPath,
-      jsonpFunction: `webpackJsonp${appPackageJson.name}`,
+      // jsonpFunction: `webpackJsonp${appPackageJson.name}`,
       globalObject: 'this',
     },
 
@@ -59,13 +66,6 @@ module.exports = function (webpackEnv) {
         { parser: { requireEnsure: false } },
         {
           oneOf: [
-            {
-              test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: paths.appSrc,
-              enforce: 'pre',
-              loader: 'eslint-loader'
-            },
-
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
@@ -126,6 +126,45 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
+      new WebpackManifestPlugin({
+        fileName: 'asset-manifest.json',
+        publicPath: paths.publicUrlOrPath,
+        generate: (seed, files, entrypoints) => {
+          const manifestFiles = files.reduce((manifest, file) => {
+            manifest[file.name] = file.path;
+            return manifest;
+          }, seed);
+          const entrypointFiles = entrypoints.main.filter(
+            fileName => !fileName.endsWith('.map')
+          );
+
+          return {
+            files: manifestFiles,
+            entrypoints: entrypointFiles,
+          };
+        },
+      }),
+      new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      new webpack.DefinePlugin(env.stringified),
+      new ESLintPlugin({
+        // Plugin options
+        extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+        formatter: require.resolve('react-dev-utils/eslintFormatter'),
+        eslintPath: require.resolve('eslint'),
+        failOnError: true,
+        context: paths.appSrc,
+        cache: true,
+        cacheLocation: path.resolve(
+          paths.appNodeModules,
+          '.cache/.eslintcache'
+        ),
+        // ESLint class options
+        cwd: paths.appPath,
+        resolvePluginsRelativeTo: __dirname,
+        baseConfig: {
+          extends: [paths.appEslintlrc],
+        },
+      }),
     ]
   };
 }

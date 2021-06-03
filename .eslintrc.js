@@ -19,7 +19,7 @@ module.exports = {
     ecmaFeatures: {
       ecmaVersion: 6,
       jsx: true,
-      legacyDecorators: true
+      legacyDecorators: true,
     },
     ecmaVersion: 11,
     sourceType: 'module'
@@ -37,7 +37,6 @@ module.exports = {
         ignoredNodes: ['JSXAttribute', 'JSXSpreadAttribute']
       }
     ],
-    '@typescript-eslint/no-var-requires': 0,
     'react/jsx-indent': [0, 2],
     semi: 0,
     'react/no-unused-prop-types': 0,

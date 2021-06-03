@@ -59,6 +59,7 @@ module.exports = {
   //   swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
   appBabelrc: resolveApp('.babelrc'),
+  appEslintlrc: resolveApp('.eslintrc'),
 };
 
 module.exports.moduleFileExtensions = moduleFileExtensions;
