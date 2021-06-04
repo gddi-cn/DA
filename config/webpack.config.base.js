@@ -10,10 +10,15 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-// const appPackageJson = require(paths.appPackageJson);
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+
 const useTypeScript = fs.existsSync(paths.appTsConfig);
+
 const reactRefreshOverlayEntry = require.resolve(
   'react-dev-utils/refreshOverlayInterop'
 );
@@ -25,10 +30,73 @@ const babelOptions = JSON.parse(babelrc);
 
 module.exports = function (webpackEnv) {
   const isEnvProduction = webpackEnv === 'production';
+  const isEnvDevelopment = webpackEnv === 'development';
   babelOptions.cacheDirectory = true;
   babelOptions.cacheCompression = false;
   babelOptions.compact = isEnvProduction;
+
+  const CSS_MODULE_LOCAL_IDENT_NAME = '[local]___[hash:base64:5]';
+
+  babelOptions.plugins.push(
+    // babel-plugin-react-css-modules
+    // 这个库太久没人维护了，用的第三方库去生成hash的，css-loader是自己搞的函数，所以不一致。用这个应该没毛病。
+    [
+      '@dr.pogodin/babel-plugin-react-css-modules',
+      {
+
+        filetypes: {
+          '.less': {
+            syntax: 'postcss-less',
+          }
+        },
+        generateScopedName: CSS_MODULE_LOCAL_IDENT_NAME,
+
+      }
+    ]
+  );
+
+  const getStyleLoaders = (cssOptions, preProcessor) => {
+    const loaders = [
+      isEnvDevelopment && require.resolve('style-loader'),
+      isEnvProduction && {
+        loader: MiniCssExtractPlugin.loader,
+        options: paths.publicUrlOrPath.startsWith('.')
+          ? { publicPath: '../../' }
+          : {},
+      },
+      {
+        loader: require.resolve('css-loader'),
+        options: cssOptions,
+      },
+      {
+        loader: require.resolve('postcss-loader'),
+      },
+    ].filter(Boolean);
+    if (preProcessor) {
+      loaders.push(
+        {
+          loader: require.resolve('resolve-url-loader'),
+          options: {
+            sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
+            root: paths.appSrc,
+          },
+        },
+        {
+          loader: require.resolve(preProcessor),
+          options: {
+            sourceMap: true,
+            lessOptions: {
+              javascriptEnabled: true
+            }
+          },
+        }
+      );
+    }
+    return loaders;
+  };
+
   return {
+    // context: paths.appPath,
     entry: [
       '@babel/polyfill',
       paths.appIndexJs,
@@ -36,7 +104,6 @@ module.exports = function (webpackEnv) {
     output: {
       pathinfo: true,
       publicPath: paths.publicUrlOrPath,
-      // jsonpFunction: `webpackJsonp${appPackageJson.name}`,
       globalObject: 'this',
     },
 
@@ -49,8 +116,6 @@ module.exports = function (webpackEnv) {
         modules.additionalModulePaths || []
       ),
       plugins: [
-        // Adds support for installing with Plug'n'Play, leading to faster installs and adding
-        // guards against forgotten dependencies and such.
         PnpWebpackPlugin,
         // 就是为了防止用户引入src目录之外的文件导致不可预期的结果。因为babel都是通过src目录内文件进行入口转义的
         new ModuleScopePlugin(paths.appSrc, [
@@ -66,6 +131,33 @@ module.exports = function (webpackEnv) {
         { parser: { requireEnsure: false } },
         {
           oneOf: [
+            // css 就不搞模块化了吧，没这个必要？
+            {
+              test: /\.css$/,
+              use: getStyleLoaders({
+                importLoaders: 1,
+                sourceMap: isEnvProduction
+                  ? shouldUseSourceMap
+                  : isEnvDevelopment,
+              }),
+              sideEffects: true,
+            },
+            {
+              test: /\.less$/,
+              include: paths.appSrc,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                  modules: {
+                    localIdentName: CSS_MODULE_LOCAL_IDENT_NAME,
+                  },
+                },
+                'less-loader'
+              ),
+            },
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
