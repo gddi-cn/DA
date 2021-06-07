@@ -22,6 +22,19 @@ const devConfig = {
     devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
 
+  // optimization: {
+  //   // 不压缩
+  //   minimize: false,
+  //   //
+  //   splitChunks: {
+  //     chunks: 'all',
+  //     name: false,
+  //   },
+  //   runtimeChunk: {
+  //     name: (entrypoint) => `runtime~${entrypoint.name}`,
+  //   },
+
+  // },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new CaseSensitivePathsPlugin()

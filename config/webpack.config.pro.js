@@ -2,17 +2,23 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
-
+const paths = require('./config-utils/path');
+const { merge } = require('webpack-merge');
+const baseConfigFn = require('./webpack.config.base');
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
-
-module.exports = {
+const baseConfig = baseConfigFn('production')
+const proConfig = {
+  mode: 'production',
   devtool: shouldUseSourceMap ? 'source-map' : false,
   output: {
+    path: paths.appBuild,
     // bundle
-    filename: 'static/js/bundle.js',
+    filename: 'static/js/[name].[contenthash:8].js',
     // 块
-    chunkFilename: 'static/js/[name].chunk.js',
+    chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
     devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
   },
   optimization: {
@@ -48,7 +54,6 @@ module.exports = {
             ascii_only: true,
           },
         },
-        sourceMap: shouldUseSourceMap,
       }),
       // This is only used in production mode
       new OptimizeCSSAssetsPlugin({
@@ -84,6 +89,7 @@ module.exports = {
   },
 
   plugins: [
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -94,3 +100,6 @@ module.exports = {
   ]
 
 };
+
+const mergeDevConfig = merge(baseConfig, proConfig);
+module.exports = mergeDevConfig

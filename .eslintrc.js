@@ -87,6 +87,7 @@ module.exports = {
       '@typescript-eslint'
     ],
     rules: {
+
       indent: [
         'error',
         2,
@@ -112,7 +113,8 @@ module.exports = {
       'import/no-named-default': 0,
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      '@typescript-eslint/no-explicit-any': 0
+      '@typescript-eslint/no-explicit-any': 0,
+      '@typescript-eslint/explicit-module-boundary-types': 'off'
     },
 
   }]

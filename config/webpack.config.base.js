@@ -1,12 +1,16 @@
 const paths = require('./config-utils/path');
 const getClientEnvironment = require('./config-utils/env');
 const fs = require('fs');
+const resolve = require('resolve');
 const path = require('path')
 const webpack = require('webpack');
-const modules = require('./config-utils/modules');
+// const modules = require('./config-utils/modules');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
@@ -98,7 +102,6 @@ module.exports = function (webpackEnv) {
   return {
     // context: paths.appPath,
     entry: [
-      '@babel/polyfill',
       paths.appIndexJs,
     ],
     output: {
@@ -106,15 +109,13 @@ module.exports = function (webpackEnv) {
       publicPath: paths.publicUrlOrPath,
       globalObject: 'this',
     },
-
+    bail: isEnvProduction,
     resolve: {
       extensions: paths.moduleFileExtensions
         .map(ext => `.${ext}`)
         .filter(ext => useTypeScript || !ext.includes('ts')),
 
-      modules: ['node_modules', paths.appNodeModules].concat(
-        modules.additionalModulePaths || []
-      ),
+      modules: ['node_modules', paths.appNodeModules],
       plugins: [
         PnpWebpackPlugin,
         // 就是为了防止用户引入src目录之外的文件导致不可预期的结果。因为babel都是通过src目录内文件进行入口转义的
@@ -143,8 +144,8 @@ module.exports = function (webpackEnv) {
               sideEffects: true,
             },
             {
-              test: /\.less$/,
-              include: paths.appSrc,
+              test: /\.module\.less$/,
+
               use: getStyleLoaders(
                 {
                   importLoaders: 3,
@@ -157,6 +158,22 @@ module.exports = function (webpackEnv) {
                 },
                 'less-loader'
               ),
+            },
+            {
+              test: /\.less$/,
+              exclude: [
+                /\.module\.less$/,
+              ],
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                },
+                'less-loader'
+              ),
+              sideEffects: true,
             },
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
@@ -218,6 +235,7 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
+
       new WebpackManifestPlugin({
         fileName: 'asset-manifest.json',
         publicPath: paths.publicUrlOrPath,
@@ -256,6 +274,37 @@ module.exports = function (webpackEnv) {
         baseConfig: {
           extends: [paths.appEslintlrc],
         },
+      }),
+      new ForkTsCheckerWebpackPlugin({
+        typescript: resolve.sync('typescript', {
+          basedir: paths.appNodeModules,
+        }),
+        async: isEnvDevelopment,
+        checkSyntacticErrors: true,
+        resolveModuleNameModule: process.versions.pnp
+          // eslint-disable-next-line node/no-path-concat
+          ? `${__dirname}/pnpTs.js`
+          : undefined,
+        resolveTypeReferenceDirectiveModule: process.versions.pnp
+          // eslint-disable-next-line node/no-path-concat
+          ? `${__dirname}/pnpTs.js`
+          : undefined,
+        tsconfig: paths.appTsConfig,
+        reportFiles: [
+          // This one is specifically to match during CI tests,
+          // as micromatch doesn't match
+          // '../cra-template-typescript/template/src/App.tsx'
+          // otherwise.
+          '../**/src/**/*.{ts,tsx}',
+          '**/src/**/*.{ts,tsx}',
+          '!**/src/**/__tests__/**',
+          '!**/src/**/?(*.)(spec|test).*',
+          '!**/src/setupProxy.*',
+          '!**/src/setupTests.*',
+        ],
+        silent: true,
+        // The formatter is invoked directly in WebpackDevServerUtils during development
+        formatter: isEnvProduction ? typescriptFormatter : undefined,
       }),
     ]
   };

@@ -1,5 +1,6 @@
 const postcssNormalize = require('postcss-normalize');
-
+// hideNothingWarning: true
+// 开发时貌似默认不搞这个，所以会警告，禁止就行了
 module.exports = {
   sourceMap: false,
   plugins: () => [
@@ -12,4 +13,5 @@ module.exports = {
     }),
     postcssNormalize(),
   ],
+  hideNothingWarning: true
 }
