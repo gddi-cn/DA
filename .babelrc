@@ -12,6 +12,7 @@
     ],
     "plugins": [
         "@babel/plugin-syntax-dynamic-import",
+         "babel-plugin-macros",
         ["@babel/plugin-proposal-pipeline-operator", { "proposal": "minimal" }],
         ["import", {
             "libraryName": "antd",

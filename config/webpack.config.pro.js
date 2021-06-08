@@ -1,10 +1,10 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const safePostCssParser = require('postcss-safe-parser');
+// const safePostCssParser = require('postcss-safe-parser');
 const paths = require('./config-utils/path');
 const { merge } = require('webpack-merge');
 const baseConfigFn = require('./webpack.config.base');
@@ -56,22 +56,17 @@ const proConfig = {
         },
       }),
       // This is only used in production mode
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          parser: safePostCssParser,
-          map: shouldUseSourceMap
-            ? {
-              // `inline: false` forces the sourcemap to be output into a
-              // separate file
-              inline: false,
-              // `annotation: true` appends the sourceMappingURL to the end of
-              // the css file, helping the browser find the sourcemap
-              annotation: true,
-            }
-            : false,
-        },
-        cssProcessorPluginOptions: {
-          preset: ['default', { minifyFontValues: { removeQuotes: false } }],
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          processorOptions: {
+            parser: 'postcss-safe-parser',
+          },
+          preset: [
+            'default',
+            {
+              discardComments: { removeAll: true },
+            },
+          ],
         },
       }),
     ],
@@ -101,5 +96,5 @@ const proConfig = {
 
 };
 
-const mergeDevConfig = merge(baseConfig, proConfig);
+const mergeDevConfig = merge(proConfig, baseConfig);
 module.exports = mergeDevConfig

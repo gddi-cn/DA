@@ -29,7 +29,7 @@ const reactRefreshOverlayEntry = require.resolve(
 
 const babelrc = fs.readFileSync(paths.appBabelrc);
 const babelOptions = JSON.parse(babelrc);
-
+// const appPackageJson = require(paths.appPackageJson);
 // const cssRegex = /\.css$/;
 
 module.exports = function (webpackEnv) {
@@ -57,6 +57,19 @@ module.exports = function (webpackEnv) {
 
       }
     ]
+  );
+
+  babelOptions.plugins.push(
+    ['@babel/plugin-transform-runtime', {
+      corejs: false,
+      regenerator: true,
+      version: require('@babel/runtime/package.json').version,
+
+    }]
+  );
+
+  isEnvDevelopment && babelOptions.plugins.push(
+    require.resolve('react-refresh/babel')
   );
 
   const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -107,7 +120,12 @@ module.exports = function (webpackEnv) {
     output: {
       pathinfo: true,
       publicPath: paths.publicUrlOrPath,
-      globalObject: 'this',
+      // fix: allow globalObject to be expression
+      // https://github.com/webpack/webpack/pull/12927
+      // https://github.com/webpack/webpack/issues/12924
+      globalObject: '(typeof self !== \'undefined\' ? self : this)',
+      // webpack 5 废弃
+      // jsonpFunction: `webpackJsonp${appPackageJson.name}`,
     },
     bail: isEnvProduction,
     resolve: {

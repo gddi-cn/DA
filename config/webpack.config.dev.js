@@ -3,12 +3,20 @@ const { merge } = require('webpack-merge');
 const path = require('path');
 const paths = require('./config-utils/path');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 // const fs = require('fs')
 process.env.NODE_ENV = process.env.ENV = 'development';
 
 const baseConfigFn = require('./webpack.config.base');
 
 const baseConfig = baseConfigFn('development')
+
+const webpackDevClientEntry = require.resolve(
+  'react-dev-utils/webpackHotDevClient'
+);
+const reactRefreshOverlayEntry = require.resolve(
+  'react-dev-utils/refreshOverlayInterop'
+);
 
 const devConfig = {
   mode: 'development',
@@ -37,7 +45,19 @@ const devConfig = {
   // },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new CaseSensitivePathsPlugin()
+    new CaseSensitivePathsPlugin(),
+    // 热更新
+    new ReactRefreshWebpackPlugin({
+      overlay: {
+        entry: webpackDevClientEntry,
+        // The expected exports are slightly different from what the overlay exports,
+        // so an interop is included here to enable feedback on module-level errors.
+        module: reactRefreshOverlayEntry,
+        // Since we ship a custom dev client and overlay integration,
+        // the bundled socket handling logic can be eliminated.
+        sockIntegration: false,
+      },
+    }),
   ],
 };
 const mergeDevConfig = merge(baseConfig, devConfig);

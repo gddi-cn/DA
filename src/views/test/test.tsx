@@ -1,7 +1,11 @@
 import React from 'react'
+import './test.module.less'
+
 const Test = ():JSX.Element => {
   return (
-    <div>11asd23aaa</div>
+    <div styleName='test'>
+      <div className='test1'>测1试2</div>
+    </div>
   )
 }
 
