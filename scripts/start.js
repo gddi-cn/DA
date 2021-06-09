@@ -1,7 +1,9 @@
 'use strict';
 
 const webpack = require('webpack');
+const { merge } = require('webpack-merge');
 const WebpackDevServer = require('webpack-dev-server');
+const devServerConfig = require('../config/server.config')
 const paths = require('../config/config-utils/path')
 const webpackDevConfig = require('../config/webpack.config.dev');
 const ignoredFiles = require('react-dev-utils/ignoredFiles');
@@ -44,7 +46,9 @@ choosePort(HOST, DEFAULT_PORT).then(port => {
 
   };
 
-  WebpackDevServer.addDevServerEntrypoints(webpackDevConfig, options);
+  const _options = merge(options, devServerConfig);
+
+  WebpackDevServer.addDevServerEntrypoints(webpackDevConfig, _options);
 
   const compiler = webpack(webpackDevConfig);
 
@@ -87,7 +91,7 @@ choosePort(HOST, DEFAULT_PORT).then(port => {
     printInstructions('REACT-CLI', urls)
   })
 
-  const server = new WebpackDevServer(compiler, options);
+  const server = new WebpackDevServer(compiler, _options);
 
   server.listen(port, 'localhost', function (err) {
     if (err) {

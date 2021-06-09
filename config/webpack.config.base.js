@@ -7,7 +7,7 @@ const webpack = require('webpack');
 // const modules = require('./config-utils/modules');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
@@ -147,7 +147,7 @@ module.exports = function (webpackEnv) {
     module: {
       strictExportPresence: true,
       rules: [
-        { parser: { requireEnsure: false } },
+        // { parser: { requireEnsure: false } }, // 会导致一些库跪下来
         {
           oneOf: [
             // css 就不搞模块化了吧，没这个必要？
@@ -228,6 +228,7 @@ module.exports = function (webpackEnv) {
       ]
     },
     plugins: [
+      new NodePolyfillPlugin(),
       new HtmlWebpackPlugin(
         Object.assign(
           {},
