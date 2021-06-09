@@ -40,6 +40,7 @@ module.exports = {
     'react/jsx-indent': [0, 2],
     semi: 0,
     'react/no-unused-prop-types': 0,
+    'react/display-name': ['off', { ignoreTranspilerName: false }],
     'react/prop-types': 0,
     'generator-star-spacing': [
       'error',
