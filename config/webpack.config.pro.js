@@ -40,7 +40,8 @@ const proConfig = {
             warnings: false,
             comparisons: false,
             inline: 2,
-            drop_console: true
+            drop_console: true,
+            pure_funcs: ['console.log', 'console.warn']
           },
           mangle: {
             // true绕过 Safari 10 循环迭代器错误 “无法两次声明 let 变量”。
