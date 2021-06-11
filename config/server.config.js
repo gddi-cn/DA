@@ -4,22 +4,29 @@ module.exports = {
   proxy: [
 
     {
-      context: ['/api/process/socket.io'],
+      context: ['/api/v1/ws'],
 
-      target: 'ws://xxxx.lab.k8s.xxx.com',
+      target: 'ws://market.lab.k8s.gddi.com',
       changeOrigin: true,
-
       logLevel: 'debug',
-      ws: true,
+      ws: true
     },
 
     {
       context: ['/api'],
-      target: 'http://xxx.lab.k8s.xxx.com',
+      target: 'http://market.lab.k8s.gddi.com',
       changeOrigin: true,
       // xfwd: false,
       secure: false,
     },
+    {
+      context: ['/upload'],
+      target: 'http://market.lab.k8s.gddi.com/',
+      changeOrigin: true,
+      // xfwd: false,
+      secure: false,
+    },
+
   ]
 
 }

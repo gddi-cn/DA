@@ -72,6 +72,14 @@ module.exports = function (webpackEnv) {
     require.resolve('react-refresh/babel')
   );
 
+  isEnvProduction && babelOptions.plugins.push([
+    // Remove PropTypes from production build
+    require('babel-plugin-transform-react-remove-prop-types').default,
+    {
+      removeImport: true,
+    },
+  ])
+
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
@@ -147,7 +155,7 @@ module.exports = function (webpackEnv) {
     module: {
       strictExportPresence: true,
       rules: [
-        // { parser: { requireEnsure: false } }, // 会导致一些库跪下来
+        // { parser: { requireEnsure: false } },
         {
           oneOf: [
             // css 就不搞模块化了吧，没这个必要？
@@ -196,8 +204,34 @@ module.exports = function (webpackEnv) {
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
+
               loader: require.resolve('babel-loader'),
               options: babelOptions,
+            },
+            {
+              test: /\.(js|mjs)$/,
+              exclude: /@babel(?:\/|\\{1,2})runtime/,
+              loader: require.resolve('babel-loader'),
+              options: {
+                babelrc: false,
+                configFile: false,
+                compact: false,
+                presets: [
+                  [
+                    require.resolve('babel-preset-react-app/dependencies'),
+                    { helpers: true },
+                  ],
+                ],
+                cacheDirectory: true,
+                // See #6846 for context on why cacheCompression is disabled
+                cacheCompression: false,
+
+                // Babel sourcemaps are needed for debugging into node_modules
+                // code.  Without the options below, debuggers like VSCode
+                // show incorrect code and set breakpoints on the wrong lines.
+                sourceMaps: shouldUseSourceMap,
+                inputSourceMap: shouldUseSourceMap,
+              },
             },
             {
               test: [/\.avif$/],
@@ -298,7 +332,10 @@ module.exports = function (webpackEnv) {
         typescript: resolve.sync('typescript', {
           basedir: paths.appNodeModules,
         }),
-        async: isEnvDevelopment,
+        // 开发环境是否同步ts错误阻塞
+        // 花了时间但是确保开发时一定没人提交错误的代码---目前时异步的，一般来说不会出啥问题吧
+        // async: isEnvDevelopment,
+        async: false,
         checkSyntacticErrors: true,
         resolveModuleNameModule: process.versions.pnp
           // eslint-disable-next-line node/no-path-concat

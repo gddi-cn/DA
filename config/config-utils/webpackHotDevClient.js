@@ -26,12 +26,12 @@ ErrorOverlay.setEditorHandler(function editorHandler (errorLocation) {
   // Keep this sync with errorOverlayMiddleware.js
   fetch(
     launchEditorEndpoint +
-        '?fileName=' +
-        window.encodeURIComponent(errorLocation.fileName) +
-        '&lineNumber=' +
-        window.encodeURIComponent(errorLocation.lineNumber || 1) +
-        '&colNumber=' +
-        window.encodeURIComponent(errorLocation.colNumber || 1)
+    '?fileName=' +
+    window.encodeURIComponent(errorLocation.fileName) +
+    '&lineNumber=' +
+    window.encodeURIComponent(errorLocation.lineNumber || 1) +
+    '&colNumber=' +
+    window.encodeURIComponent(errorLocation.colNumber || 1)
   );
 });
 
@@ -131,7 +131,7 @@ function handleWarnings (warnings) {
         if (i === 5) {
           console.warn(
             'There were more warnings in other files.\n' +
-                        'You can find a complete log in the terminal.'
+            'You can find a complete log in the terminal.'
           );
           break;
         }
@@ -213,7 +213,7 @@ connection.onmessage = function (e) {
     handleErrors(message.data);
     break;
   default:
-        // Do nothing.
+    // Do nothing.
   }
 };
 

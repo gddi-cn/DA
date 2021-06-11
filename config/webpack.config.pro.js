@@ -5,14 +5,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const safePostCssParser = require('postcss-safe-parser');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const paths = require('./config-utils/path');
 const { merge } = require('webpack-merge');
 const baseConfigFn = require('./webpack.config.base');
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+// const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 const baseConfig = baseConfigFn('production')
+// const isEnvProduction = process.env.NODE_ENV === 'production'
+const isEnvProductionProfile = process.argv.includes('--profile');
 const proConfig = {
   mode: 'production',
-  devtool: shouldUseSourceMap ? 'source-map' : false,
+  // devtool: shouldUseSourceMap ? 'source-map' : false,
+  devtool: false,
   output: {
     path: paths.appBuild,
     // bundle
@@ -36,6 +40,7 @@ const proConfig = {
             warnings: false,
             comparisons: false,
             inline: 2,
+            drop_console: true
           },
           mangle: {
             // true绕过 Safari 10 循环迭代器错误 “无法两次声明 let 变量”。
@@ -43,9 +48,9 @@ const proConfig = {
           },
 
           // keep_classnames(默认: false) -- 通过true以防止压缩器丢弃类名。传递正则表达式以仅保留与该正则表达式匹配的类名
-          //   keep_classnames: undefined,
+          keep_classnames: isEnvProductionProfile,
           // keep_fargs(default: true) -- 防止压缩器丢弃未使用的函数参数。对于依赖于Function.length.
-          //   keep_fnames: false,
+          keep_fnames: isEnvProductionProfile,
           output: {
             ecma: 5,
             comments: false,
@@ -90,8 +95,10 @@ const proConfig = {
       // both options are optional
       filename: 'static/css/[name].[contenthash:8].css',
       chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+      // 干掉CSS的排序警告
+      ignoreOrder: true
     }),
-
+    isEnvProductionProfile && new BundleAnalyzerPlugin()
   ]
 
 };
