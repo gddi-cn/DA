@@ -2,7 +2,7 @@ module.exports = {
   env: {
     browser: true,
     commonjs: true,
-    es2020: true,
+    es2021: true,
     es6: true
   },
   extends: [
@@ -30,6 +30,9 @@ module.exports = {
     'promise'
   ],
   rules: {
+    'multiline-ternary': 'off',
+
+    'no-empty': ['off', { allowEmptyCatch: true }],
     indent: [
       'error',
       2,
@@ -60,7 +63,7 @@ module.exports = {
     env: {
       browser: true,
       commonjs: true,
-      es2020: true,
+      es2021: true,
       es6: true
     },
     extends: [
@@ -88,7 +91,7 @@ module.exports = {
       '@typescript-eslint'
     ],
     rules: {
-
+      'react/display-name': ['off', { ignoreTranspilerName: false }],
       indent: [
         'error',
         2,
@@ -96,6 +99,9 @@ module.exports = {
           ignoredNodes: ['JSXAttribute', 'JSXSpreadAttribute']
         }
       ],
+      'multiline-ternary': 'off',
+      'react/jsx-curly-brace-presence': [2, { props: 'never', children: 'never' }],
+      'no-empty': ['off', { allowEmptyCatch: true }],
       'no-use-before-define': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       '@typescript-eslint/no-var-requires': 0,
