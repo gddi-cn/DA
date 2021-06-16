@@ -13,6 +13,7 @@ const baseConfigFn = require('./webpack.config.base');
 const baseConfig = baseConfigFn('production')
 // const isEnvProduction = process.env.NODE_ENV === 'production'
 const isEnvProductionProfile = process.argv.includes('--profile');
+
 const proConfig = {
   mode: 'production',
   // devtool: shouldUseSourceMap ? 'source-map' : false,
@@ -90,6 +91,7 @@ const proConfig = {
   },
 
   plugins: [
+    isEnvProductionProfile && new BundleAnalyzerPlugin(),
     new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
@@ -99,8 +101,8 @@ const proConfig = {
       // 干掉CSS的排序警告
       ignoreOrder: true
     }),
-    isEnvProductionProfile && new BundleAnalyzerPlugin()
-  ]
+
+  ].filter(Boolean)
 
 };
 

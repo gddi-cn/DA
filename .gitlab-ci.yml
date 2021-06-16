@@ -1,0 +1,57 @@
+# image: node:latest
+
+# before_script:
+#   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" hub.your.com
+
+stages:
+  - run_install
+  - run_lint
+  - run_build
+  # - run_deploy
+
+cache:
+  paths:
+  - node_modules/
+  # - /usr/local/lib/node_modules/
+
+# allow_failure : true
+
+run_install:
+  stage: run_install
+  script:
+    - yarn
+  artifacts:
+    paths:
+      - node_modules  # node modules太大，runner塞不下，改这个也行吧？
+    expire_in: 15 days
+  tags:
+    - market-runner
+  
+run_lint:
+  stage: run_lint
+  script:
+    - yarn lint
+  tags:
+    - market-runner
+
+run_build:
+  stage: run_build
+
+  artifacts: 
+    paths:
+      - ./build
+  dependencies:
+    - run_install
+  script:
+    - yarn build
+  tags:
+    - market-runner
+
+# run_deploy:
+#   stage: run_deploy
+#   only: 
+#     - new-cli-develop.2
+#   script: # 
+#     - yarn image
+#   tags:
+#     - market-runner
