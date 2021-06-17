@@ -50,13 +50,12 @@ const plugins = [
 
     }
   ],
-  [
-    'import',
-    {
-      libraryName: 'zarm',
-      style: 'css'
-    }
-  ],
+  ['import', {
+    libraryName: 'antd',
+    libraryDirectory: 'es',
+    style: true
+  }],
+
   // 默认开启这个热更新
   isEnvDevelopment && require.resolve('react-refresh/babel'),
   isEnvProduction && [
