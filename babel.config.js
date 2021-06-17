@@ -50,12 +50,22 @@ const plugins = [
 
     }
   ],
+  [
+    require.resolve('babel-plugin-named-asset-import'),
+    {
+      loaderMap: {
+        svg: {
+          ReactComponent:
+            '@svgr/webpack?-svgo,+titleProp,+ref![path]',
+        },
+      },
+    },
+  ],
   ['import', {
     libraryName: 'antd',
     libraryDirectory: 'es',
     style: true
   }],
-
   // 默认开启这个热更新
   isEnvDevelopment && require.resolve('react-refresh/babel'),
   isEnvProduction && [
