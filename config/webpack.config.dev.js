@@ -46,7 +46,7 @@ const devConfig = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new CaseSensitivePathsPlugin(),
-    // 热更新
+    // 热更新 关闭的话注意注释babel配置的热更新垫片
     new ReactRefreshWebpackPlugin({
       overlay: {
         entry: webpackDevClientEntry,

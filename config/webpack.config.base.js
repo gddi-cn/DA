@@ -15,6 +15,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
+const babelOptions = require(paths.appBabelrc)
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
@@ -27,58 +29,13 @@ const reactRefreshOverlayEntry = require.resolve(
   'react-dev-utils/refreshOverlayInterop'
 );
 
-const babelrc = fs.readFileSync(paths.appBabelrc);
-const babelOptions = JSON.parse(babelrc);
-// const appPackageJson = require(paths.appPackageJson);
-// const cssRegex = /\.css$/;
+// const babelrc = fs.readFileSync();
 
 module.exports = function (webpackEnv) {
   const isEnvProduction = webpackEnv === 'production';
   const isEnvDevelopment = webpackEnv === 'development';
-  babelOptions.cacheDirectory = true;
-  babelOptions.cacheCompression = false;
-  babelOptions.compact = isEnvProduction;
 
   const CSS_MODULE_LOCAL_IDENT_NAME = '[local]___[hash:base64:5]';
-
-  babelOptions.plugins.push(
-    // babel-plugin-react-css-modules
-    // 这个库太久没人维护了，用的第三方库去生成hash的，css-loader是自己搞的函数，所以不一致。用这个应该没毛病。
-    [
-      '@dr.pogodin/babel-plugin-react-css-modules',
-      {
-
-        filetypes: {
-          '.less': {
-            syntax: 'postcss-less',
-          }
-        },
-        generateScopedName: CSS_MODULE_LOCAL_IDENT_NAME,
-
-      }
-    ]
-  );
-
-  babelOptions.plugins.push(
-    ['@babel/plugin-transform-runtime', {
-      corejs: false,
-      regenerator: true,
-      version: require('@babel/runtime/package.json').version,
-
-    }]
-  );
-
-  isEnvDevelopment && babelOptions.plugins.push(
-    require.resolve('react-refresh/babel')
-  );
-
-  isEnvProduction && babelOptions.plugins.push([
-    // Remove PropTypes from production build
-    require('babel-plugin-transform-react-remove-prop-types').default,
-    {
-      removeImport: true,
-    },
-  ])
 
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
@@ -206,7 +163,13 @@ module.exports = function (webpackEnv) {
               include: paths.appSrc,
 
               loader: require.resolve('babel-loader'),
-              options: babelOptions,
+              options: {
+                ...babelOptions,
+                cacheDirectory: true,
+                // See #6846 for context on why cacheCompression is disabled
+                cacheCompression: false,
+                compact: isEnvProduction,
+              },
             },
             {
               test: /\.(js|mjs)$/,

@@ -58,7 +58,7 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   //   swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
-  appBabelrc: resolveApp('.babelrc'),
+  appBabelrc: resolveApp('babel.config.js'),
   appEslintlrc: resolveApp('.eslintrc'),
 };
 
