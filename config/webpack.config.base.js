@@ -94,6 +94,11 @@ module.exports = function (webpackEnv) {
     },
     bail: isEnvProduction,
     resolve: {
+      alias: {
+
+        '@src': paths.appSrc,
+      },
+
       extensions: paths.moduleFileExtensions
         .map(ext => `.${ext}`)
         .filter(ext => useTypeScript || !ext.includes('ts')),

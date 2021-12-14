@@ -17,7 +17,7 @@ const routes = [
     path: '/app',
     // exact: true,
     strict: true,
-    component: loadable(() => import('../views/container/app')),
+    component: loadable(() => import('@src/views/container/app')),
     routes: [
       {
         path: APP_TEST,
