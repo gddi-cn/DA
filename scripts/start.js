@@ -4,9 +4,9 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const WebpackDevServer = require('webpack-dev-server');
 const devServerConfig = require('../config/server.config')
-const paths = require('../config/config-utils/path')
+const paths = require('../config/config-utils/paths')
 const webpackDevConfig = require('../config/webpack.config.dev');
-const ignoredFiles = require('react-dev-utils/ignoredFiles');
+// const ignoredFiles = require('react-dev-utils/ignoredFiles');
 const openBrowser = require('react-dev-utils/openBrowser');
 // const redirectServedPath = require('react-dev-utils/redirectServedPathMiddleware');
 const chalk = require('chalk');
@@ -30,34 +30,20 @@ choosePort(HOST, DEFAULT_PORT).then(port => {
   const options = {
     https: process.env.HTTPS,
     historyApiFallback: true,
-    contentBase: paths.appPublic,
+    // contentBase: paths.appPublic,
     compress: true,
-    watchContentBase: true,
+    // watchContentBase: true,
     hot: true,
-    publicPath: '/',
-    inline: true,
-    stats: {
-      colors: true,
-      cached: true,
-      builtAt: true,
-      timings: true,
-    },
+    // publicPath: '/',
     host: HOST,
     port: port,
     open: false,
-    transportMode: 'ws',
-    overlay: false,
     // writeToDisk: true,
-    watchOptions: {
-      ignored: ignoredFiles(paths.appSrc),
-    },
-    public: urls.lanUrlForTerminal,
-    disableHostCheck: true,
   };
 
   const _options = merge(options, devServerConfig);
 
-  WebpackDevServer.addDevServerEntrypoints(webpackDevConfig, _options);
+  // WebpackDevServer.addDevServerEntrypoints(webpackDevConfig, _options);
 
   const compiler = webpack(webpackDevConfig);
 
@@ -76,7 +62,7 @@ choosePort(HOST, DEFAULT_PORT).then(port => {
     if (urls.lanUrlForTerminal) {
       console.log('------------------------------------------------------------');
       console.log(
-        `  ${chalk.bold('本地:')}            ${urls.localUrlForTerminal}`
+        `  ${chalk.bold('本地:')}  ${urls.localUrlForTerminal}`
       );
       console.log(
         `  ${chalk.bold('网络:')}  ${urls.lanUrlForTerminal}`
@@ -93,12 +79,16 @@ choosePort(HOST, DEFAULT_PORT).then(port => {
     printInstructions('REACT-CLI', urls)
   })
 
-  const server = new WebpackDevServer(compiler, _options);
+  const devServer = new WebpackDevServer(_options, compiler);
 
-  server.listen(port, HOST, function (err) {
-    if (err) {
-      return console.log(err);
-    }
+  // const runServer = async () => {
+  //   console.log('Starting server...');
+  //   await devServer.start();
+  // };
+
+  // runServer();
+
+  devServer.startCallback(() => {
     openBrowser(urls.localUrlForBrowser);
   })
 });

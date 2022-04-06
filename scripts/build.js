@@ -11,12 +11,12 @@ const chalk = require('chalk');
 const fs = require('fs-extra');
 const bfj = require('bfj');
 const webpack = require('webpack');
-const paths = require('../config/config-utils/path');
+const paths = require('../config/config-utils/paths');
 const webpackDevConfig = require('../config/webpack.config.pro');
 
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
-const formatWebpackMessages = require('../config/config-utils/formatWebpackMessages');
-const printHostingInstructions = require('../config/config-utils/printHostingInstructions');
+const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+const printHostingInstructions = require('react-dev-utils//printHostingInstructions');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const printBuildError = require('react-dev-utils/printBuildError');
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');

@@ -13,8 +13,7 @@ module.exports = {
     'plugin:react/recommended'
   ],
 
-  parser: 'babel-eslint',
-
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaFeatures: {
       ecmaVersion: 6,
@@ -41,6 +40,8 @@ module.exports = {
       }
     ],
     'react/jsx-indent': [0, 2],
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
     semi: 0,
     'react/no-unused-prop-types': 0,
     'react/display-name': ['off', { ignoreTranspilerName: false }],
@@ -99,6 +100,8 @@ module.exports = {
           ignoredNodes: ['JSXAttribute', 'JSXSpreadAttribute']
         }
       ],
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
       'multiline-ternary': 'off',
       'react/jsx-curly-brace-presence': [2, { props: 'never', children: 'never' }],
       'no-empty': ['off', { allowEmptyCatch: true }],

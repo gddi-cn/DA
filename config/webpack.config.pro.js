@@ -6,7 +6,7 @@ const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const safePostCssParser = require('postcss-safe-parser');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const paths = require('./config-utils/path');
+const paths = require('./config-utils/paths');
 const { merge } = require('webpack-merge');
 const baseConfigFn = require('./webpack.config.base');
 // const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -41,8 +41,7 @@ const proConfig = {
             warnings: false,
             comparisons: false,
             inline: 2,
-            drop_console: true,
-            pure_funcs: ['console.log', 'console.warn']
+
           },
           mangle: {
             // true绕过 Safari 10 循环迭代器错误 “无法两次声明 let 变量”。
@@ -63,19 +62,7 @@ const proConfig = {
         },
       }),
       // This is only used in production mode
-      new CssMinimizerPlugin({
-        minimizerOptions: {
-          processorOptions: {
-            parser: 'postcss-safe-parser',
-          },
-          preset: [
-            'default',
-            {
-              discardComments: { removeAll: true },
-            },
-          ],
-        },
-      }),
+      new CssMinimizerPlugin(),
     ],
 
     splitChunks: {

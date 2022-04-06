@@ -3,9 +3,7 @@ import {
   // applyMiddleware,
   combineReducers
 } from 'redux';
-import history from '../../router/history'
-import { connectRouter } from 'connected-react-router'
-
+import globalSlice from './globalSlice'
 // const middleware = [thunk, logger];
 // const test = (state: any, ac: any) => {
 //   console.log(state)
@@ -13,8 +11,7 @@ import { connectRouter } from 'connected-react-router'
 //   return state || {}
 // }
 const reducers = combineReducers({
-  router: connectRouter(history),
-
+  globalSlice
   // test
 });
 

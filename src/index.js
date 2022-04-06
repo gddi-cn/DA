@@ -1,27 +1,29 @@
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import core from './controller/core';
 import { Provider } from 'react-redux';
-import ErrorBoundaries from './views/container/ErrorBoundaries'
-import { ConnectedRouter } from 'connected-react-router'
-import { renderRoutes } from 'react-router-config'
-import routes, { history } from './router'
+// import ErrorBoundaries from './views/container/ErrorBoundaries'
+
+import { BrowserRouter } from 'react-router-dom';
+import Routes from './router'
 import './asset/style/appCustom.less'
 
-ReactDOM.render(
-  <ConfigProvider locale={zhCN}>
-    <React.StrictMode>
+ReactDOM
+  .createRoot(document.getElementById('root'))
+  .render(
+    <ConfigProvider locale={zhCN}>
+
       <Provider store={core}>
-        <ConnectedRouter history={history} >
-          <ErrorBoundaries>
-            {renderRoutes(routes)}
-          </ErrorBoundaries>
-        </ConnectedRouter>
+
+        <BrowserRouter>
+
+          <Routes />
+
+        </BrowserRouter>
+
       </Provider>
-    </React.StrictMode>
-  </ConfigProvider>,
-  document.getElementById('root')
-);
+
+    </ConfigProvider>
+  );

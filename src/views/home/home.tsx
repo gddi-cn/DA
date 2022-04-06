@@ -1,18 +1,31 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { APP_TEST } from '../../router'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserInfo } from '@src/controller/reducer/globalSlice'
 import './home.module.less'
 
 const Home = (props: any): JSX.Element => {
   console.log(props)
+  const disPatch = useDispatch()
+  const test = useSelector((state: any) => {
+    return state.globalSlice.userInfo.test
+  })
+
+  useEffect(() => {
+    setTimeout(() => {
+      disPatch(getUserInfo({ test: '777' }))
+    }, 2000)
+  }, [disPatch])
+
   return (
     <div styleName='home'>
-      <NavLink
+      <Link
         to={APP_TEST}
       >
         <span>Home</span>
-      </NavLink>
-      <div className='test1'>热更新似乎a不是111很好用asd啊</div>
+      </Link>
+      <div className='test1'>热更新似乎a不是s111很好用asd啊{test}</div>
     </div>
   )
 }
