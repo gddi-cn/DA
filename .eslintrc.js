@@ -8,7 +8,7 @@ module.exports = {
   extends: [
     'standard',
     'standard-react',
-    // 'plugin:@typescript-eslint/recommended',
+
     'plugin:react-hooks/recommended',
     'plugin:react/recommended'
   ],
