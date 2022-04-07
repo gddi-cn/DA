@@ -3,6 +3,7 @@ import { Link, Outlet } from 'react-router-dom'
 import { APP_TEST, APP_HOME_ONE, APP_HOME_TWO } from '../../router'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserInfo } from '@src/controller/reducer/globalSlice'
+import api from '@api'
 import { Button } from 'antd'
 
 import './home.module.less'
@@ -16,8 +17,9 @@ const Home = (props: any): JSX.Element => {
 
   useEffect(() => {
     setTimeout(() => {
-      disPatch(getUserInfo({ test: '777' }))
+      disPatch(getUserInfo({ test: '77ssssss7' }))
     }, 2000)
+    api.get('/v1/users/info')
   }, [disPatch])
 
   return (

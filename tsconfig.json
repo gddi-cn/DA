@@ -8,7 +8,7 @@
       "dom.iterable",
       "esnext"
     ],
-  
+
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -26,7 +26,12 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"],
-    }, 
+      "@views/*": ["./src/views/*"],
+
+      "@router/*": ["./src/router/*"],
+      "@router": ["./src/router"],
+      "@api": ["./src/net"],
+    },
   },
   "include": [
     "src",

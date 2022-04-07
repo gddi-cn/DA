@@ -5,9 +5,9 @@ import zhCN from 'antd/lib/locale/zh_CN';
 import core from './controller/core';
 import { Provider } from 'react-redux';
 // import ErrorBoundaries from './views/container/ErrorBoundaries'
-
-import { BrowserRouter } from 'react-router-dom';
-import Routes from './router'
+// 傻了吧唧的v6
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import Routes, { history } from './router'
 import './asset/style/appCustom.less'
 
 ReactDOM
@@ -17,11 +17,11 @@ ReactDOM
 
       <Provider store={core}>
 
-        <BrowserRouter>
+        <HistoryRouter history={history}>
 
           <Routes />
 
-        </BrowserRouter>
+        </HistoryRouter>
 
       </Provider>
 

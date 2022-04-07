@@ -8,6 +8,10 @@ const paths = require('../config/config-utils/paths')
 const webpackDevConfig = require('../config/webpack.config.dev');
 // const ignoredFiles = require('react-dev-utils/ignoredFiles');
 const openBrowser = require('react-dev-utils/openBrowser');
+const ignoredFiles = require('react-dev-utils/ignoredFiles');
+// const fs = require('fs');
+// const evalSourceMapMiddleware = require('react-dev-utils/evalSourceMapMiddleware');
+// const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
 // const redirectServedPath = require('react-dev-utils/redirectServedPathMiddleware');
 const chalk = require('chalk');
 const {
@@ -39,6 +43,52 @@ choosePort(HOST, DEFAULT_PORT).then(port => {
     port: port,
     open: false,
     // writeToDisk: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': '*',
+      'Access-Control-Allow-Headers': '*',
+    },
+    static: {
+      // By default WebpackDevServer serves physical files from current directory
+      // in addition to all the virtual build products that it serves from memory.
+      // This is confusing because those files won’t automatically be available in
+      // production build folder unless we copy them. However, copying the whole
+      // project directory is dangerous because we may expose sensitive files.
+      // Instead, we establish a convention that only files in `public` directory
+      // get served. Our build script will copy `public` into the `build` folder.
+      // In `index.html`, you can get URL of `public` folder with %PUBLIC_URL%:
+      // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
+      // In JavaScript code, you can access it with `process.env.PUBLIC_URL`.
+      // Note that we only recommend to use `public` folder as an escape hatch
+      // for files like `favicon.ico`, `manifest.json`, and libraries that are
+      // for some reason broken when imported through webpack. If you just want to
+      // use an image, put it in `src` and `import` it from JavaScript instead.
+      directory: paths.appPublic,
+      publicPath: [paths.publicUrlOrPath],
+      // By default files from `contentBase` will not trigger a page reload.
+      watch: {
+        // Reportedly, this avoids CPU overload on some systems.
+        // https://github.com/facebook/create-react-app/issues/293
+        // src/node_modules is not ignored to support absolute imports
+        // https://github.com/facebook/create-react-app/issues/1065
+        ignored: ignoredFiles(paths.appSrc),
+      },
+    },
+    devMiddleware: {
+      // It is important to tell WebpackDevServer to use the same "publicPath" path as
+      // we specified in the webpack config. When homepage is '.', default to serving
+      // from the root.
+      // remove last slash so user can land on `/test` instead of `/test/`
+      publicPath: paths.publicUrlOrPath.slice(0, -1),
+    },
+
+    client: {
+
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
   };
 
   const _options = merge(options, devServerConfig);
