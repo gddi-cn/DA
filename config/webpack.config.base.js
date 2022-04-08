@@ -102,6 +102,10 @@ module.exports = function (webpackEnv) {
       // webpack 5 废弃
       // jsonpFunction: `webpackJsonp${appPackageJson.name}`,
     },
+    experiments: {
+      asyncWebAssembly: true,
+      syncWebAssembly: true
+    },
     cache: {
       type: 'filesystem',
       version: createEnvironmentHash(env.raw),
@@ -275,7 +279,7 @@ module.exports = function (webpackEnv) {
             },
             {
               loader: require.resolve('file-loader'),
-              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.wasm$/],
               options: {
                 name: 'static/media/[name].[hash:8].[ext]',
               },

@@ -3,8 +3,9 @@ import { Link, Outlet } from 'react-router-dom'
 import { APP_TEST, APP_HOME_ONE, APP_HOME_TWO } from '../../router'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserInfo } from '@src/controller/reducer/globalSlice'
-import api from '@api'
+// import api from '@api'
 import { Button } from 'antd'
+import * as main from './hello.wasm'
 
 import './home.module.less'
 
@@ -16,10 +17,27 @@ const Home = (props: any): JSX.Element => {
   })
 
   useEffect(() => {
+    const fibjs = (num:number) :number => {
+      if (num <= 0) {
+        return 0
+      }
+      if (num === 1) {
+        return 1
+      }
+      return fibjs(num - 1) + fibjs(num - 2)
+    }
+    const time1 = performance.now()
+
+    const cppv = main.fib(30)
+    const time2 = performance.now()
+    const jsv = fibjs(30)
+    const time3 = performance.now()
+    console.log(time2 - time1, time3 - time2)
+    console.log(cppv, jsv)
     setTimeout(() => {
       disPatch(getUserInfo({ test: '77ssssss7' }))
     }, 2000)
-    api.get('/v1/users/info')
+    // api.get('/v1/users/info')
   }, [disPatch])
 
   return (
