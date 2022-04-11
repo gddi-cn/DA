@@ -209,6 +209,7 @@ module.exports = function (webpackEnv) {
                 compact: isEnvProduction,
               },
             },
+
             {
               test: /\.(js|mjs)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,

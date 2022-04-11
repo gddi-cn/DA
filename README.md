@@ -2,7 +2,7 @@
 
 
 ## 集成了哪些特性
-1. react18、RTK、saga、router@v6、antd
+1. react18、RTK、saga、router@v6、antd、wasm
 2. eslint 本地运行时 + 编译时
 3. babel （除了个别提案感觉用起来会坑队友，基本都添加了）
 4. webpack 5
@@ -71,3 +71,5 @@ eslint检测，但是没加fix，自己手动fix吧
  [WEBPACK 5.X](https://webpack.docschina.org/guides/getting-started/#creating-a-bundle).
 
  [react router v6](https://reactrouter.com/docs/en/v6).
+ 
+ [cpp wasm ,别看官网了，我写了个文档](https://zhuanlan.zhihu.com/p/495213548?).
