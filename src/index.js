@@ -10,6 +10,8 @@ import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import Routes, { history } from './router'
 import './asset/style/appCustom.less'
 
+/* react 18 应该没啥大问题是吧 */
+
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
