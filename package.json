@@ -31,7 +31,7 @@
     "@babel/polyfill": "^7.12.1",
     "@loadable/component": "^5.15.2",
     "@reduxjs/toolkit": "^1.8.1",
-    "antd": "^4.19.5",
+    "antd": "^4.20.7",
     "axios": "^0.26.1",
     "less": "^4.1.2",
     "moment": "^2.29.2",
