@@ -1,10 +1,56 @@
 .LoginForm {
-    width: 100%;
-    height: 100vh;
+    width: 445px;
+    background-color: transparent;
+    box-sizing: border-box;
+    padding: 40px;
+    border-radius: 15px;
+    z-index: 30;
+    position: relative;
+    box-shadow: 0 10px 12px 0 rgba(112, 202, 255, 0.13),
+        0 18px 40px 0 rgba(112, 202, 255, 0.21);
+    color: #fff;
+    margin-left: 30%;
 
     :global {
-        .test1 {
-            color: yellowgreen;
+        .form_title {
+            color: white;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .ant-btn {
+            width: 100%;
+            height: 36px;
+            background-color: transparent;
+
+        }
+
+        .ant-btn-primary[disabled] {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .ant-input {
+            background-color: transparent;
+            padding: 5px 15px;
+            color: #fff;
+        }
+
+        .ant-input-affix-wrapper {
+            padding: 4px 11px !important;
+        }
+
+        .ant-input-password {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .ant-input-suffix {
+            background-color: transparent;
+
+
+            svg {
+                color: #fff;
+            }
         }
     }
 }

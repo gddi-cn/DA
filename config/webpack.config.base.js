@@ -278,13 +278,23 @@ module.exports = function (webpackEnv) {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
             },
+            // 不能给file-loader匹配到、不然你的glsl就GG了
+            {
+              test: /\.(md|glsl)$/,
+              use: [
+                {
+                  loader: 'raw-loader'
+                }
+              ]
+            },
             {
               loader: require.resolve('file-loader'),
-              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.wasm$/],
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.wasm$/, /\.(md|glsl)$/],
               options: {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
             },
+
           ]
         }
       ]

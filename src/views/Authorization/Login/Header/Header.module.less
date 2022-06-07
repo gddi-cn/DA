@@ -1,10 +1,19 @@
 .Header {
     width: 100%;
-    height: 100vh;
+    height: 60px;
+    z-index: 999;
+    position: absolute;
+    top: 0;
 
     :global {
-        .test1 {
-            color: yellowgreen;
+        svg {
+            width: 150px;
+            height: 40px;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        svg * {
+            fill: white;
         }
     }
 }

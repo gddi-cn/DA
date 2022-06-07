@@ -1,16 +1,16 @@
 
 import axios, { AxiosResponse } from 'axios';
 
-// import { history } from '@router';
-
+import { history, APP_LOGIN } from '@router';
+import Qs from 'qs'
 import { message } from 'antd';
 
 // axios 配置
 axios.defaults.timeout = 9999999999; // 设置请求超时
 axios.defaults.baseURL = '/api'; // 默认请求地址
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'; // 请求头的设置
-// axios.defaults.headers.common['X-APP-ID'] = (window as any).globalConfig.app.id;
-// axios.defaults.headers.common['X-APP-KEY'] = (window as any).globalConfig.app.key;
+axios.defaults.headers.common['X-APP-ID'] = (window as any).globalConfig.app.id;
+axios.defaults.headers.common['X-APP-KEY'] = (window as any).globalConfig.app.key;
 
 // 请求成功的状态码数组
 // const statusArr = [200, 201, 204]
@@ -46,21 +46,36 @@ axios.interceptors.response.use(
   },
   (error) => {
     // 验证是否登录信息过期
-
+    console.log(error.response?.data, 'error')
     if (error.message === 'Network Error') {
       message.error('未连接到互联网')
     }
-
-    if (error.response?.data?.code === 400001) {
-      localStorage.removeItem('token')
-      //   cookieUtils.setCookie('userInfo', 0, -1)
-      // history.push('/app/test')
-    }
-
     const code = error.response?.status
 
+    if ([401].includes(Number(code))) {
+      message.error(error.response?.data?.message)
+      localStorage.removeItem('token')
+      localStorage.removeItem('ai-flow')
+
+      // 应该带上当前失效路由的信息
+      const { pathname, search } = history.location
+      const params = Qs.stringify({
+        pathname, search
+      })
+      // ZZ统计时间接口会触发BUG
+      if (pathname === APP_LOGIN) {
+        return
+      }
+      history.push({
+        pathname: APP_LOGIN,
+        search: params
+      })
+    }
+
+    // const code = error.response?.status
+
     // =400不能改，s3专用
-    if (code >= 400 && code < 500) {
+    if (code !== 401 && code >= 400 && code < 500) {
       return Promise.resolve({
         code: -1,
         message: error.response ? error.response.data?.message : error?.message
