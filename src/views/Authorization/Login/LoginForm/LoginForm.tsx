@@ -41,7 +41,9 @@ const LoginForm = (props: any): JSX.Element => {
             //   // navigate(pathname,{})
             // }, 0)
             setSearchParams(rest)
-            navigate('/')
+            navigate({
+              pathname, ...rest
+            })
           } else {
             navigate('/')
           }

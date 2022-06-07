@@ -3,7 +3,7 @@ import { useRoutes, Navigate } from 'react-router-dom';
 import { lazy } from 'react'
 
 import {
-  APP_LOGIN
+  APP_LOGIN, APP_HOME_PAGE
 } from './pathNames'
 
 import marketRoutes from './subRouters/market'
@@ -13,11 +13,12 @@ import { SuspenseFn } from './utils'
 /* 一级路由可以直接在这里写、其实在哪里都一样、为了后边代码多了不那么挫还是分类吧 */
 
 const Login = lazy(() => import('@src/views/Authorization/Login'));
+const NotFound = lazy(() => import('@src/views/NotFound'));
 
 const routes = [
   {
     path: '/',
-    element: <Navigate to={APP_LOGIN} replace />
+    element: <Navigate to={APP_HOME_PAGE} replace />
   },
   {
     path: APP_LOGIN,
@@ -25,6 +26,10 @@ const routes = [
   },
   /* 平台的路由 */
   marketRoutes,
+  {
+    path: '*',
+    element: SuspenseFn(NotFound),
+  },
 ]
 
 function Routes () {
