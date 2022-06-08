@@ -125,6 +125,7 @@ module.exports = function (webpackEnv) {
         '@api': paths.resolveApp('src/net'),
         '@views': paths.resolveApp('src/views'),
         '@router': paths.resolveApp('src/router'),
+        '@reducer': paths.resolveApp('src/controller/reducer'),
         '@src': paths.appSrc,
       },
 

@@ -14,6 +14,7 @@ import { SuspenseFn } from './utils'
 
 const Login = lazy(() => import('@src/views/Authorization/Login'));
 const NotFound = lazy(() => import('@src/views/NotFound'));
+const Test = lazy(() => import('@src/views/test'));
 
 const routes = [
   {
@@ -23,6 +24,11 @@ const routes = [
   {
     path: APP_LOGIN,
     element: SuspenseFn(Login),
+  },
+  /* 测试组件 */
+  {
+    path: '/test',
+    element: SuspenseFn(Test),
   },
   /* 平台的路由 */
   marketRoutes,

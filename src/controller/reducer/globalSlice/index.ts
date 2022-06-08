@@ -5,7 +5,7 @@ import { createSlice, createAction } from '@reduxjs/toolkit'
 import fn from './fn'
 
 const initialState = {
-  userInfo: { test: '666' },
+  userInfo: { },
   homePageInfo: {}
 }
 
