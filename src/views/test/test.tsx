@@ -1,18 +1,12 @@
 
-import { Link } from 'react-router-dom'
-import { APP_HOME } from '../../router'
 import './test.module.less'
+import FabricCanvas from '@src/components/DataSetVisual/FabricCanvas'
 
 const Test = (props:any):JSX.Element => {
   console.log(props)
   return (
     <div styleName='test'>
-      <Link
-        to={APP_HOME}
-      >
-        <span>Test</span>
-      </Link>
-      <div className='test1'>热更新似乎不是很好用啊</div>
+      <FabricCanvas data={[]} url="http://s3.ceph.k8s.gddi.com/storage-0l6qoa/2021/04/25/09455a12a6e3c6d805ebc769b04a9d987eb07aa1.jpg"/>
     </div>
   )
 }
