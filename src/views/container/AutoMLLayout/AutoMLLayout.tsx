@@ -1,11 +1,19 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import NavLinkBar from './NavLinkBar'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
 import './AutoMLLayout.module.less'
 
 const AutoMLLayout = (): JSX.Element => {
+  const location = useLocation()
   return (
     <div styleName='AutoMLLayout'>
-      <div>我是头</div>
-      <Outlet/>
+      <NavLinkBar/>
+      <TransitionGroup className="router-wrapper">
+        <CSSTransition key={location.pathname} timeout={200} classNames="fade">
+          <Outlet />
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   )
 }
