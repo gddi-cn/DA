@@ -126,7 +126,7 @@ choosePort(HOST, DEFAULT_PORT).then(port => {
   }
 
   compiler.hooks.done.tap('done', stats => {
-    printInstructions('REACT-CLI', urls)
+    printInstructions('自动训练AI', urls)
   })
 
   const devServer = new WebpackDevServer(_options, compiler);

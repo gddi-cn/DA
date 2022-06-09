@@ -66,16 +66,16 @@ const LoginForm = (props: any): JSX.Element => {
       >
         <Form.Item
           name='username'
-          rules={[{ required: true, message: '请输入昵称或手机号!' }]}
+          rules={[{ required: true, message: '请输入昵称或手机号' }]}
         >
-          <Input placeholder='请输入昵称或手机号!' size='middle' autoComplete='off' />
+          <Input placeholder='请输入昵称或手机号' size='middle' autoComplete='off' />
         </Form.Item>
 
         <Form.Item
           name='password'
-          rules={[{ required: true, message: '请输入密码!' }]}
+          rules={[{ required: true, message: '请输入密码' }]}
         >
-          <Input.Password placeholder='请输入密码!' size='middle' autoComplete='off' />
+          <Input.Password placeholder='请输入密码' size='middle' autoComplete='off' />
         </Form.Item>
 
         <Form.Item>

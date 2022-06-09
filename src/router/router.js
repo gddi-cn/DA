@@ -30,7 +30,7 @@ const routes = [
     path: '/test',
     element: SuspenseFn(Test),
   },
-  /* 平台的路由 */
+  /* 平台的路由,需要权鉴，检查登录之类 */
   marketRoutes,
   {
     path: '*',

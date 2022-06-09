@@ -152,6 +152,7 @@ export default class S3Uploader {
   // 创建上传的UPLOADID
   public create = async (params: any) => {
     const { Body } = params
+    // 这个可以wasm优化、但是也要考虑兼容问题
     this.fileHash = await this.fileMd5(Body)
     console.log(this.fileHash, 'this.fileHash')
     this.filename = Body.name

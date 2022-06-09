@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { APP_LOGIN } from '@router'
 import { getUserInfo } from '@reducer/globalSlice'
+
 import Qs from 'qs'
 // import api from '../api'
 // 可以在这里做登录拦截或者其他
@@ -45,9 +46,10 @@ const App = () => {
     return <Navigate to='/404' />
   }
   return (
-    <div styleName='app' style={{ width: '100%', height: '100%' }}>
+    <div styleName='app'>
 
       <Outlet />
+
     </div>
   )
 }
