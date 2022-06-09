@@ -10,7 +10,7 @@ const AutoMLLayout = (): JSX.Element => {
     <div styleName='AutoMLLayout'>
       <NavLinkBar/>
       <TransitionGroup className="router-wrapper">
-        <CSSTransition key={location.pathname} timeout={200} classNames="fade">
+        <CSSTransition key={location.pathname} timeout={500} classNames="fade">
           <Outlet />
         </CSSTransition>
       </TransitionGroup>
