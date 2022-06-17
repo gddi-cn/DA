@@ -11,8 +11,7 @@ interface LoginType {
   password?: string;
 }
 
-const LoginForm = (props: any): JSX.Element => {
-  console.log(props)
+const LoginForm = (): JSX.Element => {
   const [form] = Form.useForm()
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate()
@@ -25,21 +24,15 @@ const LoginForm = (props: any): JSX.Element => {
         const res: any = await api.post('/v1/login', values);
 
         setLoading(false)
-        console.log(res)
+
         if (res.code === 0) {
           const { data } = res
           localStorage.setItem('login-username', data.username)
-          // cookieUtils.setCookie('userInfo', userInfo, Infinity)
+
           data?.token && localStorage.setItem('token', data?.token);
-          // console.log(searchParams.toString())
+
           const { pathname, ...rest } = Object.fromEntries(searchParams.entries())
           if (pathname) {
-            // const { pathname, search }: any = Qs.parse(String.prototype.substring.call(location.search, 1))
-            // console.log(search)
-            // const timer = setTimeout(() => {
-            //   clearTimeout(timer)
-            //   // navigate(pathname,{})
-            // }, 0)
             setSearchParams(rest)
             navigate({
               pathname, ...rest
@@ -68,14 +61,14 @@ const LoginForm = (props: any): JSX.Element => {
           name='username'
           rules={[{ required: true, message: '请输入昵称或手机号' }]}
         >
-          <Input placeholder='请输入昵称或手机号' size='middle' autoComplete='off' />
+          <Input placeholder='请输入昵称或手机号' size='middle' autoComplete="off" />
         </Form.Item>
 
         <Form.Item
           name='password'
           rules={[{ required: true, message: '请输入密码' }]}
         >
-          <Input.Password placeholder='请输入密码' size='middle' autoComplete='off' />
+          <Input.Password placeholder='请输入密码' size='middle' autoComplete="off" />
         </Form.Item>
 
         <Form.Item>

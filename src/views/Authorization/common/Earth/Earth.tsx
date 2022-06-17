@@ -3,7 +3,7 @@ import {
   PerspectiveCamera,
   Scene,
   Color,
-  DirectionalLight,
+  // DirectionalLight,
   LinearToneMapping,
   Texture,
   Group,
@@ -17,6 +17,7 @@ import {
   AmbientLight,
   Quaternion,
   Euler,
+  // TextureLoader
 //   Clock
   //   Mesh
 } from 'three'
@@ -41,6 +42,8 @@ const Earth = (): JSX.Element => {
     75, aspect, 1, 1200
   ))
   const scene = useRef<THREE.Scene>(new Scene())
+
+  // const d_light = useRef<THREE.DirectionalLight>(new DirectionalLight())
 
   const geometryMesh = useRef<THREE.Mesh>()
 
@@ -74,15 +77,15 @@ const Earth = (): JSX.Element => {
 
   const addLight = useCallback(
     () => {
-      const light_1 = new DirectionalLight(new Color('white'), 2);
-      light_1.position.set(-3, 2, -4).normalize();
-      scene.current.add(light_1);
+      // d_light.current = new DirectionalLight(new Color('white'), 2);
+      // d_light.current.position.set(-3, 2, -4).normalize();
+      // scene.current.add(d_light.current);
 
       // const light_2 = new DirectionalLight(new Color('white'), 1);
       // light_2.position.set(0, 0, 2).normalize();
       // scene.current.add(light_2);
 
-      const light = new AmbientLight(0x404040, 3); // soft white light
+      const light = new AmbientLight(new Color('white'), 1.5); // soft white light
       scene.current.add(light);
     }, []
   )
@@ -92,6 +95,7 @@ const Earth = (): JSX.Element => {
       return
     }
     if (canvasIns.current) {
+      // const texture = new TextureLoader().load('/login_background.png');
       scene.current.background = null;
 
       // init render
@@ -130,13 +134,13 @@ const Earth = (): JSX.Element => {
     if (context) {
       const path = d3.geoPath().projection(projection).context(context);
       context.beginPath();
-      context.fillStyle = 'rgba(4, 13, 33, 0.61)';
+      context.fillStyle = 'rgba(11, 21, 31, 0.3)';
       context.fillRect(0, 0, 2048, 1024)
       context.closePath()
       context.beginPath();
-      context.strokeStyle = 'rgba(34, 145, 224,0.9)';
-      context.lineWidth = 0.25;
-      context.fillStyle = 'rgba(34, 145, 224,0.1)';
+      context.strokeStyle = 'rgba(34, 145, 224, 1)';
+      context.lineWidth = 1;
+      context.fillStyle = 'rgba(34, 145, 224, 0.1)';
       path(countries);
 
       context.fill();
@@ -148,15 +152,15 @@ const Earth = (): JSX.Element => {
 
       const group = new Group();
 
-      group.rotateX(Math.PI / 4);
+      group.rotateX(Math.PI / 6);
 
       const RADIUS = 50;
 
       const sphereGeometry = new SphereGeometry(RADIUS, 60, 60);
       const sphereMaterial = new MeshPhongMaterial({
         map: mapTexture,
-        transparent: true,
-        opacity: 0.8,
+        transparent: false,
+        opacity: 1,
         // wireframe: true
         // color: new Color('red')
       });
@@ -204,6 +208,7 @@ const Earth = (): JSX.Element => {
       //   const delta = clock.getDelta();
       //   controls.update(delta);
       geometryMesh.current?.applyQuaternion(quaternion)
+
       glRender.current?.render(scene.current, camera.current)
       requestAnimationFrame(renderCvs)
     }
