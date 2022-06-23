@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import NavLinkBar from './NavLinkBar'
+import TaskAndUserInfoHeader from './TaskAndUserInfoHeader'
 
 import './AutoMLLayout.module.less'
 
@@ -8,7 +8,7 @@ const AutoMLLayout = (): JSX.Element => {
   console.log(location.pathname, 'location.pathname')
   return (
     <div styleName='AutoMLLayout'>
-      <NavLinkBar/>
+      <TaskAndUserInfoHeader/>
       <Outlet />
     </div>
   )
