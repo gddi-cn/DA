@@ -1,5 +1,5 @@
 
-import { Button, ConfigProvider } from 'antd'
+import { Button, ConfigProvider, Switch } from 'antd'
 
 import './HomePage.module.less'
 
@@ -14,7 +14,8 @@ const HomePage = (): JSX.Element => {
   }
   return (
     <div styleName='HomePage'>
-      <Button type='primary' onClick={checkout} className='page_btn'>????</Button>
+      <Button type='primary' onClick={checkout} className='page_btn'>?s???</Button>
+      <Switch defaultChecked />
     </div>
   )
 }

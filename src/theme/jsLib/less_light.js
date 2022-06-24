@@ -6,10 +6,10 @@ const gddi_design = {
 }
 
 const ant_design = {
-  // antd的设计参数
-  primaryColor: '#AAD3EF',
-  'link-color': '#1DA57A',
-  'border-radius-base': '2px',
+  // // antd的设计参数
+  // primaryColor: '#AAD3EF',
+  // 'link-color': '#1DA57A',
+  // 'border-radius-base': '2px',
 }
 
 const all_design = {

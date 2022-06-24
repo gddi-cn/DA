@@ -63,11 +63,11 @@ const plugins = [
   //     },
   //   },
   // ],
-  // ['import', {
-  //   libraryName: 'antd',
-  //   libraryDirectory: 'es',
-  //   style: true
-  // }],
+  ['import', {
+    libraryName: 'antd',
+    libraryDirectory: 'es',
+    style: true
+  }],
   // 默认开启这个热更新
   isEnvDevelopment && require.resolve('react-refresh/babel'),
   isEnvProduction && [
