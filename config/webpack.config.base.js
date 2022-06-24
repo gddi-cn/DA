@@ -82,9 +82,17 @@ module.exports = function (webpackEnv) {
               // modifyVars: modifyVars,
             }
           },
+        },
+        {
+          loader: 'style-resources-loader',
+          options: {
+            patterns: paths.resolveApp('src/theme/less/variable.less'),
+            injector: 'append'
+          }
         }
       );
     }
+
     return loaders;
   };
 
