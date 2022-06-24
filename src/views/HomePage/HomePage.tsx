@@ -1,12 +1,20 @@
 
-// import { Button } from 'antd'
+import { Button, ConfigProvider } from 'antd'
+
 import './HomePage.module.less'
 
-const HomePage = (props: any): JSX.Element => {
-  console.log(props)
+const less_dark = require('@src/theme/jsLib/less_dark')
+
+const HomePage = (): JSX.Element => {
+  const checkout = () => {
+    ConfigProvider.config({
+      theme: less_dark,
+
+    });
+  }
   return (
     <div styleName='HomePage'>
-      <div className='page_btn'>????</div>
+      <Button type='primary' onClick={checkout} className='page_btn'>????</Button>
     </div>
   )
 }

@@ -38,7 +38,7 @@ const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', {
   paths: [babelRuntimeEntry],
 });
 
-const modifyVars = require('../src/asset/lessVar/antd_var')
+// const modifyVars = require('../src/asset/lessVar/antd_var')
 // const babelrc = fs.readFileSync();
 
 module.exports = function (webpackEnv) {
@@ -79,7 +79,7 @@ module.exports = function (webpackEnv) {
             sourceMap: true,
             lessOptions: {
               javascriptEnabled: true,
-              modifyVars: modifyVars,
+              // modifyVars: modifyVars,
             }
           },
         }

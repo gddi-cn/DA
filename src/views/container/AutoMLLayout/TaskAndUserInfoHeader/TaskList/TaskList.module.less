@@ -1,20 +1,26 @@
-@sizes: {
-    sm: 0px;
-    md: 1024px;
-    lg: 1600px;
-}
+.TaskList {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
 
+    :global {
+        // @media (min-width: 0px) {
+        //     @import url("./style/tasklist_md.module.less");
+        // }
 
-@media (min-width: @sizes[sm]) {
-    @import (less) "./style/tasklist_md.module.less";
-}
+        // @media (min-width: 1280px) {
 
-@media (min-width: @sizes[md]) {
+        //     @import url("./style/tasklist_md.module.less");
+        // }
 
-    @import (less) "./style/tasklist_md.module.less";
-}
+        // @media (min-width: 1536px) {
 
-@media (min-width: @sizes[lg]) {
+        //     @import url("./style/tasklist_lg.module.less");
+        // }
 
-    @import (less) "./style/tasklist_lg.module.less";
+        .a {
+            color: #000;
+        }
+    }
 }
