@@ -8,7 +8,7 @@ const gddi_design = {
 const ant_design = {
   // antd的设计参数
   primaryColor: '#FF6177',
-  'link-color': '#1DA57A',
+  testColor: '#1DA57A',
   'border-radius-base': '2px',
 }
 

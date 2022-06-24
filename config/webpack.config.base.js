@@ -83,13 +83,13 @@ module.exports = function (webpackEnv) {
             }
           },
         },
-        // {
-        //   loader: 'style-resources-loader',
-        //   options: {
-        //     patterns: paths.resolveApp('src/theme/less/variable.less'),
-        //     // injector: 'prepend'
-        //   }
-        // }
+        {
+          loader: 'style-resources-loader',
+          options: {
+            patterns: paths.resolveApp('src/theme/less/variable.less'),
+            // injector: 'prepend'
+          }
+        }
       );
     }
 

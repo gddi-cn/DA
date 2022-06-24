@@ -9,8 +9,8 @@ import ErrorBoundaries from './views/container/ErrorBoundaries'
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import Routes, { history } from './router'
 
-// // antd动态主题的配置额
-// import 'antd/dist/antd.variable.less';
+// antd动态主题的配置额
+import 'antd/dist/antd.variable.min.css'
 
 import './asset/style/appCustom.less'
 
