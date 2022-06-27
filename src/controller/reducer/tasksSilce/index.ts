@@ -10,27 +10,43 @@ import fn from './fn'
 
 const localName = 'tasksSilce'
 
+// 其实是model字段的映射、但是设计不经脑子，还是独立出来吧，因为还不存在
+// type TaskInfo={
+//     // 任务名字、初始化未命名
+//     taskName?:string,
+//     reactKey?:string
+// }
+
 // 里边存啥我也不知道，一般来讲ID+版本ID就够了
-type taskListItem={
+export type taskListItem={
     // 数据的信息
     dataset:any,
     // 训练的信息
-    train: any,
+    model: any,
     // 部署的信息
     deploy: any,
     // 任务信息、名字或者其他需要保存的
-    task?:any
+    // task: TaskInfo,
+    reactKey?: string
 }
-type TaskState = {
+export type TaskState = {
     taskList: Array<taskListItem>,
     activeTaskIndex:number,
+    activeTaskInfo: taskListItem
 }
 
 const initialState: TaskState = {
   // 这些开始都是空的
   taskList: [],
-  // 当前激活任务的index
+  // 当前激活任务的index，方便做激活状态吧
   activeTaskIndex: 0,
+  // 激活任务项数据、方便后边取
+  activeTaskInfo: {
+    dataset: {},
+    model: {},
+    deploy: {},
+
+  }
 }
 
 const tasksSilce = createSlice({

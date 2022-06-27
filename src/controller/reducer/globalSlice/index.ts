@@ -5,16 +5,18 @@ import { createSlice, createAction } from '@reduxjs/toolkit'
 import fn from './fn'
 
 const initialState = {
+  // 这个后端返回
   userInfo: { },
+  // 私有化的事情了、现在不一定需要、留着吧
   homePageInfo: {}
 }
 
-const ApplicationDetailSlice = createSlice({
+const globalSlice = createSlice({
   name: 'globalSlice',
   initialState,
   reducers: fn,
 })
-const { actions } = ApplicationDetailSlice
+const { actions } = globalSlice
 const {
   saveUserInfo, setHomePageInfo
 } = actions
@@ -28,4 +30,4 @@ export {
   setHomePageInfo
 }
 
-export default ApplicationDetailSlice.reducer
+export default globalSlice.reducer

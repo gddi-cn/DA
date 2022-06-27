@@ -1,6 +1,7 @@
 import { ReactComponent as Logo } from '@src/asset/images/logo.svg'
 import TaskList from './TaskList'
 import UserCenter from './UserCenter'
+
 import './TaskAndUserInfoHeader.module.less'
 
 const TaskAndUserInfoHeader = (): JSX.Element => {

@@ -14,7 +14,7 @@ const TaskList = (): JSX.Element => {
       {
         taskList.map((o, i) => {
           return (
-            <TaskItem key={i} data={o}/>
+            <TaskItem key={i} data={o} />
           )
         })
       }
