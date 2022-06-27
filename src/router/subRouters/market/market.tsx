@@ -9,6 +9,7 @@ import { SuspenseFn } from '../../utils'
 const NotFound = lazy(() => import('@src/views/NotFound'));
 const App = lazy(() => import('@src/views/container/app'));
 const AutoMLLayout = lazy(() => import('@src/views/container/AutoMLLayout'));
+const TaskStepLayout = lazy(() => import('@src/views/container/TaskStepLayout'));
 const HomePage = lazy(() => import('@src/views/HomePage'));
 const DataSetIndex = lazy(() => import('@src/views/DataSet/DataSetIndex'));
 const ModelIndex = lazy(() => import('@src/views/Model/ModelIndex'));
@@ -19,8 +20,7 @@ export default {
   element: SuspenseFn(App),
   children: [
     {
-      path: '/app/',
-      strict: true,
+
       element: SuspenseFn(AutoMLLayout),
       children: [
         {
@@ -29,16 +29,26 @@ export default {
 
         },
         {
-          path: APP_DATA_SET_INDEX,
-          element: SuspenseFn(DataSetIndex),
+          path: '/app/',
+          strict: true,
+          element: SuspenseFn(TaskStepLayout),
+          children: [
+            {
+              path: APP_MODEL_INDEX,
+              element: SuspenseFn(ModelIndex),
 
+            },
+            {
+              path: APP_DATA_SET_INDEX,
+              element: SuspenseFn(DataSetIndex),
+
+            },
+            {
+              path: '*',
+              element: SuspenseFn(NotFound),
+            },
+          ]
         },
-        {
-          path: APP_MODEL_INDEX,
-          element: SuspenseFn(ModelIndex),
-
-        },
-
         {
           path: '*',
           element: SuspenseFn(NotFound),
