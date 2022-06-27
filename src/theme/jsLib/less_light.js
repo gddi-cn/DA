@@ -3,6 +3,10 @@
 // 要符合less的标准、变量都是驼峰
 const gddi_design = {
   // GDDI设计参数
+  // 背景色
+  'bg-color': '#ffffff',
+  // 第1颜色
+  'primary-color': '#AAD3EF',
   // 第二颜色
   'secondary-color': '#A2F6C5',
 
@@ -12,9 +16,9 @@ const gddi_design = {
   'small-title-color': '#262626',
 
   // 正文
-  'primary-text_color': '#262626',
-  'auxiliary-text_color': '#8C8C8C',
-  'unactive-text_color': '#BFBFBF',
+  'primary-text-color': '#262626',
+  'auxiliary-text-color': '#8C8C8C',
+  'unactive-text-color': '#BFBFBF',
 
   // 链接颜色
   'link-color': '#2C60F5',

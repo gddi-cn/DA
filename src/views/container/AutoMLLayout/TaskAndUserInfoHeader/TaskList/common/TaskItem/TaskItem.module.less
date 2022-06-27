@@ -8,20 +8,18 @@
     cursor: pointer;
     flex: 1;
 
-    &:hover {
-        background-color: #fff;
-    }
 
     :global {
         .task_name {
             width: 100%;
-            color: #000000;
+            color: inherit;
             font-size: 10px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
             line-height: 100%;
             padding: 0 10px;
+            color: var(--gddi-primary-text-color);
         }
     }
 }

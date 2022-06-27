@@ -1,17 +1,24 @@
 import TaskItem from './common/TaskItem'
+import AddButton from './common/AddButton'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './TaskList.module.less'
 
-const TaskList = (props: any): JSX.Element => {
-  console.log(props)
+const TaskList = (): JSX.Element => {
+  const taskList = useSelector((state: RootState) => {
+    return state.tasksSilce.taskList
+  })
+
   return (
     <div styleName='TaskList'>
       {
-        Array.from({ length: 8 }).fill('ontainer_AutoMLLayoundex_ts.199d50ecc55288558645.hot-update.js').map((o, i) => {
+        taskList.map((o, i) => {
           return (
             <TaskItem key={i} data={o}/>
           )
         })
       }
+      <AddButton />
     </div>
   )
 }
