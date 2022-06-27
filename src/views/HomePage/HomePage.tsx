@@ -1,16 +1,13 @@
 
-import { Button, ConfigProvider, Switch } from 'antd'
-
+import { Button, Switch } from 'antd'
+import { cusTheme } from '@src/utils'
 import './HomePage.module.less'
 
 const less_dark = require('@src/theme/jsLib/less_dark')
 
 const HomePage = (): JSX.Element => {
   const checkout = () => {
-    ConfigProvider.config({
-      theme: less_dark,
-
-    });
+    cusTheme(less_dark)
   }
   return (
     <div styleName='HomePage'>

@@ -8,19 +8,14 @@ import ErrorBoundaries from './views/container/ErrorBoundaries'
 
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import Routes, { history } from './router'
-
+import { cusTheme } from '@src/utils'
 // antd动态主题的配置额
 import 'antd/dist/antd.variable.min.css'
 
 import './asset/style/appCustom.less'
 
-const var_less = require('./theme/jsLib/less_light')
-
-// 默认是这个
-ConfigProvider.config({
-  theme: var_less,
-
-});
+// 自定义主题
+cusTheme()
 
 /* react 18 应该没啥大问题是吧 */
 
