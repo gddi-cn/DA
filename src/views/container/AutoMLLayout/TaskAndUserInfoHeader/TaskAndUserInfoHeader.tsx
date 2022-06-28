@@ -1,7 +1,7 @@
 import { ReactComponent as Logo } from '@src/asset/images/logo.svg'
 import TaskList from './TaskList'
 import UserCenter from './UserCenter'
-
+import FindModels from './FindModels'
 import './TaskAndUserInfoHeader.module.less'
 
 const TaskAndUserInfoHeader = (): JSX.Element => {
@@ -12,6 +12,9 @@ const TaskAndUserInfoHeader = (): JSX.Element => {
       </div>
       <div className='task_list_wrap'>
         <TaskList/>
+      </div>
+      <div className='user_wrap '>
+        <FindModels />
       </div>
       <div className='user_wrap '>
         <UserCenter/>

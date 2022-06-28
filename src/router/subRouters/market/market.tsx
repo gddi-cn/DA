@@ -1,6 +1,6 @@
 
 import {
-  APP_HOME_PAGE,
+  APP_GUIDE_PAGE,
   APP_DATA_SET_INDEX,
   APP_MODEL_INDEX
 } from '../../pathNames'
@@ -10,7 +10,7 @@ const NotFound = lazy(() => import('@src/views/NotFound'));
 const App = lazy(() => import('@src/views/container/app'));
 const AutoMLLayout = lazy(() => import('@src/views/container/AutoMLLayout'));
 const TaskStepLayout = lazy(() => import('@src/views/container/TaskStepLayout'));
-const HomePage = lazy(() => import('@src/views/HomePage'));
+const GuideHome = lazy(() => import('@src/views/GuideHome'));
 const DataSetIndex = lazy(() => import('@src/views/DataSet/DataSetIndex'));
 const ModelIndex = lazy(() => import('@src/views/Model/ModelIndex'));
 
@@ -24,8 +24,8 @@ export default {
       element: SuspenseFn(AutoMLLayout),
       children: [
         {
-          path: APP_HOME_PAGE,
-          element: SuspenseFn(HomePage),
+          path: APP_GUIDE_PAGE,
+          element: SuspenseFn(GuideHome),
 
         },
         {

@@ -3,7 +3,7 @@ import { useRoutes, Navigate } from 'react-router-dom';
 import { lazy } from 'react'
 
 import {
-  APP_LOGIN, APP_HOME_PAGE
+  APP_LOGIN, APP_GUIDE_PAGE
 } from './pathNames'
 
 import marketRoutes from './subRouters/market'
@@ -19,7 +19,7 @@ const Test = lazy(() => import('@src/views/test'));
 const routes = [
   {
     path: '/',
-    element: <Navigate to={APP_HOME_PAGE} replace />
+    element: <Navigate to={APP_GUIDE_PAGE} replace />
   },
   {
     path: APP_LOGIN,

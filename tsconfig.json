@@ -32,6 +32,7 @@
       "@router": ["./src/router"],
       "@api": ["./src/net"],
       "@reducer/*": ["./src/controller/reducer/*"],
+      "@reducer": ["./src/controller/reducer"],
     },
   },
   "include": [

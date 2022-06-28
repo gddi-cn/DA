@@ -16,37 +16,44 @@ const localName = 'tasksSilce'
 //     reactKey?:string
 // }
 
+type Record<K extends keyof any, T> = {
+    [P in K]: T;
+};
+
 // 里边存啥我也不知道，一般来讲ID+版本ID就够了
 export type taskListItem={
     // 数据的信息
-    dataset:any,
+    dataset: Record<string, any>,
     // 训练的信息
-    model: any,
+    model: Record<string, any>,
     // 部署的信息
-    deploy: any,
+    deploy: Record<string, any>,
     // 任务信息、名字或者其他需要保存的
     // task: TaskInfo,
-    reactKey?: string
+    reactKey: string,
+    activeStep: 'dataset' | 'deploy' |'dataset',
 }
 export type TaskState = {
     taskList: Array<taskListItem>,
     activeTaskIndex:number,
     activeTaskInfo: taskListItem,
-    activeStep: keyof taskListItem,
+
 }
 
 const initialState: TaskState = {
   // 这些开始都是空的
   taskList: [],
-  // 当前激活任务的index，方便做激活状态吧
+  // 当前激活任务的index，方便做激活状态吧\可不用
   activeTaskIndex: 0,
   // 激活任务项数据、方便后边取
   activeTaskInfo: {
     dataset: {},
     model: {},
     deploy: {},
+    reactKey: '',
+    activeStep: 'dataset'
   },
-  activeStep: 'dataset'
+
 }
 
 const tasksSilce = createSlice({
@@ -56,8 +63,9 @@ const tasksSilce = createSlice({
 })
 
 const { actions } = tasksSilce
+// 导出不允许直接丢啊、算了算了
 const {
-  addTask, subTask
+  addTask, subTask, modifyTaskName, checkoutTask
 } = actions
 
 // 好像不见得需要初始化、留着吧
@@ -68,7 +76,9 @@ export {
   // 添加任务
   addTask,
   // 减去一个任务
-  subTask
+  subTask,
+  modifyTaskName,
+  checkoutTask
 }
 
 export default tasksSilce.reducer
