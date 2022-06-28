@@ -1,7 +1,7 @@
-# react cli v-2022
+# AI Simple Web
 
 
-## 集成了哪些特性
+## 项目集成
 1. react18、RTK、saga、router@v6、antd、wasm
 2. eslint 本地运行时 + 编译时
 3. babel （除了个别提案感觉用起来会坑队友，基本都添加了）
@@ -15,6 +15,7 @@
 11. 热更新
 12. 新的jsx转换和eslint规则
 13. 动态主题设置、less变量全局自动导入(待定，参考ANTD的实现方式的话，建议自己写个库，但是这样子的话，antd的样式还是需要手动去改变，工作量不少，尽量兼容UI库吧)
+14. 别名、懂的都懂
 
 ### `yarn start`
 
