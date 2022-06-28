@@ -1,11 +1,15 @@
-
+import { EditOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './TaskNameBar.module.less'
 
-const TaskNameBar = (props: any): JSX.Element => {
-  console.log(props)
+const TaskNameBar = (): JSX.Element => {
+  const model = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo.model
+  })
   return (
     <div styleName='TaskNameBar'>
-            DataSetIndex
+      <EditOutlined />   {model?.taskName || '未命名'}
     </div>
   )
 }

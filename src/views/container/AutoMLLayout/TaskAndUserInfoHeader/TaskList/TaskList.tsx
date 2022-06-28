@@ -2,6 +2,7 @@ import TaskItem from './common/TaskItem'
 import AddButton from './common/AddButton'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
+import { useMemo } from 'react'
 import './TaskList.module.less'
 
 const TaskList = (): JSX.Element => {
@@ -18,7 +19,11 @@ const TaskList = (): JSX.Element => {
           )
         })
       }
-      <AddButton />
+      {
+        useMemo(() => {
+          return <AddButton />
+        }, [])
+      }
     </div>
   )
 }

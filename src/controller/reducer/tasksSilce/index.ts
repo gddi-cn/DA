@@ -10,7 +10,6 @@ import fn from './fn'
 
 const localName = 'tasksSilce'
 
-// 其实是model字段的映射、但是设计不经脑子，还是独立出来吧，因为还不存在
 // type TaskInfo={
 //     // 任务名字、初始化未命名
 //     taskName?:string,
@@ -32,7 +31,8 @@ export type taskListItem={
 export type TaskState = {
     taskList: Array<taskListItem>,
     activeTaskIndex:number,
-    activeTaskInfo: taskListItem
+    activeTaskInfo: taskListItem,
+    activeStep: keyof taskListItem,
 }
 
 const initialState: TaskState = {
@@ -45,8 +45,8 @@ const initialState: TaskState = {
     dataset: {},
     model: {},
     deploy: {},
-
-  }
+  },
+  activeStep: 'dataset'
 }
 
 const tasksSilce = createSlice({

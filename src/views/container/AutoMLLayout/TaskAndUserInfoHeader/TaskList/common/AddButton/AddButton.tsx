@@ -5,6 +5,7 @@ import { useDebounceFn } from 'ahooks'
 import './AddButton.module.less'
 
 const AddButton = (): JSX.Element => {
+  console.log('1111')
   const dispatch = useDispatch()
   const handleAddTask = useDebounceFn(() => {
     // 创建好像不需要什么信息
