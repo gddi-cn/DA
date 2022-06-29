@@ -1,6 +1,6 @@
 
 import { Popover } from 'antd'
-import { taskListItem, subTask, checkoutTask } from '@reducer/tasksSilce'
+import { subTask, checkoutTask } from '@reducer/tasksSilce'
 import { useDispatch, useSelector } from 'react-redux'
 import { useDebounceFn } from 'ahooks'
 import { RootState } from '@reducer/index'
@@ -10,7 +10,7 @@ import { APP_DATA_SET_INDEX } from '@router'
 import './TaskItem.module.less'
 
 type Props = {
-  data: taskListItem
+  data: TaskSlice.taskListItem
 }
 
 const TaskItem = (props: Props): JSX.Element => {
@@ -24,12 +24,12 @@ const TaskItem = (props: Props): JSX.Element => {
   const navigate = useNavigate()
   const { data } = props
   const {
-    model, reactKey
+    model, id
   } = data
 
   // 隐藏选项、如果没有了就回到首页
   const handleOnClick = useDebounceFn(() => {
-    dispatch(subTask({ reactKey }))
+    dispatch(subTask({ id }))
     console.log(taskList, 'taskList')
     // 只有一个的时候意味着next为0、就直接回去首页了
     if (taskList.length === 1) {
@@ -48,9 +48,9 @@ const TaskItem = (props: Props): JSX.Element => {
   }
 
   const getCls = () => {
-    console.log(activeTaskInfo.reactKey)
-    console.log(reactKey)
-    if (activeTaskInfo.reactKey === reactKey) {
+    console.log(activeTaskInfo.id)
+    console.log(id)
+    if (activeTaskInfo.id === id) {
       return 'TaskItem_wrap TaskItem_active'
     }
 
@@ -61,9 +61,9 @@ const TaskItem = (props: Props): JSX.Element => {
 
     <div styleName='TaskItem'>
       <Popover content={<TaskItemPopover />} mouseEnterDelay={0.4} title={null} getPopupContainer={(triggerNode: any) => triggerNode.parentNode} placement='bottomLeft'>
-        <div className={getCls()} onClick={() => handleCheckoutTask(reactKey)}>
+        <div className={getCls()} onClick={() => handleCheckoutTask(id)}>
           <p className='task_name'>
-            {model?.modelName || '未命名'}
+            {model.task_setting.name || '未命名'}
           </p>
           <div className='opration_wrap' onClick={handleOnClick.run}>
             <p>隐藏</p>

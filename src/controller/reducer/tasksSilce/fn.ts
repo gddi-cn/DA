@@ -1,8 +1,8 @@
-import { TaskState, taskListItem } from './index'
+
 import { PayloadAction } from '@reduxjs/toolkit'
 
-const findTaskIndexById = (reactKey: string, taskList: Array<taskListItem>):number => {
-  const index = taskList.findIndex((o) => o.reactKey === reactKey)
+const findTaskIndexById = (reactKey: string, taskList: Array<TaskSlice.taskListItem>):number => {
+  const index = taskList.findIndex((o) => o.id === reactKey)
   return index
 }
 
@@ -11,27 +11,33 @@ const findTaskIndexById = (reactKey: string, taskList: Array<taskListItem>):numb
 // activeStep 要回到数据集
 // activeTaskIndex 要回到被删除的最近的一位、没有就回到首页？
 
-const initTask = (state: TaskState, task: taskListItem) => {
+const initTask = (state: TaskSlice.TaskState, task: TaskSlice.taskListItem) => {
   state.activeTaskInfo = task
   // state.activeStep = 'dataset'
 }
 
 const fns = {
   // 添加
-  addTask: (state: TaskState, action: PayloadAction<null>) => {
+  addTask: (state: TaskSlice.TaskState, action: PayloadAction<null>) => {
     console.log(action, 'addTask')
-    const taskItem: taskListItem = {
-      dataset: {},
-      model: { modelName: undefined },
+    const taskItem: TaskSlice.taskListItem = {
+      dataset: {
+        task_setting: {},
+        dataset_info: {}
+      },
+      model: {
+        task_setting: {},
+        model_info: {}
+      },
       deploy: {},
-      reactKey: Math.random().toString(36).slice(2),
-      activeStep: 'dataset'
+      id: Math.random().toString(36).slice(2),
+      active_step: 'dataset'
     }
     state.taskList.push(taskItem)
     initTask(state, taskItem)
   },
   // 删除某个
-  subTask: (state: TaskState, action: PayloadAction<any>) => {
+  subTask: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
     const { reactKey } = action.payload
     const { taskList } = state
     const index = findTaskIndexById(reactKey, taskList)
@@ -42,7 +48,7 @@ const fns = {
 
   // 切换任务
   // 需要初始化整个layout
-  checkoutTask: (state: TaskState, action: PayloadAction<any>) => {
+  checkoutTask: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
     const { reactKey } = action.payload
     const { taskList } = state
     const index = findTaskIndexById(reactKey, taskList)
@@ -51,25 +57,25 @@ const fns = {
   },
   // 修改名字
   // 修改对应的key的项目、活跃项目重新赋值
-  modifyTaskName: (state: TaskState, action: PayloadAction<any>) => {
+  modifyTaskName: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
     const { modelName, reactKey } = action.payload
     const { taskList } = state
     const index = findTaskIndexById(reactKey, taskList)
-    state.taskList[index].model.modelName = modelName
-    state.activeTaskInfo.model.modelName = modelName
+    state.taskList[index].model.task_setting.name = modelName
+    state.activeTaskInfo.model.task_setting.name = modelName
   },
   // 修改数据信息
-  modifyTaskDataset: (state: TaskState, action: PayloadAction<any>) => {
+  modifyTaskDataset: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
     const { data } = action.payload
     state.taskList = data
   },
   // 修改模型信息
-  modifyTaskModel: (state: TaskState, action: PayloadAction<any>) => {
+  modifyTaskModel: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
     const { data } = action.payload
     state.taskList = data
   },
   // 修改部署信息
-  modifyTaskDeploy: (state: TaskState, action: PayloadAction<any>) => {
+  modifyTaskDeploy: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
     const { data } = action.payload
     state.taskList = data
   },

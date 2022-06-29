@@ -10,48 +10,22 @@ import fn from './fn'
 
 const localName = 'tasksSilce'
 
-// type TaskInfo={
-//     // 任务名字、初始化未命名
-//     taskName?:string,
-//     reactKey?:string
-// }
-
-type Record<K extends keyof any, T> = {
-    [P in K]: T;
-};
-
-// 里边存啥我也不知道，一般来讲ID+版本ID就够了
-export type taskListItem={
-    // 数据的信息
-    dataset: Record<string, any>,
-    // 训练的信息
-    model: Record<string, any>,
-    // 部署的信息
-    deploy: Record<string, any>,
-    // 任务信息、名字或者其他需要保存的
-    // task: TaskInfo,
-    reactKey: string,
-    activeStep: 'dataset' | 'deploy' |'dataset',
-}
-export type TaskState = {
-    taskList: Array<taskListItem>,
-    activeTaskIndex:number,
-    activeTaskInfo: taskListItem,
-
-}
-
-const initialState: TaskState = {
+const initialState: TaskSlice.TaskState = {
   // 这些开始都是空的
   taskList: [],
-  // 当前激活任务的index，方便做激活状态吧\可不用
-  activeTaskIndex: 0,
   // 激活任务项数据、方便后边取
   activeTaskInfo: {
-    dataset: {},
-    model: {},
+    dataset: {
+      task_setting: {},
+      dataset_info: {}
+    },
+    model: {
+      task_setting: {},
+      model_info: {}
+    },
     deploy: {},
-    reactKey: '',
-    activeStep: 'dataset'
+    id: '',
+    active_step: 'dataset'
   },
 
 }
