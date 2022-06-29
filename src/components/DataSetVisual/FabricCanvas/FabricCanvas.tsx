@@ -6,21 +6,22 @@ import './FabricCanvas.module.less'
 
 // 这几个基本也够了
 type DataItem = {
-    type: string,
-    points?: Array<any>,
-    color?: string,
-    fill?: string,
-    rectData?: Array<any>,
+  type: string,
+  points?: Array<any>,
+  color?: string,
+  fill?: string,
+  rectData?: Array<any>,
 }
 
 //
-type Props= {
-    url?:string,
-    data?: Array<DataItem>
+type Props = {
+  url?: string,
+  data?: Array<DataItem>,
+  zoom?: boolean
 }
 
 const FabricCanvas = (props: Props) => {
-  const { url, data } = props
+  const { url, data, zoom } = props
 
   const canvas = useRef<any>(null)
   const canvasContainer = useRef<any>(null)
@@ -30,6 +31,7 @@ const FabricCanvas = (props: Props) => {
     canvasContainer,
     canvasData: data || [],
     url,
+    zoom
   })
 
   return (
