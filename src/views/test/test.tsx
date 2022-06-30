@@ -3,11 +3,11 @@ import './test.module.less'
 import FabricCanvas from '@src/components/DataSetVisual/FabricCanvas'
 import { ScaleRight, ImageSlider } from '@src/UIComponents'
 import api from '@api'
-import { useCallback, useEffect, useMemo, useState, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const Test = (props:any):JSX.Element => {
   console.log(props)
-  const page = useRef(1)
+
   const [dataList, setDataList] = useState<Array<any>>([])
   const [total, setTotal] = useState<number>(0)
 
@@ -27,32 +27,37 @@ const Test = (props:any):JSX.Element => {
     )
   }, [])
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (page:number) => {
     try {
-      const path = `/v2/sub-datasets/259017499872370688/images?page=${page.current}&page_size=15&class_id=31`
+      const path = `/v2/sub-datasets/259017499872370688/images?page=${page}&page_size=10&class_id=31`
       const res = await api.get(path)
       if (res.code === 0) {
         console.log(res)
         if (res.data.items) {
-          setDataList(dataList.concat(res.data.items))
+          setDataList(res.data.items || [])
           setTotal(res.data.total)
-          page.current++
         }
       }
     } catch (e) {
 
     }
-  }, [dataList])
+  }, [])
 
   useEffect(() => {
     // 仅仅一次、所以elsint取消提醒
-    fetchData()
+    fetchData(1)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const renderView = (data:any) => {
     return (
       <FabricCanvas zoom={false} data={[]} url={data?.url} />
+    )
+  }
+
+  const renderDotView = (o:any) => {
+    return (
+      <img className='img_dot_btn' src={o?.thumbnail} />
     )
   }
 
@@ -63,7 +68,7 @@ const Test = (props:any):JSX.Element => {
         <ScaleRight leftContent={leftContent} rightContent={rightContent} />
       </div>
       <div className='ImageSlider_wrap'>
-        <ImageSlider fetchData={fetchData} total={total} dataList={dataList} renderView={renderView} />
+        <ImageSlider needCache={true} fetchData={fetchData} total={total} dataList={dataList} renderView={renderView} renderDotView={renderDotView} />
       </div>
     </div>
   )

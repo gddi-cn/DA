@@ -50,7 +50,7 @@
                 // transform-style: preserve-3d;
 
                 transform: translate3d(0, 0, 0);
-                // overflow: hidden;
+                overflow: hidden;
                 // transform-origin: 50% 50% @ZZZ;
 
 
@@ -73,12 +73,12 @@
 
                 .pre_view {
                     transform: translateX(-100%);
-                    // opacity: 0;
+                    opacity: 0;
                 }
 
                 .next_view {
                     transform: translateX(100%);
-                    // opacity: 0;
+                    opacity: 0;
                 }
 
                 .current_view {
@@ -94,34 +94,6 @@
             width: 100%;
             height: 70px;
             margin-top: 20px;
-
-            .dots_btn_previous,
-            .dots_btn_next {
-                width: 32px;
-                height: 100%;
-                background-color: rosybrown;
-                flex-shrink: 0;
-                cursor: pointer;
-            }
-
-            .images_dots_list {
-                flex: 1;
-                display: flex;
-                flex-wrap: nowrap;
-                overflow: hidden;
-                padding: 0 6px;
-            }
-
-            .img_dot_btn_wrap {
-                padding-right: 6px;
-            }
-
-            .img_dot_btn {
-                width: 79px;
-                height: 100%;
-                object-fit: cover;
-
-            }
         }
     }
 }

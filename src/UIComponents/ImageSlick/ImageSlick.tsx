@@ -1,173 +1,148 @@
 
-import { message } from 'antd'
-import { isEmpty, isNil } from 'lodash'
-
-import { useMemo, useState, useEffect, useRef } from 'react'
+import SlickContent from './SlickContent'
+import ImageDots from './ImageDots'
 import './ImageSlick.module.less'
+import { useState, useEffect } from 'react'
+import { message } from 'antd'
+import { isNil } from 'lodash'
 
-// type Record<K extends keyof any, T> ={
-//   [P in K ]:T
+// type Record ={
+//   [key:string ]:any
 // }
 
 type Props ={
+  // 查到的数据
   dataList: Array<any>,
   total:number,
-  fetchData?: () => void,
-  renderView: (data:any) => React.ReactNode
+  renderView: (data:any) => React.ReactNode,
+  renderDotView: (data: any) => React.ReactNode,
+  page_size?:number,
+  fetchData?: (page:number) => void,
+  needCache?:boolean,
+  // 这个加不加无所谓吧，网速不好可能会出现问题，毕竟这个是加载数据的
+  loadingLock?:boolean
 }
 const ImageSlick = (props:Props): JSX.Element => {
-  const { fetchData, dataList, total, renderView } = props
+  const { dataList = [], renderView, renderDotView, fetchData, total, page_size = 10 } = props
+
+  // // 存放看过的数据，其实也就是按查询的一页一页的
+  // const dataCache = useRef<Array<Array<Record>>>([])
+  // 当前页数
+  const [page, setPage] = useState(1)
+
+  // 设置内容List
+  const [contenList, SetContentList] = useState<Array<any>>(dataList)
 
   // 当前被激活的数组下标
   const [activeIndex, setActiveIndex] = useState(0)
 
-  // const real_activeIndex = useDeferredValue(activeIndex);
+  useEffect(() => {
+    // 有数据进来意味着都是需要最新的
+    SetContentList(dataList)
+    // 然后保存起来，previous的时候就不去查数据了，不然的话还是要查的，可以用needCache做区分
 
-  const [aniClass, setAniClass] = useState({
-    previous: 'pre_view',
-    now: 'now_view',
-    next: 'next_view',
-  })
-
-  // 需要手动配置每个展示什么
-  const [dataSource, setDataSource] = useState({
-    previous: {},
-    now: {},
-    next: {},
-  })
-
-  const is_first = useRef(false)
+    // if (needCache) {
+    //   // 如果已经存在了，也不用请求了
+    //   const len = dataCache.current.length
+    //   if (len <= page) {
+    //     dataCache.current.push(dataList)
+    //   }
+    // }
+  }, [dataList])
 
   useEffect(() => {
-    console.log(dataList)
-    if (!isEmpty(dataList) && !isNil(dataList)) {
-      if (is_first.current) {
-        return
-      }
-      console.log(dataList)
-      console.log('shemn', dataList[activeIndex])
-      setDataSource({
-        previous: dataList[activeIndex],
-        next: dataList[activeIndex + 1],
-        now: dataList[activeIndex]
-      })
-      is_first.current = true
+    // 切换到最后一页搞不好没这个东西的，所以愉快决定是第一个拉
+    if (isNil(dataList[activeIndex])) {
+      setActiveIndex(0)
     }
-  }, [activeIndex, dataList])
+  }, [dataList, activeIndex])
 
-  const handlePrevious = () => {
-    // 能不能点击判断
-    if (activeIndex === 0) {
-      return
-    }
-
-    const { previous, next, now } = aniClass
-    setAniClass({
-      previous: now,
-      next: previous,
-      now: next
-    })
-    const { previous: _previous, next: _next, now: _now } = dataSource
-    setDataSource({
-      previous: _now,
-      next: _previous,
-      now: _next
-    })
-    const _activeIndex = activeIndex - 1
-    setActiveIndex(_activeIndex)
+  const isStart = () => {
+    return page === 1
   }
 
-  const handleNext = () => {
-    // 判断是不是到头了？
-    if (activeIndex === total - 1) {
-      message.warning('已无更多数据')
+  const getPreviousPageData = () => {
+    if (isStart()) {
+      message.warning('已经回到起点')
       return
     }
-
-    if (dataList.length - activeIndex + 1 === 5) {
-      fetchData && fetchData()
-    }
-
-    const { previous, next, now } = aniClass
-    setAniClass({
-      previous: next,
-      next: now,
-      now: previous
-    })
-
-    const { previous: _previous, next: _next, now: _now } = dataSource
-    setDataSource({
-      previous: _next,
-      next: dataList[activeIndex + 1],
-      now: _previous
-    })
-
-    const _activeIndex = activeIndex + 1
-    setActiveIndex(_activeIndex)
+    const _page = page - 1
+    setPage(_page)
+    setActiveIndex(page_size - 1)
+    // if (needCache) {
+    //   const data = dataCache.current[_page]
+    //   SetContentList(data)
+    // } else {
+    //   fetchData && fetchData(_page)
+    // }
+    fetchData && fetchData(_page)
   }
-  console.log(activeIndex, 'activeIndex')
 
-  // 因为加了css动画、所以这个能不刷新就不刷新了吧
-  const preView_previous = useMemo(() => {
-    return renderView(dataSource.previous)
-  }, [dataSource, renderView])
+  const isLast = () => {
+    const mut_page = page - 1
+    const num = mut_page * page_size + dataList.length
+    console.log(num, total)
+    return total === num
+  }
 
-  const preView_now = useMemo(() => {
-    return renderView(dataSource.now)
-  }, [dataSource, renderView])
+  const getNextPageData = () => {
+    if (isLast()) {
+      message.warning('已到世界的尽头')
+      return
+    }
+    const _page = page + 1
+    setPage(_page)
+    setActiveIndex(0)
+    fetchData && fetchData(_page)
+  }
 
-  const preView_next = useMemo(() => {
-    return renderView(dataSource.next)
-  }, [dataSource, renderView])
+  const leftDotClick = () => {
+    if (isStart()) {
+      message.warning('已经回到起点')
+      return
+    }
+    const _page = page - 1
+    setPage(_page)
+
+    // if (needCache) {
+    //   const data = dataCache.current[_page]
+    //   SetContentList(data)
+    // } else {
+    //   fetchData && fetchData(_page)
+    // }
+    fetchData && fetchData(_page)
+  }
+
+  const rightDotClick = () => {
+    if (isLast()) {
+      message.warning('已到世界的尽头')
+      return
+    }
+    const _page = page + 1
+    setPage(_page)
+    fetchData && fetchData(_page)
+  }
 
   return (
     <div styleName='ImageSlick'>
 
-      <div className='content_root'>
-        <div className='abs_btn_previous' onClick={handlePrevious}>
-          《
-        </div>
-        <div className='abs_btn_next' onClick={handleNext}>
-          》
-        </div>
-        <div className='content_wrap'>
-          <div className={`img_wrap ${aniClass.previous}`}>
-            {
-              preView_previous
-            }
-          </div>
-          <div className={`img_wrap ${aniClass.now}`}>
-            {
-              preView_now
-            }
-          </div>
-          <div className={`img_wrap ${aniClass.next}`}>
-            {
-              preView_next
-            }
-          </div>
-        </div>
-      </div>
+      <SlickContent
+        dataList={contenList}
+        renderView={renderView}
+        activeIndex={activeIndex}
+        setActiveIndex={setActiveIndex}
+        getPreviousPageData={getPreviousPageData}
+        getNextPageData={getNextPageData}
+      />
 
-      <div className='data_list_wrap'>
-        <div className='dots_btn_previous' onClick={handlePrevious}>
-          左边
-        </div>
-        <div className='images_dots_list'>
-          {
-            dataList.map((o:any, index:number) => {
-              return (
-                <div className='img_dot_btn_wrap' key={index}>
-                  <img className='img_dot_btn' src={o?.url} />
-                </div>
-              )
-            })
-          }
-        </div>
-        <div className='dots_btn_next' onClick={handleNext}>
-          you边
-        </div>
-      </div>
+      <ImageDots
+        dataList={contenList}
+        activeIndex={activeIndex}
+        setActiveIndex={setActiveIndex}
+        renderDotView={renderDotView}
+        leftDotClick={leftDotClick}
+        rightDotClick={rightDotClick}
+      />
     </div>
   )
 }
