@@ -76,4 +76,4 @@ eslint检测，但是没加fix，自己手动fix吧
  
  [cpp wasm ,别看官网了，我写了个文档](https://zhuanlan.zhihu.com/p/495213548?).
 
- [figma] (https://www.figma.com/file/Yj1RBFuMYaIAPvs30qBzM1/AutoML-v0.6-Design-System?node-id=47%3A1030)
+ [figma](https://www.figma.com/file/Yj1RBFuMYaIAPvs30qBzM1/AutoML-v0.6-Design-System?node-id=47%3A1030)
