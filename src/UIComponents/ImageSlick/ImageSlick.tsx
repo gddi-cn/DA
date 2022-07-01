@@ -52,6 +52,8 @@ const ImageSlick = (props:Props): JSX.Element => {
 
   useEffect(() => {
     // 切换到最后一页搞不好没这个东西的，所以愉快决定是第一个拉
+    console.log(activeIndex, 'activeIndex')
+    console.log(dataList, 'dataList')
     if (isNil(dataList[activeIndex])) {
       setActiveIndex(0)
     }
@@ -81,7 +83,7 @@ const ImageSlick = (props:Props): JSX.Element => {
   const isLast = () => {
     const mut_page = page - 1
     const num = mut_page * page_size + dataList.length
-    console.log(num, total)
+
     return total === num
   }
 

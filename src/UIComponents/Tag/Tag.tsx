@@ -1,12 +1,19 @@
 
 import './Tag.module.less'
 
-const Tag = (props: any): JSX.Element => {
+type Props = {
+  type?: 'ongoing' | 'success' | 'falied' | 'not_start'
+}
+
+// const colors={
+
+// }
+const Tag = (props: Props): JSX.Element => {
   console.log(props)
   return (
-    <div styleName='Tag'>
-          Tag
-    </div>
+    <span styleName='Tag'>
+      Tag
+    </span>
   )
 }
 

@@ -1,9 +1,11 @@
 
-import './test.module.less'
 import FabricCanvas from '@src/components/DataSetVisual/FabricCanvas'
-import { ScaleRight, ImageSlider } from '@src/UIComponents'
+import { ScaleRight, ImageSlider, Tag, UploadFile } from '@src/UIComponents'
 import api from '@api'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Button, message } from 'antd'
+import { UpCircleOutlined } from '@ant-design/icons'
+import './test.module.less'
 
 const Test = (props:any):JSX.Element => {
   console.log(props)
@@ -11,10 +13,30 @@ const Test = (props:any):JSX.Element => {
   const [dataList, setDataList] = useState<Array<any>>([])
   const [total, setTotal] = useState<number>(0)
 
+  const onUpload = () => {
+    console.log(1)
+  }
+
+  const handleError = (e:Error) => {
+    const { message: text } = e
+    message.error(text)
+  }
+
   const leftContent = useMemo(() => {
     return (
       <div className='leftContent'>
-        leftContent?
+        <Button> <Tag /> </Button>
+
+        <div className='upload_view'>
+          <UpCircleOutlined />
+          <UploadFile regExp={/\.(png|jpg|jpeg)$/} maxSize={2 * 1024 * 1024} onUpload={onUpload} onError={handleError}>
+            <Button>上传文件</Button>
+          </UploadFile>
+          <p>
+            支持.jpg .jpeg .png 等图片文件且文件不得大于2MB
+          </p>
+        </div>
+
       </div>
     )
   }, [])

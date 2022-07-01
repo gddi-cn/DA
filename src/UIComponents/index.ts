@@ -11,10 +11,13 @@ import Tag from './Tag'
 // 切换视图的BTN
 import TypeSettingBotton from './TypeSettingBotton'
 
+import UploadFile from './UploadFIle'
+
 export {
   TypeSettingBotton,
   Tag,
   ScaleRight,
   ImageSlider,
-  FullScreenModal
+  FullScreenModal,
+  UploadFile
 }
