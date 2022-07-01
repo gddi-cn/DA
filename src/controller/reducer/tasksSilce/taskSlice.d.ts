@@ -1,3 +1,5 @@
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+
 type Record<K extends keyof any, T> = {
     [P in K]: T;
 };
@@ -10,6 +12,8 @@ type Record<K extends keyof any, T> = {
 // export as namespace TaskSlice_V1;
 
 declare namespace TaskSlice {
+
+    // type Snapshot = ReturnType<SNAPSHOT_KEY_OF_ROUTER>
 
     interface DatasetTaskSetting {
         dataset_id?: string,
@@ -65,8 +69,8 @@ declare namespace TaskSlice {
         // task: TaskInfo,
         // 换成 id\\ 这个任务的ID
         id: string,
-        // 当前任务活跃到了哪个步骤，目前就三个
-        active_step: 'dataset' | 'deploy' | 'dataset',
+        // 当前任务活跃到了哪个页面 超级多
+        active_page: typeof SNAPSHOT_KEY_OF_ROUTER,
         // 是不是在任务栏上显示，搜索要加上这个过滤的，要么就是要分开表存的
         alive_in_task_abr?: boolean
         // 这个任务名
