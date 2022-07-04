@@ -29,7 +29,10 @@ const fns = {
       },
       deploy: {},
       id: Math.random().toString(36).slice(2),
-      active_page: 'select_dataset'
+      active_page: 'select_dataset',
+      pipeline: {
+
+      }
     }
     state.taskList.push(taskItem)
     initTask(state, taskItem)

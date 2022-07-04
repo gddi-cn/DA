@@ -1,4 +1,5 @@
-import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+// import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import type { SNAPSHOT_KEY_OF_ROUTER_TYPE } from '@src/constants'
 
 type Record<K extends keyof any, T> = {
     [P in K]: T;
@@ -10,6 +11,12 @@ type Record<K extends keyof any, T> = {
 // export = TaskSlice_V1;
 export = TaskSlice;
 export as namespace TaskSlice;
+
+type WTF = keyof SNAPSHOT_KEY_OF_ROUTER_TYPE;
+
+type Partial<T> = {
+    [P in keyof T]?: any
+}
 
 declare namespace TaskSlice {
 
@@ -47,7 +54,7 @@ declare namespace TaskSlice {
     }
 
     interface Model_Info {
-        model_id?:string,
+        model_id?: string,
         model_iter_id?: string
     }
 
@@ -57,6 +64,7 @@ declare namespace TaskSlice {
         // 点了下一步就意味着开始训练，存模型的ID和iter ID  查出来的数据 这个东西也多，怎么存
         model_info: Model_Info,
     }
+
     // 里边存啥我也不知道，一般来讲ID+版本ID就够了
     interface taskListItem {
         // 数据的信息
@@ -69,12 +77,15 @@ declare namespace TaskSlice {
         // task: TaskInfo,
         // 换成 id\\ 这个任务的ID
         id: string,
+        // 所有页面类似一个生命周期
+        pipeline?: Partial<SNAPSHOT_KEY_OF_ROUTER_TYPE>
         // 当前任务活跃到了哪个页面 超级多
-        active_page: keyof SNAPSHOT_KEY_OF_ROUTER,
+        active_page: WTF,
         // 是不是在任务栏上显示，搜索要加上这个过滤的，要么就是要分开表存的
         alive_in_task_abr?: boolean
         // 这个任务名
-        task_name?:string,
+        task_name?: string,
+
     }
 
     interface TaskState {

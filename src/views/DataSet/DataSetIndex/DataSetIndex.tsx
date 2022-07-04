@@ -1,4 +1,4 @@
-import DatasetBaseInfoForm from '../CreateDataSet/LocalDataSet/DatasetBaseInfoForm'
+
 import { TagRadioSelect } from '@src/UIComponents'
 import './DataSetIndex.module.less'
 
@@ -10,7 +10,7 @@ const DataSetIndex = (props: any): JSX.Element => {
   }
   return (
     <div styleName='DataSetIndex'>
-      <DatasetBaseInfoForm/>
+
       <TagRadioSelect dataList={a} onChange={handleOnChange}/>
     </div>
   )
