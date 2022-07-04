@@ -1,7 +1,9 @@
-import { Upload } from 'antd';
+import { Image, Upload } from 'antd';
 // import { UploadFile } from 'antd/lib/upload/interface'
-import { bytesToSize } from '@src/utils'
+import { useState } from 'react'
+import { bytesToSize, getBase64 } from '@src/utils'
 import './UploadFIle.module.less'
+import { isEmpty } from 'lodash';
 
 interface Props {
   regExp?: RegExp,
@@ -12,11 +14,15 @@ interface Props {
   children: React.ReactNode,
   className?: string,
   // 专门给表单用的额
-  onChange?:(params:any)=>void
+  onChange?:(params:any)=>void,
+  // 图片预览吧,应该也就是表单需要这个
+  hasPreview?:boolean
 
 }
 const UploadFIle = (props: Props): JSX.Element => {
   const { regExp, onUpload, maxSize, children, className, onError, onChange, ...rest } = props
+
+  const [file, setFile] = useState<string>('')
 
   const checkFile = async (fileSize: number | undefined, fileName: string | undefined) => {
     const checkMaxSize = new Promise(function (resolve, reject) {
@@ -69,6 +75,12 @@ const UploadFIle = (props: Props): JSX.Element => {
       onError && onError(e)
     }
   }
+
+  const getFileSrc = async (file:File) => {
+    const src = await getBase64(file)
+    setFile(src)
+  }
+
   const config = {
     beforeUpload: (file: File): boolean => {
       if (onUpload) {
@@ -78,17 +90,45 @@ const UploadFIle = (props: Props): JSX.Element => {
         // 表单的
         onChange && onChange(file)
       }
-
+      getFileSrc(file)
       return false;
     },
   }
-  return (
-    <div styleName='UploadFIle' className={className}>
+
+  const getUploadView = () => {
+    return (
       <Upload {...config} {...rest} itemRender={() => null}>
         {
           children
         }
       </Upload>
+    )
+  }
+
+  const previewOrUpload = () => {
+    if (isEmpty(file)) {
+      return getUploadView()
+    } else {
+      return (
+        <Image
+          width={200}
+          src={file}
+        />
+      )
+    }
+  }
+
+  const getView = () => {
+    if (props?.hasPreview) {
+      return previewOrUpload()
+    }
+    return getUploadView()
+  }
+  return (
+    <div styleName='UploadFIle' className={className}>
+      {
+        getView()
+      }
     </div>
   )
 }
