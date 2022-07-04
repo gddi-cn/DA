@@ -9,11 +9,11 @@ import { modifyTaskName } from '@reducer/tasksSilce'
 import './TaskNameBar.module.less'
 
 const TaskNameBar = (): JSX.Element => {
-  const model = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo.model
+  const task_name = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo.task_name
   })
   const reactKey = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo.reactKey
+    return state.tasksSilce.activeTaskInfo.id
   })
   const dispatch = useDispatch()
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -62,11 +62,11 @@ const TaskNameBar = (): JSX.Element => {
         <EditOutlined onClick={handleModifyTaskName} />
         <Modal destroyOnClose title="修改训练基础信息" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} getContainer={false} closable={false} confirmLoading={loading}>
           <p>名称</p>
-          <Input maxLength={20} onChange={handleOnchange} defaultValue={model?.modelName} />
+          <Input maxLength={20} onChange={handleOnchange} defaultValue={task_name} />
           <p>最多20个字符</p>
         </Modal>
       </div>
-      {model?.modelName || '未命名'}
+      {task_name || '未命名'}
 
     </div>
   )

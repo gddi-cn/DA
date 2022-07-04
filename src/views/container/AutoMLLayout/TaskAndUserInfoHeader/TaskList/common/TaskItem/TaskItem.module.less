@@ -2,15 +2,14 @@
     max-width: 116px;
     min-width: 28px;
     height: 100%;
-
     cursor: pointer;
     flex: 1;
+    position: relative;
 
-    border-right: 1px solid #fff;
+    overflow: visible;
+    z-index: 1;
 
-    &:hover {
-        background-color: #fff;
-    }
+
 
     &:hover :global .opration_wrap {
         display: block !important;
@@ -22,6 +21,8 @@
 
         .TaskItem_active {
             background-color: #fff;
+
+            border: none;
         }
 
         .task_name {
@@ -39,9 +40,24 @@
         .TaskItem_wrap {
             width: 100%;
             height: 100%;
+
+            overflow: hidden;
+
+
+            padding: 8px 0;
+            background: transparent;
+
+            // &:hover {
+            //     background-color: #fff;
+            // }
+        }
+
+        .border_wrap {
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
-            overflow: hidden;
+            border-right: 1px solid #fff;
             padding: 0 10px;
         }
 
@@ -51,7 +67,10 @@
             flex-shrink: 0;
             white-space: nowrap;
             font-size: 10px;
-            color: @blue-6;
+            color: red;
+            z-index: 1;
         }
+
+
     }
 }

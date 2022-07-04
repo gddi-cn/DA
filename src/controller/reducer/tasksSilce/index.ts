@@ -16,16 +16,14 @@ const initialState: TaskSlice.TaskState = {
   // 激活任务项数据、方便后边取
   activeTaskInfo: {
     dataset: {
-      task_setting: {},
-      dataset_info: {}
+
     },
     model: {
-      task_setting: {},
-      model_info: {}
+
     },
     deploy: {},
     id: '',
-    active_step: 'dataset'
+    active_page: 'select_dataset'
   },
 
 }

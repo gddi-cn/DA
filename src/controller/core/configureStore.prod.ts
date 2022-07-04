@@ -12,11 +12,10 @@ import rootSaga from '../sagas'
 const sagaMiddleware = createSagaMiddleware()
 const middleware = [thunk, sagaMiddleware];
 
-const store = configureStore(
-  {
-    rootReducer,
-    middleware: middleware
-  }
-);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: middleware
+})
+
 sagaMiddleware.run(rootSaga)
 export default store

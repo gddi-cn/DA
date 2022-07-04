@@ -8,8 +8,8 @@ type Record<K extends keyof any, T> = {
 
 // 目前设定是：dataset_info、model_info没东西则判定为task_setting状态，都是没到训练那一步，在设置阶段
 // export = TaskSlice_V1;
-// export = TaskSlice_V1;
-// export as namespace TaskSlice_V1;
+export = TaskSlice;
+export as namespace TaskSlice;
 
 declare namespace TaskSlice {
 
@@ -60,9 +60,9 @@ declare namespace TaskSlice {
     // 里边存啥我也不知道，一般来讲ID+版本ID就够了
     interface taskListItem {
         // 数据的信息
-        dataset: Dataset,
+        dataset: Dataset_Info,
         // 训练的信息
-        model: Model,
+        model: Model_Info,
         // 部署的信息 预留
         deploy: Record<string, any>,
         // 任务信息、名字或者其他需要保存的
@@ -70,11 +70,11 @@ declare namespace TaskSlice {
         // 换成 id\\ 这个任务的ID
         id: string,
         // 当前任务活跃到了哪个页面 超级多
-        active_page: typeof SNAPSHOT_KEY_OF_ROUTER,
+        active_page: keyof SNAPSHOT_KEY_OF_ROUTER,
         // 是不是在任务栏上显示，搜索要加上这个过滤的，要么就是要分开表存的
         alive_in_task_abr?: boolean
         // 这个任务名
-        task_name?:string
+        task_name?:string,
     }
 
     interface TaskState {

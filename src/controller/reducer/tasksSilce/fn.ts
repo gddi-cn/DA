@@ -22,16 +22,14 @@ const fns = {
     console.log(action, 'addTask')
     const taskItem: TaskSlice.taskListItem = {
       dataset: {
-        task_setting: {},
-        dataset_info: {}
+
       },
       model: {
-        task_setting: {},
-        model_info: {}
+
       },
       deploy: {},
       id: Math.random().toString(36).slice(2),
-      active_step: 'dataset'
+      active_page: 'select_dataset'
     }
     state.taskList.push(taskItem)
     initTask(state, taskItem)
@@ -61,8 +59,11 @@ const fns = {
     const { modelName, reactKey } = action.payload
     const { taskList } = state
     const index = findTaskIndexById(reactKey, taskList)
-    state.taskList[index].model.task_setting.name = modelName
-    state.activeTaskInfo.model.task_setting.name = modelName
+    console.log(index, 'index')
+    if (index !== -1) {
+      state.taskList[index].task_name = modelName
+      state.activeTaskInfo.task_name = modelName
+    }
   },
   // 修改数据信息
   modifyTaskDataset: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {

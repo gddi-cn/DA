@@ -5,6 +5,7 @@ const gddi_design = {
   // GDDI设计参数
   // 背景色
   'bg-color': '#ffffff',
+  'secondary-bg-color': '#EDF8FF',
   // 第1颜色
   'primary-color': '#AAD3EF',
   // 第二颜色
