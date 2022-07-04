@@ -3,7 +3,7 @@ import { addTask } from '@reducer/tasksSilce'
 import { useDispatch } from 'react-redux'
 import { useDebounceFn } from 'ahooks'
 import { useNavigate } from 'react-router-dom'
-import { APP_DATA_SET_INDEX } from '@router'
+import { APP_DATASET_DETAIL } from '@router'
 import './GuideHome.module.less'
 
 // 这里的开始就是添加一个任务
@@ -15,7 +15,7 @@ const GuideHome = (): JSX.Element => {
     dispatch(addTask(null))
 
     navigate({
-      pathname: APP_DATA_SET_INDEX
+      pathname: APP_DATASET_DETAIL
     })
   }, {
     wait: 0

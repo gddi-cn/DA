@@ -36,10 +36,15 @@ const fns = {
   },
   // 删除某个
   subTask: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
-    const { reactKey } = action.payload
+    const { id, hasAutoNext } = action.payload
     const { taskList } = state
-    const index = findTaskIndexById(reactKey, taskList)
+    const index = findTaskIndexById(id, taskList)
+    if (hasAutoNext) {
+      state.activeTaskInfo = taskList[index - 1]
+    }
+
     taskList.splice(index, 1)
+
     state.taskList = [...taskList]
     // 设置最新的任务吗？或许不用也行，不影响
   },

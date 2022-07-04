@@ -15,6 +15,8 @@ import UploadFile from './UploadFIle'
 
 import TagRadioSelect from './TagRadioSelect'
 
+import TabsNav from './TabsNav'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -22,5 +24,6 @@ export {
   ImageSlider,
   FullScreenModal,
   UploadFile,
-  TagRadioSelect
+  TagRadioSelect,
+  TabsNav
 }

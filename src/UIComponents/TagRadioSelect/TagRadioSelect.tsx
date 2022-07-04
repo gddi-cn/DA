@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import './TagRadioSelect.module.less'
 
-type Props<T>={
-  dataList: Array<T>
+type Props<T> = {
+  dataList: Array<T>,
+  onChange?: (data: T) => void
 }
 
-function TagRadioSelect<T> (props: Props<T>): JSX.Element {
-  console.log(props)
-  const { dataList } = props
+function TagRadioSelect<T extends { label: string }> (props: Props<T>): JSX.Element {
+  const { dataList, onChange } = props
   const [activeIndex, setActiveIndex] = useState(0)
-  const getCls = (index:number) => {
+  const getCls = (index: number) => {
     if (index === activeIndex) {
       return 'TagRadioSelect_radio TagRadioSelect_radio_active'
     } else {
@@ -17,8 +17,9 @@ function TagRadioSelect<T> (props: Props<T>): JSX.Element {
     }
   }
 
-  const handleSelect = (data: T, index:number) => {
+  const handleSelect = (data: T, index: number) => {
     setActiveIndex(index)
+    onChange && onChange(data)
   }
   return (
     <div styleName='TagRadioSelect'>
@@ -27,10 +28,10 @@ function TagRadioSelect<T> (props: Props<T>): JSX.Element {
           return (
             <div
               key={index}
-              className={getCls(index + 1)}
+              className={getCls(index)}
               onClick={() => handleSelect(data, index)}
             >
-              123
+              {data.label}
             </div>
           )
         })

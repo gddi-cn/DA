@@ -1,0 +1,28 @@
+.TabsHeader {
+    width: 300px;
+    overflow: hidden;
+
+    :global {
+
+        .hori-selector .right:before,
+        .hori-selector .left:before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-bottom-left-radius: 50%;
+            border-bottom-right-radius: 50%;
+            background: #f5f5f5;
+        }
+
+        .tab_item_header {
+            width: 150px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            z-index: 1;
+        }
+    }
+}

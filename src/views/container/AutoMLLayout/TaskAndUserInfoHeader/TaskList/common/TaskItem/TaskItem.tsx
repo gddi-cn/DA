@@ -2,19 +2,17 @@
 import { Popover } from 'antd'
 import { subTask, checkoutTask } from '@reducer/tasksSilce'
 import { useDispatch, useSelector } from 'react-redux'
-import { useDebounceFn } from 'ahooks'
+// import { useDebounceFn } from 'ahooks'
 import { RootState } from '@reducer/index'
 import TaskItemPopover from '../TaskItemPopover'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATA_SET_INDEX } from '@router'
-import { pick } from 'lodash'
-import { useRef, useLayoutEffect } from 'react'
+
 // import type { Dispatch, SetStateAction } from 'react'
 import './TaskItem.module.less'
 
 type Props = {
   data: TaskSlice.taskListItem,
-  setActiveDom: any
 }
 
 const TaskItem = (props: Props): JSX.Element => {
@@ -25,30 +23,23 @@ const TaskItem = (props: Props): JSX.Element => {
     return state.tasksSilce.taskList
   })
 
-  const div = useRef<HTMLDivElement|null>(null)
-
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { data, setActiveDom } = props
+  const { data } = props
+
   const {
     task_name, id
   } = data
 
-  useLayoutEffect(() => {
-    const cls = document.getElementsByClassName('TaskItem_active')
-    console.log(cls)
-    const div = cls[0]
-    const info = div?.getBoundingClientRect()
-    if (info) {
-      const style = pick(info, ['width', 'height', 'top', 'left'])
-      console.log(style, 'style')
-      setActiveDom(style)
-    }
-  }, [setActiveDom])
-
   // 隐藏选项、如果没有了就回到首页
-  const handleOnClick = useDebounceFn(() => {
-    dispatch(subTask({ id }))
+  const handleOnClick = (e:any) => {
+    console.log(e)
+    let hasAutoNext = false
+
+    if (activeTaskInfo.id === id) {
+      hasAutoNext = true
+    }
+    dispatch(subTask({ id, hasAutoNext }))
     console.log(taskList, 'taskList')
     // 只有一个的时候意味着next为0、就直接回去首页了
     if (taskList.length === 1) {
@@ -56,7 +47,11 @@ const TaskItem = (props: Props): JSX.Element => {
         pathname: '/'
       })
     }
-  }, { wait: 0 })
+    if (e) {
+      e?.preventDefault();
+      e?.stopPropagation();
+    }
+  }
 
   const handleCheckoutTask = (uuid: string) => {
     console.log(1)
@@ -64,19 +59,13 @@ const TaskItem = (props: Props): JSX.Element => {
     navigate({
       pathname: APP_DATA_SET_INDEX
     })
-    console.log(div)
-    const info = div?.current?.getBoundingClientRect()
-    if (info) {
-      const style = pick(info, ['width', 'height', 'top', 'left'])
-      console.log(style, 'style')
-      setActiveDom(style)
-    }
   }
 
   const getCls = () => {
     // console.log(activeTaskInfo.id)
     // console.log(id)
-    if (activeTaskInfo.id === id) {
+
+    if (activeTaskInfo?.id === id) {
       return 'TaskItem_wrap TaskItem_active'
     }
 
@@ -87,12 +76,12 @@ const TaskItem = (props: Props): JSX.Element => {
 
     <div styleName='TaskItem'>
       <Popover content={<TaskItemPopover />} mouseEnterDelay={0.4} title={null} getPopupContainer={(triggerNode: any) => triggerNode.parentNode} placement='bottomLeft'>
-        <div className={getCls()} onClick={() => handleCheckoutTask(id)} ref={div}>
+        <div className={getCls()} onClick={() => handleCheckoutTask(id)} >
           <div className='border_wrap'>
             <p className='task_name'>
-              {task_name || '未命名'}
+              {task_name || id}
             </p>
-            <div className='opration_wrap' onClick={handleOnClick.run}>
+            <div className='opration_wrap' onClick={handleOnClick}>
               <p>隐藏</p>
             </div>
           </div>

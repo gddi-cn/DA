@@ -12,4 +12,6 @@ export const APP_GUIDE_PAGE = '/app/guide'
 
 export const APP_MODEL_INDEX = '/app/model_index'
 
-export const APP_DATA_SET_INDEX = '/app/data_set_index'
+export const APP_DATA_SET_INDEX = '/app/dataset_index'
+
+export const APP_DATASET_DETAIL = '/app/dataset_detail'
