@@ -2,8 +2,11 @@ import React from 'react'
 import { Result, Button } from 'antd';
 import './ErrorBoundaries.module.less'
 
-class ErrorBoundary extends React.Component {
-  constructor (props:any) {
+type Props = {
+  children:React.ReactNode
+}
+class ErrorBoundary extends React.Component<Props> {
+  constructor (props: Props) {
     super(props);
     this.state = { hasError: false };
   }

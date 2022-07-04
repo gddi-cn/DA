@@ -17,7 +17,7 @@ const TaskStep = (): JSX.Element => {
   })
 
   const activeStep = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo.activeStep
+    return state.tasksSilce.activeTaskInfo.active_page
   })
 
   // 点击逻辑、

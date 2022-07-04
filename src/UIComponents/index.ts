@@ -13,11 +13,14 @@ import TypeSettingBotton from './TypeSettingBotton'
 
 import UploadFile from './UploadFIle'
 
+import TagRadioSelect from './TagRadioSelect'
+
 export {
   TypeSettingBotton,
   Tag,
   ScaleRight,
   ImageSlider,
   FullScreenModal,
-  UploadFile
+  UploadFile,
+  TagRadioSelect
 }

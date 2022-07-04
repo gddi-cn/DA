@@ -394,7 +394,7 @@ module.exports = function (webpackEnv) {
               declarationMap: false,
               noEmit: true,
               incremental: true,
-              tsBuildInfoFile: false,
+              // tsBuildInfoFile: false,
             },
           },
           context: paths.appPath,
@@ -408,6 +408,7 @@ module.exports = function (webpackEnv) {
         // 花了时间但是确保开发时一定没人提交错误的代码---目前时异步的，一般来说不会出啥问题吧
         // async: isEnvDevelopment,
         async: false,
+        // checkSyntacticErrors: true,
         issue: {
           // This one is specifically to match during CI tests,
           // as micromatch doesn't match
