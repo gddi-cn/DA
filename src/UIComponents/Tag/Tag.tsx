@@ -2,17 +2,28 @@
 import './Tag.module.less'
 
 type Props = {
-  type?: 'ongoing' | 'success' | 'falied' | 'not_start'
+  type?: 'ongoing' | 'success' | 'falied' | 'not_start' | 'nomal' | 'primary',
+  text?:React.ReactNode,
+  className?:string
 }
 
-// const colors={
+const classes:{[index:string]:string} = {
+  ongoing: 'ongoing',
+  success: 'success',
+  falied: 'falied',
+  not_start: 'not_start',
+  nomal: 'nomal',
+  primary: 'primary',
+}
 
-// }
 const Tag = (props: Props): JSX.Element => {
-  console.log(props)
+  const { text, type, className } = props
   return (
-    <span styleName='Tag'>
-      Tag
+    <span styleName='Tag' className={className}>
+      <span className={type ? classes[type] : 'primary'}>
+        {text || '--'}
+      </span>
+
     </span>
   )
 }

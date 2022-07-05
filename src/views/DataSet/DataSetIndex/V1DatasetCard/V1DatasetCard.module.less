@@ -1,11 +1,174 @@
 .V1DatasetCard {
-    width: 100%;
-    height: 100vh;
-    background-color: yellowgreen;
+    background-color: #fff;
+    height: 238px;
+    transform: translate3d(0, 0, 0);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    content-visibility: visible;
+    position: relative;
 
     :global {
-        .test1 {
-            color: yellowgreen;
+        .success_info {
+            height: 100%;
+            width: 100%;
+        }
+
+        .failed_info {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 9;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .do_some_thing_now {
+            font-size: 24px;
+            color: #48A2DF;
+        }
+
+        .getFailedView {
+            width: 100%;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0 20px;
+            
+            .failed_title {
+                color: #FF6177;
+                font-weight: 600;
+                font-size: 24px;
+            }
+
+            .failed_info_text {
+                font-size: 12px;
+                width: 100%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #FF6177;
+                text-align: center;
+                margin-top: 10px;
+            }
+        }
+
+
+        .has_hover {
+            &:hover .ant-image img {
+                transform: scale(1.04);
+                transition: all .3s;
+            }
+
+            &:hover .RenderInfoMarks {
+                transform: translateX(0);
+                transition: all .8s;
+            }
+
+            &:hover .RenderInfoView {
+                opacity: 0;
+                transition: all .8s;
+            }
+        }
+
+        .image_wrap {
+            width: 100%;
+            height: 140px;
+
+            .ant-image {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        .second_row_wrap {
+            display: flex;
+            align-items: center;
+            margin: 3px 0 3px 0;
+
+            .num_info_wrap {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+
+                p {
+                    font-weight: 600;
+                    font-size: 12px;
+                    color: #1D1D1D;
+                }
+
+                svg {
+                    margin-right: 3px;
+                }
+            }
+        }
+
+        .info_wrap {
+            height: 98px;
+            position: relative;
+            overflow: hidden;
+
+            .RenderInfoView {
+                padding: 13px 19px;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .RenderInfoMarks {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                padding: 13px 19px 0;
+                transform: translateX(110%);
+                background-color: #fff;
+
+                .description {
+                    height: 54px;
+                    width: 100%;
+                    overflow: hidden;
+                    -webkit-line-clamp: 3;
+                    display: -webkit-box;
+                    text-overflow: ellipsis;
+                    -webkit-box-orient: vertical;
+                    font-size: 12px;
+                    line-height: 18px;
+                    color: #8C8C8C;
+                }
+            }
+
+            .dataset_tag {
+                margin-right: 10px;
+            }
+
+            .fisrt_row_wrap {
+                font-weight: 600;
+                font-size: 18px;
+                color: #1D1D1D;
+                position: relative;
+                width: 100%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            .dataset_version {
+                font-size: 14px;
+                color: #1D1D1D;
+                position: absolute;
+                transform: translateY(2%) translateX(20%);
+            }
         }
     }
 }

@@ -1,0 +1,33 @@
+.SmallButton {
+
+    &:hover {
+        transition: all 0.5s;
+        opacity: 0.7;
+    }
+
+    :global {
+
+        .SmallButton_btn {
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .nomal {
+            background: #FFFFFF;
+            border: 1px solid #DCDFE6;
+        }
+
+        .primary {
+            background: #061926;
+            color: #fff;
+            border: 1px solid transparent;
+        }
+
+        .delete {
+            background: #fff;
+            color: #FF6177;
+            border: 1px solid #FF6177;
+        }
+    }
+}

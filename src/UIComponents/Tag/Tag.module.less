@@ -1,13 +1,28 @@
 .Tag {
-    padding: 2px 8px;
-    background-color: wheat;
-    border-radius: 10px;
-    font-size: 13px;
-    color: var(--gddi-primary-text-color);
+    cursor: pointer;
 
     :global {
-        .test1 {
+        span {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 13px;
+            box-sizing: border-box;
+        }
+
+        .ongoing {
             color: yellowgreen;
+        }
+
+        .nomal {
+            border: 1px solid #3693D1;
+            color: #3693D1;
+            background-color: #fff;
+        }
+
+        .primary {
+            background: #3693D1;
+            border: 1px solid transparent;
+            color: #fff;
         }
     }
 }

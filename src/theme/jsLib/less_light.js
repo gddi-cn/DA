@@ -7,7 +7,7 @@ const gddi_design = {
   'bg-color': '#ffffff',
   'secondary-bg-color': '#EDF8FF',
   // 第1颜色
-  'primary-color': '#AAD3EF',
+  'primary-color': '#061926',
   // 第二颜色
   'secondary-color': '#A2F6C5',
 
@@ -32,7 +32,7 @@ const gddi_design = {
 
 const ant_design = {
   // antd的设计参数
-  primaryColor: '#AAD3EF',
+  primaryColor: '#061926',
 }
 
 const all_design = {

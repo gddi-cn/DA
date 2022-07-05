@@ -24,6 +24,8 @@ import GButton from './GButton'
 // 添加阴影的自定义滚动
 import ReactCusScrollBar from './ReactCusScrollBar'
 
+import SmallButton from './SmallButton'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -35,5 +37,6 @@ export {
   TabsNav,
   GButton,
   FooterBar,
-  ReactCusScrollBar
+  ReactCusScrollBar,
+  SmallButton
 }
