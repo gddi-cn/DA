@@ -17,6 +17,13 @@ import TagRadioSelect from './TagRadioSelect'
 
 import TabsNav from './TabsNav'
 
+import FooterBar from './FooterBar'
+
+import GButton from './GButton'
+
+// 添加阴影的自定义滚动
+import ReactCusScrollBar from './ReactCusScrollBar'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -25,5 +32,8 @@ export {
   FullScreenModal,
   UploadFile,
   TagRadioSelect,
-  TabsNav
+  TabsNav,
+  GButton,
+  FooterBar,
+  ReactCusScrollBar
 }

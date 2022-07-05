@@ -1,10 +1,10 @@
 .TaskStep {
     width: 100%;
-    height: 62px;
-    background-color: #458FFF;
-    padding: 0 60px;
+    padding: 0 30px;
+    background-color: #fff;
 
     :global {
+
         .step_wrap {
             width: 100%;
             height: 100%;
@@ -12,20 +12,33 @@
             justify-content: flex-start;
             align-items: center;
 
+            .arrow_wrap {
+                height: 56px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0 40px;
+            }
+
+            .step_svg {
+                margin-right: 10px;
+            }
+
             .step_item {
-                width: 184px;
-                height: 50px;
+                height: 56px;
                 background-color: var(--gddi-bg-color);
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 cursor: pointer;
-                margin-right: 16px;
-                clip-path: path("M166.187 2.7812C165.446 1.6684 164.197 1 162.859 1H6.47401C3.27923 1 1.37366 4.56058 3.14581 7.2188L13.5207 22.7812C14.4165 24.1248 14.4165 25.8752 13.5207 27.2188L3.14581 42.7812C1.37366 45.4394 3.27924 49 6.47402 49H162.859C164.197 49 165.446 48.3316 166.187 47.2188L179.521 27.2188C180.416 25.8752 180.416 24.1248 179.521 22.7812L166.187 2.7812Z");
 
-                &:first-child {
-                    clip-path: path("M2 5C2 2.79086 3.79086 1 6 1H165.859C167.197 1 168.446 1.6684 169.187 2.7812L182.521 22.7812C183.417 24.1248 183.417 25.8752 182.521 27.2188L169.187 47.2188C168.446 48.3316 167.197 49 165.859 49H6C3.79086 49 2 47.2091 2 45V5Z");
+                color: #48A2DF;
+                font-size: 18px;
+
+                .step_svg * {
+                    fill: #48A2DF;
                 }
+
 
                 &:hover::after {
                     background-color: var(--gddi-primary-color);
@@ -51,7 +64,11 @@
             }
 
             .active_step_item {
-                color: #fff;
+                color: #061926;
+
+                .step_svg * {
+                    fill: #061926;
+                }
 
                 &::after {
                     position: absolute;

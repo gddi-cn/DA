@@ -1,17 +1,42 @@
 
-import { TagRadioSelect } from '@src/UIComponents'
+import { TagRadioSelect, FooterBar, GButton } from '@src/UIComponents'
+import DatasetList from './DatasetList'
+import { MODEL_TYPES } from '@src/constants'
 import './DataSetIndex.module.less'
 
-const DataSetIndex = (props: any): JSX.Element => {
-  console.log(props, '??')
-  const a = [{ label: '检测', id: '1' }, { label: '分类', id: '2' }, { label: '姿态检测', id: '3' }, { label: '单目3D', id: '4' }]
+const dataList:{label:string, id:string}[] = [
+  { label: '全部类型', id: 'all' }
+]
+for (const [k, v] of Object.entries(MODEL_TYPES)) {
+  dataList.push(
+    {
+      label: v,
+      id: k
+    }
+  )
+}
+
+const DataSetIndex = (): JSX.Element => {
   const handleOnChange = (data:any) => {
     console.log(data)
   }
-  return (
-    <div styleName='DataSetIndex'>
 
-      <TagRadioSelect dataList={a} onChange={handleOnChange}/>
+  const FooterRightView = () => {
+    return (
+      <GButton style={{ width: 132 }}>下一步</GButton>
+    )
+  }
+  return (
+    <div styleName='DataSetIndex' className='maxWidthAuto'>
+
+      <div className='dataset_list_header'>
+        <TagRadioSelect dataList={dataList} onChange={handleOnChange} />
+      </div>
+
+      <div className='dataset_list_wrap'>
+        <DatasetList/>
+      </div>
+      <FooterBar rightContent={<FooterRightView/>}/>
     </div>
   )
 }

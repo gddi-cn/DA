@@ -1,9 +1,35 @@
 
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
+import { ReactComponent as Bushu } from './icon/bushu.svg'
+import { ReactComponent as Moxing } from './icon/moxing.svg'
+import { ReactComponent as Shuju } from './icon/shuju.svg'
+import { ReactComponent as Arrow } from './icon/arrow.svg'
+
+import { useLocation } from 'react-router-dom'
+import {
+  APP_DATA_SET_INDEX,
+  APP_DATASET_DETAIL,
+  APP_MODEL_INDEX,
+  APP_GUIDE_PAGE
+} from '@router'
 import './TaskStep.module.less'
 
+const DATASET_ACTIVE = [
+  APP_DATA_SET_INDEX,
+  APP_DATASET_DETAIL
+]
+
+const MODEL_ACTIVE = [
+  APP_MODEL_INDEX
+]
+
+const PUBLISH_ACTIVE = [
+  APP_GUIDE_PAGE
+]
+
 const TaskStep = (): JSX.Element => {
+  const { pathname } = useLocation()
   const model = useSelector((state: RootState) => {
     return state.tasksSilce.activeTaskInfo.model
   })
@@ -14,10 +40,6 @@ const TaskStep = (): JSX.Element => {
 
   const deploy = useSelector((state: RootState) => {
     return state.tasksSilce.activeTaskInfo.deploy
-  })
-
-  const activeStep = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo.active_page
   })
 
   // 点击逻辑、
@@ -38,8 +60,8 @@ const TaskStep = (): JSX.Element => {
     console.log(model)
   }
 
-  const getCls = (currentKey:string) => {
-    if (currentKey === activeStep) {
+  const getCls = (activeArr:Array<string>) => {
+    if (activeArr.includes(pathname)) {
       return 'step_item active_step_item'
     }
 
@@ -48,14 +70,16 @@ const TaskStep = (): JSX.Element => {
   return (
     <div styleName='TaskStep'>
       <div className='step_wrap '>
-        <div className={getCls('dataset')} onClick={handleDatasetClick}>
-          数据
+        <div className={getCls(DATASET_ACTIVE)} onClick={handleDatasetClick}>
+          <Shuju className='step_svg' />  数据
         </div>
-        <div className={getCls('model')} onClick={handleModelClick}>
-          训练
+        <span className='arrow_wrap'><Arrow /></span>
+        <div className={getCls(MODEL_ACTIVE)} onClick={handleModelClick}>
+          <Moxing className='step_svg'/> 模型
         </div>
-        <div className={getCls('deploy')} onClick={handleDeployClick}>
-          部署
+        <span className='arrow_wrap'><Arrow /></span>
+        <div className={getCls(PUBLISH_ACTIVE)} onClick={handleDeployClick}>
+          <Bushu className='step_svg'/> 部署
         </div>
       </div>
     </div>

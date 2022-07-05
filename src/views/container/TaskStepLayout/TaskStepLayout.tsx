@@ -1,6 +1,6 @@
 
 import TaskStep from './TaskStep'
-import TaskNameBar from './TaskNameBar'
+
 import { APP_GUIDE_PAGE } from '@router'
 import { RootState } from '@reducer/index'
 import { useSelector } from 'react-redux'
@@ -16,7 +16,6 @@ const TaskStepLayout = (): JSX.Element => {
   const views = useMemo(() => {
     return (
       <>
-        <TaskNameBar />
         <TaskStep />
         <Outlet />
       </>
