@@ -3,6 +3,7 @@ import { TagRadioSelect, FooterBar, GButton } from '@src/UIComponents'
 import DatasetList from './DatasetList'
 import { MODEL_TYPES } from '@src/constants'
 import './DataSetIndex.module.less'
+import { useRef } from 'react'
 
 const dataList:{label:string, id:string}[] = [
   { label: '全部类型', id: 'all' }
@@ -17,8 +18,17 @@ for (const [k, v] of Object.entries(MODEL_TYPES)) {
 }
 
 const DataSetIndex = (): JSX.Element => {
+  const paramsChangeAndFetch = useRef<any>(null)
   const handleOnChange = (data:any) => {
     console.log(data)
+    let _id = data.id
+    if (_id === 'all') {
+      _id = undefined
+    }
+
+    if (paramsChangeAndFetch.current) {
+      paramsChangeAndFetch.current({ scene: _id }, { isInit: true })
+    }
   }
 
   const FooterRightView = () => {
@@ -34,7 +44,7 @@ const DataSetIndex = (): JSX.Element => {
       </div>
 
       <div className='dataset_list_wrap'>
-        <DatasetList/>
+        <DatasetList ref={paramsChangeAndFetch}/>
       </div>
       <FooterBar rightContent={<FooterRightView/>}/>
     </div>

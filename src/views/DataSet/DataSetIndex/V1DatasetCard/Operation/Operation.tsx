@@ -40,8 +40,14 @@ function Operation<T extends {id:string}> (props: Props<T>): JSX.Element {
       },
     });
   }
+
+  const handlePrevent = (evt:React.MouseEvent<HTMLDivElement>) => {
+    evt.preventDefault()
+    evt.stopPropagation()
+  }
+
   return (
-    <div styleName='Operation'>
+    <div styleName='Operation' onClick={handlePrevent}>
       <SmallButton type='primary' className='Operation_edit'>编辑</SmallButton>
       <SmallButton type='delete' onClick={handleDelete}>删除</SmallButton>
     </div>

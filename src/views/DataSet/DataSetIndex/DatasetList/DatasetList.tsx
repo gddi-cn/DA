@@ -1,19 +1,27 @@
 
 import { ReactCusScrollBar } from '@src/UIComponents'
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import AddDataset from '../AddDataset'
 import V1DatasetCard from '../V1DatasetCard'
 import api from '@api'
-import './DatasetList.module.less'
 import { isNil } from 'lodash';
+import { Spin } from 'antd'
+import type { Data } from '../V1DatasetCard/V1DatasetCard'
+import './DatasetList.module.less'
 
 export type FectData = {
   isInit?: boolean,
   callback?:()=>void
 }
 
-const DatasetList = (): JSX.Element => {
+type Params={
+  page?: number,
+  page_size?: number,
+  scene?: undefined | string
+}
+
+const DatasetList = (props: any, ref: any): JSX.Element => {
   const [show, setShow] = useState(false)
   const isFirstLoading = useRef(true)
   const params = useRef({
@@ -23,6 +31,8 @@ const DatasetList = (): JSX.Element => {
   })
   const [datasetList, setDatasetList] = useState<Array<any>>([])
   const [datasetTotal, setDatasetTotal] = useState(0)
+
+  const [activeId, setActiveId] = useState<string>('')
 
   useEffect(() => {
     isFirstLoading.current = false
@@ -58,6 +68,13 @@ const DatasetList = (): JSX.Element => {
     }, [datasetList]
   )
 
+  const paramsChangeAndFetch = (new_params: Params, fetchdata?:FectData) => {
+    params.current = Object.assign(params.current, new_params)
+    fetchData(fetchdata)
+  }
+
+  useImperativeHandle(ref, () => paramsChangeAndFetch)
+
   const fetchMoreData = () => {
     params.current.page++;
     fetchData()
@@ -74,13 +91,17 @@ const DatasetList = (): JSX.Element => {
     )
   }, [])
 
+  const handleCardClick = useCallback((data: Data) => {
+    setActiveId(data.id)
+  }, [])
+
   const list = useMemo(() => {
-    return datasetList.map((o, i) => {
+    return datasetList.map((o) => {
       return (
-        <V1DatasetCard key={i} data={o} fetchData={fetchData} />
+        <V1DatasetCard key={o.id} data={o} fetchData={fetchData} activeId={activeId} handleCardClick={handleCardClick}/>
       )
     })
-  }, [datasetList, fetchData])
+  }, [datasetList, fetchData, activeId, handleCardClick])
 
   return (
     <div styleName='DatasetList'>
@@ -93,7 +114,11 @@ const DatasetList = (): JSX.Element => {
                 dataLength={datasetList.length}
                 next={fetchMoreData}
                 hasMore={datasetList.length < datasetTotal}
-                loader={null}
+                loader={
+                  <div className='loader'>
+                    <Spin spinning={true} tip="loading"></Spin>
+                  </div>
+                }
                 scrollableTarget={document.getElementById('scrollableDiv')?.firstChild as any}
               >
 
@@ -120,4 +145,4 @@ const DatasetList = (): JSX.Element => {
   )
 }
 
-export default DatasetList
+export default forwardRef(DatasetList)

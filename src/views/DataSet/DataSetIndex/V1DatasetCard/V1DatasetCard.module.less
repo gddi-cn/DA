@@ -7,6 +7,7 @@
     cursor: pointer;
     content-visibility: visible;
     position: relative;
+    border: 2px solid transparent;
 
     :global {
         .success_info {
@@ -37,7 +38,7 @@
             align-items: center;
             flex-direction: column;
             padding: 0 20px;
-            
+
             .failed_title {
                 color: #FF6177;
                 font-weight: 600;
@@ -65,12 +66,12 @@
 
             &:hover .RenderInfoMarks {
                 transform: translateX(0);
-                transition: all .8s;
+                transition: all .3s;
             }
 
             &:hover .RenderInfoView {
                 opacity: 0;
-                transition: all .8s;
+                transition: all .3s;
             }
         }
 

@@ -9,20 +9,15 @@ import type { FectData } from '../DatasetList/DatasetList'
 import './V1DatasetCard.module.less'
 import { useState } from 'react'
 
-interface Props<T> {
-  data: T,
-  fetchData: (info: FectData)=>void
-}
-
-type Data = {
-  id :string,
+export type Data = {
+  id: string,
   cover: string,
   name: string,
   scenes: string,
   status: string,
   summary: string,
   latest_version: {
-    tag:string,
+    tag: string,
     train_set: {
       image_count: number,
       class_count: number
@@ -30,8 +25,15 @@ type Data = {
   }
 }
 
+interface Props<T> {
+  data: T,
+  fetchData: (info: FectData)=>void,
+  activeId:string,
+  handleCardClick: (data: Data)=>void
+}
+
 function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
-  const { data, fetchData } = props
+  const { data, fetchData, handleCardClick, activeId } = props
   const { cover, name, scenes, latest_version, summary, status } = data
   const [loading, setLoading] = useState(false)
 
@@ -85,7 +87,7 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
       // 未验证
       return (
         <div className='getFailedView do_some_thing_now'>
-          校验中...
+          未验证...
         </div>
       )
     }
@@ -124,9 +126,16 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
 
     return null
   }
+
+  const handleOnClick = () => {
+    if ([1, 4, 6].includes(+status)) {
+      return
+    }
+    handleCardClick(data)
+  }
   return (
     <Spin spinning={loading}>
-      <div styleName='V1DatasetCard'>
+      <div styleName='V1DatasetCard' onClick={handleOnClick} className={data.id === activeId ? 'V1DatasetCard_active' : ''}>
         {hasFailedView()}
         <div className={`success_info ${getHoverCls()}`}>
           <div className='image_wrap'>
