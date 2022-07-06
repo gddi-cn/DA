@@ -1,0 +1,73 @@
+.BaseInfo {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    transform: translate3d(0, 0, 0);
+
+    :global {
+        .describtion_wrap {
+            display: flex;
+
+            .describtion {
+                flex: 1;
+                height: 40px;
+                color: #8C8C8C;
+                font-size: 12px;
+
+                overflow: hidden;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+                /* or 143% */
+
+
+                color: #637381;
+
+                -webkit-line-clamp: 2;
+                display: -webkit-box;
+                text-overflow: ellipsis;
+                -webkit-box-orient: vertical;
+            }
+        }
+
+        .echartOrTable {
+            flex: 1;
+            width: 100%;
+            padding-bottom: 20px;
+            padding-top: 40px;
+        }
+
+        .info_list_and_btn_wrap {
+            display: flex;
+            margin-top: 20px;
+            font-size: 14px;
+            letter-spacing: -0.078px;
+            color: #637381;
+        }
+
+        .info_list {
+            display: flex;
+            flex: 1;
+
+            .info_item_wrap {
+                display: flex;
+                margin-right: 18px;
+            }
+        }
+
+        .checkout_btn_wrap {
+            display: flex;
+            width: 80px;
+            color: #48A2DF;
+            font-size: 14px;
+            cursor: pointer;
+            justify-content: space-between;
+
+            .bar_chart {
+                fill: #48A2DF;
+            }
+        }
+    }
+}

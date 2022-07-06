@@ -7,20 +7,30 @@
     :global {
         .middle_wrap {
             height: 100%;
-            width: 18px;
+            width: 55px;
             display: flex;
             align-items: center;
+            justify-content: center;
 
             .icon_btn {
                 cursor: pointer;
             }
+
+            .icon_ratate {
+                transform: rotateZ(180deg);
+            }
         }
 
-        .left_wrap,
+        .left_wrap, 
         .right_wrap {
             height: 100%;
-            transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.9s;
+            transition: width cubic-bezier(0.075, 0.82, 0.165, 1) 0.9s;
             overflow: hidden;
+        }
+
+        .left_wrap {
+            background: #FFFFFF;
+            border-radius: 12px;
         }
 
         .right_wrap {

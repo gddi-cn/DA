@@ -7,7 +7,6 @@ import { APP_DATA_SET_INDEX } from '@router'
 import './AddButton.module.less'
 
 const AddButton = (): JSX.Element => {
-  console.log('1111')
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleAddTask = useDebounceFn(() => {

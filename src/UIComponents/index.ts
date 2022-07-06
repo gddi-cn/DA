@@ -26,6 +26,8 @@ import ReactCusScrollBar from './ReactCusScrollBar'
 
 import SmallButton from './SmallButton'
 
+import GEcharts from './GEcharts'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -38,5 +40,6 @@ export {
   GButton,
   FooterBar,
   ReactCusScrollBar,
-  SmallButton
+  SmallButton,
+  GEcharts
 }

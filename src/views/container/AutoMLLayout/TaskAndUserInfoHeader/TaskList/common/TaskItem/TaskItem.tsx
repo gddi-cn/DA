@@ -40,7 +40,7 @@ const TaskItem = (props: Props): JSX.Element => {
       hasAutoNext = true
     }
     dispatch(subTask({ id, hasAutoNext }))
-    console.log(taskList, 'taskList')
+
     // 只有一个的时候意味着next为0、就直接回去首页了
     if (taskList.length === 1) {
       navigate({

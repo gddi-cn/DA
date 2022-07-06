@@ -24,7 +24,7 @@ const updateUi = (element: HTMLDivElement, setActiveStyle: Dispatch<any>) => {
   const style = {
     width: element.offsetWidth, height: element.offsetHeight, top: element.offsetTop, left: element.offsetLeft
   }
-  console.log(style, 'handleClickstyle')
+
   setActiveStyle(style)
 }
 
@@ -41,7 +41,6 @@ function TabsNavItem <T> (props: ItemProps<T>) {
   }, [setActiveStyle, data, getActiveNode])
 
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
-    console.log(e, '111')
     e.stopPropagation()
     e.preventDefault()
     // const info = div?.current?.getBoundingClientRect()

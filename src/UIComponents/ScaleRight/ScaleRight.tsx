@@ -1,5 +1,5 @@
 
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { ReactComponent as Arrow } from './icon/Arrow.svg'
 import { useMemo, useState } from 'react'
 import './ScaleRight.module.less'
 
@@ -24,14 +24,20 @@ const ScaleRight = (props: Props): JSX.Element => {
   const getWidth = () => {
     if (scale) {
       return {
-        left: '0',
-        right: 'calc(100% - 18px)'
+        left: {
+          width: '0',
+          opacity: '0'
+        },
+        right: 'calc(100% - 55px)'
       }
     }
 
     return {
-      left: 'calc((100% - 18px) /2)',
-      right: 'calc((100% - 18px) /2)'
+      left: {
+        width: '33%',
+        opacity: '1'
+      },
+      right: 'calc(100% - 33% - 55px)'
     }
   }
 
@@ -41,7 +47,7 @@ const ScaleRight = (props: Props): JSX.Element => {
 
   return (
     <div styleName='ScaleRight'>
-      <div className='left_wrap' style={{ width: left }}>
+      <div className='left_wrap' style={left}>
         {
           useMemo(() => leftContent, [leftContent])
         }
@@ -50,11 +56,11 @@ const ScaleRight = (props: Props): JSX.Element => {
         {
           scale ? (
             <span className='icon_btn' onClick={() => handleScale(false)}>
-              <RightOutlined />
+              <Arrow className='icon_ratate' />
             </span>
           ) : (
             <span className='icon_btn' onClick={() => handleScale(true)}>
-              <LeftOutlined />
+              <Arrow />
             </span>
           )
         }
