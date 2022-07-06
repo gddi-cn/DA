@@ -17,12 +17,13 @@ function useScrollTop (): [number, { onScroll: (e: UIEvent<HTMLDivElement>)=>voi
 }
 
 const ReactCusScrollBar = (props: Props): JSX.Element => {
-  const { children, id } = props
+  const { children, id, ...rest } = props
   const [scrollTop, scrollProps] = useScrollTop();
   const Memo = useMemo(() => children, [children])
   return (
     <ReactScrollBar
       id={id}
+      {...rest}
       autoHide
       {...scrollProps}
       style={{

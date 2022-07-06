@@ -1,9 +1,35 @@
 .UploadFIle {
     cursor: pointer;
+    display: flex;
+    justify-content: center;
     
     :global {
-        .test1 {
-            color: yellowgreen;
+        .preview_wrap {
+            position: relative;
+            width: 100%;
+
+            .delete_btn {
+                position: absolute;
+                right: -10px;
+                top: -10px;
+
+                &:hover {
+                    color: red;
+                }
+            }
+        }
+
+        .UplaodImageView {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .tips_text {
+                font-size: 14px;
+                color: #8C8C8C;
+            }
         }
     }
 }

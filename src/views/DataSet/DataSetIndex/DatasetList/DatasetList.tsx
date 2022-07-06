@@ -12,16 +12,22 @@ import './DatasetList.module.less'
 
 export type FectData = {
   isInit?: boolean,
-  callback?:()=>void
+  callback?: () => void
 }
 
-type Params={
+type Params = {
   page?: number,
   page_size?: number,
   scene?: undefined | string
 }
 
-const DatasetList = (props: any, ref: any): JSX.Element => {
+type Props = {
+  setSelectData: React.Dispatch<any>
+}
+
+const DatasetList = (props: Props, ref: any): JSX.Element => {
+  const { setSelectData } = props
+
   const [show, setShow] = useState(false)
   const isFirstLoading = useRef(true)
   const params = useRef({
@@ -48,6 +54,13 @@ const DatasetList = (props: any, ref: any): JSX.Element => {
           // 初始化
           const { isInit } = funcInfo
           if (isInit) {
+            const scrollRef = document.getElementById('scrollableDiv')?.firstChild as any
+            if (scrollRef) {
+              scrollRef?.scrollTo({
+                top: 0,
+                // behavior: 'smooth'
+              })
+            }
             _datasetList = []
             params.current.page = 1
           }
@@ -68,7 +81,7 @@ const DatasetList = (props: any, ref: any): JSX.Element => {
     }, [datasetList]
   )
 
-  const paramsChangeAndFetch = (new_params: Params, fetchdata?:FectData) => {
+  const paramsChangeAndFetch = (new_params: Params, fetchdata?: FectData) => {
     params.current = Object.assign(params.current, new_params)
     fetchData(fetchdata)
   }
@@ -93,18 +106,19 @@ const DatasetList = (props: any, ref: any): JSX.Element => {
 
   const handleCardClick = useCallback((data: Data) => {
     setActiveId(data.id)
-  }, [])
+    setSelectData(data)
+  }, [setSelectData])
 
   const list = useMemo(() => {
     return datasetList.map((o) => {
       return (
-        <V1DatasetCard key={o.id} data={o} fetchData={fetchData} activeId={activeId} handleCardClick={handleCardClick}/>
+        <V1DatasetCard key={o.id} data={o} fetchData={fetchData} activeId={activeId} handleCardClick={handleCardClick} />
       )
     })
   }, [datasetList, fetchData, activeId, handleCardClick])
 
   return (
-    <div styleName='DatasetList'>
+    <div styleName='DatasetList' id='DataSetIndex'>
 
       <ReactCusScrollBar id="scrollableDiv">
         {
