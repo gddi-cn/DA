@@ -2,29 +2,32 @@
 import { ReactComponent as Note } from './icon/note.svg'
 import { ReactComponent as Frame } from './icon/Frame.svg'
 import ClassTable from './ClassTable'
+import { Dispatch, SetStateAction, useMemo } from 'react'
 import './BaseInfo.module.less'
-import { useCallback, useEffect, useState } from 'react'
-import { isEmpty } from 'lodash'
 
 type Props={
-    version:any
+    version:any,
+    trainSetData: any,
+    validSetData: any,
+    whichSet: string,
+    setClassInfo: Dispatch<SetStateAction<any>>,
+    classInfo: any
 }
 
 const BaseInfo = (props: Props): JSX.Element => {
-  console.log(props)
-  const { version } = props
-  const [trainSetData, setTrainSetData] = useState<any>({})
-  const [validSetData, setValidSetData] = useState<any>({})
+  const { version, whichSet, setClassInfo, classInfo, trainSetData, validSetData } = props
 
-  const fetAllSet = useCallback(() => {
-    console.log(1)
-  }, [])
-  useEffect(() => {
-    console.log(version)
-    if (!isEmpty(version)) {
-
+  const currentSet = useMemo(() => {
+    try {
+      const allSet: any = {
+        trainset_id: trainSetData,
+        validset_id: validSetData
+      }
+      return allSet[whichSet]
+    } catch {
+      return {}
     }
-  }, [version])
+  }, [validSetData, trainSetData, whichSet])
   return (
     <div styleName='BaseInfo'>
 
@@ -58,9 +61,19 @@ const BaseInfo = (props: Props): JSX.Element => {
         </div>
       </div>
 
-      <div className='echartOrTable'>
-        <ClassTable/>
-      </div>
+      {
+        useMemo(() => (
+          <div className='echartOrTable'>
+            <ClassTable
+              version={version}
+              whichSet={whichSet}
+              setClassInfo={setClassInfo}
+              classInfo={classInfo}
+              currentSet={currentSet}
+            />
+          </div>
+        ), [classInfo, setClassInfo, version, whichSet, currentSet])
+      }
     </div>
   )
 }

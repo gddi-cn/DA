@@ -1,22 +1,23 @@
 import { TabsNav } from '@src/UIComponents'
-import type { Dispatch, SetStateAction } from 'react'
+import { ReactComponent as Train } from './icon/train.svg'
+import { ReactComponent as Test } from './icon/test.svg'
 import './TabsHeader.module.less'
 
 type TabHeaderDataItem = {
-    label: string,
-    icon?: React.ReactNode,
-    primaryKey: number
+  label: string,
+  icon?: React.ReactNode,
+  primaryKey: string
 }
 type TabItemProps<T> = {
-    data: T,
-    activeKey: number,
-    handleClick: (data: TabHeaderDataItem) => void
+  data: T,
+  activeKey: string,
+  handleClick: (key: string) => void
 }
 
 type TabData = Array<TabHeaderDataItem>
 
 function TabItem<T extends TabHeaderDataItem> (props: TabItemProps<T>) {
-  const { data, activeKey } = props
+  const { data, activeKey, handleClick } = props
   const getCls = () => {
     // console.log(activeTaskInfo.id)
     // console.log(id)
@@ -27,7 +28,10 @@ function TabItem<T extends TabHeaderDataItem> (props: TabItemProps<T>) {
     return 'tab_item_header'
   }
   return (
-    <div className={getCls()}>
+    <div className={getCls()} onClick={() => handleClick(data.primaryKey)}>
+      {
+        data.icon
+      }
       <span style={{ zIndex: 1 }}>
         {data?.label}
       </span>
@@ -35,25 +39,27 @@ function TabItem<T extends TabHeaderDataItem> (props: TabItemProps<T>) {
   )
 }
 
-type TabsHeaderProps={
-    setActiveKey: Dispatch<SetStateAction<number>>,
-    activeKey:number
+type TabsHeaderProps = {
+  handleChangeTab: (key:string)=>void,
+  activeKey: string
 }
 
 const TabsHeader = (props: TabsHeaderProps): JSX.Element => {
-  const { setActiveKey, activeKey } = props
+  const { handleChangeTab, activeKey } = props
   const dataList: TabData = [
     {
       label: '训练数据',
-      primaryKey: 0,
+      primaryKey: 'trainset_id',
+      icon: <Train />
     },
     {
       label: '验证数据',
-      primaryKey: 1
+      primaryKey: 'validset_id',
+      icon: <Test />
     }
   ]
-  const handleClick = (data: TabHeaderDataItem) => {
-    setActiveKey(data?.primaryKey)
+  const handleClick = (primaryKey: string) => {
+    handleChangeTab(primaryKey)
   }
 
   const getActiveNode = (data: TabHeaderDataItem) => {

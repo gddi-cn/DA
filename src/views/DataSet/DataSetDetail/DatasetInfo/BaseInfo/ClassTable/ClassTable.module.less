@@ -28,20 +28,37 @@
             font-size: 14px;
             color: #606266;
 
+            .body_item_wrap_active {
+                border: 1px solid #62B0E5 !important;
+                border-radius: 4px;
+            }
+
             .body_item_wrap {
                 display: grid;
                 grid-template-columns: repeat(4, calc(100% / 4));
                 grid-gap: 0;
                 height: 48px;
+                cursor: pointer;
+                box-sizing: border-box;
+                border: 1px solid transparent;
 
                 .body_item {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
-                    padding: 0 10px;
+                    height: 100%;
+                    padding: 5px 10px;
+                    overflow: hidden;
 
                     &:nth-child(1) {
                         padding-left: 20px;
+                    }
+
+                    .label_cover {
+                        width: 56px;
+                        height: 100%;
+                        object-fit: cover;
+                        overflow: hidden;
                     }
                 }
             }

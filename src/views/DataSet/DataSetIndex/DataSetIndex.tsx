@@ -53,7 +53,7 @@ const DataSetIndex = (): JSX.Element => {
       })
     }
     return (
-      <GButton style={{ width: 132 }} onClick={handleNext}>下一步</GButton>
+      <GButton className={isEmpty(selectData) || isNil(selectData) ? 'not_allow' : 'yes_sir'} style={{ width: 132 }} onClick={handleNext}>下一步</GButton>
     )
   }
 

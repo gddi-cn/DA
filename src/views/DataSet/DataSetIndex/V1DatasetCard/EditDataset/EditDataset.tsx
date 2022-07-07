@@ -70,7 +70,11 @@ const EditDataset = (props: Props): JSX.Element => {
     <div styleName='EditDataset' id='modal_wrap'>
       <SmallButton type={type} className='Operation_edit' onClick={() => setVisible(true)}>编辑</SmallButton>
       <Modal
-        title='修改数据集信息'
+        title={
+          <div className='modal_title'>
+            修改数据集信息
+          </div>
+        }
         visible={visible}
         // onOk={handleIgOk}
         getContainer={document.getElementById(eleId || 'modal_wrap') as any}
@@ -78,13 +82,15 @@ const EditDataset = (props: Props): JSX.Element => {
         footer={null}
         destroyOnClose={true}
         forceRender={false}
+        className='modify_dataset_info'
+        closable={false}
       >
         <Form
           form={form}
           name='basic'
           initialValues={{ remember: true }}
           // onFinish={onFinish}
-          className='modify_dataset_info'
+
         >
           <Form.Item
             label='数据集名'
@@ -157,11 +163,14 @@ const EditDataset = (props: Props): JSX.Element => {
             <UploadFile tips='支持.jpg .jpeg .png 等图片文件,文件不得大于2MB' hasPreview={true} />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ span: 12, offset: 12 }}>
-            <Button type='primary' htmlType='submit' onClick={onFinish}>
-                          提交
+          <div className='btn_wrap'>
+            <Button type='default' className='cansel_btn' onClick={() => setVisible(false)}>
+                取消
             </Button>
-          </Form.Item>
+            <Button type='primary' htmlType='submit' onClick={onFinish}>
+                提交
+            </Button>
+          </div>
         </Form>
       </Modal>
     </div>

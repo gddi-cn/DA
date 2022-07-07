@@ -169,7 +169,7 @@ const UploadFIle = (props: Props): JSX.Element => {
     return getUploadView()
   }
   return (
-    <div styleName='UploadFIle' className={className}>
+    <div styleName='UploadFIle' className={`UploadFIle_container ${className}`}>
       {
         getView()
       }
