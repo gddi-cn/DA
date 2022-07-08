@@ -39,7 +39,7 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
           if (res.code === 0) {
             const list = res.data || [];
             const target = (list as Array<any>).find((o) => o.id === version_id)
-            console.log(target, 'target')
+
             if (target) {
               setValue(target.tag)
               setVersion(target)
@@ -63,7 +63,6 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
   const handleChange = (value: any, option: any) => {
     const data = option['data-value']
 
-    console.log('selected', data);
     // 内部
     setValue(data.id)
     // 外部用
