@@ -3,10 +3,9 @@ import { TagRadioSelect, FooterBar, GButton } from '@src/UIComponents'
 import DatasetList from './DatasetList'
 import { MODEL_TYPES } from '@src/constants'
 import { useMemo, useRef, useState } from 'react'
-
-import './DataSetIndex.module.less'
 import { isEmpty, isNil } from 'lodash'
 import { message } from 'antd'
+import './DataSetIndex.module.less'
 
 const dataList:{label:string, id:string}[] = [
   { label: '全部类型', id: 'all' }
@@ -48,7 +47,7 @@ const DataSetIndex = (): JSX.Element => {
       // })
     }
     return (
-      <GButton className={isEmpty(selectData) || isNil(selectData) ? 'not_allow' : 'yes_sir'} style={{ width: 132 }} onClick={handleNext}>下一步</GButton>
+      <GButton type='primary' className={isEmpty(selectData) || isNil(selectData) ? 'not_allow' : 'yes_sir'} style={{ width: 132 }} onClick={handleNext}>下一步</GButton>
     )
   }
 

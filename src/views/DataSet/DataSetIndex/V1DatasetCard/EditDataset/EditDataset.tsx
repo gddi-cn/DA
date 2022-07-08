@@ -3,9 +3,9 @@ import { useState } from 'react'
 import { message, Modal, Input, Form, Button } from 'antd'
 
 import api from '@api'
-import { bytesToSize } from '@src/utils'
+
 import type { Data } from '../V1DatasetCard'
-import { isEmpty, isString, isNil } from 'lodash'
+
 import './EditDataset.module.less'
 
 const maxSize = 2 * 1024 * 1024
@@ -38,22 +38,7 @@ const EditDataset = (props: Props): JSX.Element => {
       const row = (await form.validateFields()) as any;
       // editDataset(id, row, setVisible)
       console.warn(row, 'rowrowrow')
-      const { cover } = row
-      if (!isString(cover)) {
-        const { name, size } = cover
-        const ossUrl = await api.get('/v2/file/upload', { params: { filename: name, size } })
-        if (ossUrl.code === 0) {
-          const { file_url: fileUrl, header, method, url } = ossUrl.data
-          const methodAxios: any = String(method).toLocaleLowerCase()
 
-          const uploadAws = await (api as any)[methodAxios](url, cover, { headers: header })
-
-          if (uploadAws.code === 0) {
-            message.success('上传图片成功')
-            row.cover = fileUrl
-          }
-        }
-      }
       const res: any = await api.patch(`/v2/datasets/${data?.id}`, row)
       if (res.code === 0) {
         setVisible(false)
@@ -121,46 +106,8 @@ const EditDataset = (props: Props): JSX.Element => {
             label='数据集封面'
             name='cover'
             initialValue={data?.cover}
-            rules={
-              [
-
-                () => ({
-                  validator (rule, file) {
-                    if (isNil(file)) {
-                      return Promise.resolve();
-                    }
-                    const { size } = file
-                    if (size > maxSize) {
-                      return Promise.reject(new Error(`文件不能大于${bytesToSize(maxSize)}`));
-                    }
-                    return Promise.resolve();
-                  },
-                }),
-                () => ({
-                  validator (rule, file) {
-                    if (isNil(file)) {
-                      return Promise.resolve();
-                    }
-                    const { name } = file
-                    if (!isEmpty(name)) {
-                      if (!regExp?.test(name)) {
-                        const suffix = name.match(/\.(\w)*$/)
-                        if (suffix) {
-                          return Promise.reject(new Error(`不支持${suffix[0]}文件类型`))
-                        } else {
-                          return Promise.reject(new Error('不支持该类型文件'))
-                        }
-                      }
-                    }
-
-                    return Promise.resolve();
-                  },
-                }),
-              ]
-
-            }
           >
-            <UploadFile tips='支持.jpg .jpeg .png 等图片文件,文件不得大于2MB' hasPreview={true} />
+            <UploadFile tips='支持.jpg .jpeg .png 等图片文件,文件不得大于2MB' hasPreview={true} maxSize={maxSize} regExp={regExp} />
           </Form.Item>
 
           <div className='btn_wrap'>

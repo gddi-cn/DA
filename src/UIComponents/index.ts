@@ -30,6 +30,8 @@ import GEcharts from './GEcharts'
 
 import UIDatasetVisual from './UIDatasetVisual'
 
+import CreateDatasetStep from './CreateDatasetStep'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -44,5 +46,6 @@ export {
   ReactCusScrollBar,
   SmallButton,
   GEcharts,
-  UIDatasetVisual
+  UIDatasetVisual,
+  CreateDatasetStep
 }

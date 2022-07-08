@@ -4,6 +4,7 @@
     justify-content: center;
     border: 1px dashed #DCDFE6;
     padding: 10px 20px;
+    position: relative;
 
     :global {
         .preview_wrap {
@@ -19,6 +20,16 @@
                     color: red;
                 }
             }
+        }
+
+        .err_list_wrap {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            color: red;
+        }
+        .upload_wrap {
+            width: 100%;
         }
 
         .UplaodImageView {

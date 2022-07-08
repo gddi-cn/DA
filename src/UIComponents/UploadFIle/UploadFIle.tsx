@@ -1,11 +1,13 @@
-import { Image, Upload } from 'antd';
+import { Image, Upload, Spin } from 'antd';
 // import { UploadFile } from 'antd/lib/upload/interface'
 import React, { useState, useEffect } from 'react'
 import { ReactComponent as UploadIcon } from './icon/upload-cloud.svg'
-import { bytesToSize, getBase64 } from '@src/utils'
+import { bytesToSize } from '@src/utils'
+import api from '@api'
 import { CloseCircleOutlined } from '@ant-design/icons'
-import './UploadFIle.module.less'
+
 import { isEmpty } from 'lodash';
+import './UploadFIle.module.less'
 
 interface Props {
   regExp?: RegExp,
@@ -42,49 +44,45 @@ const UplaodImageView = (type: string | undefined, tips: React.ReactNode | undef
 }
 
 const UploadFIle = (props: Props): JSX.Element => {
-  const { regExp, onUpload, maxSize, children, className, onError, onChange, tips, type, value, ...rest } = props
+  const { regExp, onUpload, maxSize, children, className, onChange, tips, type, value, ...rest } = props
 
   const [filesrc, setFilesrc] = useState<string>('')
+  const [loading, setloading] = useState<any>(false)
+
+  const [errList, setErrList] = useState<string[]>([])
 
   useEffect(() => {
     console.log(value, 'valuevaluevalue')
     setFilesrc(value || '')
   }, [value])
 
-  const checkFile = async (fileSize: number | undefined, fileName: string | undefined) => {
-    const checkMaxSize = new Promise(function (resolve, reject) {
+  const checkFile = (fileSize: number | undefined, fileName: string | undefined) => {
+    const err_list_tips:string[] = []
+    const checkMaxSize = () => {
       if (fileSize && maxSize) {
         if (fileSize > maxSize) {
-          reject(new Error(`文件不能大于${bytesToSize(maxSize)}`))
-        } else {
-          resolve(true)
+          err_list_tips.push(`文件不能大于${bytesToSize(maxSize)}`)
         }
-      } else {
-        reject(new Error('未知错误'))
       }
-    })
+    }
 
-    const checkFileNmae = new Promise(function (resolve, reject) {
+    const checkFileNmae = () => {
       if (fileName) {
-        if (regExp?.test(fileName)) {
-          resolve(true)
-        } else {
+        if (!regExp?.test(fileName)) {
           const suffix = fileName.match(/\.(\w)*$/)
           if (suffix) {
-            reject(new Error(`不支持${suffix[0]}文件类型`))
+            err_list_tips.push(`不支持${suffix[0]}文件类型`)
           } else {
-            reject(new Error('不支持该类型文件'))
+            err_list_tips.push('不支持该类型文件')
           }
         }
-      } else {
-        reject(new Error('未知错误'))
       }
-    })
-
-    await Promise.all([
-      checkMaxSize,
-      checkFileNmae
-    ])
+    }
+    checkMaxSize()
+    checkFileNmae()
+    if (err_list_tips.length > 0) {
+      throw (new Error(err_list_tips.join('-')))
+    }
   }
 
   const singleUpload = async (file: File) => {
@@ -92,20 +90,52 @@ const UploadFIle = (props: Props): JSX.Element => {
       const { name, size } = file
       console.log(file)
       if (regExp) {
-        await checkFile(size, name)
+        checkFile(size, name)
         onUpload && onUpload(file)
       } else {
         onUpload && onUpload(file)
       }
+      setErrList([])
     } catch (e: any) {
-      console.log(e)
-      onError && onError(e)
+      const { message } = e
+      setErrList((message as string).split('-'))
+      console.log(message)
     }
   }
 
-  const getFileSrc = async (file: File) => {
-    const src = await getBase64(file)
-    setFilesrc(src)
+  // const getFileSrc = async (file: File) => {
+  //   const src = await getBase64(file)
+  //   setFilesrc(src)
+  // }
+
+  const formOnChange = async (file: File) => {
+    try {
+      const { name, size } = file
+      checkFile(size, name)
+      setloading(true)
+      const ossUrl = await api.get('/v2/file/upload', { params: { filename: name, size } })
+      if (ossUrl.code === 0) {
+        const { file_url: fileUrl, header, method, url } = ossUrl.data
+        const methodAxios: any = String(method).toLocaleLowerCase()
+
+        const uploadAws = await (api as any)[methodAxios](url, file, { headers: header })
+
+        if (uploadAws.code === 0) {
+          onChange && onChange(fileUrl)
+          setloading(false)
+        } else {
+          setloading(false)
+        }
+      } else {
+        setloading(false)
+      }
+      setErrList([])
+    } catch (e:any) {
+      const { message } = e
+
+      setErrList((message as string).split('-'))
+      setloading(false)
+    }
   }
 
   const config = {
@@ -115,9 +145,10 @@ const UploadFIle = (props: Props): JSX.Element => {
         singleUpload(file)
       } else {
         // 表单的
-        onChange && onChange(file)
+        formOnChange(file)
       }
-      getFileSrc(file)
+
+      // getFileSrc(file)
       return false;
     },
   }
@@ -170,9 +201,22 @@ const UploadFIle = (props: Props): JSX.Element => {
   }
   return (
     <div styleName='UploadFIle' className={`UploadFIle_container ${className}`}>
-      {
-        getView()
-      }
+      <Spin spinning={loading}>
+        <div className='upload_wrap'>
+          {
+            getView()
+          }
+        </div>
+      </Spin>
+      <div className='err_list_wrap'>
+        {
+          errList.map((o) => {
+            return (
+              <div key={o}>{o}</div>
+            )
+          })
+        }
+      </div>
     </div>
   )
 }

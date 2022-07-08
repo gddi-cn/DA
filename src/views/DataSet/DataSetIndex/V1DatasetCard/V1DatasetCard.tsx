@@ -1,5 +1,5 @@
 import { Image, Tooltip, Spin } from 'antd'
-import datasetDefault from '@src/asset/images/datasetDefault.jpg'
+import datasetDefault from '@src/asset/images/datasetDefault.png'
 import { Tag } from '@src/UIComponents'
 import { MODEL_TYPES } from '@src/constants'
 import { ReactComponent as Lei } from './images/lei.svg'
