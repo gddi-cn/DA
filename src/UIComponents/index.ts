@@ -28,6 +28,8 @@ import SmallButton from './SmallButton'
 
 import GEcharts from './GEcharts'
 
+import UIDatasetVisual from './UIDatasetVisual'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -41,5 +43,6 @@ export {
   FooterBar,
   ReactCusScrollBar,
   SmallButton,
-  GEcharts
+  GEcharts,
+  UIDatasetVisual
 }

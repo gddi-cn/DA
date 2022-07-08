@@ -29,7 +29,7 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
   const { setSelectData } = props
 
   const [show, setShow] = useState(false)
-  const isFirstLoading = useRef(true)
+
   const params = useRef({
     page: 1,
     page_size: 30,
@@ -41,7 +41,6 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
   const [activeId, setActiveId] = useState<string>('')
 
   useEffect(() => {
-    isFirstLoading.current = false
     // 弱智组件，你TM为啥要在init的时候获取target啊？
     setShow(true)
   }, [])

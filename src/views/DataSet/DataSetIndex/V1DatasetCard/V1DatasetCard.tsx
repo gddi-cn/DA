@@ -17,6 +17,7 @@ export type Data = {
   status: string,
   summary: string,
   latest_version: {
+    id:string,
     tag: string,
     train_set: {
       image_count: number,
@@ -58,7 +59,7 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
           </div>
         </div>
         <div className='third_row_wrap'>
-          <Tag text='共享' type='nomal' className='dataset_tag' />
+          {/* <Tag text='共享' type='nomal' className='dataset_tag' /> */}
           <Tag text={(MODEL_TYPES as any)[scenes] || '未知类型'} type='primary' className='dataset_tag' />
         </div>
       </div>

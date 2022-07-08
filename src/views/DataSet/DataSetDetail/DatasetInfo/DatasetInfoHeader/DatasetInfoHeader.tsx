@@ -3,11 +3,14 @@ import { ReactComponent as DownArrow } from './icon/chevron-down_minor.svg'
 import { Select } from 'antd'
 import api from '@api'
 import Qs from 'qs'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import type { SetStateAction, Dispatch } from 'react'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import EditDataset from '../../../DataSetIndex/V1DatasetCard/EditDataset'
+import { SmallButton } from '@src/UIComponents'
+import { APP_DATA_SET_INDEX } from '@router'
+
 import './DatasetInfoHeader.module.less'
 
 const { Option } = Select;
@@ -17,6 +20,7 @@ type Props={
     setVersion: Dispatch<SetStateAction<any>>
 }
 const DatasetInfoHeader = (props:Props): JSX.Element => {
+  const navigate = useNavigate()
   const { datasetInfo, initFetchDatasetInfo, setVersion } = props
 
   const location = useLocation()
@@ -35,10 +39,16 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
           if (res.code === 0) {
             const list = res.data || [];
             const target = (list as Array<any>).find((o) => o.id === version_id)
-
+            console.log(target, 'target')
             if (target) {
               setValue(target.tag)
               setVersion(target)
+            } else {
+              const target = list[0]
+              if (target) {
+                setValue(target.tag)
+                setVersion(target)
+              }
             }
             setVersionList(list)
           }
@@ -60,6 +70,11 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
     setVersion(data)
   }
 
+  const handleGotoList = () => {
+    navigate({
+      pathname: APP_DATA_SET_INDEX
+    })
+  }
   return (
     <div styleName='DatasetInfoHeader' id='DatasetInfoHeader'>
 
@@ -79,6 +94,7 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
 
       </div>
       <EditDataset data={datasetInfo} type='nomal' eleId='root' callback={initFetchDatasetInfo} />
+      <SmallButton type='nomal' className='goback_wrap' onClick={handleGotoList}>返回数据列表</SmallButton>
     </div>
   )
 }

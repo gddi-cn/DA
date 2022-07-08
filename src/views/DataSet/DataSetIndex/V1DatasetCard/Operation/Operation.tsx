@@ -5,7 +5,9 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import type { FectData } from '../../DatasetList/DatasetList'
 import api from '@api'
 import EditDataset from '../EditDataset'
-// import { isNil } from 'lodash';
+import Qs from 'qs'
+import { APP_DATASET_DETAIL } from '@router'
+import { useNavigate } from 'react-router-dom'
 import type { Data } from '../V1DatasetCard'
 import './Operation.module.less'
 
@@ -18,6 +20,7 @@ type Props={
 function Operation (props: Props): JSX.Element {
   const { setLoading, fetchData, data } = props
 
+  const navigate = useNavigate()
   const deleteDataset = async () => {
     setLoading(true)
     const res = await api.delete(`/v2/datasets/${data?.id}`);
@@ -49,8 +52,18 @@ function Operation (props: Props): JSX.Element {
     evt.stopPropagation()
   }
 
+  const handleGotoDetail = () => {
+    console.log(data)
+    const search = Qs.stringify({ id: data?.id, version_id: data?.latest_version?.id })
+    navigate({
+      pathname: APP_DATASET_DETAIL,
+      search: search
+    })
+  }
+
   return (
     <div styleName='Operation' onClick={handlePrevent}>
+      <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
       <EditDataset data={data} callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
       <SmallButton type='delete' onClick={handleDelete}>删除</SmallButton>
 

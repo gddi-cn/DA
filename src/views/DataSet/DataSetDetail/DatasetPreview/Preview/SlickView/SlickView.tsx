@@ -1,11 +1,129 @@
+import api from '@api'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { ImageSlider, UIDatasetVisual } from '@src/UIComponents'
+import { processData } from '../utils/getDataInfo'
+import { isNil, isEmpty } from 'lodash'
 
 import './SlickView.module.less'
 
-const SlickView = (props: any): JSX.Element => {
-  console.log(props)
+export type FectData = {
+    isInit?: boolean,
+
+    callback?: () => void
+}
+
+type RenderViewProps = {
+    data: any,
+    scenes: string,
+}
+type Props = {
+    scenes: string,
+    classInfo: any,
+    currentId: any
+}
+
+const RenderView = (props: RenderViewProps) => {
+  const { data, scenes } = props
+  const datainfo = processData(data, scenes)
+
+  if (isEmpty(datainfo)) {
+    return null
+  }
+  const {
+
+    url,
+
+    rawImgDataSet,
+
+  } = datainfo
+  // 这里不能让react复用、我猜是离屏canvas导致的缓存问题~
+  return (
+    <UIDatasetVisual
+      key={Math.random().toString(36).slice(2)}
+      url={url}
+      zoom={true}
+      canvasData={rawImgDataSet || []}
+      drawCanvasData={scenes === 'detection' || scenes === 'monocular_3d_detection'}
+      hasHtmlTips={scenes === 'classify'}
+    />
+  )
+}
+
+const SlickView = (props: Props): JSX.Element => {
+  const { currentId, scenes, classInfo } = props
+  const { class_id } = classInfo
+  const [dataList, setDataList] = useState<Array<any>>([])
+  const [total, setTotal] = useState<number>(0)
+
+  const params = useRef({
+
+    page_size: 10,
+    scene: undefined
+  })
+  const page = useRef(0)
+  const fetchData = useCallback(
+    async (funcInfo?: FectData) => {
+      try {
+        if (funcInfo) {
+          // 初始化
+          const { isInit } = funcInfo
+          if (isInit) {
+            const scrollRef = document.getElementById('scrollableDiv')?.firstChild as any
+            if (scrollRef) {
+              scrollRef?.scrollTo({
+                top: 0,
+                // behavior: 'smooth'
+              })
+            }
+
+            page.current = 1
+          }
+        }
+
+        const res = await api.get(`/v2/sub-datasets/${currentId}/images`, { params: { ...params.current, class_id, page: page.current } })
+        if (res.code === 0) {
+          const { items, total } = res.data
+
+          if (!isNil(items)) {
+            setDataList(items)
+            setTotal(total)
+          }
+
+          funcInfo?.callback && funcInfo.callback()
+        } else {
+
+        }
+      } catch (e) {
+
+      }
+    }, [currentId, class_id]
+  )
+
+  useEffect(() => {
+    fetchData({ isInit: true })
+    // const fn = () => {
+    //   fetchData({ isInit: true })
+    // }
+    // window.addEventListener('resize', fn)
+    // return () => {
+    //   window.removeEventListener('resize', fn)
+    // }
+  }, [fetchData])
+
+  const renderView = (data: any) => {
+    return (
+      <RenderView data={data} scenes={scenes}/>
+    )
+  }
+
+  const renderDotView = (o: any) => {
+    return (
+      <img className='img_dot_btn' src={o?.thumbnail} />
+    )
+  }
   return (
     <div styleName='SlickView'>
-          SlickView
+      <ImageSlider needCache={true} page={page} fetchData={fetchData} total={total} dataList={dataList} renderView={renderView} renderDotView={renderDotView} />
     </div>
   )
 }

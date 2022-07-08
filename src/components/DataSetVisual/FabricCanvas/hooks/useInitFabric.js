@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { fabric } from 'fabric'
 import { isEmpty } from 'lodash'
 
@@ -56,6 +56,7 @@ const setDropAndScale = (ctx) => {
 }
 
 export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoom = true }) => {
+  const fbIns = useRef(null)
   useEffect(() => {
     if (canvasEle.current && canvasContainer.current && url) {
       const image = new Image()
@@ -68,20 +69,20 @@ export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoo
             clearTimeout(timer)
             return
           }
-          let fbctx = null
+
           if (zoom) {
-            fbctx = new fabric.Canvas(canvasEle.current)
+            fbIns.current = new fabric.Canvas(canvasEle.current)
           } else {
-            fbctx = new fabric.StaticCanvas(canvasEle.current)
+            fbIns.current = new fabric.StaticCanvas(canvasEle.current)
           }
 
           const width = (this).naturalWidth;
 
           const height = (this).naturalHeight
 
-          fbctx.setBackgroundImage(
+          fbIns.current.setBackgroundImage(
             url,
-            fbctx.renderAll.bind(fbctx),
+            fbIns.current.renderAll.bind(fbIns.current),
             {
               width,
               height,
@@ -91,9 +92,9 @@ export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoo
           )
 
           // 设置画布宽高
-          fbctx.setWidth((canvasContainer.current).offsetWidth).setHeight((canvasContainer.current).offsetHeight)
+          fbIns.current.setWidth((canvasContainer.current).offsetWidth).setHeight((canvasContainer.current).offsetHeight)
           // 设置矩阵适应画布大小,如果图片超级大
-          const matrix = fbctx.viewportTransform
+          const matrix = fbIns.current.viewportTransform
           // 先直接 看看直接设定宽度为容器宽度
           matrix[0] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
           matrix[3] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
@@ -122,23 +123,30 @@ export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoo
           const tranY = ((canvasContainer.current).offsetHeight - _height) / 2
           matrix[4] = tranX
           matrix[5] = tranY
-          fbctx.viewportTransform = matrix
+          fbIns.current.viewportTransform = matrix
 
           // 然而实际上后端返回的啥我也暂时不清楚，有毒
           if (canvasData && !isEmpty(canvasData)) {
             for (const o of canvasData) {
-              drawData(fbctx, o)
+              drawData(fbIns.current, o)
             }
           }
-          fbctx.renderAll();
+          fbIns.current.renderAll();
           if (zoom) {
             // const myCtx = new Fb(fbctx)
-            disableAnyFuck(fbctx)
-            setDropAndScale(fbctx)
+            disableAnyFuck(fbIns.current)
+            setDropAndScale(fbIns.current)
           }
           clearTimeout(timer)
         })
       }
+    }
+
+    return () => {
+      if (fbIns.current?.dispose) {
+        fbIns.current.dispose()
+      }
+      fbIns.current = null
     }
   }, [url, canvasEle, canvasContainer, zoom, canvasData])
 }

@@ -1,6 +1,10 @@
-import { useMemo, useState, useEffect, useCallback, SetStateAction, Dispatch } from 'react'
+import { useMemo, useState, useEffect, useCallback } from 'react'
 // import { message } from 'antd'
+import type { SetStateAction, Dispatch } from 'react'
 import { isEmpty, isNil } from 'lodash'
+import { ReactComponent as BlueL } from '../icon/blue_left.svg'
+import { ReactComponent as BlueR } from '../icon/blue_right.svg'
+
 import './SlickContent.module.less'
 
 type Record = {
@@ -127,16 +131,21 @@ const SlickContent = (props: Props): JSX.Element => {
     return renderView(dataSource.next)
   }, [dataSource, renderView])
 
+  // const handlePrevent = (evt:MouseEvent<HTMLDivElement>) => {
+  //   evt.preventDefault()
+  //   evt.stopPropagation()
+  // }
+
   return (
     <div className='content_root' styleName='SlickContent'>
       <div className='abs_btn_previous' onClick={handlePrevious}>
-        《
+        <BlueL />
       </div>
       <div className='abs_btn_next' onClick={handleNext}>
-        》
+        <BlueR />
       </div>
-      <div className='content_wrap'>
-        <div className={`img_wrap ${aniClass.previous}`}>
+      <div className='content_wrap' >
+        <div className={`img_wrap ${aniClass.previous}`} >
           {
             preView_previous
           }

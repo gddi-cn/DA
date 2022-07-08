@@ -1,36 +1,50 @@
 
 import PreviewHeader from './PreviewHeader'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import ListView from './ListView'
 import SlickView from './SlickView'
+import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import './Preview.module.less'
 
 type Props = {
-    classInfo: any
+    classInfo: any,
+    datasetInfo: Data,
+    currentId: any
 }
 const Preview = (props: Props): JSX.Element => {
-  const { classInfo } = props
+  const { classInfo, datasetInfo, currentId } = props
+  const { scenes } = datasetInfo
   const [viewType, setViewType] = useState<string>('grid')
 
-  const view = useMemo(() => {
+  const View = () => {
     if (viewType === 'grid') {
-      return <ListView></ListView>
+      return (
+        <ListView
+          scenes={scenes}
+          classInfo={classInfo}
+          currentId={currentId}
+        />
+      )
     }
 
     if (viewType === 'slick') {
       return (
-        <SlickView />
+        <SlickView
+          scenes={scenes}
+          classInfo={classInfo}
+          currentId={currentId}
+        />
       )
     }
 
     return null
-  }, [viewType])
+  }
 
   return (
     <div styleName='Preview'>
       <PreviewHeader classInfo={classInfo} setViewType={setViewType} />
       <div className='preview_content_wrap'>
-        {view}
+        <View />
       </div>
     </div>
   )

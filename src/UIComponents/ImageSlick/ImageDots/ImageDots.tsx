@@ -1,5 +1,7 @@
 
 import { SetStateAction, Dispatch } from 'react'
+import { ReactComponent as Left } from '../icon/lfet.svg'
+import { ReactComponent as Right } from '../icon/right.svg'
 import './ImageDots.module.less'
 
 // type Record = {
@@ -43,7 +45,7 @@ const ImageDots = (props: Props): JSX.Element => {
   return (
     <div styleName='ImageDots' className='data_list_wrap'>
       <div className='dots_btn_previous' onClick={handleGetPrevious}>
-        左边
+        <Left/>
       </div>
       <div className='images_dots_list'>
         {
@@ -61,7 +63,7 @@ const ImageDots = (props: Props): JSX.Element => {
         }
       </div>
       <div className='dots_btn_next' onClick={handleGetNextPage}>
-        you边
+        <Right />
       </div>
     </div>
   )

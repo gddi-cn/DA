@@ -4,6 +4,7 @@ import ImageDots from './ImageDots'
 import './ImageSlick.module.less'
 import { useState, useEffect } from 'react'
 import { message } from 'antd'
+import type { MutableRefObject } from 'react'
 import { isNil } from 'lodash'
 
 // type Record ={
@@ -17,18 +18,21 @@ type Props ={
   renderView: (data:any) => React.ReactNode,
   renderDotView: (data: any) => React.ReactNode,
   page_size?:number,
-  fetchData?: (page:number) => void,
+  page: MutableRefObject<number>,
+  fetchData?: () => void,
   needCache?:boolean,
   // 这个加不加无所谓吧，网速不好可能会出现问题，毕竟这个是加载数据的
-  loadingLock?:boolean
+  loadingLock?:boolean,
+
 }
 const ImageSlick = (props:Props): JSX.Element => {
-  const { dataList = [], renderView, renderDotView, fetchData, total, page_size = 10 } = props
+  console.log('我没更新吧？')
+  const { dataList = [], renderView, renderDotView, fetchData, total, page_size = 10, page } = props
 
   // // 存放看过的数据，其实也就是按查询的一页一页的
   // const dataCache = useRef<Array<Array<Record>>>([])
   // 当前页数
-  const [page, setPage] = useState(1)
+  // const [page, setPage] = useState(1)
 
   // 设置内容List
   const [contenList, SetContentList] = useState<Array<any>>(dataList)
@@ -52,15 +56,14 @@ const ImageSlick = (props:Props): JSX.Element => {
 
   useEffect(() => {
     // 切换到最后一页搞不好没这个东西的，所以愉快决定是第一个拉
-    console.log(activeIndex, 'activeIndex')
-    console.log(dataList, 'dataList')
+
     if (isNil(dataList[activeIndex])) {
       setActiveIndex(0)
     }
   }, [dataList, activeIndex])
 
   const isStart = () => {
-    return page === 1
+    return page.current === 1
   }
 
   const getPreviousPageData = () => {
@@ -68,8 +71,8 @@ const ImageSlick = (props:Props): JSX.Element => {
       message.warning('已经回到起点')
       return
     }
-    const _page = page - 1
-    setPage(_page)
+    page.current = page.current - 1
+
     setActiveIndex(page_size - 1)
     // if (needCache) {
     //   const data = dataCache.current[_page]
@@ -77,11 +80,11 @@ const ImageSlick = (props:Props): JSX.Element => {
     // } else {
     //   fetchData && fetchData(_page)
     // }
-    fetchData && fetchData(_page)
+    fetchData && fetchData()
   }
 
   const isLast = () => {
-    const mut_page = page - 1
+    const mut_page = page.current - 1
     const num = mut_page * page_size + dataList.length
 
     return total === num
@@ -92,10 +95,10 @@ const ImageSlick = (props:Props): JSX.Element => {
       message.warning('已到世界的尽头')
       return
     }
-    const _page = page + 1
-    setPage(_page)
+    page.current = page.current + 1
+
     setActiveIndex(0)
-    fetchData && fetchData(_page)
+    fetchData && fetchData()
   }
 
   const leftDotClick = () => {
@@ -103,8 +106,7 @@ const ImageSlick = (props:Props): JSX.Element => {
       message.warning('已经回到起点')
       return
     }
-    const _page = page - 1
-    setPage(_page)
+    page.current = page.current - 1
 
     // if (needCache) {
     //   const data = dataCache.current[_page]
@@ -112,7 +114,7 @@ const ImageSlick = (props:Props): JSX.Element => {
     // } else {
     //   fetchData && fetchData(_page)
     // }
-    fetchData && fetchData(_page)
+    fetchData && fetchData()
   }
 
   const rightDotClick = () => {
@@ -120,9 +122,9 @@ const ImageSlick = (props:Props): JSX.Element => {
       message.warning('已到世界的尽头')
       return
     }
-    const _page = page + 1
-    setPage(_page)
-    fetchData && fetchData(_page)
+    page.current = page.current + 1
+
+    fetchData && fetchData()
   }
 
   return (

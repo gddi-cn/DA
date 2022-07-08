@@ -15,13 +15,14 @@ type DataItem = {
 
 //
 type Props = {
-  url?: string,
-  data?: Array<DataItem>,
-  zoom?: boolean
+  url: string,
+  data: Array<DataItem>,
+  zoom?: boolean,
+  drawCanvasData?: boolean
 }
 
 const FabricCanvas = (props: Props) => {
-  const { url, data, zoom } = props
+  const { url, data, zoom, drawCanvasData } = props
 
   const canvas = useRef<any>(null)
   const canvasContainer = useRef<any>(null)
@@ -29,7 +30,7 @@ const FabricCanvas = (props: Props) => {
   useInitFabric({
     canvasEle: canvas,
     canvasContainer,
-    canvasData: data || [],
+    canvasData: drawCanvasData ? data : [],
     url,
     zoom
   })
