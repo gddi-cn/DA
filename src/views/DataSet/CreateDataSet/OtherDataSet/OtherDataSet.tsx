@@ -9,11 +9,20 @@ import './OtherDataSet.module.less'
 
 const OtherDataSet = (): JSX.Element => {
   const [currentStep, setCurrentStep] = useState(NaN)
-  const [createInfo, setCreateInfo] = useState<any>(
+
+  // 之前选中曼孚的Item 数据
+  const [initPageInfo, setInitPageInfo] = useState<any>(
     {}
   )
 
-  console.log(createInfo, 'createInfo')
+  // 第三方平台的数据
+  const [thirdInfo, setThirdInfo] = useState<any>(
+    {}
+  )
+
+  const [baseInfo, setBaseInfo] = useState<any>(
+    {}
+  )
 
   useEffect(() => {
     setCurrentStep(1)
@@ -21,17 +30,17 @@ const OtherDataSet = (): JSX.Element => {
 
   const View = useMemo(() => {
     const arr = [
-      <SelectPlatform key='SelectTrainType' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
-      <SelectProject key='DatasetBaseInfoForm' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
-      <BaseInfoForm key='SelectDatasetFile' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
+      <SelectPlatform key='SelectTrainType' setCurrentStep={setCurrentStep} thirdInfo={thirdInfo} setThirdInfo={setThirdInfo} setInitPageInfo={setInitPageInfo} />,
+      <SelectProject key='DatasetBaseInfoForm' setCurrentStep={setCurrentStep} initPageInfo={initPageInfo} thirdInfo={thirdInfo} setThirdInfo={setThirdInfo }/>,
+      <BaseInfoForm key='SelectDatasetFile' setCurrentStep={setCurrentStep} setBaseInfo={setBaseInfo} baseInfo={baseInfo}/>,
       <AfterCreate key='AfterUploaded' setCurrentStep={setCurrentStep} />
     ]
     return arr[currentStep - 1] || null
-  }, [currentStep, createInfo])
+  }, [currentStep, initPageInfo, thirdInfo, baseInfo])
   return (
     <div styleName='OtherDataSet'>
       <div className='step_wrap'>
-        <CreateDatasetStep type='thirdparty' activeKey={1} />
+        <CreateDatasetStep type='thirdparty' activeKey={currentStep} />
       </div>
       <div className='content_wrap'>
         {View}
