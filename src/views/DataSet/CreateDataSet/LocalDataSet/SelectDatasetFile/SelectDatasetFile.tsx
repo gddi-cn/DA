@@ -1,11 +1,12 @@
 
 import { FooterBar, UploadFile } from '@src/UIComponents'
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { Select, message } from 'antd';
 import api from '@api'
 import { S3Uploader } from '@src/components'
 import { ReactComponent as Tips } from './icon/tips.svg'
-import { pick } from 'lodash'
+
+import UploadingView from './UploadingView'
 import './SelectDatasetFile.module.less'
 
 const { Option } = Select;
@@ -14,7 +15,13 @@ const regExp = /\.(zip|tar|gz)$/
 
 const SelectDatasetFile = (props: any): JSX.Element => {
   console.log(props)
+  const { createInfo, setCurrentStep, setCreateInfo } = props
   const [percent, setLocalPercent] = useState<any>(0)
+  const [isUploading, setIsUploading] = useState(false)
+  const [fileInfo, setFileInfo] = useState({
+    filename: '',
+    size: 0
+  })
   const uploadCurrent = useRef<any>(null)
   const timeRef = useRef<any>({
     pre: 0,
@@ -25,7 +32,9 @@ const SelectDatasetFile = (props: any): JSX.Element => {
 
   const handleOnuploadBigData = async (file:File|undefined) => {
     if (file) {
+      setIsUploading(true)
       console.log(file)
+      setFileInfo({ filename: file.name, size: file.size })
       const defaultInitConfig = {
         accessKeyId: 'HCIYFRUYM897VE1PUG47',
         secretAccessKey: 'krjFd3Tdhx2XcX0psfVJWfr0jkrfNKpEj40AsLDD',
@@ -74,13 +83,28 @@ const SelectDatasetFile = (props: any): JSX.Element => {
               console.log(err)
             }
             if (data) {
-              // 删除张宇的会话
-              // 获取地址搞事情  await api.deletes(`/v2/storage/s3/sessions/${hash}`)
-              const res = await api.post(`/v2/draft/${1}/upload`, {
-                ...pick(['bucket', 'filename', 'key'], data)
-              })
-              if (res.code === 0) {
-                message.success('上传成功')
+              // 先创建数据集、成了就扔进去
+              try {
+                const creteDatares = await api.post('/v2/datasets', createInfo);
+                console.log(creteDatares, 'creteDatares')
+                if (creteDatares.code === 0) {
+                  console.log('90909090')
+                  const { draft_id } = creteDatares.data
+                  const { bucket, filename, key } = data
+
+                  const res = await api.post(`/v2/draft/${draft_id}/upload`, {
+                    bucket, filename, key
+                  })
+
+                  if (res.code === 0) {
+                    message.success('创建数据集成功')
+                    setCurrentStep(4)
+                    // 创建成功就清理
+                    setCreateInfo({})
+                  }
+                }
+              } catch (e) {
+                console.log(e)
               }
             }
           },
@@ -96,15 +120,20 @@ const SelectDatasetFile = (props: any): JSX.Element => {
           myupload.send()
         }
       } catch (e) {
-
+        console.log(e)
       }
     }
   }
 
-  return (
-    <div styleName='SelectDatasetFile' id='SelectDatasetFile'>
-      <div className='SelectDatasetFile_wrap'>
+  const uploadview = useMemo(() => {
+    return (
+      <UploadingView fileInfo={fileInfo} percent={percent} timeRef={timeRef}></UploadingView>
+    )
+  }, [fileInfo, percent])
 
+  const topview = useMemo(() => {
+    return (
+      <>
         <div className='select_percent'>
           <div className='select_wrap'>
             <div className='form_title'>
@@ -121,20 +150,33 @@ const SelectDatasetFile = (props: any): JSX.Element => {
         </div>
 
         <div className='tips_wrap'>
-          <Tips/>
-        </div>
+          <Tips />
+        </div></>
+    )
+  }, [])
+
+  return (
+    <div styleName='SelectDatasetFile' id='SelectDatasetFile'>
+      <div className='SelectDatasetFile_wrap'>
+        {
+          topview
+        }
 
         <div className='upload_wrap'>
           <div className='form_title'>
             <p>*</p><p>上传文件</p>
           </div>
           <div className='form_content'>
-            <UploadFile hasPreview={true} tips="支持.zip、tar、gz格式 " regExp={regExp} onUpload={handleOnuploadBigData}>
+            {
+              isUploading ? uploadview : (
+                <UploadFile hasPreview={true} tips="支持.zip、tar、gz格式 " regExp={regExp} onUpload={handleOnuploadBigData}>
 
-            </UploadFile>
+                </UploadFile>
+              )
+            }
           </div>
         </div>
-        {percent}
+
       </div>
       <FooterBar rightContent={null} />
     </div>

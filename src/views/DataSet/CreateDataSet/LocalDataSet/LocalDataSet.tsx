@@ -2,7 +2,7 @@ import { CreateDatasetStep } from '@src/UIComponents'
 import SelectTrainType from './SelectTrainType'
 import DatasetBaseInfoForm from './DatasetBaseInfoForm'
 import SelectDatasetFile from './SelectDatasetFile'
-
+import AfterUploaded from './AfterUploaded'
 import './LocalDataSet.module.less'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -30,8 +30,8 @@ const LocalDataSet = (props: any): JSX.Element => {
     const arr = [
       <SelectTrainType key='SelectTrainType' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
       <DatasetBaseInfoForm key='DatasetBaseInfoForm' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
-      <SelectDatasetFile key='SelectDatasetFile' setCurrentStep={setCurrentStep} />,
-
+      <SelectDatasetFile key='SelectDatasetFile' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
+      <AfterUploaded key='AfterUploaded' setCurrentStep={setCurrentStep} />
     ]
     return arr[currentStep - 1] || null
   }, [currentStep, createInfo])

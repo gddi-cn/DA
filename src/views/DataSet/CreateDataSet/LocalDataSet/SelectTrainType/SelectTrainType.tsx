@@ -13,33 +13,35 @@ import { APP_DATASET_CREATE_TYPE } from '@router'
 import './SelectTrainType.module.less'
 import { message } from 'antd'
 
-const MODEL_TYPES_ICON:any = {
+const MODEL_TYPES_ICON: any = {
   detection: <Mubiaojiance />,
   classify: <Tupianfenlei />,
   // face_detection: '人脸检测',
   // face_recognition: '人脸识别',
-  cityscapes_segment: <Tongyongfenge/>,
-  portrait_segment: <Xiaoxiangfenge/>,
-  pose_detection: <Zitaijiance/>,
+  cityscapes_segment: <Tongyongfenge />,
+  portrait_segment: <Xiaoxiangfenge />,
+  pose_detection: <Zitaijiance />,
   monocular_3d_detection: <Danmu3d />
 }
 
 type arrItem = {
-    icon:React.ReactNode,
-    sences:string
+    icon: React.ReactNode,
+    sences: string,
+    value: string
 }
 const arr: arrItem[] = []
 
 for (const [k, v] of Object.entries(MODEL_TYPES)) {
   arr.push({
     icon: MODEL_TYPES_ICON[k],
-    sences: v
+    sences: v,
+    value: k
   })
 }
 
-type Props={
-    setCurrentStep:any,
-    createInfo:any,
+type Props = {
+    setCurrentStep: any,
+    createInfo: any,
     setCreateInfo: any,
 }
 
@@ -81,12 +83,12 @@ const SelectTrainType = (props: Props): JSX.Element => {
 
   const handleClick = (data: arrItem) => {
     console.log(data)
-    setActiveType(data.sences)
+    setActiveType(data.value)
   }
 
   const getCls = (o: arrItem) => {
-    const { sences } = o
-    if (activeType === sences) {
+    const { value } = o
+    if (activeType === value) {
       return 'SelectTrainType_list_item btn-16 SelectTrainType_list_item_active'
     }
     return 'SelectTrainType_list_item btn-16'
@@ -106,7 +108,7 @@ const SelectTrainType = (props: Props): JSX.Element => {
           }
         </div>
       </div>
-      <FooterBar rightContent={rightContent}/>
+      <FooterBar rightContent={rightContent} />
     </div>
   )
 }
