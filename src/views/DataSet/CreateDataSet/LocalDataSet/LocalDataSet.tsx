@@ -3,8 +3,8 @@ import SelectTrainType from './SelectTrainType'
 import DatasetBaseInfoForm from './DatasetBaseInfoForm'
 import SelectDatasetFile from './SelectDatasetFile'
 import AfterUploaded from './AfterUploaded'
-import './LocalDataSet.module.less'
 import { useEffect, useMemo, useState } from 'react'
+import './LocalDataSet.module.less'
 
 export type CreateInfo={
     scenes?:string,

@@ -5,7 +5,8 @@ import {
   APP_MODEL_INDEX,
   APP_DATASET_DETAIL,
   APP_DATASET_CREATE_TYPE,
-  APP_DATASET_LOCALDATA
+  APP_DATASET_LOCALDATA,
+  APP_DATASET_IMPORT
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -21,6 +22,7 @@ const ModelIndex = lazy(() => import('@src/views/Model/ModelIndex'));
 const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/SelectCreateType'));
 
 const LocalDataSet = lazy(() => import('@src/views/DataSet/CreateDataSet/LocalDataSet'));
+const OtherDataSet = lazy(() => import('@src/views/DataSet/CreateDataSet/OtherDataSet'));
 
 export default {
   path: '/app',
@@ -45,6 +47,12 @@ export default {
         {
           path: APP_DATASET_LOCALDATA,
           element: SuspenseFn(LocalDataSet),
+
+        },
+
+        {
+          path: APP_DATASET_IMPORT,
+          element: SuspenseFn(OtherDataSet),
 
         },
         {

@@ -19,3 +19,5 @@ export const APP_DATASET_DETAIL = '/app/dataset_detail'
 export const APP_DATASET_CREATE_TYPE = '/app/select_carete_type'
 
 export const APP_DATASET_LOCALDATA = '/app/upload_local_dataset'
+
+export const APP_DATASET_IMPORT = '/app/import_thirdparty_dataset'
