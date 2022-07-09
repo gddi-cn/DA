@@ -75,7 +75,9 @@ axios.interceptors.response.use(
     // const code = error.response?.status
 
     // =400不能改，s3专用
+
     if (code !== 401 && code >= 400 && code < 500) {
+      console.log('s3aaaaa')
       return Promise.resolve({
         code: -1,
         message: error.response ? error.response.data?.message : error?.message

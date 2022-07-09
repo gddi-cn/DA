@@ -3,7 +3,7 @@
 import S3 from 'aws-sdk/clients/s3';
 import api from '@api'
 import path from 'path';
-import { debounce, pick, isEmpty, isNil } from 'lodash'
+import { debounce, isEmpty, isNil } from 'lodash'
 
 const AWS = require('aws-sdk/lib/core');
 const byteLength = AWS.util.string.byteLength;
@@ -161,7 +161,8 @@ export default class S3Uploader {
     this.saveParams = { ...params, Key: this.fileHash + new Date().valueOf() + '.' + path.extname(this.filename).substr(1) }
     this.validateBody(Body)
     this.adjustTotalBytes()
-    this.serviceParams = pick(['Bucket', 'Key'], this.saveParams)
+    const { Bucket, Key } = this.saveParams
+    this.serviceParams = { Bucket, Key }
     this.processCallback = params?.processCallback
     // 防抖这个B
     this.debounced = debounce(this.processCallback, 1000, { maxWait: 1200 });
@@ -177,9 +178,10 @@ export default class S3Uploader {
           UploadId, hasUploadParts: true
         })
       } else {
-        this.service.createMultipartUpload(pick(['Bucket', 'Key', 'ACL'], this.saveParams), async (err: any, data: any) => {
+        const { Key, Bucket, ACL } = this.saveParams
+        this.service.createMultipartUpload({ Key, Bucket, ACL }, async (err: any, data: any) => {
           if (err) {
-            // console.log(err, err.stack); // an error occurred
+            console.log(err, err.stack); // an error occurred
             reject(err)
           } else {
             await api.post('/v2/storage/s3/sessions', {
@@ -406,7 +408,8 @@ export default class S3Uploader {
       UploadId: this.UploadId,
       MultipartUpload: {
         Parts: this.completeInfo.map((o: any) => {
-          return pick(['PartNumber', 'ETag'], o)
+          const { PartNumber, ETag } = o
+          return { PartNumber, ETag }
         })
       },
       ...this.serviceParams

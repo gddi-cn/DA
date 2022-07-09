@@ -82,7 +82,7 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
       </div>
       <div className='point'>·</div>
       <div className='tag_wrap' id='area'>
-        <Select value={value} onChange={handleChange} defaultValue="lucy" style={{ width: 'auto' }} bordered={false} suffixIcon={<DownArrow />} getPopupContainer={() => document.getElementById('area') as any} >
+        <Select value={value} onChange={handleChange} style={{ width: 'auto' }} bordered={false} suffixIcon={<DownArrow />} getPopupContainer={() => document.getElementById('area') as any} >
 
           {
             versionList.map((o: any) => {

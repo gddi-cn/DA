@@ -8,8 +8,40 @@
 
     :global {
         .SelectDatasetFile_wrap {
-            width: 450px;
+            width: 436px;
             flex: 1;
+        }
+
+        .ant-select-item-option-selected {
+            background-color: #fff !important;
+            color: #62B0E5 !important;
+        }
+
+        .form_title {
+            display: flex;
+
+            p {
+                &:nth-child(1) {
+                    color: red;
+                }
+
+                &:nth-child(2) {
+                    margin-left: 1px;
+                    color: #202223;
+                }
+            }
+        }
+
+        .select_wrap {
+
+
+            .form_content {
+                margin-top: 2px;
+            }
+        }
+
+        .tips_wrap {
+            margin: 20px 0;
         }
     }
 }

@@ -12,7 +12,7 @@ import './UploadFIle.module.less'
 interface Props {
   regExp?: RegExp,
   onUpload?: (file: File | undefined) => void,
-  onError?: (file: Error) => void,
+  onError?: (err_list:string[]) => void,
   maxSize?: number,
   // multiple?: boolean,
   children?: React.ReactNode,
@@ -44,7 +44,7 @@ const UplaodImageView = (type: string | undefined, tips: React.ReactNode | undef
 }
 
 const UploadFIle = (props: Props): JSX.Element => {
-  const { regExp, onUpload, maxSize, children, className, onChange, tips, type, value, ...rest } = props
+  const { regExp, onUpload, maxSize, children, className, onChange, tips, type, value, onError, ...rest } = props
 
   const [filesrc, setFilesrc] = useState<string>('')
   const [loading, setloading] = useState<any>(false)
@@ -98,8 +98,12 @@ const UploadFIle = (props: Props): JSX.Element => {
       setErrList([])
     } catch (e: any) {
       const { message } = e
-      setErrList((message as string).split('-'))
-      console.log(message)
+      const arr = (message as string).split('-')
+      if (onError) {
+        onError(arr)
+      } else {
+        setErrList(arr)
+      }
     }
   }
 

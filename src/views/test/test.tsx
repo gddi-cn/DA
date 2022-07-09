@@ -3,7 +3,7 @@ import FabricCanvas from '@src/components/DataSetVisual/FabricCanvas'
 import { ScaleRight, Tag, UploadFile } from '@src/UIComponents'
 
 import { useMemo } from 'react'
-import { Button, message } from 'antd'
+import { Button } from 'antd'
 import { UpCircleOutlined } from '@ant-design/icons'
 import './test.module.less'
 
@@ -14,11 +14,6 @@ const Test = (props:any):JSX.Element => {
     console.log(1)
   }
 
-  const handleError = (e:Error) => {
-    const { message: text } = e
-    message.error(text)
-  }
-
   const leftContent = useMemo(() => {
     return (
       <div className='leftContent'>
@@ -26,7 +21,7 @@ const Test = (props:any):JSX.Element => {
 
         <div className='upload_view'>
           <UpCircleOutlined />
-          <UploadFile regExp={/\.(png|jpg|jpeg)$/} maxSize={2 * 1024 * 1024} onUpload={onUpload} onError={handleError}>
+          <UploadFile regExp={/\.(png|jpg|jpeg)$/} maxSize={2 * 1024 * 1024} onUpload={onUpload} >
             <Button>上传文件</Button>
           </UploadFile>
           <p>
