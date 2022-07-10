@@ -1,5 +1,5 @@
 
-import { FooterBar, UploadFile } from '@src/UIComponents'
+import { FooterBar, UploadFile, GButton } from '@src/UIComponents'
 import { useState, useRef, useMemo } from 'react'
 import { Select, message } from 'antd';
 import api from '@api'
@@ -7,6 +7,8 @@ import { S3Uploader } from '@src/components'
 import { ReactComponent as Tips } from './icon/tips.svg'
 
 import UploadingView from './UploadingView'
+import { useNavigate } from 'react-router-dom'
+import { APP_LOCAL_FILE_STEP_4, APP_LOCAL_FILE_STEP_2 } from '@router'
 import './SelectDatasetFile.module.less'
 
 const { Option } = Select;
@@ -15,7 +17,7 @@ const regExp = /\.(zip|tar|gz)$/
 
 const SelectDatasetFile = (props: any): JSX.Element => {
   console.log(props)
-  const { createInfo, setCurrentStep, setCreateInfo } = props
+  const navigate = useNavigate()
   const [percent, setLocalPercent] = useState<any>(0)
   const [isUploading, setIsUploading] = useState(false)
   const [fileInfo, setFileInfo] = useState({
@@ -84,6 +86,12 @@ const SelectDatasetFile = (props: any): JSX.Element => {
             }
             if (data) {
               // 先创建数据集、成了就扔进去
+              const createInfo = {
+                scenes: 'detection',
+                name: 'string',
+                summary: 'string'
+
+              }
               try {
                 const creteDatares = await api.post('/v2/datasets', createInfo);
                 console.log(creteDatares, 'creteDatares')
@@ -98,9 +106,10 @@ const SelectDatasetFile = (props: any): JSX.Element => {
 
                   if (res.code === 0) {
                     message.success('创建数据集成功')
-                    setCurrentStep(4)
+                    navigate({
+                      pathname: APP_LOCAL_FILE_STEP_4
+                    })
                     // 创建成功就清理
-                    setCreateInfo({})
                   }
                 }
               } catch (e) {
@@ -155,6 +164,30 @@ const SelectDatasetFile = (props: any): JSX.Element => {
     )
   }, [])
 
+  const rightContent = useMemo(() => {
+    const handleGoback = () => {
+      // 弹窗确认是不是要走
+      if (isUploading) {
+        return
+      }
+      navigate({
+        pathname: APP_LOCAL_FILE_STEP_2
+      })
+    }
+
+    // const goNext = () => {
+    //   navigate({
+    //     pathname: APP_LOCAL_FILE_STEP_4
+    //   })
+    // }
+    return (
+      <div className='footer_btn_wrap'>
+        <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
+        {/* <GButton className={percent <= 100 ? 'not_allow' : 'yes_sir'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton> */}
+      </div>
+    )
+  }, [navigate, isUploading])
+
   return (
     <div styleName='SelectDatasetFile' id='SelectDatasetFile'>
       <div className='SelectDatasetFile_wrap'>
@@ -178,7 +211,7 @@ const SelectDatasetFile = (props: any): JSX.Element => {
         </div>
 
       </div>
-      <FooterBar rightContent={null} />
+      <FooterBar rightContent={rightContent} />
     </div>
   )
 }

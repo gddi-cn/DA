@@ -5,6 +5,8 @@ import { useMemo, cloneElement } from 'react'
 // import { bytesToSize } from '@src/utils'
 // import { isNil, isString } from 'lodash';
 // import api from '@api'
+import { useNavigate } from 'react-router-dom'
+import { APP_LOCAL_FILE_STEP_1, APP_LOCAL_FILE_STEP_3 } from '@router'
 import './DatasetBaseInfoForm.module.less'
 
 const { TextArea } = Input;
@@ -30,29 +32,36 @@ const AmazingWrap = (props: AmazingWrapProps) => {
     </div>
   )
 }
-type Props = {
-  setCurrentStep: any,
-  createInfo: any,
-  setCreateInfo: any,
-}
-const DatasetBaseInfoForm = (props: Props): JSX.Element => {
-  const { setCurrentStep, createInfo, setCreateInfo } = props
+// type Props = {
+//   setCurrentStep: any,
+//   createInfo: any,
+//   setCreateInfo: any,
+// }
+const DatasetBaseInfoForm = (): JSX.Element => {
+  const navigate = useNavigate()
   const [form] = Form.useForm();
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
       //
-      setCurrentStep(1)
+      // setCurrentStep(1)
+      navigate({
+        pathname: APP_LOCAL_FILE_STEP_1
+      })
     }
 
     const goNext = async () => {
       const data = await form.validateFields()
       console.log(data, 'data')
-      const { name, cover, summary } = data
+      // const { name, cover, summary } = data
 
-      const _obj = Object.assign({}, createInfo, { summary, cover: cover, name })
-      setCreateInfo(_obj)
-      setCurrentStep(3)
+      // const _obj = Object.assign({}, createInfo, { summary, cover: cover, name })
+      // setCreateInfo(_obj)
+      // setCurrentStep(3)
+      // 发送socket
+      navigate({
+        pathname: APP_LOCAL_FILE_STEP_3
+      })
     }
     return (
       <div className='footer_btn_wrap'>
@@ -60,7 +69,7 @@ const DatasetBaseInfoForm = (props: Props): JSX.Element => {
         <GButton type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [createInfo, form, setCreateInfo, setCurrentStep])
+  }, [form, navigate])
 
   // const handleNext = async () => {
   //   const data = await form.validateFields()

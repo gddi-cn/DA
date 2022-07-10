@@ -1,10 +1,23 @@
 import { CreateDatasetStep } from '@src/UIComponents'
-import SelectTrainType from './SelectTrainType'
-import DatasetBaseInfoForm from './DatasetBaseInfoForm'
-import SelectDatasetFile from './SelectDatasetFile'
-import AfterUploaded from './AfterUploaded'
-import { useEffect, useMemo, useState } from 'react'
+
+import { Outlet, useLocation } from 'react-router-dom';
+
+import {
+  APP_LOCAL_FILE_STEP_1,
+  APP_LOCAL_FILE_STEP_2,
+  APP_LOCAL_FILE_STEP_3,
+  APP_LOCAL_FILE_STEP_4
+} from '@router'
 import './LocalDataSet.module.less'
+
+const pathkeys :{
+  [index:string]:number
+} = {
+  [APP_LOCAL_FILE_STEP_1]: 1,
+  [APP_LOCAL_FILE_STEP_2]: 2,
+  [APP_LOCAL_FILE_STEP_3]: 3,
+  [APP_LOCAL_FILE_STEP_4]: 4,
+}
 
 export type CreateInfo={
     scenes?:string,
@@ -13,36 +26,17 @@ export type CreateInfo={
     cover?: string
 }
 
-const LocalDataSet = (props: any): JSX.Element => {
-  console.log(props)
-  const [currentStep, setCurrentStep] = useState(NaN)
-  const [createInfo, setCreateInfo] = useState<CreateInfo>(
-    {}
-  )
-
-  console.log(createInfo, 'createInfo')
-
-  useEffect(() => {
-    setCurrentStep(1)
-  }, [])
-
-  const View = useMemo(() => {
-    const arr = [
-      <SelectTrainType key='SelectTrainType' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
-      <DatasetBaseInfoForm key='DatasetBaseInfoForm' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
-      <SelectDatasetFile key='SelectDatasetFile' setCurrentStep={setCurrentStep} createInfo={createInfo} setCreateInfo={setCreateInfo} />,
-      <AfterUploaded key='AfterUploaded' setCurrentStep={setCurrentStep} />
-    ]
-    return arr[currentStep - 1] || null
-  }, [currentStep, createInfo])
-
+const LocalDataSet = (): JSX.Element => {
+  const location = useLocation()
+  const { pathname } = location
+  const currentStep = pathkeys[pathname] || 1
   return (
     <div styleName='LocalDataSet'>
       <div className='step_wrap'>
         <CreateDatasetStep type='local' activeKey={currentStep} />
       </div>
       <div className='content_wrap'>
-        {View}
+        <Outlet />
       </div>
 
     </div>

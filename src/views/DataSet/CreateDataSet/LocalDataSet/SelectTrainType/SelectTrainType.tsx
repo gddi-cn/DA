@@ -1,5 +1,5 @@
 import { FooterBar, GButton } from '@src/UIComponents'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ReactComponent as Mubiaojiance } from './icon/mubiaojiance.svg'
 import { ReactComponent as Tupianfenlei } from './icon/tupianfenlei.svg'
 import { ReactComponent as Tongyongfenge } from './icon/tongyongfenge.svg'
@@ -9,7 +9,7 @@ import { ReactComponent as Danmu3d } from './icon/danmu3d.svg'
 import { isEmpty } from 'lodash'
 import { MODEL_TYPES } from '@src/constants'
 import { useNavigate } from 'react-router-dom'
-import { APP_DATASET_CREATE_TYPE } from '@router'
+import { APP_DATASET_CREATE_TYPE, APP_LOCAL_FILE_STEP_2 } from '@router'
 import './SelectTrainType.module.less'
 import { message } from 'antd'
 
@@ -39,23 +39,23 @@ for (const [k, v] of Object.entries(MODEL_TYPES)) {
   })
 }
 
-type Props = {
-    setCurrentStep: any,
-    createInfo: any,
-    setCreateInfo: any,
-}
+// type Props = {
+//     setCurrentStep: any,
+//     createInfo: any,
+//     setCreateInfo: any,
+// }
 
-const SelectTrainType = (props: Props): JSX.Element => {
-  const { setCurrentStep, createInfo, setCreateInfo } = props
-  const { scenes } = createInfo
+const SelectTrainType = (): JSX.Element => {
+  // const { setCurrentStep, createInfo, setCreateInfo } = props
+
   const navigate = useNavigate()
   const [activeType, setActiveType] = useState('')
 
-  useEffect(() => {
-    if (scenes) {
-      setActiveType(scenes)
-    }
-  }, [scenes])
+  // useEffect(() => {
+  //   if (scenes) {
+  //     setSences(scenes)
+  //   }
+  // }, [scenes])
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
@@ -67,11 +67,12 @@ const SelectTrainType = (props: Props): JSX.Element => {
     const goNext = () => {
       if (isEmpty(activeType)) {
         message.warning('请选择数据类型')
-        return
       }
-      const _obj = Object.assign({}, createInfo, { scenes: activeType })
-      setCreateInfo(_obj)
-      setCurrentStep(2)
+      // const _obj = Object.assign({}, createInfo, { scenes: activeType })
+      // 发送给socket next
+      navigate({
+        pathname: APP_LOCAL_FILE_STEP_2
+      })
     }
     return (
       <div className='footer_btn_wrap'>
@@ -79,7 +80,7 @@ const SelectTrainType = (props: Props): JSX.Element => {
         <GButton className={isEmpty(activeType) ? 'not_allow' : 'yes_sir'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [activeType, createInfo, navigate, setCreateInfo, setCurrentStep])
+  }, [activeType, navigate])
 
   const handleClick = (data: arrItem) => {
     console.log(data)

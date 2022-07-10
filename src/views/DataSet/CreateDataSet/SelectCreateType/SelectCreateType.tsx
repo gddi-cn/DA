@@ -1,7 +1,7 @@
 
 import { ReactComponent as GDDI } from './icon/共达地.svg'
 import { ReactComponent as MANFU } from './icon/曼孚科技.svg'
-import { APP_DATASET_LOCALDATA, APP_DATASET_IMPORT } from '@router'
+import { APP_LOCAL_FILE_STEP_1, APP_DATASET_IMPORT } from '@router'
 import { useNavigate } from 'react-router-dom'
 import './SelectCreateType.module.less'
 
@@ -9,7 +9,7 @@ const SelectCreateType = (props: any): JSX.Element => {
   console.log(props)
   const navigate = useNavigate()
   const handleGotoLocal = () => {
-    navigate({ pathname: APP_DATASET_LOCALDATA })
+    navigate({ pathname: APP_LOCAL_FILE_STEP_1 })
   }
 
   const handleGotoImprot = () => {

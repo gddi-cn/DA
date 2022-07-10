@@ -10,6 +10,8 @@ import {
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
+import localfile from '../localfile';
+
 const NotFound = lazy(() => import('@src/views/NotFound'));
 const App = lazy(() => import('@src/views/container/app'));
 const AutoMLLayout = lazy(() => import('@src/views/container/AutoMLLayout'));
@@ -18,7 +20,6 @@ const GuideHome = lazy(() => import('@src/views/GuideHome'));
 const DataSetIndex = lazy(() => import('@src/views/DataSet/DataSetIndex'));
 const DataSetDetail = lazy(() => import('@src/views/DataSet/DataSetDetail'));
 const ModelIndex = lazy(() => import('@src/views/Model/ModelIndex'));
-
 const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/SelectCreateType'));
 
 const LocalDataSet = lazy(() => import('@src/views/DataSet/CreateDataSet/LocalDataSet'));
@@ -29,6 +30,7 @@ export default {
   strict: true,
   element: SuspenseFn(App),
   children: [
+    // 仅有头部任务的
     {
 
       element: SuspenseFn(AutoMLLayout),
@@ -43,7 +45,7 @@ export default {
           element: SuspenseFn(SelectCreateType),
 
         },
-
+        localfile,
         {
           path: APP_DATASET_LOCALDATA,
           element: SuspenseFn(LocalDataSet),
@@ -55,6 +57,7 @@ export default {
           element: SuspenseFn(OtherDataSet),
 
         },
+        // 有步骤条的
         {
           path: '/app/',
           strict: true,

@@ -2,18 +2,21 @@
 import { ReactComponent as WTF } from './icon/wtf.svg'
 import { GButton } from '@src/UIComponents'
 import { useNavigate } from 'react-router-dom'
-import { APP_DATA_SET_INDEX } from '@router'
+import { APP_DATA_SET_INDEX, APP_LOCAL_FILE_STEP_1 } from '@router'
 import './AfterUploaded.module.less'
 
-type Props={
-    setCurrentStep:any
-}
-const AfterUploaded = (props: Props): JSX.Element => {
-  const { setCurrentStep } = props
+// type Props={
+//     setCurrentStep:any
+// }
+const AfterUploaded = (): JSX.Element => {
   const navigate = useNavigate()
-  const handleClose = () => [
+  const handleClose = () => {
     navigate({ pathname: APP_DATA_SET_INDEX })
-  ]
+  }
+  const handleGotoCreate = () => {
+    // todo:清理所有之前的流程信息
+    navigate({ pathname: APP_LOCAL_FILE_STEP_1 })
+  }
   return (
     <div styleName='AfterUploaded'>
       <div className='AfterUploaded_wrap'>
@@ -33,7 +36,7 @@ const AfterUploaded = (props: Props): JSX.Element => {
 
         <div className='btn_wrap'>
           <GButton className='close_btn' onClick={handleClose}>关闭</GButton>
-          <GButton className='new_btn' onClick={() => { setCurrentStep(1) }}>创建新数据集</GButton>
+          <GButton className='new_btn' onClick={handleGotoCreate}>创建新数据集</GButton>
         </div>
       </div>
 
