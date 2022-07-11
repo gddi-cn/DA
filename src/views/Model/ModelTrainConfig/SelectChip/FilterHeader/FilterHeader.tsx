@@ -24,10 +24,14 @@ const dataList: { label: string, id: string }[] = [
 const FilterHeader = (props: any): JSX.Element => {
   console.log(props)
   const [form] = Form.useForm();
+  const onValuesChange = (changedValues:any, allValues:any) => {
+    console.log(changedValues, allValues)
+    // todo fetch
+  }
   return (
     <div styleName='FilterHeader'>
 
-      <Form form={form} name="control-hooks" className='form_wrap'>
+      <Form form={form} name="control-hooks" className='form_wrap' onValuesChange={onValuesChange}>
         <Form.Item
           name="name"
 
