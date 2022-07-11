@@ -1,5 +1,5 @@
 import TabsHeader from './TabsHeader'
-import { useState } from 'react'
+// import { useState } from 'react'
 import TabContent from './TabContent'
 import Preview from './Preview'
 import type { SetStateAction, Dispatch } from 'react'
@@ -14,17 +14,15 @@ type Props={
 }
 const DatasetPreview = (props: Props): JSX.Element => {
   const { setWhichSet, classInfo, datasetInfo, currentId } = props
-  const [activeKey, setActiveKey] = useState<string>('trainset_id')
 
   const handleChangeTab = (key:string) => {
     console.log(key)
     setWhichSet(key)
-    setActiveKey(key)
   }
 
   return (
     <div styleName='DatasetPreview'>
-      <TabsHeader activeKey={activeKey} handleChangeTab={handleChangeTab}/>
+      <TabsHeader handleChangeTab={handleChangeTab}/>
       <TabContent>
         <Preview classInfo={classInfo} datasetInfo={datasetInfo} currentId={currentId}/>
       </TabContent>

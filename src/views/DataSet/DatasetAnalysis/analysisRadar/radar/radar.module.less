@@ -1,0 +1,114 @@
+.EchartsRadarComponent-echart {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  padding-bottom: 43px;
+
+
+  :global {
+    .idname {
+      width: calc(100vw * 0.26);
+      height: 100%;
+      position: relative;
+      background: #EDF8FF;
+      border-radius: 4px;
+      // color: transparent;
+
+      .r-canvas {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .left {
+      flex: 1;
+      height: 100%;
+      margin-left: 20px;
+      background: #EDF8FF;
+      border-radius: 4px;
+    }
+
+    .details {
+      width: 100%;
+      display: flex;
+      margin-right: 16px;
+
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      height: 100%;
+      position: relative;
+
+
+
+
+
+
+
+    }
+
+    .rotate {
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      overflow: hidden;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pointer {
+      overflow: hidden;
+      border-radius: 100%;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+
+
+        width: calc(100% / 2);
+        height: calc(100% / 2);
+        animation: scanning 4s linear infinite;
+        transform-origin: 100% 100%;
+        background: linear-gradient(45deg,
+            rgba(255, 0, 0, 0) 50%,
+            rgba(255, 0, 0, 0.2) 100%);
+        border-radius: 100% 0 0% 0%;
+      }
+    }
+
+    @keyframes wtf {
+      to {
+        transform: rotate(-360deg);
+      }
+    }
+
+    @keyframes wtf2 {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes scanning {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    // @keyframes rotate360 {
+    //   0% {
+    //     transform: rotate(0deg);
+
+    //   }
+
+    //   to {
+    //     transform: rotate(-360deg) ;
+
+    //   }
+    // }
+  }
+
+}

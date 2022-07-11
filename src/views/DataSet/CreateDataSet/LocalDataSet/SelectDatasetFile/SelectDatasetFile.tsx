@@ -10,6 +10,7 @@ import UploadingView from './UploadingView'
 import { useNavigate } from 'react-router-dom'
 import { APP_LOCAL_FILE_STEP_4, APP_LOCAL_FILE_STEP_2 } from '@router'
 import './SelectDatasetFile.module.less'
+import { isEmpty } from 'lodash';
 
 const { Option } = Select;
 
@@ -20,6 +21,7 @@ const SelectDatasetFile = (props: any): JSX.Element => {
   const navigate = useNavigate()
   const [percent, setLocalPercent] = useState<any>(0)
   const [isUploading, setIsUploading] = useState(false)
+  const [s3info, setS3info] = useState<any>({})
   const [fileInfo, setFileInfo] = useState({
     filename: '',
     size: 0
@@ -86,35 +88,7 @@ const SelectDatasetFile = (props: any): JSX.Element => {
             }
             if (data) {
               // 先创建数据集、成了就扔进去
-              const createInfo = {
-                scenes: 'detection',
-                name: 'string',
-                summary: 'string'
-
-              }
-              try {
-                const creteDatares = await api.post('/v2/datasets', createInfo);
-                console.log(creteDatares, 'creteDatares')
-                if (creteDatares.code === 0) {
-                  console.log('90909090')
-                  const { draft_id } = creteDatares.data
-                  const { bucket, filename, key } = data
-
-                  const res = await api.post(`/v2/draft/${draft_id}/upload`, {
-                    bucket, filename, key
-                  })
-
-                  if (res.code === 0) {
-                    message.success('创建数据集成功')
-                    navigate({
-                      pathname: APP_LOCAL_FILE_STEP_4
-                    })
-                    // 创建成功就清理
-                  }
-                }
-              } catch (e) {
-                console.log(e)
-              }
+              setS3info(data)
             }
           },
 
@@ -175,18 +149,47 @@ const SelectDatasetFile = (props: any): JSX.Element => {
       })
     }
 
-    // const goNext = () => {
-    //   navigate({
-    //     pathname: APP_LOCAL_FILE_STEP_4
-    //   })
-    // }
+    const goNext = async () => {
+      if (isEmpty(s3info)) {
+        return
+      }
+      const createInfo = {
+        scenes: 'detection',
+        name: 'string',
+        summary: 'string'
+
+      }
+      try {
+        const creteDatares = await api.post('/v2/datasets', createInfo);
+        console.log(creteDatares, 'creteDatares')
+        if (creteDatares.code === 0) {
+          console.log('90909090')
+          const { draft_id } = creteDatares.data
+          const { bucket, filename, key } = s3info
+
+          const res = await api.post(`/v2/draft/${draft_id}/upload`, {
+            bucket, filename, key
+          })
+
+          if (res.code === 0) {
+            message.success('创建数据集成功')
+            navigate({
+              pathname: APP_LOCAL_FILE_STEP_4
+            })
+            // 创建成功就清理
+          }
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
     return (
       <div className='footer_btn_wrap'>
         <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
-        {/* <GButton className={percent <= 100 ? 'not_allow' : 'yes_sir'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton> */}
+        <GButton className={percent >= 100 ? 'yes_sir' : 'not_allow'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [navigate, isUploading])
+  }, [percent, isUploading, navigate, s3info])
 
   return (
     <div styleName='SelectDatasetFile' id='SelectDatasetFile'>

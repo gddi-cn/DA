@@ -5,8 +5,9 @@ import {
   APP_MODEL_INDEX,
   APP_DATASET_DETAIL,
   APP_DATASET_CREATE_TYPE,
-  APP_DATASET_LOCALDATA,
-  APP_DATASET_IMPORT
+
+  APP_DATASET_ANALYSE,
+  APP_MODEL_TRAIN_CONFIG
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -22,9 +23,8 @@ const DataSetIndex = lazy(() => import('@src/views/DataSet/DataSetIndex'));
 const DataSetDetail = lazy(() => import('@src/views/DataSet/DataSetDetail'));
 const ModelIndex = lazy(() => import('@src/views/Model/ModelIndex'));
 const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/SelectCreateType'));
-
-const LocalDataSet = lazy(() => import('@src/views/DataSet/CreateDataSet/LocalDataSet'));
-const OtherDataSet = lazy(() => import('@src/views/DataSet/CreateDataSet/OtherDataSet'));
+const DatasetAnalysis = lazy(() => import('@src/views/DataSet/DatasetAnalysis'));
+const ModelTrainConfig = lazy(() => import('@src/views/Model/ModelTrainConfig'));
 
 export default {
   path: '/app',
@@ -52,17 +52,7 @@ export default {
 
         // 第三方
         thirdparty,
-        {
-          path: APP_DATASET_LOCALDATA,
-          element: SuspenseFn(LocalDataSet),
 
-        },
-
-        {
-          path: APP_DATASET_IMPORT,
-          element: SuspenseFn(OtherDataSet),
-
-        },
         // 有步骤条的
         {
           path: '/app/',
@@ -82,6 +72,16 @@ export default {
             {
               path: APP_DATASET_DETAIL,
               element: SuspenseFn(DataSetDetail),
+
+            },
+            {
+              path: APP_DATASET_ANALYSE,
+              element: SuspenseFn(DatasetAnalysis),
+
+            },
+            {
+              path: APP_MODEL_TRAIN_CONFIG,
+              element: SuspenseFn(ModelTrainConfig),
 
             },
 

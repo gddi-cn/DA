@@ -1,0 +1,32 @@
+.GIconInput {
+    color: #C8C9CC;
+
+    :global {
+        .input_wrap {
+            display: flex;
+            height: 36px;
+            background: #FFFFFF;
+            border-radius: 19px;
+            overflow: hidden;
+
+            .icon_wrap {
+                padding-left: 17px;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 17px;
+
+            }
+
+            .ant-input {
+                border: none;
+            }
+
+            .ant-input-focused,
+            .ant-input:focus {
+                box-shadow: none;
+            }
+        }
+    }
+}

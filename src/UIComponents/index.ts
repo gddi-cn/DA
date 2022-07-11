@@ -34,6 +34,10 @@ import CreateDatasetStep from './CreateDatasetStep'
 
 import GSelect from './GSelect'
 
+import TabsHeader from './TabsHeader'
+
+import GIconInput from './GIconInput'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -50,5 +54,7 @@ export {
   GEcharts,
   UIDatasetVisual,
   CreateDatasetStep,
-  GSelect
+  GSelect,
+  TabsHeader,
+  GIconInput
 }

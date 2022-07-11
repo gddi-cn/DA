@@ -5,6 +5,9 @@ import { MODEL_TYPES } from '@src/constants'
 import { useMemo, useRef, useState } from 'react'
 import { isEmpty, isNil } from 'lodash'
 import { message } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { APP_DATASET_ANALYSE } from '@router'
+import Qs from 'qs'
 import './DataSetIndex.module.less'
 
 const dataList:{label:string, id:string}[] = [
@@ -23,6 +26,8 @@ for (const [k, v] of Object.entries(MODEL_TYPES)) {
 const DataSetIndex = (): JSX.Element => {
   const paramsChangeAndFetch = useRef<any>(null)
 
+  const navigate = useNavigate()
+
   const [selectData, setSelectData] = useState<any>({})
   const handleOnChange = (data:any) => {
     let _id = data.id
@@ -40,11 +45,11 @@ const DataSetIndex = (): JSX.Element => {
       if (isEmpty(selectData) || isNil(selectData)) {
         message.warning('请选择数据集')
       }
-      // const search = Qs.stringify({ id: selectData?.id, version_id: selectData?.latest_version?.id })
-      // navigate({
-      //   pathname: APP_DATASET_DETAIL,
-      //   search: search
-      // })
+      const search = Qs.stringify({ id: selectData?.id, version_id: selectData?.latest_version?.id })
+      navigate({
+        pathname: APP_DATASET_ANALYSE,
+        search: search
+      })
     }
     return (
       <GButton type='primary' className={isEmpty(selectData) || isNil(selectData) ? 'not_allow' : 'yes_sir'} style={{ width: 132 }} onClick={handleNext}>下一步</GButton>

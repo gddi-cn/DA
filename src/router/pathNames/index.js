@@ -18,6 +18,10 @@ export const APP_DATASET_DETAIL = '/app/dataset_detail'
 
 export const APP_DATASET_CREATE_TYPE = '/app/select_carete_type'
 
+export const APP_DATASET_ANALYSE = '/app/dataset_analyse'
+
+export const APP_MODEL_TRAIN_CONFIG = '/app/train_config'
+
 // 上传流程
 export const APP_LOCAL_FILE = '/app/local_file'
 export const APP_LOCAL_FILE_STEP_1 = '/app/local_file/AfterUploaded'
