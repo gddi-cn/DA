@@ -5,25 +5,17 @@ import { Select, Form, Spin } from 'antd'
 import { isEmpty, isNil } from 'lodash';
 import api from '@api'
 import { useNavigate } from 'react-router-dom'
-import { APP_DATASET_CREATE_TYPE } from '@router'
+import { APP_DATASET_CREATE_TYPE, APP_THIRDPARTY_STEP_2 } from '@router'
 import './SelectPlatform.module.less'
 
 const { Option } = Select;
-type Props={
-    setThirdInfo:any,
-    setCurrentStep:any,
-    thirdInfo:any,
-    setInitPageInfo:any
-}
-const SelectPlatform = (props: Props): JSX.Element => {
-  console.log(props)
-  const { setThirdInfo, setInitPageInfo, thirdInfo, setCurrentStep } = props
+
+const SelectPlatform = (): JSX.Element => {
   const navigate = useNavigate()
+  const [form] = Form.useForm();
   const [userList, setUserList] = useState<any[]>([]);
   const [companyList, setcompanyList] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
-
-  const [form] = Form.useForm();
 
   useEffect(() => {
     const fn = async () => {
@@ -34,12 +26,6 @@ const SelectPlatform = (props: Props): JSX.Element => {
     }
     fn()
   }, [])
-
-  useEffect(() => {
-    if (!isEmpty(thirdInfo)) {
-      form.setFieldsValue({ ...thirdInfo })
-    }
-  }, [thirdInfo, form])
 
   const fetchUserList = async (platform: string) => {
     try {
@@ -61,7 +47,8 @@ const SelectPlatform = (props: Props): JSX.Element => {
     })
 
     fetchUserList(select)
-    setInitPageInfo(option)
+
+    console.log(option, 'option')
   }
 
   const rightContent = useMemo(() => {
@@ -74,8 +61,10 @@ const SelectPlatform = (props: Props): JSX.Element => {
     const goNext = async () => {
       // 123
       const data = await form.validateFields()
-      setThirdInfo(data)
-      setCurrentStep(2)
+      console.log(data)
+      navigate({
+        pathname: APP_THIRDPARTY_STEP_2
+      })
     }
 
     return (
@@ -84,7 +73,7 @@ const SelectPlatform = (props: Props): JSX.Element => {
         <GButton style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [form, navigate, setThirdInfo, setCurrentStep])
+  }, [form, navigate])
 
   return (
     <div styleName='SelectPlatform'>

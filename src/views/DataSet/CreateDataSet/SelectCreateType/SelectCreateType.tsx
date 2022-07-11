@@ -1,7 +1,7 @@
 
 import { ReactComponent as GDDI } from './icon/共达地.svg'
 import { ReactComponent as MANFU } from './icon/曼孚科技.svg'
-import { APP_LOCAL_FILE_STEP_1, APP_DATASET_IMPORT } from '@router'
+import { APP_LOCAL_FILE_STEP_1, APP_THIRDPARTY_STEP_1 } from '@router'
 import { useNavigate } from 'react-router-dom'
 import './SelectCreateType.module.less'
 
@@ -13,7 +13,7 @@ const SelectCreateType = (props: any): JSX.Element => {
   }
 
   const handleGotoImprot = () => {
-    navigate({ pathname: APP_DATASET_IMPORT })
+    navigate({ pathname: APP_THIRDPARTY_STEP_1 })
   }
   return (
     <div styleName='SelectCreateType'>

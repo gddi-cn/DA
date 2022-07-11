@@ -32,6 +32,8 @@ import UIDatasetVisual from './UIDatasetVisual'
 
 import CreateDatasetStep from './CreateDatasetStep'
 
+import GSelect from './GSelect'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -47,5 +49,6 @@ export {
   SmallButton,
   GEcharts,
   UIDatasetVisual,
-  CreateDatasetStep
+  CreateDatasetStep,
+  GSelect
 }

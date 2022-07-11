@@ -1,49 +1,36 @@
-
 import { CreateDatasetStep } from '@src/UIComponents'
-import SelectProject from './SelectProject'
-import SelectPlatform from './SelectPlatform'
-import BaseInfoForm from './BaseInfoForm'
-import AfterCreate from './AfterCreate'
-import { useEffect, useMemo, useState } from 'react'
+
+import { Outlet, useLocation } from 'react-router-dom';
+
+import {
+  APP_THIRDPARTY_STEP_1,
+  APP_THIRDPARTY_STEP_2,
+  APP_THIRDPARTY_STEP_3,
+  APP_THIRDPARTY_STEP_4
+} from '@router'
 import './OtherDataSet.module.less'
 
+const pathkeys: {
+    [index: string]: number
+} = {
+  [APP_THIRDPARTY_STEP_1]: 1,
+  [APP_THIRDPARTY_STEP_2]: 2,
+  [APP_THIRDPARTY_STEP_3]: 3,
+  [APP_THIRDPARTY_STEP_4]: 4,
+}
+
 const OtherDataSet = (): JSX.Element => {
-  const [currentStep, setCurrentStep] = useState(NaN)
+  const location = useLocation()
+  const { pathname } = location
+  const currentStep = pathkeys[pathname] || 1
 
-  // 之前选中曼孚的Item 数据
-  const [initPageInfo, setInitPageInfo] = useState<any>(
-    {}
-  )
-
-  // 第三方平台的数据
-  const [thirdInfo, setThirdInfo] = useState<any>(
-    {}
-  )
-
-  const [baseInfo, setBaseInfo] = useState<any>(
-    {}
-  )
-
-  useEffect(() => {
-    setCurrentStep(1)
-  }, [])
-
-  const View = useMemo(() => {
-    const arr = [
-      <SelectPlatform key='SelectTrainType' setCurrentStep={setCurrentStep} thirdInfo={thirdInfo} setThirdInfo={setThirdInfo} setInitPageInfo={setInitPageInfo} />,
-      <SelectProject key='DatasetBaseInfoForm' setCurrentStep={setCurrentStep} initPageInfo={initPageInfo} thirdInfo={thirdInfo} setThirdInfo={setThirdInfo }/>,
-      <BaseInfoForm key='SelectDatasetFile' setCurrentStep={setCurrentStep} setBaseInfo={setBaseInfo} baseInfo={baseInfo}/>,
-      <AfterCreate key='AfterUploaded' setCurrentStep={setCurrentStep} />
-    ]
-    return arr[currentStep - 1] || null
-  }, [currentStep, initPageInfo, thirdInfo, baseInfo])
   return (
     <div styleName='OtherDataSet'>
       <div className='step_wrap'>
         <CreateDatasetStep type='thirdparty' activeKey={currentStep} />
       </div>
       <div className='content_wrap'>
-        {View}
+        <Outlet />
       </div>
     </div>
   )

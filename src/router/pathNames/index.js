@@ -26,10 +26,10 @@ export const APP_LOCAL_FILE_STEP_3 = '/app/local_file/SelectDatasetFile'
 export const APP_LOCAL_FILE_STEP_4 = '/app/local_file/SelectTrainType'
 // 第三方流程
 export const APP_THIRDPARTY = '/app/thirdparty'
-export const APP_THIRDPARTY_STEP_1 = '/app/thirdparty/AfterCreate'
-export const APP_THIRDPARTY_STEP_2 = '/app/thirdparty/BaseInfoForm'
-export const APP_THIRDPARTY_STEP_3 = '/app/thirdparty/SelectPlatform'
-export const APP_THIRDPARTY_STEP_4 = '/app/thirdparty/SelectProject'
+export const APP_THIRDPARTY_STEP_4 = '/app/thirdparty/AfterCreate'
+export const APP_THIRDPARTY_STEP_3 = '/app/thirdparty/BaseInfoForm'
+export const APP_THIRDPARTY_STEP_1 = '/app/thirdparty/SelectPlatform'
+export const APP_THIRDPARTY_STEP_2 = '/app/thirdparty/SelectProject'
 
 // 废弃
 export const APP_DATASET_LOCALDATA = '/app/upload_local_dataset'

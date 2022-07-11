@@ -1,5 +1,5 @@
 
-import { FooterBar, UploadFile, GButton } from '@src/UIComponents'
+import { FooterBar, UploadFile, GButton, GSelect } from '@src/UIComponents'
 import { useState, useRef, useMemo } from 'react'
 import { Select, message } from 'antd';
 import api from '@api'
@@ -149,11 +149,11 @@ const SelectDatasetFile = (props: any): JSX.Element => {
               <p>*</p><p>训练集与测试集比1例</p>
             </div>
             <div className='form_content'>
-              <Select defaultValue="2" style={{ width: '100%' }} getPopupContainer={() => document.getElementById('SelectDatasetFile') as any} >
+              <GSelect defaultValue="2" style={{ width: '100%' }} >
                 <Option value="1">7:3</Option>
                 <Option value="2">8:2（推荐使用）</Option>
                 <Option value="3">9:1</Option>
-              </Select>
+              </GSelect>
             </div>
           </div>
         </div>

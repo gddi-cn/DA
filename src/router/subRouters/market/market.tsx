@@ -11,6 +11,7 @@ import {
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
 import localfile from '../localfile';
+import thirdparty from '../thirdparty';
 
 const NotFound = lazy(() => import('@src/views/NotFound'));
 const App = lazy(() => import('@src/views/container/app'));
@@ -45,7 +46,12 @@ export default {
           element: SuspenseFn(SelectCreateType),
 
         },
+        // 本地文件上传
+
         localfile,
+
+        // 第三方
+        thirdparty,
         {
           path: APP_DATASET_LOCALDATA,
           element: SuspenseFn(LocalDataSet),
