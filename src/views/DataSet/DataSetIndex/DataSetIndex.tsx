@@ -60,7 +60,7 @@ const DataSetIndex = (): JSX.Element => {
     <div styleName='DataSetIndex' className='maxWidthAuto' >
 
       <div className='dataset_list_header'>
-        <TagRadioSelect dataList={dataList} onChange={handleOnChange} />
+        <TagRadioSelect dataList={dataList} onChange={handleOnChange} value="all"/>
       </div>
 
       <div className='dataset_list_wrap'>

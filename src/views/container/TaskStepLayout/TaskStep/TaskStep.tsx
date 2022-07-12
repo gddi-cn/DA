@@ -33,15 +33,15 @@ const PUBLISH_ACTIVE = [
 const TaskStep = (): JSX.Element => {
   const { pathname } = useLocation()
   const model = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo.model
+    return state.tasksSilce.activeTaskInfo?.model
   })
 
   const dataset = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo.dataset
+    return state.tasksSilce.activeTaskInfo?.dataset
   })
 
   const deploy = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo.deploy
+    return state.tasksSilce.activeTaskInfo?.deploy
   })
 
   // 点击逻辑、

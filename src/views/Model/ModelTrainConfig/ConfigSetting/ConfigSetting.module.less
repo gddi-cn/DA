@@ -1,11 +1,37 @@
 .ConfigSetting {
     width: 100%;
-    height: 100%;
-    background-color: yellowgreen;
+    padding: 10px;
+    background: #EDF8FF;
+    border-radius: 4px;
 
     :global {
-        .test1 {
-            color: yellowgreen;
+        .ConfigSetting_title {
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 20px;
+            /* identical to box height, or 111% */
+
+
+            color: #061926;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(98, 176, 229, 0.5);
+        }
+
+        .ant-radio-checked .ant-radio-inner {
+            border-color: #48A2DF;
+            box-shadow: none;
+        }
+
+
+
+        .ant-radio-inner::after {
+            background-color: #48A2DF;
+        }
+
+        .form_cus_item {
+            .ant-radio-wrapper {
+                display: block;
+            }
         }
     }
 }

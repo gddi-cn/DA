@@ -9,24 +9,34 @@ import './FilterHeader.module.less'
 
 const { Option } = Select;
 
-const dataList: { label: string, id: string }[] = [
-  { label: '全部品牌', id: 'all' },
-  { label: '全部品牌', id: 'all' },
-  { label: '全部品牌', id: 'all' },
-  { label: '全部品牌', id: 'all' },
-  { label: '全部品牌', id: 'all' },
-  { label: '全部品牌', id: 'all' },
-  { label: '全部品牌', id: 'all' },
-  { label: '全部品牌', id: 'all' }
-]
+// const dataList: { label: string, id: string }[] = [
+//   { label: '全部品牌', id: 'all' },
+//   { label: '全部品牌', id: 'all' },
+//   { label: '全部品牌', id: 'all' },
+//   { label: '全部品牌', id: 'all' },
+//   { label: '全部品牌', id: 'all' },
+//   { label: '全部品牌', id: 'all' },
+//   { label: '全部品牌', id: 'all' },
+//   { label: '全部品牌', id: 'all' }
+// ]
 // band name  chip_type
 // task_type 之前选中数据决定的
-const FilterHeader = (props: any): JSX.Element => {
+type Props ={
+    brandList:any[],
+    fetchChipList:(data:any)=>void
+}
+const FilterHeader = (props: Props): JSX.Element => {
   console.log(props)
+  const { brandList, fetchChipList } = props
   const [form] = Form.useForm();
   const onValuesChange = (changedValues:any, allValues:any) => {
     console.log(changedValues, allValues)
     // todo fetch
+    const { brand, ...rest } = allValues
+    fetchChipList({
+      ...rest,
+      brand: brand.id
+    })
   }
   return (
     <div styleName='FilterHeader'>
@@ -37,15 +47,16 @@ const FilterHeader = (props: any): JSX.Element => {
 
         >
 
-          <GIconInput autoComplete='off' />
+          <GIconInput autoComplete='off' placeholder='搜索芯片名称'/>
         </Form.Item>
 
         <Form.Item
           name="chip_type"
+          initialValue=""
         >
 
-          <GSelect suffixIcon={<CaretDownOutlined />} placeholder='全部芯片类型' defaultValue="all">
-            <Option value="all">全部芯片类型</Option>
+          <GSelect suffixIcon={<CaretDownOutlined />} placeholder='全部芯片类型'>
+            <Option value="">全部芯片类型</Option>
             <Option value="CPU">CPU</Option>
             <Option value="GPU">GPU</Option>
             <Option value="NPU">NPU</Option>
@@ -53,10 +64,10 @@ const FilterHeader = (props: any): JSX.Element => {
         </Form.Item>
 
         <Form.Item
-          name="band"
-
+          name="brand"
+          initialValue=""
         >
-          <TagRadioSelect dataList={dataList} />
+          <TagRadioSelect dataList={brandList} />
         </Form.Item>
       </Form>
     </div>

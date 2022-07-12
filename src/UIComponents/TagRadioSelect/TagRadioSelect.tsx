@@ -3,22 +3,23 @@ import './TagRadioSelect.module.less'
 
 type Props<T> = {
   dataList: Array<T>,
-  onChange?: (data: T) => void
+  onChange?: (data: T) => void,
+  value?: any
 }
 
-function TagRadioSelect<T extends { label: string }> (props: Props<T>): JSX.Element {
-  const { dataList, onChange } = props
-  const [activeIndex, setActiveIndex] = useState(0)
-  const getCls = (index: number) => {
-    if (index === activeIndex) {
+function TagRadioSelect<T extends { label: string, id: string }> (props: Props<T>): JSX.Element {
+  const { dataList, onChange, value } = props
+  const [activeIndex, setActiveIndex] = useState(value)
+  const getCls = (data: any) => {
+    if (data.id === activeIndex) {
       return 'TagRadioSelect_radio TagRadioSelect_radio_active'
     } else {
       return 'TagRadioSelect_radio'
     }
   }
 
-  const handleSelect = (data: T, index: number) => {
-    setActiveIndex(index)
+  const handleSelect = (data: T, id: any) => {
+    setActiveIndex(id)
     onChange && onChange(data)
   }
   return (
@@ -28,8 +29,8 @@ function TagRadioSelect<T extends { label: string }> (props: Props<T>): JSX.Elem
           return (
             <div
               key={index}
-              className={getCls(index)}
-              onClick={() => handleSelect(data, index)}
+              className={getCls(data)}
+              onClick={() => handleSelect(data, data.id)}
             >
               {data.label}
             </div>
