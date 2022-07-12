@@ -1,0 +1,58 @@
+.StepProgress {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 60px;
+    padding-right: 133px;
+    position: relative;
+
+
+    :global {
+        .StepProgress_item {
+            flex: 1;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .bar {
+                width: 100%;
+
+                background: #EDF8FF;
+                border-radius: 19px;
+                height: 10px;
+                flex-shrink: 0;
+            }
+
+            .flow_text {
+                margin-top: 10px;
+                font-weight: 500;
+                font-size: 18px;
+                color: #97CAEC;
+            }
+        }
+
+        .percent_wrap {
+            position: absolute;
+            right: 0;
+            top: -30%;
+            font-weight: 600;
+            font-size: 26px;
+            line-height: 36px;
+            letter-spacing: -0.25px;
+
+            color: #48A2DF;
+        }
+
+        .StepProgress_item_done {
+            .bar {
+                background: #48A2DF;
+            }
+
+            .flow_text {
+                color: #48A2DF;
+            }
+        }
+    }
+
+}

@@ -9,7 +9,7 @@ import ModelTrainConfigType from './types'
 import { isEmpty } from 'lodash'
 import { titleMap } from './SelectChip/config'
 import { useNavigate } from 'react-router-dom'
-import { APP_DATASET_ANALYSE } from '@router'
+import { APP_DATASET_ANALYSE, APP_MODEL_TRAIN_DETAIL } from '@router'
 import './ModelTrainConfig.module.less'
 
 const taskType = 'detection'
@@ -102,9 +102,9 @@ const ModelTrainConfig = (): JSX.Element => {
       // model_args: { fps: 1 }
       // name: "自动训练-水果数据-3-模型"
       // platform: ["Cambricon", "MLU220", "NPU"]
-      // navigate({
-      //   pathname: APP_MODEL_TRAIN_CONFIG
-      // })
+      navigate({
+        pathname: APP_MODEL_TRAIN_DETAIL
+      })
     }
     return (
       <div className='footer_btn_wrap'>
