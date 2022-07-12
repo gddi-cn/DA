@@ -62,8 +62,8 @@ const ModelDetail = (): JSX.Element => {
     if (isNil(versionInfo)) {
       return null
     }
-    const isTrainsiton = [1, 6].includes(+(versionInfo?.iter.status))
-    const key = isTrainsiton ? 'other' : 'sucess'
+    const isTrainsiton = [2].includes(+(versionInfo?.iter.status))
+    const key = isTrainsiton ? 'sucess' : 'other'
     const view_object = {
       sucess: SuspenseForFC(
         <TrainSuccess versionList={versionList} versionInfo={versionInfo} />

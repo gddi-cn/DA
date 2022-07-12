@@ -1,6 +1,6 @@
 import api from '@api'
 import { useState, useEffect, useRef } from 'react'
-
+import { GButton } from '@src/UIComponents'
 import StepProgress from './StepProgress'
 import ModelDetailType from '../../types'
 
@@ -11,6 +11,8 @@ import { ReactComponent as Moxingsousuo } from './icon/4.svg'
 import { ReactComponent as Moxingxunlian } from './icon/5.svg'
 import { ReactComponent as Moxingtiaoyou } from './icon/6.svg'
 import { ReactComponent as Moxingshengc } from './icon/7.svg'
+
+import { ReactComponent as Failed } from './icon/failed.svg'
 import './TrianFlow.module.less'
 
 const IconMap: any = {
@@ -55,11 +57,9 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
     const {
       status
     } = trainInfo
-    console.log(status, 'status')
-    if (![1, 6].includes(status)) {
+
+    if (![1, 2, 6].includes(status)) {
       window.location.reload()
-      console.log(status, 'status')
-      console.log([1, 6].includes(status), status)
     }
   }, [trainInfo])
 
@@ -75,20 +75,50 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
     )
   }
 
+  const handleDetele = () => {
+    console.log(1)
+  }
+
+  const handleReTrain = () => {
+    console.log(1)
+  }
+
   const getIconView = () => {
     if (!trainInfo) {
       return null
     }
     const {
-      current, flows
+      current, flows, status
     } = trainInfo
-    return IconMap[flows[current]] || null
+
+    if (status === 3) {
+      return (
+        <div>
+          <div className='failed_icon'>
+            <Failed/>
+          </div>
+          <div className='tips'>
+                  抱歉！训练失败
+          </div>
+          <div className='btn_wrap'>
+            <GButton className='close_btn' onClick={handleDetele}>删除</GButton>
+            <GButton className='new_btn' onClick={handleReTrain}>重新训练</GButton>
+          </div>
+        </div>
+      )
+    }
+    return (
+      <div className='icon_wrap'>
+        {IconMap[flows[current]] || null}
+      </div>
+    )
   }
   return (
     <div styleName='TrianFlow'>
-      <div className='icon_wrap'>
+      {/* <div className='icon_wrap'>
         {getIconView()}
-      </div>
+      </div> */}
+      {getIconView()}
       <div className='step_wrap'>
         {
           getview()
