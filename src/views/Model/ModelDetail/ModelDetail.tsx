@@ -11,7 +11,7 @@ import { isNil } from 'lodash';
 const TrainSuccess = lazy(() => import('@src/views/Model/ModelDetail/TrainSuccess'));
 const TrainingOrFailed = lazy(() => import('@src/views/Model/ModelDetail/TrainingOrFailed'));
 
-const id = '370765508102430720'
+const id = '370755354338369536'
 const ModelDetail = (): JSX.Element => {
   const [versionList, setVersionList] = useState<ModelDetailType.VersionItem[] >([])
 
@@ -77,7 +77,10 @@ const ModelDetail = (): JSX.Element => {
 
   return (
     <div styleName='ModelDetail'>
-      {views}
+      <div className='ModelDetail_wrap'>
+        {views}
+      </div>
+
     </div>
   )
 }

@@ -1,12 +1,31 @@
 .TrainSuccess {
     width: 100%;
-    height: calc(100vh - 100px);
+    height: 100%;
     background-color: #f5f5f5;
-    padding: 10px 37px;
+
+    display: flex;
 
     :global {
-        .test1 {
-            color: yellowgreen;
+        .view_control_wrap {
+            width: 152px;
+            height: 100%;
+        }
+
+        .model_info_wrap {
+            width: 248px;
+            height: 100%;
+            background: #FFFFFF;
+            border-radius: 12px;
+            flex-shrink: 0;
+            padding: 20px;
+            margin-right: 2.9vw;
+        }
+
+        .model_detail_content {
+            flex: 1;
+            height: 100%;
+            background: #FFFFFF;
+            border-radius: 12px;
         }
     }
 }
