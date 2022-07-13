@@ -1,9 +1,10 @@
 
 import { ReactComponent as Note } from './icon/note.svg'
-import { ReactComponent as Frame } from './icon/Frame.svg'
+
 import ClassTable from './ClassTable'
 import { Dispatch, SetStateAction, useMemo } from 'react'
 import { bytesToSize } from '@src/utils'
+import { IsEchartViewButton } from '@src/UIComponents'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import './BaseInfo.module.less'
 
@@ -46,10 +47,7 @@ const BaseInfo = (props: Props): JSX.Element => {
           </div>
         </div>
 
-        <div className='checkout_btn_wrap'>
-          <Frame className='bar_chart'/>
-          <p>柱状视图</p>
-        </div>
+        <IsEchartViewButton />
       </div>
 
       {

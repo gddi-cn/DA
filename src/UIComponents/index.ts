@@ -38,6 +38,8 @@ import TabsHeader from './TabsHeader'
 
 import GIconInput from './GIconInput'
 
+import IsEchartViewButton from './IsEchartViewButton'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -56,5 +58,6 @@ export {
   CreateDatasetStep,
   GSelect,
   TabsHeader,
-  GIconInput
+  GIconInput,
+  IsEchartViewButton
 }

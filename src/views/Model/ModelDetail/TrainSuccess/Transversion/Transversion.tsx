@@ -43,7 +43,7 @@ const Transversion = (props: ModelDetailType.TransversionProps): JSX.Element => 
       } = {
 
         ForecastExample: <ForecastExample versionInfo={versionInfo}/>,
-        TrainingAccuracy: <TrainingAccuracy />,
+        TrainingAccuracy: <TrainingAccuracy versionInfo={versionInfo} />,
         TrainingParameters: <TrainingParameters />,
       }
 

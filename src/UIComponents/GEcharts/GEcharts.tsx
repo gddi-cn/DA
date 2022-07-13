@@ -31,7 +31,8 @@ const GEcharts = (props: any): JSX.Element => {
   return (
 
     <div
-      className={`GEcharts ${className}`}
+      styleName='GEcharts'
+      className={`${className}`}
       ref={propsRef || chartNode}
     />
 
