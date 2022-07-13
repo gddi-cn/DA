@@ -19,14 +19,14 @@ const TrainSuccess = (props: ModelDetailType.TrainSuccessProps): JSX.Element => 
     const ReactComp :{
         [index: string]:React.ReactNode
     } = {
-      train_process: <Transversion/>,
+      train_process: <Transversion versionInfo={versionInfo}/>,
       model_forecast: <ModelForecast />,
       model_contrast: <ModelContrast />,
       error_analysis: <ErrorAnalysis />,
     }
 
     return ReactComp[tabIndex] || null
-  }, [tabIndex])
+  }, [tabIndex, versionInfo])
   return (
     <div styleName='TrainSuccess'>
       <div className='view_control_wrap'>

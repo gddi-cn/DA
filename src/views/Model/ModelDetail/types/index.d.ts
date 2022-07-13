@@ -89,4 +89,12 @@ declare namespace ModelDetailType {
         tabIndex: TabIndex,
         setTabIndex: Dispatch<SetStateAction<TabIndex>>
     }
+
+    interface TransversionProps {
+        versionInfo: VersionInfo | undefined,
+    }
+
+    interface ForecastExampleProps {
+        versionInfo: VersionInfo | undefined,
+    }
 }

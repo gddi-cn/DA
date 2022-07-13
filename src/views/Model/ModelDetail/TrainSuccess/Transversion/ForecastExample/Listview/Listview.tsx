@@ -1,0 +1,94 @@
+import { UIDatasetVisual, ReactCusScrollBar } from '@src/UIComponents'
+import { useMemo, useState } from 'react'
+// import { isEmpty } from 'lodash'
+import { Modal } from 'antd'
+import { useGetDataInfo } from '../../../utils'
+import './Listview.module.less'
+
+const ListItem = (props:any) => {
+  const { data, model_type } = props
+  const [visible, setvisible] = useState(false)
+  const datainfo = useGetDataInfo(data.value, model_type)
+
+  const view = useMemo(() => {
+    const {
+
+      // url,
+      dataSet,
+      // rawImgDataSet,
+
+    } = datainfo
+
+    return (
+      <div className='UIDatasetVisual_small_wrap' onClick={() => setvisible(true)}>
+        <UIDatasetVisual
+          url={data.src}
+          zoom={false}
+          canvasData={dataSet || []}
+          drawCanvasData={model_type === 'detection' || model_type === 'monocular_3d_detection'}
+          hasHtmlTips={model_type === 'classify'}
+        />
+      </div>
+    )
+  }, [datainfo, model_type, data])
+
+  const modalView = useMemo(() => {
+    const {
+
+      dataSet,
+
+    } = datainfo
+    return (
+      <Modal
+        title={null}
+        visible={visible}
+        // maskClosable={false}
+        // keyboard={false}
+        onOk={() => setvisible(false)}
+        onCancel={() => setvisible(false)}
+        destroyOnClose
+        getContainer={document.getElementById('root') as HTMLDivElement}
+        footer={[]}
+        className='global_dataset_view_modal'
+      >
+        <UIDatasetVisual
+          url={data.src}
+          zoom={true}
+          canvasData={dataSet || []}
+          drawCanvasData={model_type === 'detection' || model_type === 'monocular_3d_detection'}
+          hasHtmlTips={model_type === 'classify'}
+        />
+      </Modal>
+    )
+  }, [datainfo, model_type, visible, data])
+  return (
+    <div className='ListItem_wrap'>
+      {view}
+      {modalView}
+    </div>
+  )
+}
+
+const Listview = (props: any): JSX.Element => {
+  const { dataList, versionInfo } = props
+  console.log(dataList)
+  const { model_type } = versionInfo
+  return (
+    <div styleName='Listview'>
+      <ReactCusScrollBar id='ReactCusScrollBar'>
+        <div className='Listview_wrap'>
+          {
+            (dataList as any[]).map((o, i) => {
+              return (
+                <ListItem data={o} key={i} model_type={model_type} />
+              )
+            })
+          }
+        </div>
+      </ReactCusScrollBar>
+
+    </div>
+  )
+}
+
+export default Listview
