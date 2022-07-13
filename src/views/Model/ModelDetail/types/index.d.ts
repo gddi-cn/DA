@@ -1,4 +1,4 @@
-// import type { SetStateAction, Dispatch } from 'react'
+import type { SetStateAction, Dispatch } from 'react'
 
 export = ModelDetailType;
 export as namespace ModelDetailType;
@@ -72,5 +72,21 @@ declare namespace ModelDetailType {
     interface TrianFlowProps {
         currentVersion: VersionItem | undefined,
         id: string
+    }
+
+    type TabIndex = 'train_process' | 'model_forecast' | 'model_contrast' | 'error_analysis'
+
+    interface TrainSuccessProps {
+        versionInfo: VersionInfo | undefined,
+        id ?:string | undefined
+    }
+
+    interface ModelInfomationsProps {
+        versionInfo: VersionInfo | undefined,
+    }
+
+    interface VerticalTabHandleProps {
+        tabIndex: TabIndex,
+        setTabIndex: Dispatch<SetStateAction<TabIndex>>
     }
 }

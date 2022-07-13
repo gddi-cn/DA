@@ -93,7 +93,7 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
       const _fpsmax = selected.fps_limited || 30
       setMaxFps(_fpsmax)
       formInstance.setFieldsValue({
-        config_type: 2,
+        mode: 2,
         fps: 5,
         video: Math.floor(_fpsmax / 5)
       })
@@ -131,16 +131,16 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
             <div className='dark_label'>参数配置：</div>
             <Form.Item
 
-              name='config_type'
+              name='mode'
               rules={[{ required: true }]}
               initialValue={2}
             >
               <CusRadioGroup formInstance={formInstance} minFps={1} maxFps={maxFps} />
             </Form.Item>
           </div>
-          <Form.Item dependencies={['config_type']} noStyle>
+          <Form.Item dependencies={['mode']} noStyle>
             {({ getFieldValue }) => {
-              const type = getFieldValue('config_type')
+              const type = getFieldValue('mode')
               console.log(type, 'typetype')
               // if (type !== 3) {
               //   return null

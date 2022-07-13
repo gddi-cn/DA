@@ -51,8 +51,8 @@ const ModelDetail = (): JSX.Element => {
   )
 
   useEffect(() => {
-    console.log(currentVersion)
-  }, [currentVersion])
+    console.log(versionList)
+  }, [versionList])
 
   useEffect(() => {
     getModelBaseInfo()
@@ -66,14 +66,14 @@ const ModelDetail = (): JSX.Element => {
     const key = isTrainsiton ? 'sucess' : 'other'
     const view_object = {
       sucess: SuspenseForFC(
-        <TrainSuccess versionList={versionList} versionInfo={versionInfo} />
+        <TrainSuccess versionInfo={versionInfo} id={id} />
       ),
       other: SuspenseForFC(
         <TrainingOrFailed currentVersion={currentVersion} id={id} versionInfo={versionInfo}/>
       )
     }
     return view_object[key] || null
-  }, [currentVersion, versionInfo, versionList])
+  }, [currentVersion, versionInfo])
 
   return (
     <div styleName='ModelDetail'>
