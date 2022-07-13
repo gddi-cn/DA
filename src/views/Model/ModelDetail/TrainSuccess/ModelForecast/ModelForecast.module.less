@@ -1,11 +1,16 @@
 .ModelForecast {
     width: 100%;
-    height: 100vh;
-    background-color: yellowgreen;
+    height: 100%;
+    display: flex;
 
     :global {
-        .test1 {
-            color: yellowgreen;
+        .ModelForecast_wrap {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
+
+
     }
 }

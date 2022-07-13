@@ -1,12 +1,12 @@
 
 import { useMemo, useState } from 'react'
 import VerticalTabHandle from './VerticalTabHandle'
-import ModelInfomations from './ModelInfomations'
+
 import Transversion from './Transversion'
 import ErrorAnalysis from './ErrorAnalysis'
 import ModelContrast from './ModelContrast'
 import ModelForecast from './ModelForecast'
-import { ReactCusScrollBar } from '@src/UIComponents'
+
 import ModelDetailType from '../types'
 import './TrainSuccess.module.less'
 
@@ -32,18 +32,7 @@ const TrainSuccess = (props: ModelDetailType.TrainSuccessProps): JSX.Element => 
       <div className='view_control_wrap'>
         <VerticalTabHandle setTabIndex={setTabIndex} tabIndex={tabIndex} />
       </div>
-      {
-        useMemo(() => {
-          return (
-            <div className='model_info_wrap'>
-              <ReactCusScrollBar id='ReactCusScrollBar' autoHide>
-                <ModelInfomations versionInfo={versionInfo} />
-              </ReactCusScrollBar>
 
-            </div>
-          )
-        }, [versionInfo])
-      }
       <div className='model_detail_content'>
         {View}
       </div>

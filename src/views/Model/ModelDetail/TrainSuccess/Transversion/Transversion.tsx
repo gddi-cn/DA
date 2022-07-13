@@ -1,7 +1,8 @@
-import { TabsHeader } from '@src/UIComponents'
+import { TabsHeader, ReactCusScrollBar } from '@src/UIComponents'
 import { ReactComponent as Xunliancanshu } from './icon/训练参数.svg'
 import { ReactComponent as Xunlianjingdu } from './icon/训练精度.svg'
 import { ReactComponent as Yuceshili } from './icon/预测示例.svg'
+import ModelInfomations from '../ModelInfomations'
 
 import ForecastExample from './ForecastExample'
 import TrainingAccuracy from './TrainingAccuracy'
@@ -44,7 +45,7 @@ const Transversion = (props: ModelDetailType.TransversionProps): JSX.Element => 
 
         ForecastExample: <ForecastExample versionInfo={versionInfo}/>,
         TrainingAccuracy: <TrainingAccuracy versionInfo={versionInfo} />,
-        TrainingParameters: <TrainingParameters />,
+        TrainingParameters: <TrainingParameters versionInfo={versionInfo} />,
       }
 
     return ReactComp[subTabIndex] || null
@@ -52,11 +53,25 @@ const Transversion = (props: ModelDetailType.TransversionProps): JSX.Element => 
 
   return (
     <div styleName='Transversion'>
-      <div className='Transversion_header'>
-        <TabsHeader dataList={dataList} handleChangeTab={handleChangeTab} defualtActiveKey="ForecastExample" />
-      </div>
-      <div className='Transversion_content'>
-        {View}
+      {
+        useMemo(() => {
+          return (
+            <div className='model_info_wrap'>
+              <ReactCusScrollBar id='ReactCusScrollBar' autoHide>
+                <ModelInfomations versionInfo={versionInfo} />
+              </ReactCusScrollBar>
+
+            </div>
+          )
+        }, [versionInfo])
+      }
+      <div className='Transversion_wrap'>
+        <div className='Transversion_header'>
+          <TabsHeader dataList={dataList} handleChangeTab={handleChangeTab} defualtActiveKey="ForecastExample" />
+        </div>
+        <div className='Transversion_content'>
+          {View}
+        </div>
       </div>
     </div>
   )
