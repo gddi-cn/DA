@@ -6,6 +6,8 @@ import {
   Empty
 } from 'antd'
 import { useGetLineDataV2 } from './hooks'
+import { RootState } from '@reducer/index'
+import { useSelector } from 'react-redux'
 import './TrainingParameters.module.less'
 
 const LineChart = (props:any) => {
@@ -17,9 +19,10 @@ const LineChart = (props:any) => {
   )
 }
 
-const TrainingParameters = (props: any): JSX.Element => {
-  console.log(props)
-  const { versionInfo } = props
+const TrainingParameters = (): JSX.Element => {
+  const versionInfo = useSelector((state: RootState) => {
+    return state.modelDetailSlice.versionInfo
+  })
   const [currentData, setCurrentData] = useState<any>({ xData: {}, yData: [] })
   const trainTaskId = versionInfo?.iter?.train_task_id
 

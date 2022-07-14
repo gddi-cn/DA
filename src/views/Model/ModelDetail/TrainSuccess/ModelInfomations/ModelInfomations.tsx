@@ -1,14 +1,17 @@
 
-import ModelDetailType from '../../types'
 import { Collapse, Progress, Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons'
 import moment from 'moment'
+import { RootState } from '@reducer/index'
+import { useSelector } from 'react-redux'
 import './ModelInfomations.module.less'
 
 const { Panel } = Collapse;
 const mode_text = ['速度优先', '精度优先', '自定义']
-const ModelInfomations = (props: ModelDetailType.ModelInfomationsProps): JSX.Element => {
-  const { versionInfo } = props
+const ModelInfomations = (): JSX.Element => {
+  const versionInfo = useSelector((state: RootState) => {
+    return state.modelDetailSlice.versionInfo
+  })
   console.log(versionInfo)
 
   if (!versionInfo?.iter) {

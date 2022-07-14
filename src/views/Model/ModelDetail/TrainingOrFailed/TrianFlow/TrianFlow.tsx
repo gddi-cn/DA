@@ -13,6 +13,9 @@ import { ReactComponent as Moxingtiaoyou } from './icon/6.svg'
 import { ReactComponent as Moxingshengc } from './icon/7.svg'
 
 import { ReactComponent as Failed } from './icon/failed.svg'
+
+import { RootState } from '@reducer/index'
+import { useSelector } from 'react-redux'
 import './TrianFlow.module.less'
 
 const IconMap: any = {
@@ -26,10 +29,14 @@ const IconMap: any = {
 }
 
 const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
-  const { id, currentVersion } = props
+  const { id } = props
   const [trainInfo, setTrainInfo] = useState<any>()
 
   const timer = useRef<any>(null)
+
+  const currentVersion = useSelector((state: RootState) => {
+    return state.modelDetailSlice.currentVersion
+  })
   useEffect(() => {
     const getTrainInfo = async () => {
       try {

@@ -2,6 +2,8 @@ import { IsEchartViewButton, ReactCusScrollBar, GEcharts } from '@src/UIComponen
 import { isNil } from 'lodash'
 import { useState, useMemo } from 'react'
 import { getOptions } from './options'
+import { RootState } from '@reducer/index'
+import { useSelector } from 'react-redux'
 import './TrainingAccuracy.module.less'
 
 const FormView = (props:any) => {
@@ -45,9 +47,10 @@ const EchartView = (props:any) => {
   )
 }
 
-const TrainingAccuracy = (props: any): JSX.Element => {
-  console.log(props)
-  const { versionInfo } = props
+const TrainingAccuracy = (): JSX.Element => {
+  const versionInfo = useSelector((state: RootState) => {
+    return state.modelDetailSlice.versionInfo
+  })
   const [checkType, setCheckType] = useState('FormView')
   const handleCheckView = () => {
     if (checkType === 'FormView') {

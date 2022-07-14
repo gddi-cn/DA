@@ -9,7 +9,7 @@ import TrainingAccuracy from './TrainingAccuracy'
 import TrainingParameters from './TrainingParameters'
 import './Transversion.module.less'
 import { useMemo, useState } from 'react'
-import ModelDetailType from '../../types'
+// import ModelDetailType from '../../types'
 
 const dataList = [
   {
@@ -30,8 +30,7 @@ const dataList = [
 ]
 
 type SubTabIndex = 'ForecastExample' | 'TrainingAccuracy' | 'TrainingParameters'
-const Transversion = (props: ModelDetailType.TransversionProps): JSX.Element => {
-  const { versionInfo } = props
+const Transversion = (): JSX.Element => {
   const [subTabIndex, setSubTabIndex] = useState<SubTabIndex>('ForecastExample')
   const handleChangeTab = (key: any) => {
     console.log(key)
@@ -43,13 +42,13 @@ const Transversion = (props: ModelDetailType.TransversionProps): JSX.Element => 
           [index: string]: React.ReactNode
       } = {
 
-        ForecastExample: <ForecastExample versionInfo={versionInfo}/>,
-        TrainingAccuracy: <TrainingAccuracy versionInfo={versionInfo} />,
-        TrainingParameters: <TrainingParameters versionInfo={versionInfo} />,
+        ForecastExample: <ForecastExample />,
+        TrainingAccuracy: <TrainingAccuracy />,
+        TrainingParameters: <TrainingParameters />,
       }
 
     return ReactComp[subTabIndex] || null
-  }, [subTabIndex, versionInfo])
+  }, [subTabIndex])
 
   return (
     <div styleName='Transversion'>
@@ -58,12 +57,12 @@ const Transversion = (props: ModelDetailType.TransversionProps): JSX.Element => 
           return (
             <div className='model_info_wrap'>
               <ReactCusScrollBar id='ReactCusScrollBar' autoHide>
-                <ModelInfomations versionInfo={versionInfo} />
+                <ModelInfomations />
               </ReactCusScrollBar>
 
             </div>
           )
-        }, [versionInfo])
+        }, [])
       }
       <div className='Transversion_wrap'>
         <div className='Transversion_header'>

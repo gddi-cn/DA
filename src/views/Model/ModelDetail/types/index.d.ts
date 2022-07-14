@@ -1,5 +1,5 @@
 import type { SetStateAction, Dispatch } from 'react'
-
+import type { VersionItem, VersionInfo } from '@reducer/modelDetailSlice/modelDetailSlice.d.ts'
 export = ModelDetailType;
 export as namespace ModelDetailType;
 
@@ -9,68 +9,14 @@ type Partial<T> = {
 
 declare namespace ModelDetailType {
 
-    interface VersionItem {
-        created: string
-        id: string
-        name: string
-        platform: string
-        test_accuracy: number
-        train_accuracy: number
-    }
-
-    interface TaskInfo {
-        eta: number,
-        progress: number,
-        current: number,
-        flows: any[]
-    }
-
-    interface IterInfo {
-        app_data_args: string
-        application: string
-        begin: string
-        created: string
-        dataset_id: string
-        description: string
-        end: string
-        engine: string
-        gpu_count: number
-        id: string
-        inference_api: string
-        model_type: string
-        name: string
-        onnx_path: string
-        parent_id: string
-        platform: string
-        reason: string
-        result: any
-        status: number
-        task_info: TaskInfo
-        train_task_id: string
-    }
-
-    interface VersionInfo {
-        cover: string
-        created: string
-        description: string
-        id: string
-        iter: IterInfo
-        model_type: string
-        name: string
-    }
-
     interface TrainingOrFailedProps {
-        currentVersion: VersionItem | undefined
-        id: string,
-        versionInfo: VersionInfo | undefined
-    }
 
-    interface TrainInfoProps {
-        versionInfo: VersionInfo | undefined
+        id: string,
+
     }
 
     interface TrianFlowProps {
-        currentVersion: VersionItem | undefined,
+
         id: string
     }
 

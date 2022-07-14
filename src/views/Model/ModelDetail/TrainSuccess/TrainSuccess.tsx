@@ -10,23 +10,21 @@ import ModelForecast from './ModelForecast'
 import ModelDetailType from '../types'
 import './TrainSuccess.module.less'
 
-const TrainSuccess = (props: ModelDetailType.TrainSuccessProps): JSX.Element => {
-  console.log(props, 1)
-  const { versionInfo } = props
+const TrainSuccess = (): JSX.Element => {
   const [tabIndex, setTabIndex] = useState<ModelDetailType.TabIndex>('train_process')
 
   const View = useMemo(() => {
     const ReactComp :{
         [index: string]:React.ReactNode
     } = {
-      train_process: <Transversion versionInfo={versionInfo}/>,
+      train_process: <Transversion />,
       model_forecast: <ModelForecast />,
       model_contrast: <ModelContrast />,
       error_analysis: <ErrorAnalysis />,
     }
 
     return ReactComp[tabIndex] || null
-  }, [tabIndex, versionInfo])
+  }, [tabIndex])
   return (
     <div styleName='TrainSuccess'>
       <div className='view_control_wrap'>

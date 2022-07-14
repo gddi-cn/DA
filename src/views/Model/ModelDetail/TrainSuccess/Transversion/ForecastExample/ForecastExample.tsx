@@ -4,14 +4,16 @@ import api from '@api'
 import Listview from './Listview'
 import SlickView from './SlickView'
 import { objectToArray } from '../../utils'
-import ModelDetailType from '../../../types'
+
+import { RootState } from '@reducer/index'
+import { useSelector } from 'react-redux'
 import './ForecastExample.module.less'
 import { isEmpty } from 'lodash'
 
-const ForecastExample = (props: ModelDetailType.ForecastExampleProps): JSX.Element => {
-  console.log(props)
-  const { versionInfo } = props
-
+const ForecastExample = (): JSX.Element => {
+  const versionInfo = useSelector((state: RootState) => {
+    return state.modelDetailSlice.versionInfo
+  })
   const [dataList, setDataList] = useState<any[]>([])
   const [viewType, setViewType] = useState<string>('grid')
 

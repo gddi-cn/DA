@@ -1,12 +1,16 @@
 import { Collapse } from 'antd';
-import ModelDetailType from '../../types';
+
 import moment from 'moment'
+import { RootState } from '@reducer/index'
+import { useSelector } from 'react-redux'
 import './TrainInfo.module.less'
 
 const { Panel } = Collapse;
 
-const TrainInfo = (props: ModelDetailType.TrainInfoProps): JSX.Element => {
-  const { versionInfo } = props
+const TrainInfo = (): JSX.Element => {
+  const versionInfo = useSelector((state: RootState) => {
+    return state.modelDetailSlice.versionInfo
+  })
   const getTime = () => {
     if (!versionInfo?.iter) {
       return [

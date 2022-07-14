@@ -3,11 +3,13 @@ import TrianFlow from './TrianFlow'
 import ModelDetailType from '../types'
 // import { useEffect, useState, useRef } from 'react'
 // import api from '@api'
-import './TrainingOrFailed.module.less'
+
 import { useMemo } from 'react'
 
+import './TrainingOrFailed.module.less'
+
 const TrainingOrFailed = (props: ModelDetailType.TrainingOrFailedProps): JSX.Element => {
-  const { id, currentVersion, versionInfo } = props
+  const { id } = props
 
   return (
     <div styleName='TrainingOrFailed'>
@@ -15,18 +17,18 @@ const TrainingOrFailed = (props: ModelDetailType.TrainingOrFailedProps): JSX.Ele
         {
           useMemo(() => {
             return (
-              <TrainInfo versionInfo={versionInfo} />
+              <TrainInfo />
             )
-          }, [versionInfo])
+          }, [])
         }
       </div>
       <div className='TrainingOrFailed_right_wrap'>
         {
           useMemo(() => {
             return (
-              <TrianFlow id={id} currentVersion={currentVersion} />
+              <TrianFlow id={id} />
             )
-          }, [currentVersion, id])
+          }, [id])
         }
       </div>
     </div>

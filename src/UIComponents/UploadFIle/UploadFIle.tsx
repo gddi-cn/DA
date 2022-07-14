@@ -23,7 +23,8 @@ interface Props {
   hasPreview?: boolean,
   type?: 'image' | 'nomalFile',
   tips?: React.ReactNode,
-  value?:any
+  value?:any,
+  isShowFileName?:boolean
 
 }
 
@@ -44,10 +45,12 @@ const UplaodImageView = (type: string | undefined, tips: React.ReactNode | undef
 }
 
 const UploadFIle = (props: Props): JSX.Element => {
-  const { regExp, onUpload, maxSize, children, className, onChange, tips, type, value, onError, ...rest } = props
+  const { regExp, onUpload, maxSize, children, className, onChange, tips, type, value, onError, isShowFileName, ...rest } = props
 
   const [filesrc, setFilesrc] = useState<string>('')
   const [loading, setloading] = useState<any>(false)
+
+  const [filename, setFilename] = useState('')
 
   const [errList, setErrList] = useState<string[]>([])
 
@@ -126,9 +129,11 @@ const UploadFIle = (props: Props): JSX.Element => {
 
         if (uploadAws.code === 0) {
           onChange && onChange(fileUrl)
+          setFilename(name)
           setloading(false)
         } else {
           setloading(false)
+          // onChange && onChange(undefined)
         }
       } else {
         setloading(false)
@@ -206,12 +211,16 @@ const UploadFIle = (props: Props): JSX.Element => {
   return (
     <div styleName='UploadFIle' className={`UploadFIle_container ${className}`}>
       <Spin spinning={loading}>
-        <div className='upload_wrap'>
+        <div className='UploadFIle_upload_wrap'>
           {
             getView()
           }
         </div>
       </Spin>
+      {
+        isShowFileName ? <span className='filename'>{filename}</span> : null
+      }
+
       <div className='err_list_wrap'>
         {
           errList.map((o) => {
