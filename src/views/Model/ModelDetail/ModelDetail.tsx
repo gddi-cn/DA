@@ -14,7 +14,7 @@ import './ModelDetail.module.less'
 const TrainSuccess = lazy(() => import('@src/views/Model/ModelDetail/TrainSuccess'));
 const TrainingOrFailed = lazy(() => import('@src/views/Model/ModelDetail/TrainingOrFailed'));
 
-const id = '354060292334395392'
+const id = '370711229819887616'
 const ModelDetail = (): JSX.Element => {
   const dispatch = useDispatch()
 

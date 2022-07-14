@@ -16,7 +16,7 @@ type Props ={
   dataList: Array<any>,
   total:number,
   renderView: (data:any) => React.ReactNode,
-  renderDotView: (data: any) => React.ReactNode,
+  renderDotView: (data: any, a:any, b:any) => React.ReactNode,
   page_size?:number,
   page: MutableRefObject<number>,
   fetchData?: () => void,

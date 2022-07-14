@@ -1,5 +1,6 @@
 import UploadFiles from './UploadFiles'
 import { ReactCusScrollBar } from '@src/UIComponents'
+import ForecastResult from './ForecastResult'
 import './ModelForecast.module.less'
 
 const ModelForecast = (): JSX.Element => {
@@ -15,7 +16,7 @@ const ModelForecast = (): JSX.Element => {
 
       </div>
       <div className='ModelForecast_wrap'>
-              123
+        <ForecastResult />
 
       </div>
     </div>

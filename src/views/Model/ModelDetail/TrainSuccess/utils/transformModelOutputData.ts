@@ -14,6 +14,7 @@ export const transformModelOutputData = (
       modelType:string
   }
 ) :any => {
+  console.log(data, 17)
   let dataSet: any = []
 
   if (modelType === 'classify') {
@@ -62,7 +63,6 @@ export const transformModelOutputData = (
   }
 
   if (modelType === 'monocular_3d_detection') {
-    console.log(data, 'monocular_3d_detection')
     for (let s = 0; s < data.length; s++) {
       const { positions, label, score } = data[s]
       // const absolutionPoints = positions?.map((o: any) => {
@@ -122,7 +122,6 @@ export const transformModelOutputData = (
       }
     }
 
-    console.log(dataSet, 'dataSet')
     return {
       dataSet
     }

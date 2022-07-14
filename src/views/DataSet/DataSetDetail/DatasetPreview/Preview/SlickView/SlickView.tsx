@@ -61,6 +61,7 @@ const SlickView = (props: Props): JSX.Element => {
     scene: undefined
   })
   const page = useRef(0)
+
   const fetchData = useCallback(
     async (funcInfo?: FectData) => {
       try {
