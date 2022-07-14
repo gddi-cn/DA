@@ -4,6 +4,7 @@ import SingleEyeAssessment from './SingleEyeAssessment'
 import { InputNumber, Spin } from 'antd';
 import { RootState } from '@reducer/index'
 import { useSelector } from 'react-redux'
+import { ModelOpreationTitle } from '@src/UIComponents'
 import './UploadFiles.module.less'
 
 const UploadFiles = (): JSX.Element => {
@@ -41,9 +42,8 @@ const UploadFiles = (): JSX.Element => {
     <div styleName='UploadFiles'>
       <Spin spinning={loading} tip='正在上传文件...'>
         <div className='forecast_paramas_block'>
-          <div className='title'>
-            阈值设置
-          </div>
+
+          <ModelOpreationTitle text="阈值设置"></ModelOpreationTitle>
           <div className='input_content'>
             <InputNumber placeholder="请输入阈值" onChange={handleOnChange} min="0" value={thres}
               max="1"
@@ -52,9 +52,8 @@ const UploadFiles = (): JSX.Element => {
         </div>
 
         <div className='forecast_paramas_block'>
-          <div className='title'>
-            上传文件
-          </div>
+
+          <ModelOpreationTitle text="上传文件"></ModelOpreationTitle>
           <div className='upload_content'>
             {view}
           </div>

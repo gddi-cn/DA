@@ -40,6 +40,8 @@ import GIconInput from './GIconInput'
 
 import IsEchartViewButton from './IsEchartViewButton'
 
+import ModelOpreationTitle from './ModelOpreationTitle'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -59,5 +61,6 @@ export {
   GSelect,
   TabsHeader,
   GIconInput,
-  IsEchartViewButton
+  IsEchartViewButton,
+  ModelOpreationTitle
 }
