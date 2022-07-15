@@ -1,4 +1,5 @@
-import { ReactCusScrollBar, IsEchartViewButton } from '@src/UIComponents'
+import { ReactCusScrollBar, IsEchartViewButton, GEcharts } from '@src/UIComponents'
+import { getOptions, getThresOptions } from '../utils'
 import { useState } from 'react'
 import './ContrastView.module.less'
 
@@ -22,12 +23,12 @@ const FormView = (props: any) => {
             dataList.map((o: any, i: any) => {
               return (
                 <div className='FormView_body_item_wrap' key={i}>
-                  <div className='FormView_body_item'>{o.label}</div>
-                  <div className='FormView_body_item'>{o.acc}%</div>
-                  <div className='FormView_body_item'>{o.rec}%</div>
-                  <div className='FormView_body_item'>{o.rec}%</div>
-                  <div className='FormView_body_item'>{o.rec}%</div>
-                  <div className='FormView_body_item'>{o.rec}%</div>
+                  <div className='FormView_body_item'>{o.tag}</div>
+                  <div className='FormView_body_item'>{o.dataset_name}</div>
+                  <div className='FormView_body_item'>{o.threshold}</div>
+                  <div className='FormView_body_item'>{(+o.accuracy).toFixed(2)}%</div>
+                  <div className='FormView_body_item'>{(+o.recall).toFixed(2)}%</div>
+                  <div className='FormView_body_item'>{(+o.fScore).toFixed(2)}%</div>
                 </div>
               )
             })
@@ -40,8 +41,21 @@ const FormView = (props: any) => {
   )
 }
 
+const EchartView = (props: any) => {
+  const { dataList, config_type } = props
+  const list = config_type === 'version' ? getOptions(dataList) : getThresOptions(dataList)
+  return (
+    <div className='EchartView'>
+      <GEcharts options={list} />
+    </div>
+  )
+}
+
 const ContrastView = (props: any): JSX.Element => {
   console.log(props)
+  const { dataList, deferFilterParams } = props
+  //      config_type: 'version',
+  const { config_type } = deferFilterParams
   const [checkType, setCheckType] = useState('FormView')
   const handleCheckView = () => {
     if (checkType === 'FormView') {
@@ -56,7 +70,9 @@ const ContrastView = (props: any): JSX.Element => {
         <IsEchartViewButton onClick={handleCheckView} />
       </div>
       <div className='content_wrap'>
-        <FormView dataList={[]} />
+        {
+          checkType === 'FormView' ? <FormView dataList={dataList} /> : <EchartView dataList={dataList} config_type={config_type} />
+        }
 
       </div>
 
