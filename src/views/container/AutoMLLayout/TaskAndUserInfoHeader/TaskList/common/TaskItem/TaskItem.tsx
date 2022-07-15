@@ -75,7 +75,7 @@ const TaskItem = (props: Props): JSX.Element => {
   return (
 
     <div styleName='TaskItem'>
-      <Popover content={<TaskItemPopover />} mouseEnterDelay={0.4} title={null} getPopupContainer={(triggerNode: any) => triggerNode.parentNode} placement='bottomLeft'>
+      <Popover content={<TaskItemPopover id={id}/>} mouseEnterDelay={0.4} title={null} getPopupContainer={(triggerNode: any) => triggerNode.parentNode} placement='bottomLeft'>
         <div className={getCls()} onClick={() => handleCheckoutTask(id)} >
           <div className='border_wrap'>
             <p className='task_name'>

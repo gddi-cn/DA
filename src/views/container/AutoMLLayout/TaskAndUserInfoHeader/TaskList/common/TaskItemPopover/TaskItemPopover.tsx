@@ -7,7 +7,7 @@ const TaskItemPopover = (props: any): JSX.Element => {
   return (
     <div styleName='TaskItemPopover'>
       <div className='top_wrap'>
-        <div className='task_name'>123</div>
+        <div className='task_name'>{props.id}</div>
         <div className='task_create_time'>123</div>
       </div>
 
