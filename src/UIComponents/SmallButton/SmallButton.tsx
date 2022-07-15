@@ -11,11 +11,11 @@ type Props ={
 const SmallButton = (props: Props): JSX.Element => {
   const { children, type, onClick, className } = props
   return (
-    <div styleName='SmallButton' onClick={onClick} className={className}>
-      <div className={`SmallButton_btn ${type}`}>
+    <span styleName='SmallButton' onClick={onClick} className={className}>
+      <span className={`SmallButton_btn ${type}`}>
         {children}
-      </div>
-    </div>
+      </span>
+    </span>
   )
 }
 
