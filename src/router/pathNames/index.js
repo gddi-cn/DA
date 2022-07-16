@@ -41,3 +41,6 @@ export const APP_THIRDPARTY_STEP_2 = '/app/thirdparty/SelectProject'
 export const APP_DATASET_LOCALDATA = '/app/upload_local_dataset'
 // 废弃
 export const APP_DATASET_IMPORT = '/app/import_thirdparty_dataset'
+
+// 部署
+export const APP_SELECT_DEPLOY_TYPE = '/app/SelectDeployType'

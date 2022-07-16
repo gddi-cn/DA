@@ -103,7 +103,7 @@ const DataSetDetail = (): JSX.Element => {
       </div>
     )
   }, [whichSet, classInfo, datasetInfo, initFetchDatasetInfo, version, currentSet])
-  console.log(version, 'versionversion')
+
   const currentId = useMemo(() => {
     return version[whichSet]
   }, [whichSet, version])

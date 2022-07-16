@@ -58,17 +58,15 @@ const ListView = (props: Props): JSX.Element => {
         const list = [..._datasetList.concat(chunkList.current[page.current - 1])].filter(Boolean)
         datasetList.current = list
         setUpdateList(list)
-        console.log(datasetList.current)
       } catch (e) {
         console.log(e)
       }
     }, []
   )
   useEffect(() => {
-    console.log(bboxList, 'bboxList')
     if (bboxList) {
       chunkList.current = chunk(bboxList, 50)
-      console.log(chunkList.current, 73)
+
       setDatasetTotal(bboxList.length)
       fetchData({ isInit: true })
     }

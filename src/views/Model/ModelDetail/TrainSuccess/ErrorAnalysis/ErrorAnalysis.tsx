@@ -37,7 +37,6 @@ const ErrorAnalysis = (): JSX.Element => {
     return state.modelDetailSlice.versionInfo
   })
   const handleChangeTab = (key: any) => {
-    console.log(key)
     setSubTabIndex(key)
   }
 

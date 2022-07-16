@@ -14,7 +14,7 @@ const TopErrorList = (props:any): JSX.Element => {
       const { value } = dataList[0]
 
       const apha = data.value / value
-      console.log(data.value, ' data.value')
+
       return apha
     }
     return (

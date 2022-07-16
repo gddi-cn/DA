@@ -8,7 +8,8 @@ import {
 
   APP_DATASET_ANALYSE,
   APP_MODEL_TRAIN_CONFIG,
-  APP_MODEL_TRAIN_DETAIL
+  APP_MODEL_TRAIN_DETAIL,
+  APP_SELECT_DEPLOY_TYPE
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -27,6 +28,8 @@ const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/Sel
 const DatasetAnalysis = lazy(() => import('@src/views/DataSet/DatasetAnalysis'));
 const ModelTrainConfig = lazy(() => import('@src/views/Model/ModelTrainConfig'));
 const ModelDetail = lazy(() => import('@src/views/Model/ModelDetail'));
+
+const SelectDeployType = lazy(() => import('@src/views/Deployment/SelectDeployType'));
 
 export default {
   path: '/app',
@@ -89,6 +92,12 @@ export default {
             {
               path: APP_MODEL_TRAIN_DETAIL,
               element: SuspenseFn(ModelDetail),
+
+            },
+
+            {
+              path: APP_SELECT_DEPLOY_TYPE,
+              element: SuspenseFn(SelectDeployType),
 
             },
 
