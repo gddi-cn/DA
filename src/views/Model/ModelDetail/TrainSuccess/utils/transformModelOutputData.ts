@@ -14,7 +14,6 @@ export const transformModelOutputData = (
       modelType:string
   }
 ) :any => {
-  console.log(data, 17)
   let dataSet: any = []
 
   if (modelType === 'classify') {

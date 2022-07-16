@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash'
 import './TopErrorList.module.less'
 
 const TopErrorList = (props:any): JSX.Element => {
-  const { dataList = [], setCurrentData } = props
+  const { dataList = [], selectError, titleText } = props
 
   const getColorBar = (data:any) => {
     const getColor = () => {
@@ -14,7 +14,7 @@ const TopErrorList = (props:any): JSX.Element => {
       const { value } = dataList[0]
 
       const apha = data.value / value
-
+      console.log(data.value, ' data.value')
       return apha
     }
     return (
@@ -32,12 +32,12 @@ const TopErrorList = (props:any): JSX.Element => {
           <div className='TopErrorList_list_wrap'>
 
             <div className='TopErrorList_list'>
-              <ModelOpreationTitle text='TOP3 识别错误的场景'></ModelOpreationTitle>
+              <ModelOpreationTitle text={titleText || `TOP${dataList.length} 识别错误的标签`}></ModelOpreationTitle>
               <div className='list'>
                 {
                   dataList.map((o:any, i:any) => {
                     return (
-                      <div key={i} className='error_item' onClick={() => setCurrentData(o?.data)}>
+                      <div key={i} className='error_item' onClick={() => selectError(o?.data)} >
                         {getColorBar(o)}
                         {o.label}
                       </div>

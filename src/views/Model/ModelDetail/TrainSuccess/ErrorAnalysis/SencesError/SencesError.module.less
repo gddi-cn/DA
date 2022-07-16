@@ -6,7 +6,9 @@
     :global {
         .SencesError_wrap {
             flex: 1;
-            padding-right: 30px;
+
+            display: flex;
+            flex-direction: column;
         }
 
         .advice {
@@ -25,11 +27,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-right: 30px;
 
             .right_wrap {
                 display: flex;
                 align-items: center;
             }
+        }
+
+        .SencesError_view_body {
+            width: 100%;
+            flex: 1;
         }
     }
 }
