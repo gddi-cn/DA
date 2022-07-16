@@ -10,8 +10,8 @@ import { isEmpty } from 'lodash'
 import { MODEL_TYPES } from '@src/constants'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_CREATE_TYPE, APP_LOCAL_FILE_STEP_2 } from '@router'
-import './SelectTrainType.module.less'
 import { message } from 'antd'
+import './SelectTrainType.module.less'
 
 const MODEL_TYPES_ICON: any = {
   detection: <Mubiaojiance />,

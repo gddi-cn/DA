@@ -44,3 +44,5 @@ export const APP_DATASET_IMPORT = '/app/import_thirdparty_dataset'
 
 // 部署
 export const APP_SELECT_DEPLOY_TYPE = '/app/SelectDeployType'
+
+export const APP_SelectModule = '/app/SelectModule'

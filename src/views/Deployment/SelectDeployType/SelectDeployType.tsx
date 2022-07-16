@@ -2,12 +2,23 @@
 import { ReactComponent as Demo } from './icon/Demo模型.svg'
 import { ReactComponent as Pingtai } from './icon/pingtai.svg'
 import { ReactComponent as Sdk } from './icon/sdk.svg'
+import { useNavigate } from 'react-router-dom'
+import { APP_SelectModule } from '@router'
 import './SelectDeployType.module.less'
 
 const SelectDeployType = (): JSX.Element => {
+  const navigate = useNavigate()
   const getHeader = (text: string) => {
     return (
       <div className='getHeader'>{text}</div>
+    )
+  }
+
+  const handleGotoPlatform = () => {
+    navigate(
+      {
+        pathname: APP_SelectModule
+      }
     )
   }
   return (
@@ -53,7 +64,7 @@ const SelectDeployType = (): JSX.Element => {
               </div>
 
             </div>
-            <div className='type_item_wrap product_detail_wrap_item'>
+            <div className='type_item_wrap product_detail_wrap_item' onClick={handleGotoPlatform}>
               <div className='type_item_wrap_top'>
                 <Pingtai></Pingtai>
               </div>
