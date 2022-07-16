@@ -10,7 +10,8 @@ import {
   APP_MODEL_TRAIN_CONFIG,
   APP_MODEL_TRAIN_DETAIL,
   APP_SELECT_DEPLOY_TYPE,
-  APP_SelectModule
+  APP_SelectModule,
+  APP_SetModuleConfig
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -33,6 +34,8 @@ const ModelDetail = lazy(() => import('@src/views/Model/ModelDetail'));
 const SelectDeployType = lazy(() => import('@src/views/Deployment/SelectDeployType'));
 
 const SelectModule = lazy(() => import('@src/views/Deployment/ByPlatform/SelectModule'));
+
+const SetModuleConfig = lazy(() => import('@src/views/Deployment/ByPlatform/SetModuleConfig'));
 
 export default {
   path: '/app',
@@ -107,6 +110,12 @@ export default {
             {
               path: APP_SelectModule,
               element: SuspenseFn(SelectModule),
+
+            },
+
+            {
+              path: APP_SetModuleConfig,
+              element: SuspenseFn(SetModuleConfig),
 
             },
 

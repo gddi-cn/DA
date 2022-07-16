@@ -3,7 +3,7 @@ import { FooterBar, GButton, ModelOpreationTitle, ReactCusScrollBar } from '@src
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { Form, message, Pagination, Empty } from 'antd';
 import api from '@api'
-import { APP_SELECT_DEPLOY_TYPE, APP_LOCAL_FILE_STEP_2 } from '@router'
+import { APP_SELECT_DEPLOY_TYPE, APP_SetModuleConfig } from '@router'
 import { useNavigate } from 'react-router-dom'
 import SelectDevice from './SelectDevice'
 import { isEmpty, isNil } from 'lodash';
@@ -127,7 +127,7 @@ const SelectModule = (): JSX.Element => {
       const data = await form.validateFields()
       console.log(data)
       navigate({
-        pathname: APP_LOCAL_FILE_STEP_2
+        pathname: APP_SetModuleConfig
       })
     }
     return (
