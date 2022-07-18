@@ -6,7 +6,7 @@ import api from '@api'
 import { APP_SELECT_DEPLOY_TYPE, APP_SetModuleConfig } from '@router'
 import { useNavigate } from 'react-router-dom'
 import SelectDevice from './SelectDevice'
-import { isEmpty, isNil } from 'lodash';
+import { isEmpty } from 'lodash';
 import { ReactComponent as Gddi } from './icon/gddi.svg'
 import './SelectModule.module.less'
 
@@ -42,11 +42,6 @@ const SelectList = (props:any) => {
   useEffect(() => {
     fn()
   }, [fn])
-
-  useEffect(() => {
-    const list = Array.from({ length: 40 }).fill('')
-    setmoduleList(list)
-  }, [])
 
   const handlePagination = (page: any) => {
     params.current.page = page
@@ -155,7 +150,7 @@ const SelectModule = (): JSX.Element => {
                     { required: true }
                   ]
                 }
-                noStyle
+
               >
 
                 <SelectDevice />
@@ -163,7 +158,7 @@ const SelectModule = (): JSX.Element => {
             </div>
             <div className='select_module_wrap'>
 
-              <Form.Item dependencies={['adapter_device']} noStyle>
+              <Form.Item dependencies={['adapter_device']} >
                 {({ getFieldValue }) => {
                   const type = getFieldValue('adapter_device')
                   console.log(type, 'typetype')
@@ -173,11 +168,7 @@ const SelectModule = (): JSX.Element => {
                       name='app_template_id'
                       rules={[{ required: true }]}
                     >
-                      {
-                        isNil(type) || isEmpty(type) ? (
-                          <Empty description='请先选择硬件设备' />
-                        ) : <SelectList device_type={type[0]} />
-                      }
+                      <SelectList device_type={type ? type[0] : undefined} />
                     </Form.Item>
                   )
                 }}

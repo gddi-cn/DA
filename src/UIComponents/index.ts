@@ -42,6 +42,8 @@ import IsEchartViewButton from './IsEchartViewButton'
 
 import ModelOpreationTitle from './ModelOpreationTitle'
 
+import TransitionAnimation from './TransitionAnimation'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -62,5 +64,6 @@ export {
   TabsHeader,
   GIconInput,
   IsEchartViewButton,
-  ModelOpreationTitle
+  ModelOpreationTitle,
+  TransitionAnimation
 }

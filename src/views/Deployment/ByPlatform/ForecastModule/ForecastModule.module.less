@@ -1,0 +1,60 @@
+.ForecastModule {
+    width: 100%;
+    height: calc(100vh - 100px);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+
+    :global {
+        .ForecastModule_wrap {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+
+            .app_forecast_from_wrap {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                padding-top: 40px;
+            }
+
+            .upload_views {
+                color: #8C8C8C;
+                font-size: 14px;
+                padding: 17px 0;
+            }
+
+            .upload_container {
+                width: 208px;
+                padding: 15px;
+                background: #EDF8FF;
+                border-radius: 8px;
+                height: 369px;
+
+                .tips_wrap {
+                    padding: 10px 0;
+                    font-size: 14px;
+                    line-height: 20px;
+                    /* or 143% */
+
+
+                    /* Text/Subdued */
+
+                    color: #6D7175;
+                }
+            }
+
+            .result_container {
+                height: 80%;
+                width: 763px;
+                margin-left: 20px;
+                background: #EDF8FF;
+                border-radius: 8px;
+
+
+            }
+        }
+    }
+}

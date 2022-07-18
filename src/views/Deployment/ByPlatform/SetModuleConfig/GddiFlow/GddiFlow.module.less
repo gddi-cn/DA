@@ -1,0 +1,63 @@
+.GddiFlow {
+    width: 100%;
+    height: 100%;
+    // box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
+    display: flex;
+
+
+    :global {
+        .custom-controls {
+            display: none;
+        }
+
+
+
+        .ant-modal,
+        .ant-modal-content,
+        .ant-modal-body {
+            width: 100% !important;
+            height: 100%;
+        }
+
+        .btn {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+
+            &:hover {
+                  background-color: #dfe9f9;
+            }
+
+            .anticon {
+                margin-right: 5px;
+            }
+        }
+
+        .react-flow__controls {
+            right: 10px;
+            top: 10px;
+            bottom: unset;
+            left: unset;
+        }
+
+        .tools {
+            width: 150px;
+            height: 100%;
+            border-right: 1px solid #f3f3f3;
+            padding: 8px;
+        }
+
+        .AppCanvas_wrap {
+            flex: 1;
+            height: 100%;
+            padding: 8px;
+        }
+
+
+    }
+}
+

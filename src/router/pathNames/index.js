@@ -48,3 +48,5 @@ export const APP_SELECT_DEPLOY_TYPE = '/app/SelectDeployType'
 export const APP_SelectModule = '/app/SelectModule'
 
 export const APP_SetModuleConfig = '/app/SetModuleConfig'
+
+export const APP_ForecastModule = '/app/ForecastModule'

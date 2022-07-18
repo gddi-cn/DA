@@ -43,12 +43,13 @@ const FlvMp4 = (props: any) => {
     createFlv(src, video.current, setvideoLoading)
   }, [video, src])
   return (
-    <Spin spinning={videoLoading} tip='正在获取资源'>
-      <div className='flvMp4' styleName='flvMp4'>
 
+    <div className='flvMp4' styleName='flvMp4'>
+      <Spin spinning={videoLoading} tip='正在获取资源'>
         <video muted ref={video} className='video' controls autoPlay />
-      </div>
-    </Spin>
+      </Spin>
+    </div>
+
   )
 }
 
