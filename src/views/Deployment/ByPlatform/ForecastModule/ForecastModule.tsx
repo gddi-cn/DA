@@ -1,7 +1,7 @@
 import StepHeaderOfThis from '../StepHeaderOfThis'
 import { FooterBar, GButton, ModelOpreationTitle } from '@src/UIComponents'
 import { useMemo, useState } from 'react'
-import { APP_ForecastModule, APP_SelectModule } from '@router'
+import { APP_SelectDevice, APP_SetModuleConfig } from '@router'
 import { useNavigate } from 'react-router-dom'
 import CommonUpload from './commonUpload'
 import { ReactComponent as UploadIcon } from './icon/upload-cloud.svg'
@@ -15,7 +15,7 @@ const ForecastModule = (): JSX.Element => {
   const rightContent = useMemo(() => {
     const handleGoback = () => {
       navigate({
-        pathname: APP_SelectModule
+        pathname: APP_SetModuleConfig
       })
     }
 
@@ -24,7 +24,7 @@ const ForecastModule = (): JSX.Element => {
       // 发送给socket next
 
       navigate({
-        pathname: APP_ForecastModule
+        pathname: APP_SelectDevice
       })
     }
     return (

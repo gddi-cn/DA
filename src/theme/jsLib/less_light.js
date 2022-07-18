@@ -32,7 +32,7 @@ const gddi_design = {
 
 const ant_design = {
   // antd的设计参数
-  primaryColor: '#061926',
+  primaryColor: '#48A2DF',
 }
 
 const all_design = {

@@ -50,3 +50,5 @@ export const APP_SelectModule = '/app/SelectModule'
 export const APP_SetModuleConfig = '/app/SetModuleConfig'
 
 export const APP_ForecastModule = '/app/ForecastModule'
+
+export const APP_SelectDevice = '/app/SelectDevice'

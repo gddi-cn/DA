@@ -12,7 +12,8 @@ import {
   APP_SELECT_DEPLOY_TYPE,
   APP_SelectModule,
   APP_SetModuleConfig,
-  APP_ForecastModule
+  APP_ForecastModule,
+  APP_SelectDevice
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -39,6 +40,8 @@ const SelectModule = lazy(() => import('@src/views/Deployment/ByPlatform/SelectM
 const SetModuleConfig = lazy(() => import('@src/views/Deployment/ByPlatform/SetModuleConfig'));
 
 const ForecastModule = lazy(() => import('@src/views/Deployment/ByPlatform/ForecastModule'));
+
+const SelectDevice = lazy(() => import('@src/views/Deployment/ByPlatform/SelectDevice'));
 
 export default {
   path: '/app',
@@ -125,6 +128,12 @@ export default {
             {
               path: APP_ForecastModule,
               element: SuspenseFn(ForecastModule),
+
+            },
+
+            {
+              path: APP_SelectDevice,
+              element: SuspenseFn(SelectDevice),
 
             },
 
