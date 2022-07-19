@@ -3,7 +3,7 @@ import StepHeaderOfThis from '../StepHeaderOfThis'
 import { FooterBar, GButton } from '@src/UIComponents'
 import { Form, message } from 'antd';
 import { useMemo } from 'react'
-import { APP_SetModuleConfig } from '@router'
+import { APP_SetModuleConfig, APP_AfterDeployed } from '@router'
 import { useNavigate } from 'react-router-dom'
 import SelectDeviceForm from './SelectDeviceForm'
 import './SelectDevice.module.less'
@@ -30,9 +30,9 @@ const SelectDevice = (): JSX.Element => {
         return
       }
       console.log(data)
-    //   navigate({
-    //     pathname: APP_ForecastModule
-    //   })
+      navigate({
+        pathname: APP_AfterDeployed
+      })
     }
     return (
       <div className='footer_btn_wrap'>

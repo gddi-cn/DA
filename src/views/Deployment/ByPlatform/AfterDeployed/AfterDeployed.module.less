@@ -1,0 +1,52 @@
+.AfterDeployed {
+    width: 100%;
+    height: calc(100vh - 100px);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+
+    :global {
+        .AfterDeployed_wrap {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .AfterDeployed_wrap_content {
+                flex: 1;
+                padding-top: 50px;
+                display: flex;
+                // justify-content: center;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tips {
+                margin-top: 40px;
+                font-size: 18px;
+                line-height: 28px;
+                /* identical to box height, or 156% */
+
+                font-weight: 600;
+                /* Text/Default */
+
+                color: #202223;
+            }
+
+            .download_btn {
+                cursor: pointer;
+                margin-top: 20px;
+                border: 1px solid #061926;
+                border-radius: 4px;
+                font-size: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                width: 148px;
+                height: 32px;
+                color: #061926;
+            }
+        }
+    }
+}
