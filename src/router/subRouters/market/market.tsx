@@ -14,7 +14,8 @@ import {
   APP_SetModuleConfig,
   APP_ForecastModule,
   APP_SelectDevice,
-  APP_AfterDeployed
+  APP_AfterDeployed,
+  APP_SDK_Documents
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -22,16 +23,27 @@ import localfile from '../localfile';
 import thirdparty from '../thirdparty';
 
 const NotFound = lazy(() => import('@src/views/NotFound'));
+
 const App = lazy(() => import('@src/views/container/app'));
+
 const AutoMLLayout = lazy(() => import('@src/views/container/AutoMLLayout'));
+
 const TaskStepLayout = lazy(() => import('@src/views/container/TaskStepLayout'));
+
 const GuideHome = lazy(() => import('@src/views/GuideHome'));
+
 const DataSetIndex = lazy(() => import('@src/views/DataSet/DataSetIndex'));
+
 const DataSetDetail = lazy(() => import('@src/views/DataSet/DataSetDetail'));
+
 const ModelIndex = lazy(() => import('@src/views/Model/ModelIndex'));
+
 const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/SelectCreateType'));
+
 const DatasetAnalysis = lazy(() => import('@src/views/DataSet/DatasetAnalysis'));
+
 const ModelTrainConfig = lazy(() => import('@src/views/Model/ModelTrainConfig'));
+
 const ModelDetail = lazy(() => import('@src/views/Model/ModelDetail'));
 
 const SelectDeployType = lazy(() => import('@src/views/Deployment/SelectDeployType'));
@@ -43,7 +55,10 @@ const SetModuleConfig = lazy(() => import('@src/views/Deployment/ByPlatform/SetM
 const ForecastModule = lazy(() => import('@src/views/Deployment/ByPlatform/ForecastModule'));
 
 const SelectDevice = lazy(() => import('@src/views/Deployment/ByPlatform/SelectDevice'));
+
 const AfterDeployed = lazy(() => import('@src/views/Deployment/ByPlatform/AfterDeployed'));
+
+const Documents = lazy(() => import('@src/views/Deployment/BySDK/Documents'));
 
 export default {
   path: '/app',
@@ -142,6 +157,12 @@ export default {
             {
               path: APP_AfterDeployed,
               element: SuspenseFn(AfterDeployed),
+
+            },
+
+            {
+              path: APP_SDK_Documents,
+              element: SuspenseFn(Documents),
 
             },
 

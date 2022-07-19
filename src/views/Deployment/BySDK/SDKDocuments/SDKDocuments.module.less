@@ -1,0 +1,97 @@
+.SDKDocuments {
+    width: 100%;
+    background: #EDF8FF;
+    padding: 20px 38px;
+
+    :global {
+        .search_header {
+            .header_title {
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 150%;
+                /* identical to box height, or 24px */
+
+                letter-spacing: -0.011em;
+
+                /* Text/Default */
+
+                color: #202223;
+                margin-bottom: 10px;
+            }
+
+            .params_select_wrap {
+                display: flex;
+
+                .CusRdio {
+                    display: flex;
+                    height: 24px;
+                    align-items: center;
+                    cursor: pointer;
+                    margin-left: 20px;
+
+                    .x86_wrap,
+                    .arm_wrap {
+                        width: 60px;
+                        height: 24px;
+                        display: flex;
+                        border: 1px solid #3693D1;
+
+                        justify-content: center;
+                    }
+
+                    .x86_wrap {
+                        border-radius: 20px 0 0 20px;
+                        border-right: none;
+                    }
+
+                    .arm_wrap {
+                        border-radius: 0px 20px 20px 0px;
+                    }
+
+                    .item_active {
+                        background-color: #3693D1;
+                        color: #fff;
+                        transition: all 0.3s;
+                    }
+                }
+
+                .SDKDocuments_input {
+                    border: 1px solid #f5f5f5;
+
+                    border-radius: 19px;
+                }
+
+                .input_wrap {
+                    height: 24px;
+                }
+            }
+        }
+
+
+        .body_list {
+            margin-top: 20px;
+
+            .list_item {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+            }
+
+            .down_load {
+                font-size: 16px;
+
+
+                color: #62B0E5;
+
+            }
+
+            .file_name {
+                font-size: 16px;
+                flex: 1;
+                overflow: hidden;
+
+                color: #202223;
+            }
+        }
+    }
+}

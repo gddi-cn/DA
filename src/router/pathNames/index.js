@@ -54,3 +54,6 @@ export const APP_ForecastModule = '/app/ForecastModule'
 export const APP_SelectDevice = '/app/SelectDevice'
 
 export const APP_AfterDeployed = '/app/AfterDeployed'
+
+// sdk
+export const APP_SDK_Documents = '/app/sdk_documents'

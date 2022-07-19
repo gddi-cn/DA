@@ -3,7 +3,7 @@ import { ReactComponent as Demo } from './icon/Demo模型.svg'
 import { ReactComponent as Pingtai } from './icon/pingtai.svg'
 import { ReactComponent as Sdk } from './icon/sdk.svg'
 import { useNavigate } from 'react-router-dom'
-import { APP_SelectModule } from '@router'
+import { APP_SelectModule, APP_SDK_Documents } from '@router'
 import './SelectDeployType.module.less'
 
 const SelectDeployType = (): JSX.Element => {
@@ -20,6 +20,12 @@ const SelectDeployType = (): JSX.Element => {
         pathname: APP_SelectModule
       }
     )
+  }
+
+  const handleGotoSDK = () => {
+    navigate({
+      pathname: APP_SDK_Documents
+    })
   }
   return (
     <div styleName='SelectDeployType'>
@@ -52,7 +58,7 @@ const SelectDeployType = (): JSX.Element => {
           }
 
           <div className='product_detail_wrap'>
-            <div className='type_item_wrap product_detail_wrap_item'>
+            <div className='type_item_wrap product_detail_wrap_item' onClick={handleGotoSDK}>
               <div className='type_item_wrap_top'>
                 <Sdk></Sdk>
               </div>
