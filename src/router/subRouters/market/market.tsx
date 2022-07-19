@@ -15,7 +15,8 @@ import {
   APP_ForecastModule,
   APP_SelectDevice,
   APP_AfterDeployed,
-  APP_SDK_Documents
+  APP_SDK_Documents,
+  APP_DEVICE_INDEX
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -60,6 +61,8 @@ const AfterDeployed = lazy(() => import('@src/views/Deployment/ByPlatform/AfterD
 
 const Documents = lazy(() => import('@src/views/Deployment/BySDK/Documents'));
 
+const DeviceIndex = lazy(() => import('@src/views/Device/DeviceIndex'));
+
 export default {
   path: '/app',
   strict: true,
@@ -78,6 +81,12 @@ export default {
         {
           path: APP_DATASET_CREATE_TYPE,
           element: SuspenseFn(SelectCreateType),
+
+        },
+
+        {
+          path: APP_DEVICE_INDEX,
+          element: SuspenseFn(DeviceIndex),
 
         },
         // 本地文件上传

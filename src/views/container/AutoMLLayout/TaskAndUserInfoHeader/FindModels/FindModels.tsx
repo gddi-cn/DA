@@ -123,7 +123,7 @@ const FindModels = (): JSX.Element => {
 
       <Popover content={<ModelList />} mouseEnterDelay={0.4} title={null} getPopupContainer={(triggerNode: any) => triggerNode.parentNode} placement='bottomLeft'>
         <div className='FindModels_contents'>
-          <DownOutlined />
+          <DownOutlined className='icon'/>
         </div>
       </Popover>
     </div>
