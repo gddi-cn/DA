@@ -1,7 +1,7 @@
-import { Checkbox, Empty, Spin, Popover } from 'antd'
+import { Checkbox, Empty, Spin } from 'antd'
 import { useState, useCallback, useEffect, useRef } from 'react'
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-
+import ApplyAuthForm from '../ApplyAuthForm'
 import { isNil, isEmpty } from 'lodash'
 import api from '@api'
 import './DeviceGridTable.module.less'
@@ -110,16 +110,8 @@ const DeviceGridTable = (props: any): JSX.Element => {
 
     const getBtn = () => {
       if (ModelAuth === 'Unauthorized') {
-        const content = (
-          <div>
-            <p>Content</p>
-            <p>Content</p>
-          </div>
-        );
         return (
-          <Popover placement="leftTop" title="申请授权" content={content} trigger="click">
-            <span className='apply_auth_wrap'>申请授权</span>
-          </Popover>
+          <ApplyAuthForm />
 
         )
       }
@@ -127,10 +119,10 @@ const DeviceGridTable = (props: any): JSX.Element => {
     }
 
     return (
-      <span className='ModelAuth_wrap'>
-        <span className={clsText[ModelAuth] || 'unAuthorized'}>{objText[ModelAuth] || '未授权'}</span>
+      <div className='ModelAuth_wrap'>
+        <div className={clsText[ModelAuth] || 'unAuthorized'}>{objText[ModelAuth] || '未授权'}</div>
         {getBtn()}
-      </span>
+      </div>
     )
   }
 
