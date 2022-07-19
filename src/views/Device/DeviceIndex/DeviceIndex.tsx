@@ -244,7 +244,7 @@ const DeviceIndex = (): JSX.Element => {
             </div>
           </div>
           <div className='table_wrap'>
-            <DeviceTable dataList={dataSource} tableLoading={tableLoading}/>
+            <DeviceTable dataList={dataSource} tableLoading={tableLoading} groupSelected={groupSelected} fetchDeviceList={fetchDeviceList} deviceType={deviceType}/>
           </div>
         </div>
       </div>

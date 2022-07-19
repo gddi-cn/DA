@@ -1,6 +1,7 @@
 import { ReactCusScrollBar } from '@src/UIComponents'
 import { Spin, Empty } from 'antd'
 import { isEmpty } from 'lodash'
+import Opreations from '../common/Opreations'
 import moment from 'moment';
 import './DeviceTable.module.less'
 
@@ -27,10 +28,13 @@ const column = [
 ]
 type Props={
     dataList:any[],
-    tableLoading:boolean
+    tableLoading:boolean,
+    groupSelected:any,
+    fetchDeviceList:any,
+    deviceType:any
 }
 const DeviceTable = (props: Props): JSX.Element => {
-  const { dataList = [], tableLoading } = props
+  const { dataList = [], tableLoading, groupSelected, fetchDeviceList, deviceType } = props
 
   const getState = (state:string) => {
     const objText: any = {
@@ -87,7 +91,7 @@ const DeviceTable = (props: Props): JSX.Element => {
                     {getState(state)}
                   </div>
                   <div className='DeviceTable_body_item_op'>
-                                    123
+                    <Opreations data={o} selected={{ id: groupSelected }} fetchDeviceList={fetchDeviceList} deviceType={deviceType}/>
                   </div>
                 </div>
               )
