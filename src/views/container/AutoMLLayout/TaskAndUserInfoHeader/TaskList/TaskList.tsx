@@ -2,12 +2,32 @@ import TaskItem from './common/TaskItem'
 import AddButton from './common/AddButton'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
-import { useMemo } from 'react'
-
+import { useCallback, useEffect, useMemo } from 'react'
+import api from '@api'
 import { TabsNav } from '@src/UIComponents'
 import './TaskList.module.less'
 
 const TaskList = (): JSX.Element => {
+  const fetchTaskList = useCallback(
+    async () => {
+      try {
+        const res = await api.get('/v3/projects', {
+          params: {
+            status: 1
+          }
+        })
+        if (res?.code === 0) {
+          console.log(res)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }, []
+  )
+  useEffect(() => {
+    fetchTaskList()
+  }, [fetchTaskList])
+
   const taskList = useSelector((state: RootState) => {
     return state.tasksSilce.taskList
   })
@@ -28,8 +48,11 @@ const TaskList = (): JSX.Element => {
       <TabsNav
         dataList={taskList}
         renderItem={
-          (data) => <TaskItem data={data}
-          />
+          (data) => (
+            <TaskItem
+              data={data}
+            />
+          )
         }
         getActiveNode={getActiveNode}
       />
