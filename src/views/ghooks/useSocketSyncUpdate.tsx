@@ -114,13 +114,22 @@ export const useSocketSyncUpdate = () => {
 
     return () => {
       window.globalSocketPushMsgForProject = null
+      // 退订之前的东西
+      const _topic = `project.snap.${id}`
+      wsInstance.current?.send(JSON.stringify({
+        action: 'unsub',
+        topic: _topic,
+        timestamp: new Date().valueOf()
+      }))
     }
   }, [id, loginSuccess, dispatch, navigate])
 
   useEffect(() => {
   // 监听当前active task info，变化了就都发回去，也不管啥的
   // 变化可能是某个页面数据变了，也可能页面变了，反正都是要发送的，但是怎么判断这个东西变了还是要研究研究
-
+    if (isNil(activePipeLine)) {
+      return
+    }
     if (activePipeLine?.active_page) {
       if (activePipeLine?.active_page === location.pathname) {
 
