@@ -1,9 +1,9 @@
 .TaskItem {
-    width: 116px;
-    min-width: 28px;
+
+    width: 100%;
     height: 100%;
     cursor: pointer;
-    flex: 1;
+
     position: relative;
 
     overflow: visible;
@@ -19,37 +19,46 @@
 
     :global {
 
-        .TaskItem_active {
-            background-color: #fff;
 
-            border: none;
-        }
 
         .task_name {
             flex: 1;
             color: inherit;
-            font-size: 10px;
+            font-size: 14px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            line-height: 100%;
 
+
+            align-items: center;
+            padding: 5% 8%;
             color: var(--gddi-primary-text-color);
         }
 
         .TaskItem_wrap {
-            width: 100%;
+            flex: 1;
+            flex-grow: 0;
             height: 100%;
 
             overflow: hidden;
 
 
-            padding: 8px 0;
+
             background: transparent;
 
             // &:hover {
             //     background-color: #fff;
             // }
+        }
+
+        .TaskItem_active {
+            // background-color: #fff;
+            width: 160px;
+            flex-shrink: 0;
+            border: none;
+            transition: all 0.3s;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
 
         .border_wrap {
@@ -58,17 +67,31 @@
             display: flex;
             align-items: center;
             border-right: 1px solid #fff;
-            padding: 0 10px;
+
+            position: relative;
+
         }
 
         .opration_wrap {
+
             display: none;
-            padding: 0 2px;
+
             flex-shrink: 0;
             white-space: nowrap;
-            font-size: 10px;
-            color: red;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 14px;
+            // color: red;
             z-index: 1;
+            color: #606266;
+     
+            // right: 4%;
+            // top: 50%;
+            // transform: translateY(-50%);
+            // background-color: rgba(211, 215, 223, 0.6);
+            border-radius: 100%;
+            padding: 2px;
+            margin-right: 8%;
         }
 
 

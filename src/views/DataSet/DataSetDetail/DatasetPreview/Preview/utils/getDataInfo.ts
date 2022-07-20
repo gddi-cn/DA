@@ -43,6 +43,8 @@ export const processData = (data: any, scenes: any) => {
         rawImgDataSet: []
       }
     }
+
+    return iamwantyou
   }
 
   if (scenes === 'monocular_3d_detection') {
@@ -251,6 +253,7 @@ export const useGetDataInfo = (data: any, scenes:any) => {
     }
 
     const iamwantyou = processData(data, scenes)
+
     setDataInfo(iamwantyou)
   }, [data, scenes])
 

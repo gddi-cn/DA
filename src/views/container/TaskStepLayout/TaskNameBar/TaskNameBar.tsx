@@ -10,7 +10,7 @@ import './TaskNameBar.module.less'
 
 const TaskNameBar = (): JSX.Element => {
   const task_name = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo.task_name
+    return state.tasksSilce.activeTaskInfo.name
   })
   const reactKey = useSelector((state: RootState) => {
     return state.tasksSilce.activeTaskInfo.id

@@ -40,9 +40,9 @@ const TaskStep = (): JSX.Element => {
     return state.tasksSilce.activeTaskInfo?.dataset
   })
 
-  const deploy = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo?.deploy
-  })
+  // const deploy = useSelector((state: RootState) => {
+  //   return state.tasksSilce.activeTaskInfo?.deploy
+  // })
 
   // 点击逻辑、
   // 数据存在可以看详情、不存在就去数据集list选择
@@ -53,7 +53,7 @@ const TaskStep = (): JSX.Element => {
 
   // 存在可以去看model详情、不存在则判断是不是选了数据了，有数据的情况下可以
   const handleModelClick = () => {
-    console.log(deploy)
+    console.log(1)
   }
 
   // 存在可以去看model详情、不存在则不可点击

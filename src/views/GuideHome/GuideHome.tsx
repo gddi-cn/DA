@@ -1,5 +1,5 @@
 import { Button } from 'antd'
-import { addTask } from '@reducer/tasksSilce'
+import { addActiveTask } from '@reducer/tasksSilce'
 import { useDispatch } from 'react-redux'
 import { useDebounceFn } from 'ahooks'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +25,7 @@ const GuideHome = (): JSX.Element => {
   const navigate = useNavigate()
   const handleAddTask = useDebounceFn(() => {
     // 创建好像不需要什么信息
-    dispatch(addTask(null))
+    dispatch(addActiveTask(null))
 
     navigate({
       pathname: APP_DATA_SET_INDEX

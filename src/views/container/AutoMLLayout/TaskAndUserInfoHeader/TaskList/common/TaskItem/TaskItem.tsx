@@ -1,18 +1,21 @@
 
 import { Popover } from 'antd'
-import { subTask, checkoutTask } from '@reducer/tasksSilce'
+import { hiddenActiveTask, checkoutTask } from '@reducer/tasksSilce'
 import { useDispatch, useSelector } from 'react-redux'
 // import { useDebounceFn } from 'ahooks'
+import { CloseOutlined } from '@ant-design/icons'
 import { RootState } from '@reducer/index'
-import TaskItemPopover from '../TaskItemPopover'
+import TaskItemDetail from '../TaskItemDetail'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATA_SET_INDEX } from '@router'
 
 // import type { Dispatch, SetStateAction } from 'react'
 import './TaskItem.module.less'
+import { useMemo } from 'react'
 
 type Props = {
   data: TaskSlice.taskListItem,
+
 }
 
 const TaskItem = (props: Props): JSX.Element => {
@@ -28,7 +31,7 @@ const TaskItem = (props: Props): JSX.Element => {
   const { data } = props
 
   const {
-    task_name, id
+    name, id
   } = data
 
   // 隐藏选项、如果没有了就回到首页
@@ -39,7 +42,7 @@ const TaskItem = (props: Props): JSX.Element => {
     if (activeTaskInfo.id === id) {
       hasAutoNext = true
     }
-    dispatch(subTask({ id, hasAutoNext }))
+    dispatch(hiddenActiveTask({ id, hasAutoNext }))
 
     // 只有一个的时候意味着next为0、就直接回去首页了
     if (taskList.length === 1) {
@@ -53,9 +56,9 @@ const TaskItem = (props: Props): JSX.Element => {
     }
   }
 
-  const handleCheckoutTask = (uuid: string) => {
+  const handleCheckoutTask = () => {
     console.log(1)
-    dispatch(checkoutTask({ reactKey: uuid }))
+    dispatch(checkoutTask(data))
     navigate({
       pathname: APP_DATA_SET_INDEX
     })
@@ -72,18 +75,23 @@ const TaskItem = (props: Props): JSX.Element => {
     return 'TaskItem_wrap'
   }
 
+  const Content = useMemo(() => {
+    return (
+      <TaskItemDetail data={data} />
+    )
+  }, [data])
+
   return (
 
-    <div styleName='TaskItem'>
-      <Popover content={<TaskItemPopover id={id}/>} mouseEnterDelay={0.4} title={null} getPopupContainer={(triggerNode: any) => triggerNode.parentNode} placement='bottomLeft'>
-        <div className={getCls()} onClick={() => handleCheckoutTask(id)} >
+    <div styleName='TaskItem' className=''>
+      <Popover content={Content} mouseEnterDelay={0.4} title={null} placement='bottomLeft' >
+        <div className={getCls()} onClick={handleCheckoutTask} >
           <div className='border_wrap'>
-            <p className='task_name'>
-              {task_name || id}
-            </p>
-            <div className='opration_wrap' onClick={handleOnClick}>
-              <p>隐藏</p>
+            <div className='task_name'>
+              {name || id}
+
             </div>
+            <CloseOutlined onClick={handleOnClick} className='opration_wrap' />
           </div>
 
         </div>

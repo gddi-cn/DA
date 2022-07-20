@@ -17,12 +17,9 @@ const initialState: TaskSlice.TaskState = {
   activeTaskInfo: {
     dataset: {},
     model: {},
-    deploy: {},
+    // additional: {},
     id: '',
-    active_page: 'select_dataset',
-    pipeline: {
 
-    }
   },
 
 }
@@ -36,18 +33,25 @@ const tasksSilce = createSlice({
 const { actions } = tasksSilce
 // 导出不允许直接丢啊、算了算了
 const {
-  addTask, subTask, modifyTaskName, checkoutTask
+  modifyTaskName, checkoutTask, saveTaskActiveList
 } = actions
 
 // 好像不见得需要初始化、留着吧
-const getTaskList = createAction<any>(`${localName}/getTaskList`)
+const getTaskActiveList = createAction<any>(`${localName}/getTaskActiveList`)
+
+const addActiveTask = createAction<any>(`${localName}/addActiveTask`)
+const hiddenActiveTask = createAction<any>(`${localName}/hiddenActiveTask`)
+
+const visibleActiveTask = createAction<any>(`${localName}/visibleActiveTask`)
 
 export {
-  getTaskList,
+  getTaskActiveList,
+  saveTaskActiveList,
+  hiddenActiveTask,
+  visibleActiveTask,
   // 添加任务
-  addTask,
-  // 减去一个任务
-  subTask,
+  addActiveTask,
+
   modifyTaskName,
   checkoutTask
 }

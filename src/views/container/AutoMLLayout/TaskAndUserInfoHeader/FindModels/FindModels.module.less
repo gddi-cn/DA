@@ -18,35 +18,38 @@
             }
         }
 
-        .ModelList {
-            width: 364px;
-            min-height: 100px;
+        .modelList_item {
+            margin: 10px 0;
+            cursor: pointer;
+        }
 
+        .ModelList_input_wrap {
+            width: 412px;
+            background: #F7F8FA;
+            border-radius: 19px;
+
+            .ant-input,
             .input_wrap {
-                display: flex;
-                height: 32px;
-                border: 1px solid #ccc;
-                border-radius: 7px;
-                overflow: hidden;
-
-                .icon_wrap {
-                    padding-left: 17px;
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 17px;
-                }
-
-                .ant-input {
-                    border: none;
-                }
-
-               .ant-input-focused,
-               .ant-input:focus {
-                   box-shadow: none;
-               }
+                background-color: transparent !important;
             }
+        }
+
+        .has_no_data {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            font-size: 14px;
+            line-height: 20px;
+            /* identical to box height */
+
+
+            color: #061926;
+        }
+
+        .ModelList {
+
+            min-height: 100px;
 
             .list_wrap {
                 margin-top: 20px;

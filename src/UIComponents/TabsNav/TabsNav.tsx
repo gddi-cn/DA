@@ -52,11 +52,18 @@ function TabsNavItem <T> (props: ItemProps<T>) {
       handleOnClick()
     }
   }
+
+  const getCls = () => {
+    const yes = getActiveNode(data)
+    if (yes) {
+      return 'Tabs_Nav_Item_active'
+    }
+  }
   return (
     <div
       key={index}
       onClick={handleClick}
-      className='Tabs_Nav_Item'
+      className={`Tabs_Nav_Item ${getCls()}`}
       ref={div}
     >
       {renderItem(data)}
@@ -102,7 +109,7 @@ function TabsNav<T> (props: Props<T>): JSX.Element {
     })
   }, [dataList, renderItem, handleOnClick, getActiveNode])
   return (
-    <div styleName='TabsNav'>
+    <div styleName='TabsNav' className='TabsNav_cus'>
       {
         listView
       }
