@@ -7,7 +7,6 @@ import { CloseOutlined } from '@ant-design/icons'
 import { RootState } from '@reducer/index'
 import TaskItemDetail from '../TaskItemDetail'
 import { useNavigate } from 'react-router-dom'
-import { APP_DATA_SET_INDEX } from '@router'
 
 // import type { Dispatch, SetStateAction } from 'react'
 import './TaskItem.module.less'
@@ -59,9 +58,6 @@ const TaskItem = (props: Props): JSX.Element => {
   const handleCheckoutTask = () => {
     console.log(1)
     dispatch(checkoutTask(data))
-    navigate({
-      pathname: APP_DATA_SET_INDEX
-    })
   }
 
   const getCls = () => {

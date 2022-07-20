@@ -10,6 +10,10 @@ const AddDataset = (): JSX.Element => {
     navigate({
       pathname: APP_DATASET_CREATE_TYPE
     })
+    const { globalSocketPushMsgForProject } = window
+    globalSocketPushMsgForProject && globalSocketPushMsgForProject({
+      active_page: APP_DATASET_CREATE_TYPE
+    })
   }
   return (
     <div styleName='AddDataset'>

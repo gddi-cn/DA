@@ -94,7 +94,7 @@ const workerCode = () => {
           try {
             const { data: blobData } = msg;
             blobData.text().then((text) => {
-              const { action, data } = JSON.parse(text);
+              const { action, data, topic } = JSON.parse(text);
               if (action === 'login') {
                 ws.send(JSON.stringify({
                   action: 'sub',
@@ -114,8 +114,10 @@ const workerCode = () => {
               }
               if (action === 'notice') {
                 // processFn(data)
-                lineData.push(data)
-                hasMore = true
+                if (topic === 'task.log') {
+                  lineData.push(data)
+                  hasMore = true
+                }
               }
             })
           } catch (e) {

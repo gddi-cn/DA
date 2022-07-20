@@ -5,7 +5,8 @@ declare module '*.wasm'
 interface Window {
   globalConfig: any;
   interTime: number,
-  statisticInfo: any
+  statisticInfo: any,
+  globalSocketPushMsgForProject: ((data: any) => void) | null
 }
 
 /* 允许在ts中使用import styles from '*.less' */
