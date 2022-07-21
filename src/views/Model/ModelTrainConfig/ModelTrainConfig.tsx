@@ -136,6 +136,7 @@ const ModelTrainConfig = (): JSX.Element => {
   const handleBaseInfoChange = useCallback(
     (_: any, all_values: any) => {
       console.log(all_values)
+      // 如果变得芯片,应该初始化左边数据
 
       socketPushMsgForProject(
         activePipeLine, {
