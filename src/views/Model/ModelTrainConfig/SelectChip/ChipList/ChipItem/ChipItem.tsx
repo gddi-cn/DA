@@ -12,9 +12,9 @@ const ChipItem = (props: ModelTrainConfigType.ChipItem): JSX.Element => {
 
   const getlcs = () => {
     if (
-      selected.name === data.name &&
-      selected.chip_type === data.chip_type &&
-      selected.brand === data.brand
+      selected?.name === data.name &&
+      selected?.chip_type === data.chip_type &&
+      selected?.brand === data.brand
     ) {
       return 'info_wrap info_wrap_active'
     }

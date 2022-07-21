@@ -21,8 +21,9 @@ declare namespace ModelTrainConfigType {
 
     interface ChipList {
         chipList: ChipFetchResItem[],
-        setSelected: Dispatch<SetStateAction<ChipFetchResItem>>,
-        selected: ChipFetchResItem
+        onChange?:any,
+        value?:any
+        setSelected?:any
     }
 
     interface ChipItem {

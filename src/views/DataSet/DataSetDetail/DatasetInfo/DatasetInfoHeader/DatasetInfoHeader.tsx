@@ -2,14 +2,18 @@ import { ReactComponent as DownArrow } from './icon/chevron-down_minor.svg'
 
 import { Select } from 'antd'
 import api from '@api'
-import Qs from 'qs'
-import { useLocation, useNavigate } from 'react-router-dom'
+
+import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import type { SetStateAction, Dispatch } from 'react'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import EditDataset from '../../../DataSetIndex/V1DatasetCard/EditDataset'
 import { SmallButton } from '@src/UIComponents'
 import { APP_DATA_SET_INDEX } from '@router'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { socketPushMsgForProject } from '@ghooks'
 
 import './DatasetInfoHeader.module.less'
 
@@ -23,17 +27,23 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
   const navigate = useNavigate()
   const { datasetInfo, initFetchDatasetInfo, setVersion } = props
 
-  const location = useLocation()
-  const { search } = location
-  const { id, version_id } = Qs.parse(search.substring(1))
+  // const location = useLocation()
+  // const { search } = location
+  // const { id, version_id } = Qs.parse(search.substring(1))
   const [versionList, setVersionList] = useState<any[]>([])
 
   const [value, setValue] = useState<string>('')
 
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
   useEffect(() => {
     const initFetch = async () => {
       try {
-        if (id && version_id) {
+        const { APP_DATASET_DETAIL } = activePipeLine
+        if (APP_DATASET_DETAIL?.id) {
+          const { id, version_id } = APP_DATASET_DETAIL
           const path = `/v2/datasets/${id}/versions`
           const res = await api.get(path)
           if (res.code === 0) {
@@ -58,7 +68,7 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
       }
     }
     initFetch()
-  }, [id, version_id, setVersion])
+  }, [activePipeLine, setVersion])
 
   const handleChange = (value: any, option: any) => {
     const data = option['data-value']
@@ -72,6 +82,10 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
   const handleGotoList = () => {
     navigate({
       pathname: APP_DATA_SET_INDEX
+    })
+    socketPushMsgForProject(activePipeLine, {
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
+      APP_DATASET_DETAIL: {}
     })
   }
   return (

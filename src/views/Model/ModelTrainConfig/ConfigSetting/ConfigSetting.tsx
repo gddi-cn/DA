@@ -14,7 +14,7 @@ const CusInputNumber = (props: any) => {
     // if(value){}
     onChange(value)
     const video = Math.floor((maxFps / +value))
-    formInstance.setFieldsValue({
+    formInstance?.setFieldsValue({
       video
     })
   };

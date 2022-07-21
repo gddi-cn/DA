@@ -5,10 +5,14 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import type { FectData } from '../../DatasetList/DatasetList'
 import api from '@api'
 import EditDataset from '../EditDataset'
-import Qs from 'qs'
+// import Qs from 'qs'
 import { APP_DATASET_DETAIL } from '@router'
 import { useNavigate } from 'react-router-dom'
 import type { Data } from '../V1DatasetCard'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './Operation.module.less'
 
 type Props={
@@ -18,6 +22,9 @@ type Props={
 }
 
 function Operation (props: Props): JSX.Element {
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   const { setLoading, fetchData, data } = props
 
   const navigate = useNavigate()
@@ -54,10 +61,15 @@ function Operation (props: Props): JSX.Element {
 
   const handleGotoDetail = () => {
     console.log(data)
-    const search = Qs.stringify({ id: data?.id, version_id: data?.latest_version?.id })
+    // const search = Qs.stringify({ id: data?.id, version_id: data?.latest_version?.id })
     navigate({
       pathname: APP_DATASET_DETAIL,
-      search: search
+      // search: search
+    })
+
+    socketPushMsgForProject(activePipeLine, {
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL,
+      APP_DATASET_DETAIL: { id: data?.id, version_id: data?.latest_version?.id }
     })
   }
 

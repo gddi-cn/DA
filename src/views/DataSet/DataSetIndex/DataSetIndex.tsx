@@ -1,13 +1,16 @@
 
 import { TagRadioSelect, FooterBar, GButton } from '@src/UIComponents'
 import DatasetList from './DatasetList'
-import { MODEL_TYPES } from '@src/constants'
+import { MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useMemo, useRef, useState } from 'react'
 import { isEmpty, isNil } from 'lodash'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_ANALYSE } from '@router'
-import Qs from 'qs'
+
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './DataSetIndex.module.less'
 
 const dataList:{label:string, id:string}[] = [
@@ -29,6 +32,11 @@ const DataSetIndex = (): JSX.Element => {
   const navigate = useNavigate()
 
   const [selectData, setSelectData] = useState<any>({})
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
   const handleOnChange = (data:any) => {
     let _id = data.id
     if (_id === 'all') {
@@ -45,10 +53,16 @@ const DataSetIndex = (): JSX.Element => {
       if (isEmpty(selectData) || isNil(selectData)) {
         message.warning('请选择数据集')
       }
-      const search = Qs.stringify({ id: selectData?.id, version_id: selectData?.latest_version?.id })
+      // const search = Qs.stringify({ id: selectData?.id, version_id: selectData?.latest_version?.id })
+      socketPushMsgForProject(
+        activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_ANALYSE,
+          APP_DATASET_ANALYSE: { id: selectData?.id, version_id: selectData?.latest_version?.id }
+        }
+      )
       navigate({
         pathname: APP_DATASET_ANALYSE,
-        search: search
+        // search: search
       })
     }
     return (

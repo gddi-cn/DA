@@ -2,11 +2,16 @@ import { useMemo, useState, useCallback, useEffect } from 'react'
 import { ScaleRight } from '@src/UIComponents'
 import DatasetInfo from './DatasetInfo'
 import DatasetPreview from './DatasetPreview'
-import { useLocation } from 'react-router-dom'
+
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
-import Qs from 'qs'
+
 import api from '@api'
 import { isEmpty } from 'lodash'
+
+// import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+// import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './DataSetDetail.module.less'
 
 // const colors={
@@ -26,21 +31,24 @@ const DataSetDetail = (): JSX.Element => {
   const [trainSetData, setTrainSetData] = useState<any>({})
   const [validSetData, setValidSetData] = useState<any>({})
 
-  const location = useLocation()
-  const { search } = location
-  const { id } = Qs.parse(search.substring(1))
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   // 数据集的信息
   const initFetchDatasetInfo = useCallback(
     async () => {
       try {
-        const res = await api.get(`/v2/datasets/${id}`)
-        if (res.code === 0) {
-          setDatasetInfo(res.data || {})
+        const { APP_DATASET_DETAIL } = activePipeLine
+        if (APP_DATASET_DETAIL?.id) {
+          const res = await api.get(`/v2/datasets/${APP_DATASET_DETAIL?.id}`)
+          if (res.code === 0) {
+            setDatasetInfo(res.data || {})
+          }
         }
       } catch (e) {
 
       }
-    }, [id]
+    }, [activePipeLine]
   )
 
   useEffect(() => {

@@ -8,6 +8,9 @@ import api from '@api'
 import { isNil } from 'lodash';
 import { Spin } from 'antd'
 import type { Data } from '../V1DatasetCard/V1DatasetCard'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './DatasetList.module.less'
 
 export type FectData = {
@@ -39,6 +42,17 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
   const [datasetTotal, setDatasetTotal] = useState(0)
 
   const [activeId, setActiveId] = useState<string>('')
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
+  useEffect(() => {
+    if (activePipeLine?.APP_DATA_SET_INDEX) {
+      setActiveId(activePipeLine?.APP_DATA_SET_INDEX?.id)
+      setSelectData(activePipeLine?.APP_DATA_SET_INDEX)
+    }
+  }, [activePipeLine, setSelectData])
 
   useEffect(() => {
     // 弱智组件，你TM为啥要在init的时候获取target啊？
@@ -106,7 +120,11 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
   const handleCardClick = useCallback((data: Data) => {
     setActiveId(data.id)
     setSelectData(data)
-  }, [setSelectData])
+    socketPushMsgForProject(activePipeLine, {
+      // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL,
+      APP_DATA_SET_INDEX: data
+    })
+  }, [setSelectData, activePipeLine])
 
   const list = useMemo(() => {
     return datasetList.map((o) => {

@@ -116,7 +116,7 @@ const ClassTable = (props: Props): JSX.Element => {
         <ReactCusScrollBar id='body_wrap'>
           <div className='body_wrap'>
             {
-              (items as Array<any>).map((o, i) => {
+              (items as Array<any>)?.map((o, i) => {
                 return <BodyItem key={i} data={o} currentSet={currentSet} classInfo={classInfo} setClassInfo={setClassInfo} />
               })
             }

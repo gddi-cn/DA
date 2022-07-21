@@ -5,22 +5,38 @@ import ConfigSetting from './ConfigSetting'
 import ChipList from './SelectChip/ChipList'
 import api from '@api'
 import { Form, message } from 'antd'
-import ModelTrainConfigType from './types'
-import { isEmpty } from 'lodash'
+// import ModelTrainConfigType from './types'
+
 import { titleMap } from './SelectChip/config'
 import { useNavigate } from 'react-router-dom'
-import { APP_DATASET_ANALYSE, APP_MODEL_TRAIN_DETAIL } from '@router'
+import { APP_DATASET_ANALYSE } from '@router'
+
+// APP_MODEL_TRAIN_DETAIL
+
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './ModelTrainConfig.module.less'
+import { isEmpty } from 'lodash'
 
 const taskType = 'detection'
 const ModelTrainConfig = (): JSX.Element => {
   const navigate = useNavigate()
   const [brandList, setBrandList] = useState<any[]>([])
   const [chipList, setChipList] = useState<any[]>([])
-
+  const [formInstance] = Form.useForm();
   const [selected, setSelected] = useState<ModelTrainConfigType.ChipFetchResItem>({})
 
-  const [formInstance] = Form.useForm();
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
+  useEffect(() => {
+    if (!isEmpty(activePipeLine?.APP_MODEL_TRAIN_CONFIG)) {
+      formInstance.setFieldsValue(activePipeLine?.APP_MODEL_TRAIN_CONFIG)
+    }
+  }, [activePipeLine, formInstance])
+
   const fetchBrand = useCallback(
     async () => {
       try {
@@ -88,23 +104,26 @@ const ModelTrainConfig = (): JSX.Element => {
     }
 
     const goNext = async () => {
-      if (isEmpty(selected)) {
-        message.warning('请选择芯片')
-        return
-      }
-      const config = await formInstance.getFieldsValue()
-      // todo : 把选中的数据数据和这些合并、创建模型训练
-      console.log(selected)
-      console.log(config)
+      try {
+        const config = await formInstance.validateFields()
+
+        // const config = await formInstance.getFieldsValue()
+        // todo : 把选中的数据数据和这些合并、创建模型训练
+
+        console.log(config)
       // dataset_id: "259017471846031360"
       // dataset_version_id: "287632401679556608"
       // gpu_count: 1
       // model_args: { fps: 1 }
       // name: "自动训练-水果数据-3-模型"
       // platform: ["Cambricon", "MLU220", "NPU"]
-      navigate({
-        pathname: APP_MODEL_TRAIN_DETAIL
-      })
+      // navigate({
+      //   pathname: APP_MODEL_TRAIN_DETAIL
+      // })
+      } catch (e:any) {
+        console.log(e, 100)
+        message.warning('请选择芯片')
+      }
     }
     return (
       <div className='footer_btn_wrap'>
@@ -112,7 +131,19 @@ const ModelTrainConfig = (): JSX.Element => {
         <GButton type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [formInstance, selected, navigate])
+  }, [formInstance, navigate])
+
+  const handleBaseInfoChange = useCallback(
+    (_: any, all_values: any) => {
+      console.log(all_values)
+
+      socketPushMsgForProject(
+        activePipeLine, {
+          APP_MODEL_TRAIN_CONFIG: all_values
+        }
+      )
+    }, [activePipeLine]
+  )
   return (
     <div styleName='ModelTrainConfig'>
       <div className='ModelTrainConfig_wrap'>
@@ -130,9 +161,19 @@ const ModelTrainConfig = (): JSX.Element => {
           {
             useMemo(() => {
               return (
-                <ChipList chipList={chipList} selected={selected} setSelected={setSelected}/>
+                <Form form={formInstance} name="ChipList" className='form_wrap' onValuesChange={handleBaseInfoChange}>
+                  <Form.Item
+                    noStyle
+                    name='chip_info'
+
+                    rules={[{ required: true, message: '请选择芯片' }]}
+                  >
+                    <ChipList chipList={chipList} setSelected={setSelected}/>
+                  </Form.Item>
+
+                </Form>
               )
-            }, [chipList, selected])
+            }, [chipList, formInstance, handleBaseInfoChange])
           }
         </div>
       </div>

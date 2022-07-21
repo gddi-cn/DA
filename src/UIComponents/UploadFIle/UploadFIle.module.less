@@ -1,9 +1,8 @@
 .UploadFIle {
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    border: 1px dashed #DCDFE6;
-    padding: 10px 20px;
+    width: 100%;
+
+
     position: relative;
 
     :global {
@@ -24,24 +23,48 @@
 
         .filename {
             position: absolute;
-            bottom: -20px;
+            bottom: 0px;
             left: 0;
-      
+
         }
 
         .err_list_wrap {
-            position: absolute;
-            bottom: -20px;
-            left: 0;
+
+
             color: red;
         }
 
         .UploadFIle_upload_wrap {
             width: 100%;
+            height: 100%;
+            border: 1px dashed #DCDFE6;
+            padding: 10px 20px;
+
+
+            &>span {
+                width: 100%;
+                height: 100%;
+
+                .ant-upload {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+            }
+        }
+
+        .ant-spin-nested-loading,
+        .ant-spin-container {
+            width: 100%;
+            height: 100%;
         }
 
         .UplaodImageView {
             width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;

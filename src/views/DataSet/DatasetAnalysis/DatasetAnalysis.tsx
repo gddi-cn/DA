@@ -1,8 +1,8 @@
 
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import api from '@api'
-import { useLocation, useNavigate } from 'react-router-dom'
-import Qs from 'qs'
+import { useNavigate } from 'react-router-dom'
+
 import { Empty } from 'antd'
 import Radar from './analysisRadar/radar'
 import { FooterBar, GButton } from '@src/UIComponents'
@@ -12,11 +12,14 @@ import DatasetInfo from './DatasetInfo'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import { bytesToSize } from '@src/utils'
 import { APP_DATA_SET_INDEX, APP_MODEL_TRAIN_CONFIG } from '@router'
-
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './DatasetAnalysis.module.less'
 
 const DatasetAnalysis = (): JSX.Element => {
-  const location = useLocation()
+  // const location = useLocation()
   const navigate = useNavigate()
   const [dataList, setDataListt] = useState([])
   const [error, setError] = useState(false)
@@ -33,24 +36,34 @@ const DatasetAnalysis = (): JSX.Element => {
   // 获取数据集概括信息
   const [datasetInfo, setDatasetInfo] = useState<Data>({} as Data)
 
-  const { search } = location
-  const { id, version_id } = Qs.parse(search.substring(1))
+  // const { search } = location
+  // const { id, version_id } = Qs.parse(search.substring(1))
   // 数据集的信息
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   const initFetchDatasetInfo = useCallback(
     async () => {
       try {
-        const res = await api.get(`/v2/datasets/${id}`)
-        if (res.code === 0) {
-          setDatasetInfo(res.data || {})
+        if (activePipeLine?.APP_DATASET_ANALYSE) {
+          const { id } = activePipeLine?.APP_DATASET_ANALYSE
+          const res = await api.get(`/v2/datasets/${id}`)
+          if (res.code === 0) {
+            setDatasetInfo(res.data || {})
+          }
         }
       } catch (e) {
 
       }
-    }, [id]
+    }, [activePipeLine]
   )
 
   const initFetch = useCallback(async () => {
     try {
+      if (!activePipeLine?.APP_DATASET_ANALYSE) {
+        return
+      }
+      const { id, version_id } = activePipeLine?.APP_DATASET_ANALYSE
       if (id && version_id) {
         const path = `/v2/datasets/${id}/versions`
         const res = await api.get(path)
@@ -74,7 +87,7 @@ const DatasetAnalysis = (): JSX.Element => {
     } catch (e) {
 
     }
-  }, [id, version_id])
+  }, [activePipeLine])
 
   const getAnalysisData = useCallback(
     async ({ id, version_id }:any) => {
@@ -123,8 +136,12 @@ const DatasetAnalysis = (): JSX.Element => {
   }, [version])
 
   useEffect(() => {
+    if (!activePipeLine?.APP_DATASET_ANALYSE) {
+      return
+    }
+    const { id, version_id } = activePipeLine?.APP_DATASET_ANALYSE
     getAnalysisData({ id, version_id })
-  }, [getAnalysisData, id, version_id])
+  }, [getAnalysisData, activePipeLine])
 
   useEffect(() => {
     fetAllSet()
@@ -140,12 +157,28 @@ const DatasetAnalysis = (): JSX.Element => {
       navigate({
         pathname: APP_DATA_SET_INDEX
       })
+
+      socketPushMsgForProject(
+        activePipeLine,
+        {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
+          APP_DATASET_ANALYSE: null
+        }
+      )
     }
 
     const goNext = () => {
       navigate({
         pathname: APP_MODEL_TRAIN_CONFIG
       })
+
+      socketPushMsgForProject(
+        activePipeLine,
+        {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_MODEL_TRAIN_CONFIG,
+
+        }
+      )
     }
     return (
       <div className='footer_btn_wrap'>
@@ -153,7 +186,7 @@ const DatasetAnalysis = (): JSX.Element => {
         <GButton type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [navigate])
+  }, [activePipeLine, navigate])
 
   const getViews = () => {
     if (error) {
@@ -184,6 +217,10 @@ const DatasetAnalysis = (): JSX.Element => {
     setValue(data.id)
     // 外部用i
     setVersion(data)
+    if (activePipeLine?.APP_DATASET_ANALYSE) {
+      return
+    }
+    const { id } = activePipeLine?.APP_DATASET_ANALYSE
 
     getAnalysisData({ id, version_id: data.id })
   }

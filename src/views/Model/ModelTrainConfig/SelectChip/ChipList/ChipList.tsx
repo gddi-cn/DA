@@ -4,8 +4,13 @@ import { ReactCusScrollBar } from '@src/UIComponents'
 import './ChipList.module.less'
 
 const ChipList = (props: ModelTrainConfigType.ChipList): JSX.Element => {
-  console.log(props)
-  const { chipList, setSelected, selected } = props
+  console.log(props, 'ChipList')
+  const { chipList, onChange, value, setSelected } = props
+
+  const handleSelect = (data:any) => {
+    setSelected(data)
+    onChange(data)
+  }
   return (
     <div styleName='ChipList'>
       <ReactCusScrollBar autoHide id="scrollableDiv">
@@ -13,7 +18,7 @@ const ChipList = (props: ModelTrainConfigType.ChipList): JSX.Element => {
           {
             chipList.map((o, index) => {
               return (
-                <ChipItem data={o} key={index} setSelected={setSelected} selected={selected}/>
+                <ChipItem data={o} key={index} setSelected={handleSelect} selected={value}/>
               )
             })
           }
