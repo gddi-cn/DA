@@ -137,6 +137,7 @@ module.exports = function (webpackEnv) {
         '@router': paths.resolveApp('src/router'),
         '@reducer': paths.resolveApp('src/controller/reducer'),
         '@src': paths.appSrc,
+        '@ghooks': paths.resolveApp('src/views/ghooks'),
       },
 
       extensions: paths.moduleFileExtensions

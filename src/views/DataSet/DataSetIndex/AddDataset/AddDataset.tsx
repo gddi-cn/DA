@@ -1,18 +1,24 @@
 import { ReactComponent as ADDSVG } from './icon/add.svg'
 import { APP_DATASET_CREATE_TYPE } from '@router'
 import { useNavigate } from 'react-router-dom'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './AddDataset.module.less'
 
 const AddDataset = (): JSX.Element => {
   const navigate = useNavigate()
-
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   const handleGotoCreate = () => {
     navigate({
       pathname: APP_DATASET_CREATE_TYPE
     })
-    const { globalSocketPushMsgForProject } = window
-    globalSocketPushMsgForProject && globalSocketPushMsgForProject({
-      active_page: APP_DATASET_CREATE_TYPE
+
+    socketPushMsgForProject(activePipeLine, {
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_CREATE_TYPE
     })
   }
   return (

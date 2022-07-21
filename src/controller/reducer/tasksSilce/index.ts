@@ -14,13 +14,7 @@ const initialState: TaskSlice.TaskState = {
   // 这些开始都是空的
   taskList: [],
   // 激活任务项数据、方便后边取
-  activeTaskInfo: {
-    dataset: {},
-    model: {},
-    // additional: {},
-    id: '',
-
-  },
+  activeTaskInfo: {},
   activePipeLine: null
 
 }

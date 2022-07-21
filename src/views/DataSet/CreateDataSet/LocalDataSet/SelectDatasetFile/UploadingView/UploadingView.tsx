@@ -2,13 +2,14 @@ import { Progress } from 'antd'
 import { bytesToSize } from '@src/utils'
 import './UploadingView.module.less'
 
-type Props={
-    fileInfo:any,
-    percent:any,
-    timeRef:any
+type Props = {
+  fileInfo: any,
+  percent: any,
+  timeRef: any,
+  handleCnasel: any
 }
 const UploadingView = (props: Props): JSX.Element => {
-  const { fileInfo, percent, timeRef } = props
+  const { fileInfo, percent, timeRef, handleCnasel } = props
   const {
     pre,
     next,
@@ -29,7 +30,7 @@ const UploadingView = (props: Props): JSX.Element => {
       <div className='data-info'>
         <div><span>{fileInfo.name}</span></div>
 
-        <div className='cansel' >取消</div>
+        <div className='cansel' onClick={handleCnasel} >取消</div>
       </div>
 
       <div className='upload-info'>

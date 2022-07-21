@@ -1,6 +1,6 @@
 
 import { FooterBar, UploadFile, GButton, GSelect } from '@src/UIComponents'
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useCallback, useEffect } from 'react'
 import { Select, message } from 'antd';
 import api from '@api'
 import { S3Uploader } from '@src/components'
@@ -9,6 +9,11 @@ import { ReactComponent as Tips } from './icon/tips.svg'
 import UploadingView from './UploadingView'
 import { useNavigate } from 'react-router-dom'
 import { APP_LOCAL_FILE_STEP_4, APP_LOCAL_FILE_STEP_2 } from '@router'
+import { useDebounceFn } from 'ahooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { socketPushMsgForProject } from '@ghooks'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './SelectDatasetFile.module.less'
 import { isEmpty } from 'lodash';
 
@@ -16,8 +21,13 @@ const { Option } = Select;
 
 const regExp = /\.(zip|tar|gz)$/
 
-const SelectDatasetFile = (props: any): JSX.Element => {
-  console.log(props)
+const SelectDatasetFile = (): JSX.Element => {
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+  const activeTaskInfo = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo || {}
+  })
   const navigate = useNavigate()
   const [percent, setLocalPercent] = useState<any>(0)
   const [isUploading, setIsUploading] = useState(false)
@@ -33,6 +43,36 @@ const SelectDatasetFile = (props: any): JSX.Element => {
     preLoad: 0,
     nextLoad: 0
   });
+
+  const [proportion, setProportion] = useState<any>('2')
+
+  useEffect(() => {
+    if (activePipeLine.APP_LOCAL_FILE_STEP_3) {
+      const { proportion } = activePipeLine.APP_LOCAL_FILE_STEP_3
+      setProportion(proportion)
+    }
+  }, [activePipeLine])
+
+  const handleCnasel = useDebounceFn(
+    async () => {
+      // source.cancel('fire-in-the-hole')
+      // 好像不管是否取消成功，这边都应该失效
+      try {
+        if (uploadCurrent.current) {
+          const res: any = await uploadCurrent.current.cansel()
+          if (res) {
+            message.success('取消上传')
+          }
+          setIsUploading(false)
+        }
+      } catch (e) {
+        setIsUploading(false)
+      }
+    },
+    {
+      wait: 300
+    }
+  )
 
   const handleOnuploadBigData = async (file:File|undefined) => {
     if (file) {
@@ -110,9 +150,28 @@ const SelectDatasetFile = (props: any): JSX.Element => {
 
   const uploadview = useMemo(() => {
     return (
-      <UploadingView fileInfo={fileInfo} percent={percent} timeRef={timeRef}></UploadingView>
+      <UploadingView fileInfo={fileInfo} percent={percent} timeRef={timeRef} handleCnasel={handleCnasel.run}></UploadingView>
     )
-  }, [fileInfo, percent])
+  }, [fileInfo, percent, handleCnasel])
+
+  const handleProportionChange = useCallback(
+    (value: string) => {
+      console.log(value)
+      if (activePipeLine.APP_LOCAL_FILE_STEP_3) {
+        const obj = Object.assign({ ...activePipeLine.APP_LOCAL_FILE_STEP_3 }, {
+          proportion: value
+        })
+
+        socketPushMsgForProject(activePipeLine, {
+          APP_LOCAL_FILE_STEP_3: obj
+        })
+      } else {
+        socketPushMsgForProject(activePipeLine, {
+          APP_LOCAL_FILE_STEP_3: { proportion: value }
+        })
+      }
+    }, [activePipeLine]
+  )
 
   const topview = useMemo(() => {
     return (
@@ -123,7 +182,7 @@ const SelectDatasetFile = (props: any): JSX.Element => {
               <p>*</p><p>训练集与测试集比1例</p>
             </div>
             <div className='form_content'>
-              <GSelect defaultValue="2" style={{ width: '100%' }} >
+              <GSelect value={proportion} style={{ width: '100%' }} onChange={handleProportionChange}>
                 <Option value="1">7:3</Option>
                 <Option value="2">8:2（推荐使用）</Option>
                 <Option value="3">9:1</Option>
@@ -136,16 +195,20 @@ const SelectDatasetFile = (props: any): JSX.Element => {
           <Tips />
         </div></>
     )
-  }, [])
+  }, [handleProportionChange, proportion])
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
       // 弹窗确认是不是要走
-      if (isUploading) {
-        return
-      }
+      // if (isUploading) {
+      //   return
+      // }
+      handleCnasel.run()
       navigate({
         pathname: APP_LOCAL_FILE_STEP_2
+      })
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
       })
     }
 
@@ -172,11 +235,23 @@ const SelectDatasetFile = (props: any): JSX.Element => {
           })
 
           if (res.code === 0) {
-            message.success('创建数据集成功')
-            navigate({
-              pathname: APP_LOCAL_FILE_STEP_4
+            const { data } = res
+            console.log(activeTaskInfo)
+            const patchRes = await api.patch(`/v3/projects/${activeTaskInfo.id}`, {
+              dataset: {
+                id: data.id
+              }
             })
-            // 创建成功就清理
+            message.success('创建数据集成功')
+            if (patchRes?.code === 0) {
+              navigate({
+                pathname: APP_LOCAL_FILE_STEP_4
+              })
+              // 创建成功就清理
+              socketPushMsgForProject(activePipeLine, {
+                active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_4,
+              })
+            }
           }
         }
       } catch (e) {
@@ -189,7 +264,7 @@ const SelectDatasetFile = (props: any): JSX.Element => {
         <GButton className={percent >= 100 ? 'yes_sir' : 'not_allow'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [percent, isUploading, navigate, s3info])
+  }, [percent, handleCnasel, navigate, activePipeLine, s3info, activeTaskInfo])
 
   return (
     <div styleName='SelectDatasetFile' id='SelectDatasetFile'>

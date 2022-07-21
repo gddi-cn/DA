@@ -8,6 +8,7 @@ import {
   visibleActiveTask
 } from '@src/controller/reducer/tasksSilce'
 // import { message } from 'antd'
+import { history, APP_GUIDE_PAGE } from '@router'
 import api from '@api'
 import { RootState } from '@reducer'
 import type TaskSlice from '../reducer/tasksSilce/taskSlice'
@@ -43,11 +44,13 @@ function* fetchTaskActiveList ():any {
         const activeTaskInfo: TaskSlice.taskListItem = yield select(
           (state: RootState) => state.tasksSilce.activeTaskInfo
         )
-
-        if (!activeTaskInfo.id) {
+        console.log(activeTaskInfo, 4747)
+        if (isEmpty(activeTaskInfo)) {
           const _activeInfo = list[0]
           yield put(checkoutTask(_activeInfo))
         }
+      } else {
+        history.push({ pathname: APP_GUIDE_PAGE })
       }
     } else {
       // message.warning('G了')
@@ -84,26 +87,27 @@ function* hiddenActiveTaskGen (action: any): any {
       status: 2
     }))
 
-    if (hasAutoNext) {
-      const taskList: TaskSlice.taskListItem[] = yield select(
-        (state: RootState) => state.tasksSilce.taskList
-      )
-      const index = findTaskIndexById(id, taskList)
-      let activeTaskInfo = {}
-      if (hasAutoNext) {
-        if (taskList[index + 1]) {
-          activeTaskInfo = taskList[index + 1]
-        } else {
-          if (taskList[index - 1]) {
-            activeTaskInfo = taskList[index - 1]
-          }
-        }
-        yield put(checkoutTask(activeTaskInfo))
-      }
-    }
     if (res?.code === 0) {
       //   const { items } = res.data
       yield put(getTaskActiveList(null))
+
+      if (hasAutoNext) {
+        const taskList: TaskSlice.taskListItem[] = yield select(
+          (state: RootState) => state.tasksSilce.taskList
+        )
+        const index = findTaskIndexById(id, taskList)
+        let activeTaskInfo = null
+        if (hasAutoNext) {
+          if (taskList[index + 1]) {
+            activeTaskInfo = taskList[index + 1]
+          } else {
+            if (taskList[index - 1]) {
+              activeTaskInfo = taskList[index - 1]
+            }
+          }
+          yield put(checkoutTask(activeTaskInfo))
+        }
+      }
     } else {
       // message.warning('G了')
     }

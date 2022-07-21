@@ -2,9 +2,17 @@
 // import type { SNAPSHOT_KEY_OF_ROUTER_TYPE } from '@src/constants'
 import * as AllPath from '@router/pathNames'
 
-type Record<K extends keyof any, T> = {
-    [P in K]: T;
-};
+type ALL = typeof AllPath
+
+type Keys = keyof ALL
+
+type PIPELINE = {
+    [index in Keys]: any
+}
+
+// type Record<K extends keyof any, T> = {
+//     [P in K]: T;
+// };
 
 // 神奇要放到服务端保存了，操作比较多，有点神奇
 
@@ -13,9 +21,9 @@ type Record<K extends keyof any, T> = {
 export = TaskSlice;
 export as namespace TaskSlice;
 
-type Partial<T> = {
-    [P in keyof T]?: any
-}
+// type Partial<T> = {
+//     [P in keyof T]?: any
+// }
 
 declare namespace TaskSlice {
 
@@ -63,10 +71,9 @@ declare namespace TaskSlice {
         // 点了下一步就意味着开始训练，存模型的ID和iter ID  查出来的数据 这个东西也多，怎么存
         model_info: Model_Info,
     }
-    type WTF = keyof AllPath;
 
-    interface PipeLine extends Partial<AllPath> {
-        active_page: string,
+    interface PipeLine extends Partial<PIPELINE> {
+        active_page?: Keys,
     }
 
     interface Additional {
@@ -104,7 +111,7 @@ declare namespace TaskSlice {
     interface TaskState {
         taskList: Array<taskListItem>,
 
-        activeTaskInfo: taskListItem,
+        activeTaskInfo: Partial<taskListItem>,
 
         activePipeLine: PipeLine|null
     }

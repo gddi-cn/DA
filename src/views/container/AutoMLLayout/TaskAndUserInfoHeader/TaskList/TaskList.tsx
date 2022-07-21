@@ -6,6 +6,8 @@ import { useEffect, useMemo } from 'react'
 import { getTaskActiveList } from '@reducer/tasksSilce'
 // import api from '@api'
 import { TabsNav } from '@src/UIComponents'
+// import { APP_GUIDE_PAGE } from '@router'
+// import { Navigate } from 'react-router-dom'
 import './TaskList.module.less'
 
 const TaskList = (): JSX.Element => {
@@ -21,15 +23,17 @@ const TaskList = (): JSX.Element => {
     return state.tasksSilce.activeTaskInfo
   })
   const getActiveNode = (data:TaskSlice.taskListItem) => {
-    return activeTaskInfo.id === data?.id
+    return activeTaskInfo?.id === data?.id
   }
+
+  const Add_tbn = useMemo(() => {
+    return <AddButton />
+  }, [])
 
   return (
     <div styleName='TaskList'>
       {
-        useMemo(() => {
-          return <AddButton />
-        }, [])
+        Add_tbn
       }
       <TabsNav
         dataList={taskList}

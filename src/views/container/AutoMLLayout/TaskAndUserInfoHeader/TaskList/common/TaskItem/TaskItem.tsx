@@ -38,7 +38,7 @@ const TaskItem = (props: Props): JSX.Element => {
     console.log(e)
     let hasAutoNext = false
 
-    if (activeTaskInfo.id === id) {
+    if (activeTaskInfo?.id === id) {
       hasAutoNext = true
     }
     dispatch(hiddenActiveTask({ id, hasAutoNext }))

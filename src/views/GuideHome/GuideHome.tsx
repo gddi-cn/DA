@@ -2,8 +2,8 @@ import { Button } from 'antd'
 import { addActiveTask } from '@reducer/tasksSilce'
 import { useDispatch } from 'react-redux'
 import { useDebounceFn } from 'ahooks'
-import { useNavigate } from 'react-router-dom'
-import { APP_DATA_SET_INDEX } from '@router'
+// import { useNavigate } from 'react-router-dom'
+// import { APP_DATA_SET_INDEX } from '@router'
 import { ReactComponent as Bushu } from './icon/bushu.svg'
 import { ReactComponent as Shangchaun } from './icon/shangchaun.svg'
 import { ReactComponent as Youhua } from './icon/youhua.svg'
@@ -22,14 +22,14 @@ import './GuideHome.module.less'
 // 这里的开始就是添加一个任务
 const GuideHome = (): JSX.Element => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const handleAddTask = useDebounceFn(() => {
     // 创建好像不需要什么信息
     dispatch(addActiveTask(null))
 
-    navigate({
-      pathname: APP_DATA_SET_INDEX
-    })
+    // navigate({
+    //   pathname: APP_DATA_SET_INDEX
+    // })
   }, {
     wait: 0
   })

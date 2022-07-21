@@ -1,11 +1,16 @@
 
 import { Form, Input } from 'antd';
 import { FooterBar, GButton, UploadFile } from '@src/UIComponents'
-import { useMemo, cloneElement } from 'react'
+import { useMemo, cloneElement, useEffect } from 'react'
 // import { bytesToSize } from '@src/utils'
 // import { isNil, isString } from 'lodash';
 // import api from '@api'
+
 import { useNavigate } from 'react-router-dom'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { socketPushMsgForProject } from '@ghooks'
 import { APP_LOCAL_FILE_STEP_1, APP_LOCAL_FILE_STEP_3 } from '@router'
 import './DatasetBaseInfoForm.module.less'
 
@@ -38,8 +43,18 @@ const AmazingWrap = (props: AmazingWrapProps) => {
 //   setCreateInfo: any,
 // }
 const DatasetBaseInfoForm = (): JSX.Element => {
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   const navigate = useNavigate()
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (activePipeLine.APP_LOCAL_FILE_STEP_2) {
+      const FROM_DATA = activePipeLine.APP_LOCAL_FILE_STEP_2
+      form.setFieldsValue(FROM_DATA)
+    }
+  }, [activePipeLine, form])
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
@@ -47,6 +62,10 @@ const DatasetBaseInfoForm = (): JSX.Element => {
       // setCurrentStep(1)
       navigate({
         pathname: APP_LOCAL_FILE_STEP_1
+      })
+
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_1
       })
     }
 
@@ -62,6 +81,9 @@ const DatasetBaseInfoForm = (): JSX.Element => {
       navigate({
         pathname: APP_LOCAL_FILE_STEP_3
       })
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_3
+      })
     }
     return (
       <div className='footer_btn_wrap'>
@@ -69,15 +91,22 @@ const DatasetBaseInfoForm = (): JSX.Element => {
         <GButton type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [form, navigate])
+  }, [form, navigate, activePipeLine])
 
   // const handleNext = async () => {
   //   const data = await form.validateFields()
   //   console.log(data)
   // }
+  const handleBaseInfoChange = (_:any, all_values:any) => {
+    console.log(all_values)
+    socketPushMsgForProject(activePipeLine, {
+      // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
+      APP_LOCAL_FILE_STEP_2: all_values
+    })
+  }
   return (
     <div styleName='DatasetBaseInfoForm'>
-      <Form form={form} name="control-hooks" className='form_wrap'>
+      <Form form={form} name="control-hooks" className='form_wrap' onValuesChange={handleBaseInfoChange}>
         <Form.Item
           name="name"
           label="数据名称"

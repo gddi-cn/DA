@@ -7,28 +7,29 @@ class EventCenter {
   }
 
   on (eventName:any, cb:any) {
+    // 只能有一个回调
     const { eventStack } = this
-    const eventValue = eventStack[eventName]
+    eventStack[eventName] = cb
 
-    eventValue ? eventValue.push(cb) : eventStack[eventName] = [cb]
+    // eventValue ? eventValue.push(cb) : eventStack[eventName] = [cb]
   }
 
-  once (eventName:any, cb:any) {
-    const { eventStack } = this
-    const eventValue = eventStack[eventName]
-    // 利用闭包的形式 来模拟一次性监听的功能函数
-    const tempCb = () => {
-      let isOutOfDate = false
+  // once (eventName:any, cb:any) {
+  //   const { eventStack } = this
+  //   const eventValue = eventStack[eventName]
+  //   // 利用闭包的形式 来模拟一次性监听的功能函数
+  //   const tempCb = () => {
+  //     let isOutOfDate = false
 
-      return () => {
-        if (isOutOfDate) return
-        cb()
-        isOutOfDate = true
-      }
-    }
+  //     return (data:any) => {
+  //       if (isOutOfDate) return
+  //       cb(data)
+  //       isOutOfDate = true
+  //     }
+  //   }
 
-    eventValue ? eventValue.push(tempCb()) : eventStack[eventName] = [tempCb()]
-  }
+  //   eventValue ? eventValue.push(tempCb()) : eventStack[eventName] = [tempCb()]
+  // }
 
   off (eventName:any, cb:any) {
     const { eventStack } = this
@@ -49,9 +50,7 @@ class EventCenter {
 
     if (!eventValue) return
 
-    (eventValue || []).forEach((eventCb: any) => {
-      eventCb(data)
-    })
+    eventValue(data)
   }
 }
 
@@ -98,7 +97,16 @@ export class Ws {
   onopen () {
     this.ws.onopen = () => {
       console.log(this.ws, 'onopen')
-
+      const TOKEN = localStorage.getItem('token') || '';
+      this.send(JSON.stringify({
+        // AppID: 'xjqwGiV5uKK5KMJj1qzJsuKQnmJ26iXDCtQSKr4xd8vOlr4gIFWbofnfWQ8eCcAc',
+        // AppKey: 'xjqwGiV5uKK5KMJj1qzJsuKQnmJ26iXDCtQSKr4xd8vOlr4gIFWbofnfWQ8eCcAc',
+        // Token: TOKEN,
+        action: 'login',
+        data: {
+          token: TOKEN
+        }
+      }))
       // 发送成功连接之前所发送失败的消息
       this.errorStack.forEach(message => {
         this.send(message)
@@ -163,7 +171,7 @@ export class Ws {
   // 发送消息
   send (message:any) {
     // 连接失败时的处理
-    if (this.ws.readyState !== 1) {
+    if (this.ws?.readyState !== 1) {
       this.errorStack.push(message)
       return
     }

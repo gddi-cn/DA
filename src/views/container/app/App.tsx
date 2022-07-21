@@ -8,6 +8,8 @@ import { APP_LOGIN } from '@router'
 import { getUserInfo } from '@reducer/globalSlice'
 
 import Qs from 'qs'
+import { useSocketSyncUpdate } from '@src/views/ghooks'
+
 // import api from '../api'
 // 可以在这里做登录拦截或者其他
 
@@ -18,6 +20,8 @@ const App = () => {
   const isLogin = !!localStorage.getItem('token');
 
   const { pathname, search } = _location
+
+  useSocketSyncUpdate()
 
   useEffect(() => {
     if (isLogin) {

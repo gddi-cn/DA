@@ -1,5 +1,5 @@
 import { FooterBar, GButton } from '@src/UIComponents'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { ReactComponent as Mubiaojiance } from './icon/mubiaojiance.svg'
 import { ReactComponent as Tupianfenlei } from './icon/tupianfenlei.svg'
 import { ReactComponent as Tongyongfenge } from './icon/tongyongfenge.svg'
@@ -7,10 +7,13 @@ import { ReactComponent as Xiaoxiangfenge } from './icon/xiaoxiangfenge.svg'
 import { ReactComponent as Zitaijiance } from './icon/zitaijiance.svg'
 import { ReactComponent as Danmu3d } from './icon/danmu3d.svg'
 import { isEmpty } from 'lodash'
-import { MODEL_TYPES } from '@src/constants'
+import { MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_CREATE_TYPE, APP_LOCAL_FILE_STEP_2 } from '@router'
 import { message } from 'antd'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './SelectTrainType.module.less'
 
 const MODEL_TYPES_ICON: any = {
@@ -47,20 +50,27 @@ for (const [k, v] of Object.entries(MODEL_TYPES)) {
 
 const SelectTrainType = (): JSX.Element => {
   // const { setCurrentStep, createInfo, setCreateInfo } = props
-
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   const navigate = useNavigate()
   const [activeType, setActiveType] = useState('')
 
-  // useEffect(() => {
-  //   if (scenes) {
-  //     setSences(scenes)
-  //   }
-  // }, [scenes])
+  useEffect(() => {
+    if (activePipeLine.APP_LOCAL_FILE_STEP_1) {
+      const { activeType } = activePipeLine.APP_LOCAL_FILE_STEP_1
+      setActiveType(activeType)
+    }
+  }, [activePipeLine])
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
       navigate({
         pathname: APP_DATASET_CREATE_TYPE
+      })
+
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_CREATE_TYPE
       })
     }
 
@@ -73,6 +83,10 @@ const SelectTrainType = (): JSX.Element => {
       navigate({
         pathname: APP_LOCAL_FILE_STEP_2
       })
+
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
+      })
     }
     return (
       <div className='footer_btn_wrap'>
@@ -80,11 +94,16 @@ const SelectTrainType = (): JSX.Element => {
         <GButton className={isEmpty(activeType) ? 'not_allow' : 'yes_sir'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [activeType, navigate])
+  }, [activeType, navigate, activePipeLine])
 
   const handleClick = (data: arrItem) => {
     console.log(data)
     setActiveType(data.value)
+
+    socketPushMsgForProject(activePipeLine, {
+
+      APP_LOCAL_FILE_STEP_1: { activeType: data.value }
+    })
   }
 
   const getCls = (o: arrItem) => {

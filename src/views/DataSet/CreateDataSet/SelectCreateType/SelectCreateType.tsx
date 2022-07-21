@@ -2,18 +2,31 @@
 import { ReactComponent as GDDI } from './icon/共达地.svg'
 import { ReactComponent as MANFU } from './icon/曼孚科技.svg'
 import { APP_LOCAL_FILE_STEP_1, APP_THIRDPARTY_STEP_1 } from '@router'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import { useNavigate } from 'react-router-dom'
 import './SelectCreateType.module.less'
 
 const SelectCreateType = (props: any): JSX.Element => {
   console.log(props)
   const navigate = useNavigate()
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   const handleGotoLocal = () => {
     navigate({ pathname: APP_LOCAL_FILE_STEP_1 })
+    socketPushMsgForProject(activePipeLine, {
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_1
+    })
   }
 
   const handleGotoImprot = () => {
     navigate({ pathname: APP_THIRDPARTY_STEP_1 })
+    socketPushMsgForProject(activePipeLine, {
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_THIRDPARTY_STEP_1
+    })
   }
   return (
     <div styleName='SelectCreateType'>
