@@ -1,9 +1,34 @@
 
 import ModelDetailType from '../../types'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { Select } from 'antd'
+import { GSelect } from '@src/UIComponents'
+import { setCurrentVersion } from '@reducer/modelDetailSlice'
 import './VerticalTabHandle.module.less'
+import { socketPushMsgForProject } from '@ghooks'
+
+// import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { useMemo } from 'react'
+
+const { Option } = Select
 
 const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.Element => {
   const { tabIndex, setTabIndex } = props
+  const dispatch = useDispatch()
+
+  const versionList = useSelector((state: RootState) => {
+    return state.modelDetailSlice.versionList
+  })
+
+  const currentVersion = useSelector((state: RootState) => {
+    return state.modelDetailSlice.currentVersion
+  })
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
   const Title = (title:string) => {
     return (
       <div className='title'>{title}</div>
@@ -29,8 +54,53 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
       </div>
     )
   }
+
+  const GselectView = useMemo(
+    () => {
+      console.log(currentVersion, 'currentVersion')
+      const handleChange = (value: any, option: any) => {
+        console.log(option)
+        try {
+          if (option) {
+            const { data } = option
+            const { id: version_id } = data
+            if (activePipeLine.APP_MODEL_TRAIN_DETAIL) {
+              const _data = Object.assign(activePipeLine.APP_MODEL_TRAIN_DETAIL, { version_id })
+              socketPushMsgForProject(activePipeLine, {
+                APP_MODEL_TRAIN_DETAIL: _data
+              })
+            }
+
+            dispatch(setCurrentVersion(data))
+          }
+        } catch (e) {
+          console.error(e)
+        }
+      }
+      return (
+        <GSelect onChange={handleChange} value={currentVersion.id}>
+          {
+            versionList.map((data) => {
+              console.log(data, 59)
+              return (
+                <Option key={data.id} value={data.id} data={data} >{data.name}</Option>
+              )
+            })
+          }
+        </GSelect>
+      )
+    }, [currentVersion, versionList, activePipeLine, dispatch]
+  )
   return (
     <div styleName='VerticalTabHandle'>
+      <div className='VerticalTabHandle_block'>
+        {
+          Title('模型版本')
+        }
+        <div className='select_model_version_wrap'>
+          {GselectView}
+        </div>
+      </div>
       <div className='VerticalTabHandle_block'>
         {
           Title('训练过程')

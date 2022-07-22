@@ -15,11 +15,11 @@ import { getTaskActiveList } from '@reducer/tasksSilce'
 // APP_MODEL_TRAIN_DETAIL
 
 import { socketPushMsgForProject } from '@ghooks'
+import { isEmpty } from 'lodash'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@reducer/index'
 import './ModelTrainConfig.module.less'
-import { isEmpty } from 'lodash'
-import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
 const taskType = 'detection'
 const ModelTrainConfig = (): JSX.Element => {

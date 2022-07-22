@@ -1,15 +1,18 @@
 import TrainInfo from './TrainInfo'
 import TrianFlow from './TrianFlow'
-import ModelDetailType from '../types'
+
 // import { useEffect, useState, useRef } from 'react'
 // import api from '@api'
-
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import { useMemo } from 'react'
 
 import './TrainingOrFailed.module.less'
 
-const TrainingOrFailed = (props: ModelDetailType.TrainingOrFailedProps): JSX.Element => {
-  const { id } = props
+const TrainingOrFailed = (): JSX.Element => {
+  const id = useSelector((state: RootState) => {
+    return state.modelDetailSlice.id || ''
+  })
 
   return (
     <div styleName='TrainingOrFailed'>

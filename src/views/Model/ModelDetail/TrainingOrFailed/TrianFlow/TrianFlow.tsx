@@ -39,6 +39,9 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
   })
   useEffect(() => {
     const getTrainInfo = async () => {
+      if (!currentVersion?.id) {
+        return
+      }
       try {
         const res = await api.get(`/v3/models/${id}/versions/${currentVersion?.id}/progress`)
         if (res.code === 0) {

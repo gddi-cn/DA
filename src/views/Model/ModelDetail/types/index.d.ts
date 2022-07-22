@@ -11,7 +11,7 @@ declare namespace ModelDetailType {
 
     interface TrainingOrFailedProps {
 
-        id: string,
+        id?: string,
 
     }
 

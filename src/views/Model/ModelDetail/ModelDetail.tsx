@@ -3,11 +3,12 @@ import { FooterBar, GButton } from '@src/UIComponents'
 import { SuspenseForFC } from '@router/utils'
 import api from '@api'
 // import ModelDetailType from './types';
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import { message, Skeleton } from 'antd';
 import { isEmpty } from 'lodash';
 import { setCurrentVersion, setVersionList, setVersionInfo, setModelId } from '@reducer/modelDetailSlice'
-import { useDispatch, useSelector } from 'react-redux'
+
 import { useNavigate } from 'react-router-dom'
 import { APP_SELECT_DEPLOY_TYPE } from '@router'
 import './ModelDetail.module.less'
@@ -21,17 +22,33 @@ const ModelDetail = (): JSX.Element => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const model_id = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo?.model?.id || null
+    // return '342463664469155840'
+    if (state.tasksSilce.activePipeLine) {
+      return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.id
+    }
+    return ''
+  })
+
+  const model_version_id = useSelector((state: RootState) => {
+    // return '342463664469155840'
+    if (state.tasksSilce.activePipeLine) {
+      return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.version_id
+    }
+    return ''
   })
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
+  })
+
+  const currentVersion = useSelector((state: RootState) => {
+    return state.modelDetailSlice.currentVersion
   })
   //   const [versionList, setVersionList] = useState<ModelDetailType.VersionItem[] >([])
 
   //   const [currentVersion, setCurrentVersion] = useState<ModelDetailType.VersionItem >()
 
   //   const [versionInfo, setVersionInfo] = useState<ModelDetailType.VersionInfo>()
-
+  console.log(model_id, 'model_id')
   const getModelBaseInfo = useCallback(
     async () => {
       try {
@@ -42,23 +59,24 @@ const ModelDetail = (): JSX.Element => {
         if ((model_id as any) === '0') {
           return
         }
-        console.log(model_id, 'model_id')
+
         dispatch(setModelId(model_id))
         const path = `/v2/models/${model_id}/versions`
         const res = await api.get(path)
         if (res.code === 0) {
           const { versions } = res.data
-          console.log(versions)
+          // 默认
+          // 如果还没选择过版本,就默认第一个,选择过了就都是选择后的
           if (versions) {
-            const _currentVersion = versions[0]
+            let _currentVersion = versions[0]
 
-            const { id: current_version_id } = _currentVersion
-
-            const iterInfoRes = await api.get(`/v2/models/${model_id}/versions/${current_version_id}`)
-            if (res.code === 0) {
-              const iterInfo = iterInfoRes.data
-              dispatch(setVersionInfo(iterInfo))
+            if (model_version_id) {
+              const existCurrentVersion = versions.find((o: any) => o.id === model_version_id)
+              if (existCurrentVersion) {
+                _currentVersion = existCurrentVersion
+              }
             }
+
             dispatch(setVersionList(versions))
             dispatch(setCurrentVersion(_currentVersion))
           }
@@ -69,16 +87,30 @@ const ModelDetail = (): JSX.Element => {
       } catch (e) {
 
       }
-    }, [dispatch, model_id]
+    }, [dispatch, model_id, model_version_id]
   )
-
-  //   useEffect(() => {
-  //     console.log(versionList)
-  //   }, [versionList])
 
   useEffect(() => {
     getModelBaseInfo()
   }, [getModelBaseInfo])
+
+  useEffect(() => {
+    const initVersionData = async () => {
+      try {
+        if (!currentVersion?.id) {
+          return
+        }
+        const iterInfoRes = await api.get(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+        if (iterInfoRes.code === 0) {
+          const iterInfo = iterInfoRes.data
+          dispatch(setVersionInfo(iterInfo))
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    initVersionData()
+  }, [currentVersion?.id, dispatch, model_id])
 
   const views = useMemo(() => {
     if (isEmpty(versionInfo) || !model_id) {
@@ -91,7 +123,7 @@ const ModelDetail = (): JSX.Element => {
         <TrainSuccess />
       ),
       other: SuspenseForFC(
-        <TrainingOrFailed id={model_id} />
+        <TrainingOrFailed />
       )
     }
     return view_object[key] || null
