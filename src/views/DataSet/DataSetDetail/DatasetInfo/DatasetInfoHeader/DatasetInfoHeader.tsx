@@ -64,7 +64,7 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
           }
         }
       } catch (e) {
-
+        console.error(e)
       }
     }
     initFetch()
@@ -88,6 +88,15 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
       APP_DATASET_DETAIL: {}
     })
   }
+
+  const showGoBackBtn = () => {
+    if (activePipeLine?.APP_MODEL_TRAIN_DETAIL?.id) {
+      return null
+    }
+    return (
+      <SmallButton type='nomal' className='goback_wrap' onClick={handleGotoList}>返回数据列表</SmallButton>
+    )
+  }
   return (
     <div styleName='DatasetInfoHeader' id='DatasetInfoHeader'>
 
@@ -107,7 +116,9 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
 
       </div>
       <EditDataset data={datasetInfo} type='nomal' eleId='root' callback={initFetchDatasetInfo} />
-      <SmallButton type='nomal' className='goback_wrap' onClick={handleGotoList}>返回数据列表</SmallButton>
+      {
+        showGoBackBtn()
+      }
     </div>
   )
 }

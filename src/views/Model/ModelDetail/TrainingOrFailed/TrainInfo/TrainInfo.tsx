@@ -79,14 +79,15 @@ const TrainInfo = (): JSX.Element => {
         ]
       }
 
-      const { app_data_args, gpu_count, platform } = versionInfo.iter
+      const { app_data_args, gpu_count, platform, mode } = versionInfo.iter
       const platformlist = JSON.parse(platform)
       const { fps } = JSON.parse(app_data_args)
+
       return [
         ...(platformlist as any[]),
         fps,
         gpu_count,
-        '-'
+        mode
       ]
     } catch (e) {
       return [
@@ -108,8 +109,15 @@ const TrainInfo = (): JSX.Element => {
     chip_type,
     fps,
     gpu_count,
-    video
+    mode
   ] = getConfig()
+
+  const text:string[] = [
+    '',
+    '速度优先',
+    '精度优先',
+    '自定义'
+  ]
 
   return (
     <div styleName='TrainInfo'>
@@ -159,8 +167,8 @@ const TrainInfo = (): JSX.Element => {
               <p>{fps}</p>
             </div>
             <div className='top_content_wrap_item'>
-              <p>单芯片路数：</p>
-              <p>{video}</p>
+              <p>模式：</p>
+              <p>{text[mode]}</p>
             </div>
           </div>
         </Panel>

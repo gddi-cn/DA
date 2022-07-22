@@ -12,6 +12,7 @@ const ChipItem = (props: ModelTrainConfigType.ChipItem): JSX.Element => {
 
   const getlcs = () => {
     if (
+      selected?.application === data.application &&
       selected?.name === data.name &&
       selected?.chip_type === data.chip_type &&
       selected?.brand === data.brand

@@ -33,7 +33,7 @@ const titleMap: any = {
   // Cloud: '云端',
   Sigmastar: '星宸',
   SOPHGO: '算能科技',
-  Intel: '因特尔',
+  Intel: '英特尔',
   Cambricon: '寒武纪'
 }
 

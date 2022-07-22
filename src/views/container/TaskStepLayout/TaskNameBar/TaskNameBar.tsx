@@ -4,7 +4,7 @@ import { RootState } from '@reducer/index'
 import { Modal, Input, message } from 'antd'
 import { ChangeEvent, useRef, useState } from 'react'
 import { isNil } from 'lodash'
-import { modifyTaskName } from '@reducer/tasksSilce'
+import { modifyActiveTask } from '@reducer/tasksSilce'
 
 import './TaskNameBar.module.less'
 
@@ -30,12 +30,12 @@ const TaskNameBar = (): JSX.Element => {
     }
     setLoading(true)
     const loading = new Promise(function (resolve) {
-      setTimeout(resolve, 1500)
+      setTimeout(resolve, 500)
     })
     const setTaskname = new Promise(function (resolve, reject) {
       //
       try {
-        dispatch(modifyTaskName({ modelName: taskName.current, reactKey }))
+        dispatch(modifyActiveTask({ id: reactKey, params: { name: taskName.current } }))
         resolve(true)
       } catch (e) {
         reject(e)
@@ -60,10 +60,10 @@ const TaskNameBar = (): JSX.Element => {
     <div styleName='TaskNameBar'>
       <div className='edit_icon_wrap' >
         <EditOutlined onClick={handleModifyTaskName} />
-        <Modal destroyOnClose title="修改训练基础信息" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} getContainer={false} closable={false} confirmLoading={loading}>
-          <p>名称</p>
+        <Modal destroyOnClose title="修改训练基础信息" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false} confirmLoading={loading}>
+
           <Input maxLength={20} onChange={handleOnchange} defaultValue={task_name} />
-          <p>最多20个字符</p>
+          <p className='ant_moddl_tips'>最多20个字符</p>
         </Modal>
       </div>
       {task_name || '未命名'}

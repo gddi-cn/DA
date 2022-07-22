@@ -98,43 +98,50 @@ const TaskItemDetail = (props: Props): JSX.Element => {
   }
 
   const getPlatform = () => {
-    if (data?.additional?.platform) {
-      return (data?.additional?.platform).join(' ')
+    try {
+      if (data?.additional?.platform) {
+        return (JSON.parse(data?.additional?.platform))?.join(' ')
+      }
+      return '--'
+    } catch (e) {
+      return '--'
     }
-    return '--'
   }
   return (
     <div styleName='TaskItemDetail'>
-      <div className={`TaskItemDetail_info_wrap ${getModelTypeCls('_info_wrap')}`}>
-        <div className='top_wrap'>
-          {getStatus()}
-        </div>
-
-        <div className='middle_wrap'>
-          <div className='task_name'>{data?.name || '--'}</div>
-
-        </div>
-
-        <div className='bottom_wrap'>
-          <div className={`model_type ${getModelTypeCls('')}`}>
-            {data?.additional?.model_type || '未知'}
+      <div className={`TaskItemDetail_inner ${getModelTypeCls('_info_wrap')}`}>
+        <div className='TaskItemDetail_info_wrap'>
+          <div className='top_wrap'>
+            {getStatus()}
           </div>
-          <div className='platform'>
-            <ChipSvg />
-            <p>
-              {getPlatform()}
-            </p>
+
+          <div className='middle_wrap'>
+            <div className='task_name'>{data?.name || '--'}</div>
+
           </div>
+
+          <div className='bottom_wrap'>
+            <div className={`model_type ${getModelTypeCls('')}`}>
+              {data?.additional?.model_type || '未知'}
+            </div>
+            <div className='platform'>
+              <ChipSvg className='ChipSvg'/>
+              <p>
+                {getPlatform()}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className='TaskItemDetail_img_wrap'>
+          <Image
+            preview={false}
+            src={data?.additional?.cover}
+            alt='img'
+            fallback={datasetDefault}
+          />
         </div>
       </div>
-      <div className='TaskItemDetail_img_wrap'>
-        <Image
-          preview={false}
-          src={data?.additional?.cover}
-          alt='img'
-          fallback={datasetDefault}
-        />
-      </div>
+
     </div>
   )
 }

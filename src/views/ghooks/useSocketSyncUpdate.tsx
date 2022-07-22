@@ -30,7 +30,10 @@ export const useSocketSyncUpdate = () => {
     return null
   })
 
+  console.log(activeTaskInfo_id, 'activeTaskInfo_id')
+  console.log('activePipeLine36', activePipeLine)
   useEffect(() => {
+    console.log('activePipeLine36', activePipeLine)
     if (isNil(activePipeLine)) {
       setLoading(true)
     } else {
@@ -41,7 +44,7 @@ export const useSocketSyncUpdate = () => {
   useEffect(() => {
     try {
       // const url = `${(window).globalConfig.socket.protocol}://${window.location.host}/api/v1/ws`
-      const url = 'ws://api.lab.k8s.gddi.com/api/v1/ws'
+      const url = `${(window).globalConfig.socket.protocol}://${window.location.host}/api/v1/ws`
       wsInstance.current = new Ws(url)
 
       wsInstance.current.subscribe('resp', (data:any) => {

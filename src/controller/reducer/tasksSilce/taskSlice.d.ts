@@ -35,8 +35,8 @@ declare namespace TaskSlice {
     }
 
     interface Dataset_Info {
-        dataset_id?: string,
-        dataset_version_id?: string,
+        id?: string,
+        version_id?: string,
     }
 
     interface Dataset {
@@ -61,7 +61,7 @@ declare namespace TaskSlice {
     }
 
     interface Model_Info {
-        model_id?: string,
+        id?: string,
         model_iter_id?: string
     }
 
@@ -80,7 +80,7 @@ declare namespace TaskSlice {
         cover: string
         eta: number
         model_type: string
-        platform: string[]
+        platform: string
         status: number
     }
 

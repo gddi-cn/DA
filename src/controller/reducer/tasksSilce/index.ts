@@ -39,11 +39,14 @@ const hiddenActiveTask = createAction<any>(`${localName}/hiddenActiveTask`)
 
 const visibleActiveTask = createAction<any>(`${localName}/visibleActiveTask`)
 
+const modifyActiveTask = createAction<any>(`${localName}/modifyActiveTask`)
+
 export {
   getTaskActiveList,
   saveTaskActiveList,
   hiddenActiveTask,
   visibleActiveTask,
+  modifyActiveTask,
   // 添加任务
   addActiveTask,
   saveActivePipeLine,

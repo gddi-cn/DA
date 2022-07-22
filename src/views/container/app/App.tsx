@@ -1,15 +1,17 @@
 
 // import { Redirect } from 'react-router-dom';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import './app.module.less'
+
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { APP_LOGIN } from '@router'
 import { getUserInfo } from '@reducer/globalSlice'
 
 import Qs from 'qs'
-import { useSocketSyncUpdate } from '@src/views/ghooks'
+// import { useSocketSyncUpdate } from '@src/views/ghooks'
+// import { Spin } from 'antd';
 
+import './app.module.less'
 // import api from '../api'
 // 可以在这里做登录拦截或者其他
 
@@ -21,8 +23,8 @@ const App = () => {
 
   const { pathname, search } = _location
 
-  useSocketSyncUpdate()
-
+  // const [loading] = useSocketSyncUpdate()
+  // useSocketSyncUpdate()
   useEffect(() => {
     if (isLogin) {
       disPatch(getUserInfo({}))
@@ -49,11 +51,25 @@ const App = () => {
   if (canNotMatch.includes(pathname)) {
     return <Navigate to='/404' />
   }
+
+  // const getView = () => {
+  //   if (loading) {
+  //     return (
+  //       <div className='transition_div'>
+  //         <Spin tip='数据加载中' />
+  //       </div>
+  //     )
+  //   } else {
+  //     return (
+  //       <Outlet />
+  //     )
+  //   }
+  // }
   return (
     <div styleName='app'>
 
+      {/* {getView()} */}
       <Outlet />
-
     </div>
   )
 }

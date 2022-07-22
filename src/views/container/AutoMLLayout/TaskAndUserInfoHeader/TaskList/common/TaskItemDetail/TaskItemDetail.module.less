@@ -2,14 +2,20 @@
     width: 412px;
     background: rgba(219, 238, 251, 0.5);
     border-radius: 12px;
-    padding: 12px 20px;
-    display: flex;
     height: 100px;
 
     :global {
         .TaskItemDetail_img_wrap {
             width: 80px;
             height: 100%;
+        }
+
+        .TaskItemDetail_inner {
+            width: 412px;
+            border-radius: 12px;
+            padding: 12px 20px;
+            height: 100px;
+            display: flex;
         }
 
         .TaskItemDetail_info_wrap {
@@ -22,22 +28,47 @@
 
         .un_start_info_wrap {
             color: #637381;
+            background-color: rgba(99, 115, 129, 0.1);
+
+            .ChipSvg * {
+                fill: #637381;
+            }
         }
 
         .success_info_wrap {
             color: #2EC16B;
+            background-color: #EDFAF3;
+
+            .ChipSvg * {
+                fill: #2EC16B;
+            }
         }
 
         .training_info_wrap {
             color: #48A2DF;
+            background: rgba(219, 238, 251, 0.5);
+
+            .ChipSvg * {
+                fill: #48A2DF;
+            }
         }
 
         .wait_info_wrap {
             color: #FAD514;
+            background-color: rgba(250, 213, 20, 0.3);
+
+            .ChipSvg * {
+                fill: #FAD514;
+            }
         }
 
         .failed_info_wrap {
             color: #FF6177;
+            background-color: #F9EEF0;
+           
+            .ChipSvg * {
+                fill: #FF6177;
+            }
         }
 
 

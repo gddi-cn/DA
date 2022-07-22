@@ -8,11 +8,12 @@ import { useSelector } from 'react-redux'
 import { transformModelOutputData } from '../../utils'
 import { ImageSlider, UIDatasetVisual } from '@src/UIComponents'
 import FlvMp4 from '../FlvMp4'
-import { DatePicker } from 'antd'
+import { DatePicker, Skeleton, Empty } from 'antd'
 
 import './ForecastResult.module.less'
 import moment from 'moment'
 
+const { RangePicker } = DatePicker;
 const RenderView = (props: any) => {
   const { data, scenes } = props
   const datainfo = transformModelOutputData({ data: data.result, modelType: scenes })
@@ -48,7 +49,9 @@ const ForecastResult = (): JSX.Element => {
   const [chunkList, setChunkList] = useState<Array<any>>([])
   const [total, settotal] = useState(0)
 
-  const params = useRef({
+  const [fetching, setFetching] = useState(false)
+
+  const params = useRef<any>({
 
     begin: undefined,
     end: undefined
@@ -58,6 +61,7 @@ const ForecastResult = (): JSX.Element => {
   const fetchData = useCallback(
     async () => {
       try {
+        setFetching(true)
         const res = await api.get(`/v3/models/${versionInfo.id}/versions/${versionInfo.iter.id}/inference`, { params: { ...params.current, page: page.current } })
         if (res.code === 0) {
           const list = res.data
@@ -66,11 +70,12 @@ const ForecastResult = (): JSX.Element => {
           setChunkList(_list)
 
           setFictitiousList(_list[page.current - 1])
+          setFetching(false)
         } else {
-
+          setFetching(false)
         }
       } catch (e) {
-
+        setFetching(false)
       }
     }, [versionInfo]
   )
@@ -135,13 +140,57 @@ const ForecastResult = (): JSX.Element => {
       </div>
     )
   }
+
+  const silckView = () => {
+    if (fetching) {
+      return (
+        <Skeleton active/>
+      )
+    }
+
+    if (total === 0) {
+      return (
+        <div>
+          <Empty description='暂无数据,请上传预测数据'/>
+        </div>
+      )
+    }
+    return (
+      <ImageSlider needCache={true} page={page} fetchData={fetchList} total={total} dataList={fictitiousList} renderView={renderView} renderDotView={renderDotView} />
+    )
+  }
+
+  const handleRangeChange = (
+    dates: any
+  ) => {
+    console.log(dates, 'info')
+
+    if (dates) {
+      const [start, end] = dates
+      const _start = (start as moment.Moment).valueOf() / 1000
+      const _end = (end as moment.Moment).valueOf() / 1000
+      console.log(_start.toFixed(0), _end)
+
+      params.current = {
+        begin: _start.toFixed(0),
+        end: _end.toFixed(0),
+      }
+    } else {
+      params.current = {
+        begin: undefined,
+        end: undefined,
+      }
+    }
+
+    fetchData()
+  }
   return (
     <div styleName='ForecastResult'>
       <div className='ForecastResult_header'>
-        <DatePicker placement='bottomRight' />
+        <RangePicker placement='bottomRight' onChange={handleRangeChange} allowClear />
       </div>
       <div className='ForecastResult_content'>
-        <ImageSlider needCache={true} page={page} fetchData={fetchList} total={total} dataList={fictitiousList} renderView={renderView} renderDotView={renderDotView} />
+        {silckView()}
       </div>
     </div>
   )

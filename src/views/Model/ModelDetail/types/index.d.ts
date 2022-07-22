@@ -17,7 +17,7 @@ declare namespace ModelDetailType {
 
     interface TrianFlowProps {
 
-        id: string
+        id: string,
     }
 
     type TabIndex = 'train_process' | 'model_forecast' | 'model_contrast' | 'error_analysis'

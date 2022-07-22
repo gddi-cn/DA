@@ -94,16 +94,20 @@ const workerCode = () => {
           try {
             const { data: blobData } = msg;
             blobData.text().then((text) => {
-              const { action, data, topic } = JSON.parse(text);
-              if (action === 'login') {
-                ws.send(JSON.stringify({
-                  action: 'sub',
-                  topic: `task.log.${id}`,
-                  data: {
-                    limit: -1
-                  },
-                  timestamp: new Date().valueOf()
-                }))
+              const { action, data, topic, status } = JSON.parse(text);
+              if (action === 'resp') {
+                if (topic === 'login') {
+                  if (status) {
+                    ws.send(JSON.stringify({
+                      action: 'sub',
+                      topic: `task.log.${id}`,
+                      data: {
+                        limit: -1
+                      },
+                      timestamp: new Date().valueOf()
+                    }))
+                  }
+                }
               }
               if (action === 'ping') {
                 ws.send(JSON.stringify({

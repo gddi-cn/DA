@@ -25,7 +25,7 @@ const fns = {
     // const { taskList } = state
     // const index = findTaskIndexById(reactKey, taskList)
     state.activeTaskInfo = action.payload
-    state.activePipeLine = null
+    // state.activePipeLine = null
     // state.activeStep = 'dataset'
   },
   // 修改名字

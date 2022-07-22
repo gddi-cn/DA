@@ -68,7 +68,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
       }
       try {
         setLoading(true);
-        const res = await api.get(`/v3/devicegroups/${group_id}/devices`, { params: { app_id, ...params.current } })
+        const res = await api.get('/v3/devices', { params: { app_id, group: group_id, ...params.current } })
         if (res.code === 0) {
           const { items } = res.data
           setDataSource(items || [])

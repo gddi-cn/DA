@@ -5,7 +5,8 @@ import {
   addActiveTask,
   checkoutTask,
   hiddenActiveTask,
-  visibleActiveTask
+  visibleActiveTask,
+  modifyActiveTask
 } from '@src/controller/reducer/tasksSilce'
 // import { message } from 'antd'
 import { history, APP_GUIDE_PAGE } from '@router'
@@ -19,6 +20,7 @@ export default function* taskSaga (): Generator<any> {
   yield takeLatest(addActiveTask.type, addActiveTaskGen)
   yield takeLatest(hiddenActiveTask.type, hiddenActiveTaskGen)
   yield takeLatest(visibleActiveTask.type, visibleActiveTaskGen)
+  yield takeLatest(modifyActiveTask.type, modifyActiveTaskGen)
 }
 
 const findTaskIndexById = (reactKey: string, taskList: Array<TaskSlice.taskListItem>): number => {
@@ -37,7 +39,7 @@ function* fetchTaskActiveList ():any {
     }))
     if (res?.code === 0) {
       const { items } = res.data
-      const list = items || []
+      const list:any[] = items || []
       yield put(saveTaskActiveList(list))
 
       if (!isEmpty(list)) {
@@ -46,8 +48,15 @@ function* fetchTaskActiveList ():any {
         )
         console.log(activeTaskInfo, 4747)
         if (isEmpty(activeTaskInfo)) {
+          // 没有就第一个
           const _activeInfo = list[0]
           yield put(checkoutTask(_activeInfo))
+        } else {
+          // 有得话就是拿最新的数据,因为可能被修改了
+          const _activeInfo = list.find((o) => o?.id === activeTaskInfo.id)
+          if (_activeInfo) {
+            yield put(checkoutTask(_activeInfo))
+          }
         }
       } else {
         history.push({ pathname: APP_GUIDE_PAGE })
@@ -88,9 +97,6 @@ function* hiddenActiveTaskGen (action: any): any {
     }))
 
     if (res?.code === 0) {
-      //   const { items } = res.data
-      yield put(getTaskActiveList(null))
-
       if (hasAutoNext) {
         const taskList: TaskSlice.taskListItem[] = yield select(
           (state: RootState) => state.tasksSilce.taskList
@@ -108,6 +114,8 @@ function* hiddenActiveTaskGen (action: any): any {
           yield put(checkoutTask(activeTaskInfo))
         }
       }
+      //   const { items } = res.data
+      yield put(getTaskActiveList(null))
     } else {
       // message.warning('G了')
     }
@@ -129,6 +137,25 @@ function* visibleActiveTaskGen (action: any): any {
       //   const { items } = res.data
       yield put(getTaskActiveList(null))
       yield put(checkoutTask(data))
+    } else {
+      // message.warning('G了')
+    }
+  } catch (e) {
+    console.error(e, 'visibleActiveTaskGen')
+  } finally {
+
+  }
+}
+
+function* modifyActiveTaskGen (action: any): any {
+  const { id, params } = action.payload
+  try {
+    const res = yield call(() => api.patch(`/v3/projects/${id}`, params))
+
+    if (res?.code === 0) {
+      //   const { items } = res.data
+      yield put(getTaskActiveList(null))
+      // yield put(checkoutTask(data))
     } else {
       // message.warning('G了')
     }

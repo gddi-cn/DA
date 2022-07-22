@@ -25,27 +25,50 @@ declare namespace ModelDetailSlice {
     }
 
     interface IterInfo {
-        app_data_args: string
-        application: string
-        begin: string
-        created: string
-        dataset_id: string
-        description: string
-        end: string
-        engine: string
-        gpu_count: number
-        id: string
-        inference_api: string
-        model_type: string
-        name: string
-        onnx_path: string
-        parent_id: string
-        platform: string
-        reason: string
-        result: any
-        status: number
-        task_info: TaskInfo
-        train_task_id: string
+        app_data_args: string,
+        application: string,
+        begin: string,
+        channel: number,
+        created: string,
+        dataset_id: string,
+        description: string,
+        end: string,
+        engine: string,
+        gpu_count: number,
+        id: string,
+        mode: number,
+        model_type: string,
+        name: string,
+        onnx_path: string,
+        parent_id: string,
+        platform: string,
+        reason: string,
+        result: any,
+        status: number,
+        task_info: TaskInfo,
+        train_task_id: string,
+
+        // app_data_args: string
+        // application: string
+        // begin: string
+        // created: string
+        // dataset_id: string
+        // description: string
+        // end: string
+        // engine: string
+        // gpu_count: number
+        // id: string
+        // inference_api: string
+        // model_type: string
+        // name: string
+        // onnx_path: string
+        // parent_id: string
+        // platform: string
+        // reason: string
+        // result: any
+        // status: number
+        // task_info: TaskInfo
+        // train_task_id: string
     }
 
     interface VersionInfo {

@@ -17,10 +17,12 @@ import './ModelDetail.module.less'
 const TrainSuccess = lazy(() => import('@src/views/Model/ModelDetail/TrainSuccess'));
 const TrainingOrFailed = lazy(() => import('@src/views/Model/ModelDetail/TrainingOrFailed'));
 
-const id = '370711229819887616'
 const ModelDetail = (): JSX.Element => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const model_id = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo?.model?.id || null
+  })
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
@@ -33,8 +35,16 @@ const ModelDetail = (): JSX.Element => {
   const getModelBaseInfo = useCallback(
     async () => {
       try {
-        dispatch(setModelId(id))
-        const path = `/v2/models/${id}/versions`
+        if (!model_id) {
+          return
+        }
+        // 后端神奇的默认
+        if ((model_id as any) === '0') {
+          return
+        }
+        console.log(model_id, 'model_id')
+        dispatch(setModelId(model_id))
+        const path = `/v2/models/${model_id}/versions`
         const res = await api.get(path)
         if (res.code === 0) {
           const { versions } = res.data
@@ -44,7 +54,7 @@ const ModelDetail = (): JSX.Element => {
 
             const { id: current_version_id } = _currentVersion
 
-            const iterInfoRes = await api.get(`/v2/models/${id}/versions/${current_version_id}`)
+            const iterInfoRes = await api.get(`/v2/models/${model_id}/versions/${current_version_id}`)
             if (res.code === 0) {
               const iterInfo = iterInfoRes.data
               dispatch(setVersionInfo(iterInfo))
@@ -59,7 +69,7 @@ const ModelDetail = (): JSX.Element => {
       } catch (e) {
 
       }
-    }, [dispatch]
+    }, [dispatch, model_id]
   )
 
   //   useEffect(() => {
@@ -71,7 +81,7 @@ const ModelDetail = (): JSX.Element => {
   }, [getModelBaseInfo])
 
   const views = useMemo(() => {
-    if (isEmpty(versionInfo)) {
+    if (isEmpty(versionInfo) || !model_id) {
       return <Skeleton active />
     }
     const isTrainsiton = [2].includes(+(versionInfo?.iter.status))
@@ -81,11 +91,11 @@ const ModelDetail = (): JSX.Element => {
         <TrainSuccess />
       ),
       other: SuspenseForFC(
-        <TrainingOrFailed id={id} />
+        <TrainingOrFailed id={model_id} />
       )
     }
     return view_object[key] || null
-  }, [versionInfo])
+  }, [versionInfo, model_id])
 
   const rightContent = useMemo(() => {
     const goNext = async () => {
@@ -93,13 +103,16 @@ const ModelDetail = (): JSX.Element => {
         pathname: APP_SELECT_DEPLOY_TYPE
       })
     }
+
+    const isTrainsiton = [2].includes(+(versionInfo?.iter?.status))
+    // const can_click = isTrainsiton ? 'yes_sir' : 'not_allow'
     return (
       <div className='footer_btn_wrap'>
 
-        <GButton type='primary' onClick={goNext}>部署</GButton>
+        <GButton type='primary' disabled={!isTrainsiton} onClick={goNext}>部署</GButton>
       </div>
     )
-  }, [navigate])
+  }, [navigate, versionInfo?.iter?.status])
 
   return (
     <div styleName='ModelDetail'>

@@ -1,5 +1,6 @@
 .TagRadioSelect {
     display: flex;
+    flex-wrap: wrap;
     user-select: none;
 
     :global {
@@ -12,6 +13,8 @@
             border-color: #3693D1;
             margin-right: 10px;
             cursor: pointer;
+            white-space: nowrap;
+            margin-top: 2px;
         }
 
         .TagRadioSelect_radio_active {

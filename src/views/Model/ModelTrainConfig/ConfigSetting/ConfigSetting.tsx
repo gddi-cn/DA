@@ -3,20 +3,16 @@ import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import './ConfigSetting.module.less'
 import ModelTrainConfigType from '../types';
-import { useEffect, useState } from 'react';
-import { isEmpty } from 'lodash';
+// import { useEffect, useState } from 'react';
+// import { isEmpty } from 'lodash';
 
 const CusInputNumber = (props: any) => {
-  const { onChange, formInstance, maxFps, ...rest } = props
+  const { onChange, ...rest } = props
   const handleOnChange = (value: string) => {
     console.log('changed', value);
     // const {max} = props
     // if(value){}
     onChange(value)
-    const video = Math.floor((maxFps / +value))
-    formInstance?.setFieldsValue({
-      video
-    })
   };
   const handleStep = (value: string, info: { offset: number, type: 'up' | 'down' }) => {
     console.log('changed', value);
@@ -38,33 +34,33 @@ const CusInputNumber = (props: any) => {
 
 const CusRadioGroup = (props: any) => {
   const {
-    onChange, formInstance, minFps, maxFps, ...rest
+    onChange, ...rest
   } = props
 
   const handleOnChange = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
     const value = e.target.value
-    console.log(minFps)
+
     onChange(value);
-    if (value === 1) {
-      const _fps = maxFps > 25 ? 25 : maxFps
-      const video = Math.floor((maxFps / _fps))
-      formInstance.setFieldsValue({
-        fps: _fps, video
-      })
-    } else if (value === 2) {
-      const _fps = maxFps > 5 ? 5 : maxFps
-      const video = Math.floor((maxFps / _fps))
-      formInstance.setFieldsValue({
-        fps: _fps, video
-      })
-    } else {
-      const _fps = maxFps > 5 ? 5 : maxFps
-      const video = Math.floor((maxFps / _fps))
-      formInstance.setFieldsValue({
-        fps: 5, video
-      })
-    }
+    // if (value === 1) {
+    //   const _fps = maxFps > 25 ? 25 : maxFps
+    //   const channel = Math.floor((maxFps / _fps))
+    //   formInstance.setFieldsValue({
+    //     fps: _fps, channel
+    //   })
+    // } else if (value === 2) {
+    //   const _fps = maxFps > 5 ? 5 : maxFps
+    //   const channel = Math.floor((maxFps / _fps))
+    //   formInstance.setFieldsValue({
+    //     fps: _fps, channel
+    //   })
+    // } else {
+    //   const _fps = maxFps > 5 ? 5 : maxFps
+    //   const channel = Math.floor((maxFps / _fps))
+    //   formInstance.setFieldsValue({
+    //     fps: 5, channel
+    //   })
+    // }
   };
   return (
     <Radio.Group onChange={handleOnChange} {...rest}>
@@ -78,31 +74,16 @@ const CusRadioGroup = (props: any) => {
 }
 
 const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element => {
-  const { selected, formInstance } = props
-
-  const [maxFps, setMaxFps] = useState(30)
+  const { formInstance } = props
 
   const userInfo = useSelector((state: any) => {
     return state.globalSlice.userInfo
   })
   const user_gpu = userInfo?.quota?.task_gpu_limited || 1
 
-  useEffect(() => {
-    if (!isEmpty(selected)) {
-      console.log(selected)
-      const _fpsmax = selected.fps_limited || 30
-      setMaxFps(_fpsmax)
-      formInstance.setFieldsValue({
-        mode: 2,
-        fps: 5,
-        video: Math.floor(_fpsmax / 5)
-      })
-    }
-  }, [selected, formInstance])
-
-  const handleConfigFucking = (cValue:any, allVlaue:any) => {
-    console.log(cValue, allVlaue)
-  }
+  // const handleConfigFucking = (cValue:any, allVlaue:any) => {
+  //   console.log(cValue, allVlaue)
+  // }
   return (
     <div styleName='ConfigSetting'>
       <div className='ConfigSetting_title'>
@@ -113,7 +94,7 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
         <Form
           form={formInstance}
           name='basic'
-          onValuesChange={handleConfigFucking}
+          // onValuesChange={handleConfigFucking}
 
         >
           <div className='form_cus_item'>
@@ -135,7 +116,7 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
               rules={[{ required: true }]}
               initialValue={2}
             >
-              <CusRadioGroup formInstance={formInstance} minFps={1} maxFps={maxFps} />
+              <CusRadioGroup minFps={1} />
             </Form.Item>
           </div>
           <Form.Item dependencies={['mode']} noStyle>
@@ -151,7 +132,7 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
                     <div className='label'>单芯片部署路数</div>
                     <Form.Item
 
-                      name='video'
+                      name='channel'
                       initialValue={1}
                     >
                       <CusInputNumber disabled={true} />
@@ -164,7 +145,7 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
                       name='fps'
                       initialValue={5}
                     >
-                      <CusInputNumber formInstance={formInstance} min={1} maxFps={maxFps} max={30} upHandler={<CaretUpOutlined />} downHandler={<CaretDownOutlined />} tips={`当前加速器支持最大fps为${30}`} />
+                      <CusInputNumber min={1} max={30} upHandler={<CaretUpOutlined />} downHandler={<CaretDownOutlined />} tips={`当前加速器支持最大fps为${30}`} />
                     </Form.Item>
                   </div>
                 </span>

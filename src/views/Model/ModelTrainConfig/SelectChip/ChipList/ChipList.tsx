@@ -5,10 +5,9 @@ import './ChipList.module.less'
 
 const ChipList = (props: ModelTrainConfigType.ChipList): JSX.Element => {
   console.log(props, 'ChipList')
-  const { chipList, onChange, value, setSelected } = props
+  const { chipList, onChange, value } = props
 
   const handleSelect = (data:any) => {
-    setSelected(data)
     onChange(data)
   }
   return (
