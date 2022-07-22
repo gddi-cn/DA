@@ -109,7 +109,7 @@ declare namespace TaskSlice {
     }
 
     interface TaskState {
-        taskList: Array<taskListItem>,
+        taskList: Array<taskListItem> | null,
 
         activeTaskInfo: Partial<taskListItem>,
 

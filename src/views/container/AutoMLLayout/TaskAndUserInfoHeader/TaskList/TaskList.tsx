@@ -6,11 +6,13 @@ import { useEffect, useMemo } from 'react'
 import { getTaskActiveList } from '@reducer/tasksSilce'
 // import api from '@api'
 import { TabsNav } from '@src/UIComponents'
-// import { APP_GUIDE_PAGE } from '@router'
-// import { Navigate } from 'react-router-dom'
+import { APP_GUIDE_PAGE } from '@router'
+import { useNavigate } from 'react-router-dom'
 import './TaskList.module.less'
+import { isEmpty } from 'lodash'
 
 const TaskList = (): JSX.Element => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getTaskActiveList({}))
@@ -26,6 +28,14 @@ const TaskList = (): JSX.Element => {
     return activeTaskInfo?.id === data?.id
   }
 
+  useEffect(() => {
+    if (isEmpty(taskList)) {
+      navigate({
+        pathname: APP_GUIDE_PAGE
+      })
+    }
+  }, [navigate, taskList])
+
   const Add_tbn = useMemo(() => {
     return <AddButton />
   }, [])
@@ -36,7 +46,7 @@ const TaskList = (): JSX.Element => {
         Add_tbn
       }
       <TabsNav
-        dataList={taskList}
+        dataList={taskList || []}
         renderItem={
           (data) => (
             <TaskItem
