@@ -2,7 +2,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { history, APP_LOGIN } from '@router';
-import Qs from 'qs'
+// import Qs from 'qs'
 import { message } from 'antd';
 
 // axios 配置
@@ -55,20 +55,19 @@ axios.interceptors.response.use(
     if ([401].includes(Number(code))) {
       message.error(error.response?.data?.message)
       localStorage.removeItem('token')
-      localStorage.removeItem('ai-flow')
 
-      // 应该带上当前失效路由的信息
-      const { pathname, search } = history.location
-      const params = Qs.stringify({
-        pathname, search
-      })
+      // 应该带上当前失效路由的信息 search
+      const { pathname } = history.location
+      // const params = Qs.stringify({
+      //   pathname, search
+      // })
       // ZZ统计时间接口会触发BUG
       if (pathname === APP_LOGIN) {
         return
       }
       history.push({
         pathname: APP_LOGIN,
-        search: params
+        // search: params
       })
     }
 

@@ -1,7 +1,8 @@
 
 import { ReactComponent as UserIcon } from './icon/user.svg'
 import { Dropdown, Menu } from 'antd';
-import { APP_DEVICE_INDEX } from '@router'
+import { APP_DEVICE_INDEX, APP_LOGIN } from '@router'
+// import api from '@api'
 import { useNavigate } from 'react-router-dom'
 import './UserCenter.module.less'
 
@@ -10,6 +11,13 @@ const UserCenter = (): JSX.Element => {
   const handleGoDevice = () => {
     navigate({
       pathname: APP_DEVICE_INDEX
+    })
+  }
+
+  const handleLoginOut = async () => {
+    localStorage.removeItem('token')
+    navigate({
+      pathname: APP_LOGIN
     })
   }
   const menu = (
@@ -23,13 +31,21 @@ const UserCenter = (): JSX.Element => {
               设备中心
             </div>
           ),
+        },
+        {
+          key: '2',
+          label: (
+            <div onClick={handleLoginOut} >
+              退出登录
+            </div>
+          ),
         }
       ]}
     />
   );
   return (
     <div styleName='UserCenter'>
-      <Dropdown overlay={menu} placement="bottomLeft">
+      <Dropdown overlay={menu} placement="bottomLeft" >
         <div className='UserCenter_wrap'>
           <span className='icon_wrap'>
             <UserIcon />

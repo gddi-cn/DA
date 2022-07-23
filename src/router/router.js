@@ -12,7 +12,8 @@ import { SuspenseFn } from './utils'
 
 /* 一级路由可以直接在这里写、其实在哪里都一样、为了后边代码多了不那么挫还是分类吧 */
 
-const Login = lazy(() => import('@src/views/Authorization/Login'));
+// const Login = lazy(() => import('@src/views/Authorization/Login'));
+const Login = lazy(() => import('@src/views/Login'));
 const NotFound = lazy(() => import('@src/views/NotFound'));
 const Test = lazy(() => import('@src/views/test'));
 
