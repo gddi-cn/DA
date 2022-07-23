@@ -26,7 +26,7 @@ const GddiFlow = (props: any): JSX.Element => {
   // const { appId } = Qs.parse(search.substring(1))
   const daisyEntity = useRef<null | AIAppType>(null)
   const daisyEntityTag = useRef<any>(null)
-  const { adapter_device, appId } = appBaseInfo
+  const { adapter_device, id } = appBaseInfo
   // const adapter_device = useSelector((state: any) => {
   //   return state.ApplicationDetailSlice.baseInfo.adapter_device
   // })
@@ -53,7 +53,7 @@ const GddiFlow = (props: any): JSX.Element => {
                   page: pageOffset,
                   page_size: pageSize,
                   adapter_device: adapter_device,
-                  appId,
+                  appId: id,
                   name: queryModelName
                 }
               })
@@ -86,7 +86,7 @@ const GddiFlow = (props: any): JSX.Element => {
         )()
       })
     }
-    , [adapter_device, appId])
+    , [adapter_device, id])
 
   // const fetchLabelList = useCallback(
   //   (mod_result_id: string|number): Promise<any> => {
@@ -121,7 +121,7 @@ const GddiFlow = (props: any): JSX.Element => {
 
   const updateFn = async (val:any) => {
     try {
-      const res: any = await api.put(`/v3/apps/${appId}`, {
+      const res: any = await api.put(`/v3/apps/${id}`, {
         config: JSON.stringify(val),
         // name: '123'
       })

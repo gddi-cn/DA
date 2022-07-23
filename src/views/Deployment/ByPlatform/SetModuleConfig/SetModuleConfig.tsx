@@ -6,9 +6,13 @@ import { useNavigate } from 'react-router-dom'
 import api from '@api'
 import GddiFlow from './GddiFlow'
 import { isEmpty } from 'lodash'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './SetModuleConfig.module.less'
 
-const app_id = 288
+// const app_id = 288
 
 const SetModuleConfig = (props: any): JSX.Element => {
   console.log(props)
@@ -18,9 +22,26 @@ const SetModuleConfig = (props: any): JSX.Element => {
 
   })
 
+  const app_id = useSelector((state: RootState) => {
+    const { activePipeLine } = state.tasksSilce
+    if (activePipeLine) {
+      if (activePipeLine?.APP_SetModuleConfig?.id) {
+        return activePipeLine?.APP_SetModuleConfig?.id
+      }
+    }
+    return undefined
+  })
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
   useEffect(() => {
     const fetchBaseInfo = async () => {
       try {
+        if (!app_id) {
+          return
+        }
         const res = await api.get(`/v3/apps/${app_id}`)
         if (res?.code === 0) {
           const { data: baseInfo } = res
@@ -44,7 +65,7 @@ const SetModuleConfig = (props: any): JSX.Element => {
       }
     }
     fetchBaseInfo()
-  }, [])
+  }, [app_id])
 
   const views = useMemo(() => {
     if (isEmpty(flowValue)) {
@@ -61,6 +82,12 @@ const SetModuleConfig = (props: any): JSX.Element => {
       navigate({
         pathname: APP_SelectModule
       })
+
+      socketPushMsgForProject(
+        activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SelectModule
+        }
+      )
     }
 
     const goNext = async () => {
@@ -70,6 +97,12 @@ const SetModuleConfig = (props: any): JSX.Element => {
       navigate({
         pathname: APP_ForecastModule
       })
+
+      socketPushMsgForProject(
+        activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_ForecastModule
+        }
+      )
     }
     return (
       <div className='footer_btn_wrap'>
@@ -77,7 +110,7 @@ const SetModuleConfig = (props: any): JSX.Element => {
         <GButton style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [navigate])
+  }, [activePipeLine, navigate])
   return (
     <div styleName='SetModuleConfig'>
       <div className='SetModuleConfig_wrap'>

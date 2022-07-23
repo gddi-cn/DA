@@ -11,6 +11,8 @@ import { setCurrentVersion, setVersionList, setVersionInfo, setModelId } from '@
 
 import { useNavigate } from 'react-router-dom'
 import { APP_SELECT_DEPLOY_TYPE } from '@router'
+import { socketPushMsgForProject } from '@ghooks'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './ModelDetail.module.less'
 
 // ?id=370695350071697408&cuurentVersionId=370695350075891712&
@@ -27,6 +29,10 @@ const ModelDetail = (): JSX.Element => {
       return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.id
     }
     return ''
+  })
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
   })
 
   const model_version_id = useSelector((state: RootState) => {
@@ -131,6 +137,11 @@ const ModelDetail = (): JSX.Element => {
 
   const rightContent = useMemo(() => {
     const goNext = async () => {
+      socketPushMsgForProject(
+        activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
+        }
+      )
       navigate({
         pathname: APP_SELECT_DEPLOY_TYPE
       })
@@ -144,7 +155,7 @@ const ModelDetail = (): JSX.Element => {
         <GButton type='primary' disabled={!isTrainsiton} onClick={goNext}>部署</GButton>
       </div>
     )
-  }, [navigate, versionInfo?.iter?.status])
+  }, [activePipeLine, navigate, versionInfo?.iter?.status])
 
   return (
     <div styleName='ModelDetail'>

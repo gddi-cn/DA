@@ -4,10 +4,17 @@ import { ReactComponent as Pingtai } from './icon/pingtai.svg'
 import { ReactComponent as Sdk } from './icon/sdk.svg'
 import { useNavigate } from 'react-router-dom'
 import { APP_SelectModule, APP_SDK_Documents } from '@router'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './SelectDeployType.module.less'
 
 const SelectDeployType = (): JSX.Element => {
   const navigate = useNavigate()
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   const getHeader = (text: string) => {
     return (
       <div className='getHeader'>{text}</div>
@@ -15,6 +22,11 @@ const SelectDeployType = (): JSX.Element => {
   }
 
   const handleGotoPlatform = () => {
+    socketPushMsgForProject(
+      activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SelectModule
+      }
+    )
     navigate(
       {
         pathname: APP_SelectModule
@@ -26,6 +38,11 @@ const SelectDeployType = (): JSX.Element => {
     navigate({
       pathname: APP_SDK_Documents
     })
+    socketPushMsgForProject(
+      activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SDK_Documents
+      }
+    )
   }
   return (
     <div styleName='SelectDeployType'>

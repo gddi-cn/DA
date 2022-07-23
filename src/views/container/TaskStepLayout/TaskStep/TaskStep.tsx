@@ -69,6 +69,7 @@ const TaskStep = (): JSX.Element => {
   // 数据存在可以看详情、不存在就去数据集list选择
 
   const handleDatasetClick = () => {
+    // 如果未训练能点可能是张宇那边数据问题
     if (activeTaskInfo?.model?.id) {
       if (activePipeLine) {
         socketPushMsgForProject(

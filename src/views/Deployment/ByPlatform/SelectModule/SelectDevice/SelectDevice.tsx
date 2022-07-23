@@ -10,7 +10,7 @@ const defaultTypes = ['Mobile', 'Edge', 'Terminal']
 
 const SelectDevice = (props: any): JSX.Element => {
   console.log(props)
-  const { onChange, showTypes } = props
+  const { onChange, showTypes, value } = props
   const [options, setOptions] = useState<any>([])
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const SelectDevice = (props: any): JSX.Element => {
         placeholder="请选择类型"
         showSearch={{ filter }}
         allowClear
-
+        value={value}
         suffixIcon={<CaretDownOutlined/>}
       />
 

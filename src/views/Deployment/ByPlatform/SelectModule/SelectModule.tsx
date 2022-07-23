@@ -8,13 +8,17 @@ import { useNavigate } from 'react-router-dom'
 import SelectDevice from './SelectDevice'
 import { isEmpty } from 'lodash';
 import { ReactComponent as Gddi } from './icon/gddi.svg'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './SelectModule.module.less'
 
 const SelectList = (props:any) => {
-  const { onChange, device_type } = props
+  const { onChange, device_type, value } = props
   const [moduleList, setmoduleList] = useState<any[]>([])
 
-  const [selected, setSelected] = useState<any>(undefined)
+  // const [selected, setSelected] = useState<any>(undefined)
   const [total, setTotal] = useState(0)
   const params = useRef({
     page_size: 12,
@@ -49,7 +53,7 @@ const SelectList = (props:any) => {
   }
 
   const getCls = (data:any) => {
-    if (selected?.id === data?.id) {
+    if (value === data?.id) {
       return 'module_item module_item_active'
     }
 
@@ -57,7 +61,6 @@ const SelectList = (props:any) => {
   }
 
   const handleSelect = (data: any) => {
-    setSelected(data)
     onChange && onChange(data?.id || '-')
   }
   return (
@@ -109,29 +112,116 @@ const SelectModule = (): JSX.Element => {
   const [form] = Form.useForm();
   const navigate = useNavigate()
 
+  const [loading, setLoading] = useState(false)
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
+  useEffect(() => {
+    if (!isEmpty(activePipeLine?.APP_SelectModule)) {
+      form.setFieldsValue(activePipeLine?.APP_SelectModule)
+    }
+  }, [activePipeLine, form])
+
   const rightContent = useMemo(() => {
     const handleGoback = () => {
       navigate({
         pathname: APP_SELECT_DEPLOY_TYPE
       })
+      socketPushMsgForProject(
+        activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
+        }
+      )
     }
 
     const goNext = async () => {
       // const _obj = Object.assign({}, createInfo, { scenes: activeType })
       // 发送给socket next
-      const data = await form.validateFields()
-      console.log(data)
-      navigate({
-        pathname: APP_SetModuleConfig
-      })
+      try {
+        const formData = await form.validateFields()
+
+        const { adapter_device, ...rest } = formData
+        let parmas = {
+
+        }
+
+        if (isEmpty(adapter_device)) {
+          parmas = {
+            name: '0.6无命名应用',
+            adapter_device: undefined,
+            ...rest
+          }
+        } else {
+          parmas = {
+            name: '0.6无命名应用',
+            adapter_device: adapter_device[adapter_device.length - 1],
+            ...rest
+          }
+        }
+        try {
+          setLoading(true)
+          const res = await api.post('/v3/apps', parmas)
+          if (res.code === 0) {
+            message.success('创建成功')
+            setLoading(false)
+
+            // 创建了给下一步赋值应用信息
+            socketPushMsgForProject(
+              activePipeLine, {
+                active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SetModuleConfig,
+                APP_SetModuleConfig: res?.data
+              }
+            )
+            navigate({
+              pathname: APP_SetModuleConfig
+            })
+          } else {
+            message.error(res?.message)
+            setLoading(false)
+          }
+        } catch (e) {
+          console.log(e)
+          setLoading(false)
+        }
+      } catch (e) {
+
+      }
     }
     return (
       <div className='footer_btn_wrap'>
         <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
-        <GButton style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
+        <GButton style={{ width: 132 }} type='primary' onClick={goNext} loading={loading}>下一步</GButton>
       </div>
     )
-  }, [navigate, form])
+  }, [loading, navigate, activePipeLine, form])
+
+  const handleAllChange = (changeValue:any, all_value:any) => {
+    console.log(all_value)
+
+    if (Object.prototype.hasOwnProperty.call(changeValue, 'adapter_device')) {
+      form.setFieldsValue({
+        app_template_id: undefined
+      })
+      const _data = Object.assign(all_value, {
+        app_template_id: undefined
+      })
+      socketPushMsgForProject(
+        activePipeLine, {
+          APP_SelectModule: _data
+        }
+      )
+
+      return
+    }
+
+    socketPushMsgForProject(
+      activePipeLine, {
+        APP_SelectModule: all_value
+      }
+    )
+  }
   return (
     <div styleName='SelectModule'>
 
@@ -139,7 +229,7 @@ const SelectModule = (): JSX.Element => {
         <StepHeaderOfThis />
         <div className='SelectModule_content'>
 
-          <Form form={form} name='basic' className='SelectModule_content_from'>
+          <Form form={form} name='basic' className='SelectModule_content_from' onValuesChange={handleAllChange}>
             <div className='select_divice'>
               <ModelOpreationTitle text='硬件设备' />
               <Form.Item
@@ -147,7 +237,7 @@ const SelectModule = (): JSX.Element => {
 
                 rules={
                   [
-                    { required: true }
+                    { required: true, message: '请选择硬件设备' }
                   ]
                 }
 
@@ -166,7 +256,7 @@ const SelectModule = (): JSX.Element => {
                     <Form.Item
                       noStyle
                       name='app_template_id'
-                      rules={[{ required: true }]}
+                      rules={[{ required: true, message: '请选择应用模板' }]}
                     >
                       <SelectList device_type={type ? type[0] : undefined} />
                     </Form.Item>
