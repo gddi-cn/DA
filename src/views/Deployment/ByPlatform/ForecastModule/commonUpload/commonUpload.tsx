@@ -10,9 +10,9 @@ import './commonUpload.module.less'
 
 const { Dragger } = Upload;
 
-const app_id = 289
+// const app_id = 289
 const CommonUpload = (props:any): JSX.Element => {
-  const { children, setCurrentForecast } = props
+  const { children, setCurrentForecast, app_id } = props
 
   const [rawFileList, setrawFileList] = useState([])
 
@@ -138,6 +138,9 @@ const CommonUpload = (props:any): JSX.Element => {
       console.log(uploadList, 'uploadList')
       Promise.all(uploadList).then(() => {
         const fn = async () => {
+          if (!app_id) {
+            return
+          }
           try {
             const predictionRes = await api.post(`/v3/apps/${app_id}/predicts`, {
               sources: urlArr,

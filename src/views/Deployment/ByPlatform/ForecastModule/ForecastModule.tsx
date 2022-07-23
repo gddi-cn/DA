@@ -6,10 +6,29 @@ import { useNavigate } from 'react-router-dom'
 import CommonUpload from './commonUpload'
 import { ReactComponent as UploadIcon } from './icon/upload-cloud.svg'
 import ResultViews from './ResultViews'
+
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { socketPushMsgForProject } from '@ghooks'
 import './ForecastModule.module.less'
 
 const ForecastModule = (): JSX.Element => {
   const [currentForecast, setCurrentForecast] = useState<any>({})
+
+  const app_id = useSelector((state: RootState) => {
+    const { activePipeLine } = state.tasksSilce
+    if (activePipeLine) {
+      if (activePipeLine?.APP_SetModuleConfig?.id) {
+        return activePipeLine?.APP_SetModuleConfig?.id
+      }
+    }
+    return undefined
+  })
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
 
   const navigate = useNavigate()
   const rightContent = useMemo(() => {
@@ -17,6 +36,11 @@ const ForecastModule = (): JSX.Element => {
       navigate({
         pathname: APP_SetModuleConfig
       })
+      socketPushMsgForProject(
+        activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SetModuleConfig
+        }
+      )
     }
 
     const goNext = async () => {
@@ -26,6 +50,11 @@ const ForecastModule = (): JSX.Element => {
       navigate({
         pathname: APP_SelectDevice
       })
+      socketPushMsgForProject(
+        activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SelectDevice
+        }
+      )
     }
     return (
       <div className='footer_btn_wrap'>
@@ -33,7 +62,7 @@ const ForecastModule = (): JSX.Element => {
         <GButton style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [navigate])
+  }, [activePipeLine, navigate])
   return (
     <div styleName='ForecastModule'>
       <div className='ForecastModule_wrap'>
@@ -50,7 +79,7 @@ const ForecastModule = (): JSX.Element => {
               </p>
             </div>
             <div>
-              <CommonUpload setCurrentForecast={setCurrentForecast}>
+              <CommonUpload setCurrentForecast={setCurrentForecast} app_id={app_id}>
                 <div className='upload_views'>
                   <UploadIcon />
                   <p>

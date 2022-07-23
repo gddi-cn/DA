@@ -22,7 +22,7 @@ const ResultViews = (props: any): JSX.Element => {
           console.log(res)
           const { data } = res
           setResults(data)
-          if (data.State === 'Success') {
+          if (data.State !== 'Running') {
             if (timer.current) {
               clearInterval(timer.current)
             }
@@ -57,6 +57,13 @@ const ResultViews = (props: any): JSX.Element => {
     if (results.State === 'Success') {
       return (
         <SlickView dataList={results?.results || []} />
+      )
+    } else if (results.State === 'Failure') {
+      return (
+        <div className='is_running'>
+          <Spin />
+          <p>预测失败,请重新预测</p>
+        </div>
       )
     } else {
       return (
