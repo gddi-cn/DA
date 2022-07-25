@@ -4,16 +4,37 @@ import { Image } from 'antd'
 import { ReactComponent as ChipSvg } from './icon/chip.svg'
 import datasetDefault from './icon/default.svg'
 import moment from 'moment'
-
+import api from '@api'
+import { useEffect, useState } from 'react'
 import './TaskItemDetail.module.less'
 
 // 貌似里边需要很多细节额、如果是进行中的话、似乎需要更新很多信息
 type Props={
-  data: TaskSlice.taskListItem
+  rawData: TaskSlice.taskListItem,
+  needSync?:boolean
 }
 const TaskItemDetail = (props: Props): JSX.Element => {
-  console.log(props)
-  const { data } = props
+  const { rawData, needSync } = props
+
+  const [data, setData] = useState(rawData)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (needSync) {
+          if (data?.id) {
+            const res = await api.get(`/v3/projects/${data?.id}`)
+            if (res?.code === 0) {
+              setData(res.data)
+            }
+          }
+        }
+      } catch (e) {
+
+      }
+    }
+    fetchData()
+  }, [data?.id, needSync])
   const getStatus = () => {
     if (!data?.additional) {
       return null

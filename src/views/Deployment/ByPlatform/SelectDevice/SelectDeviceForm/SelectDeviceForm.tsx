@@ -4,32 +4,57 @@ import { useState, useEffect } from 'react'
 import { ModelOpreationTitle, GSelect } from '@src/UIComponents'
 import DeviceGridTable from './DeviceGridTable'
 import api from '@api'
+
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+// import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+// import { socketPushMsgForProject } from '@ghooks'
 import './SelectDeviceForm.module.less'
 
 const { Option } = Select;
-const app_id = 289
+// const app_id = 289
 const SelectDeviceForm = (props:any): JSX.Element => {
   const { form } = props
   const [options, setOptions] = useState<Array<any>>([])
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
+  const app_id = useSelector((state: RootState) => {
+    if (state.tasksSilce.activePipeLine?.APP_SetModuleConfig) {
+      const app_id = state.tasksSilce.activePipeLine?.APP_SetModuleConfig?.id
+      return app_id
+    }
+
+    return undefined
+  })
+
   useEffect(
 
     () => {
-      const adapter_device = '算能SE5盒子'
-      const fn = async () => {
-        try {
-          const res = await api.get('/v3/devicegroups', {
-            params: { page: 1, page_size: 9999, device: adapter_device, app_id }
-          })
-          if (res.code === 0) {
-            const { items } = res.data
-            setOptions(items || [])
-          }
-        } catch (e) {
-
-        }
+      if (!app_id) {
+        return
       }
-      fn()
-    }, []
+      if (activePipeLine?.APP_SelectModule) {
+        const { adapter_device } = activePipeLine.APP_SelectModule
+
+        const fn = async () => {
+          try {
+            const res = await api.get('/v3/devicegroups', {
+              params: { page: 1, page_size: 9999, device: adapter_device[adapter_device.length - 1], app_id }
+            })
+            if (res.code === 0) {
+              const { items } = res.data
+              setOptions(items || [])
+            }
+          } catch (e) {
+
+          }
+        }
+        fn()
+      }
+    }, [activePipeLine, app_id]
   )
   return (
     <div styleName='SelectDeviceForm'>

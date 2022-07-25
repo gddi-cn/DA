@@ -10,11 +10,12 @@ const createFlv = (url: any, video: any, setvideoLoading: any) => {
     type: 'mp4',
     url,
     // isLive: true,
-    hasAudio: true,
+    // hasAudio: true,
   });
   flvplayer.attachMediaElement(video);
   flvplayer.load();
   flvplayer.pause();
+  flvplayer.play()
   flvplayer.on(flvjs.Events.METADATA_ARRIVED, (args: any) => {
     console.log('METADATA_ARRIVED', args);
 
@@ -46,7 +47,7 @@ const FlvMp4 = (props: any) => {
 
     <div className='flvMp4' styleName='flvMp4'>
       <Spin spinning={videoLoading} tip='正在获取资源'>
-        <video muted ref={video} className='video' controls autoPlay />
+        <video muted ref={video} className='video' controls={false} autoPlay={true} loop={true}/>
       </Spin>
     </div>
 

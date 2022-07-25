@@ -54,7 +54,7 @@ const ModelList = () => {
     return models.map((o: any, i: number) => {
       return (
         <div className='modelList_item' key={i} onClick={() => handleAddActiveTask(o)}>
-          <TaskItemDetail data={o} />
+          <TaskItemDetail rawData={o} />
         </div>
 
       )

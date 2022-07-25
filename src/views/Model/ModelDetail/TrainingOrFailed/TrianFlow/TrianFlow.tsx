@@ -3,14 +3,14 @@ import { useState, useEffect, useRef } from 'react'
 import { GButton } from '@src/UIComponents'
 import StepProgress from './StepProgress'
 import ModelDetailType from '../../types'
-
-import { ReactComponent as Shujuzhunbei } from './icon/1.svg'
-import { ReactComponent as Shujuchuli } from './icon/2.svg'
-import { ReactComponent as Shujuzhuanhuan } from './icon/3.svg'
-import { ReactComponent as Moxingsousuo } from './icon/4.svg'
-import { ReactComponent as Moxingxunlian } from './icon/5.svg'
-import { ReactComponent as Moxingtiaoyou } from './icon/6.svg'
-import { ReactComponent as Moxingshengc } from './icon/7.svg'
+import FlvMp4 from './FlvMp4'
+// import { ReactComponent as Shujuzhunbei } from './icon/1.svg'
+// import { ReactComponent as Shujuchuli } from './icon/2.svg'
+// import { ReactComponent as Shujuzhuanhuan } from './icon/3.svg'
+// import { ReactComponent as Moxingsousuo } from './icon/4.svg'
+// import { ReactComponent as Moxingxunlian } from './icon/5.svg'
+// import { ReactComponent as Moxingtiaoyou } from './icon/6.svg'
+// import { ReactComponent as Moxingshengc } from './icon/7.svg'
 
 import { ReactComponent as Failed } from './icon/failed.svg'
 
@@ -19,13 +19,13 @@ import { useSelector } from 'react-redux'
 import './TrianFlow.module.less'
 
 const IconMap: any = {
-  数据准备: <Shujuzhunbei />,
-  数据评估: <Shujuchuli />,
-  数据优化: <Shujuzhuanhuan />,
-  模型搜索: <Moxingsousuo />,
-  模型训练: <Moxingxunlian />,
-  模型调优: <Moxingtiaoyou />,
-  模型生成: <Moxingshengc />,
+  数据准备: 'https://s3.local.cdn.desauto.net/public/video/8740e037eeba8acf4b009b3e65627c6f.mp4',
+  数据评估: 'https://s3.local.cdn.desauto.net/public/video/2fc77123ede372d895ef28b3b8aea97f.mp4',
+  数据优化: 'https://s3.local.cdn.desauto.net/public/video/d589c2c5a4c4b0a6071179310d7bab68.mp4',
+  模型搜索: 'https://s3.local.cdn.desauto.net/public/video/4fa6d2a746a3508bc7ffa2a436028b12.mp4',
+  模型训练: 'https://s3.local.cdn.desauto.net/public/video/efd8588863102d84f4b9609206ad93b5.mp4',
+  模型调优: 'https://s3.local.cdn.desauto.net/public/video/64ff0211ca0df421423668a1f1db485f.mp4',
+  模型生成: 'https://s3.local.cdn.desauto.net/public/video/1d38699fbe9e718b964643076aa59a29.mp4',
 }
 
 const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
@@ -119,7 +119,8 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
     }
     return (
       <div className='icon_wrap'>
-        {IconMap[flows[current]] || null}
+        <FlvMp4 src={IconMap[flows[current]]} />
+        {/* {IconMap[flows[current]] || null} */}
       </div>
     )
   }

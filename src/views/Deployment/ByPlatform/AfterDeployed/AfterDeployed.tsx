@@ -4,6 +4,7 @@ import './AfterDeployed.module.less'
 
 const AfterDeployed = (props: any): JSX.Element => {
   console.log(props)
+
   return (
     <div styleName='AfterDeployed'>
       <div className='AfterDeployed_wrap'>

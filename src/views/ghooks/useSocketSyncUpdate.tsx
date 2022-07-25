@@ -30,10 +30,7 @@ export const useSocketSyncUpdate = () => {
     return null
   })
 
-  console.log(activeTaskInfo_id, 'activeTaskInfo_id')
-  console.log('activePipeLine36', activePipeLine)
   useEffect(() => {
-    console.log('activePipeLine36', activePipeLine)
     if (isNil(activePipeLine)) {
       setLoading(true)
     } else {

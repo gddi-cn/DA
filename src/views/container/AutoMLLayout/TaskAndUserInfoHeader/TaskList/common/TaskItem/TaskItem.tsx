@@ -73,14 +73,14 @@ const TaskItem = (props: Props): JSX.Element => {
 
   const Content = useMemo(() => {
     return (
-      <TaskItemDetail data={data} />
+      <TaskItemDetail rawData={data} needSync={true} />
     )
   }, [data])
 
   return (
 
     <div styleName='TaskItem' className=''>
-      <Popover content={Content} mouseEnterDelay={0.4} title={null} placement='bottomLeft' >
+      <Popover content={Content} mouseEnterDelay={0.4} title={null} placement='bottomLeft' destroyTooltipOnHide>
         <div className={getCls()} onClick={handleCheckoutTask} >
           <div className='border_wrap'>
             <div className='task_name'>

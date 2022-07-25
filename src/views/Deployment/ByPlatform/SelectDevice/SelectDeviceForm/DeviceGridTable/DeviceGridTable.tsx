@@ -93,7 +93,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
     return objText[state] || '-'
   }
 
-  const getModelAuth = (ModelAuth:any) => {
+  const getModelAuth = (data:any) => {
     const objText: any = {
       Authorized: '已授权',
       Unauthorized: '未授权',
@@ -105,13 +105,13 @@ const DeviceGridTable = (props: any): JSX.Element => {
       Authorized: 'Authorized',
       Unauthorized: 'unAuthorized',
       NotMatch: 'unAuthorized',
-      Applied: 'unAuthorized'
+      Applied: 'Applied'
     }
 
     const getBtn = () => {
-      if (ModelAuth === 'Unauthorized') {
+      if (data?.ModelAuth === 'Unauthorized') {
         return (
-          <ApplyAuthForm />
+          <ApplyAuthForm id={data?.id} fetchFn={fetchFn} app_id={app_id}/>
 
         )
       }
@@ -120,7 +120,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
 
     return (
       <div className='ModelAuth_wrap'>
-        <div className={clsText[ModelAuth] || 'unAuthorized'}>{objText[ModelAuth] || '未授权'}</div>
+        <div className={clsText[data?.ModelAuth] || 'unAuthorized'}>{objText[data?.ModelAuth] || '未授权'}</div>
         {getBtn()}
       </div>
     )
@@ -199,7 +199,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
                 <div className='DeviceGridTable_body_item_wrap'>{data?.type || '-'}</div>
                 <div className='DeviceGridTable_body_item_wrap'>{data?.chip || '-'}</div>
                 <div className='DeviceGridTable_body_item_wrap'>{getState(data?.state)}</div>
-                <div className='DeviceGridTable_body_item_wrap_auth'>{getModelAuth(data?.ModelAuth)}</div>
+                <div className='DeviceGridTable_body_item_wrap_auth'>{getModelAuth(data)}</div>
               </div>
             )
           })
