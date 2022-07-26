@@ -16,9 +16,15 @@ const { Option } = Select;
 const SelectDeviceForm = (props:any): JSX.Element => {
   const { form } = props
   const [options, setOptions] = useState<Array<any>>([])
+  const [deviceTypes, setDeviceTypes] = useState<Array<any>>([])
 
-  const activePipeLine = useSelector((state: RootState) => {
-    return state.tasksSilce.activePipeLine || {}
+  const name = useSelector((state: RootState) => {
+    if (state.tasksSilce.activePipeLine?.APP_SelectModule) {
+      const adapter_device = state.tasksSilce.activePipeLine?.APP_SelectModule?.adapter_device
+      return adapter_device[adapter_device.length - 1]
+    }
+
+    return '--'
   })
 
   const app_id = useSelector((state: RootState) => {
@@ -36,26 +42,39 @@ const SelectDeviceForm = (props:any): JSX.Element => {
       if (!app_id) {
         return
       }
-      if (activePipeLine?.APP_SelectModule) {
-        const { adapter_device } = activePipeLine.APP_SelectModule
+      // if (activePipeLine?.APP_SelectModule) {
+      //   // const { adapter_device } = activePipeLine.APP_SelectModule
 
-        const fn = async () => {
-          try {
-            const res = await api.get('/v3/devicegroups', {
-              params: { page: 1, page_size: 9999, device: adapter_device[adapter_device.length - 1], app_id }
-            })
-            if (res.code === 0) {
-              const { items } = res.data
-              setOptions(items || [])
-            }
-          } catch (e) {
-
+      // }
+      const fn = async () => {
+        try {
+          const type_res = await api.get('/v3/device/types')
+          if (type_res?.code === 0) {
+            const { items } = type_res.data
+            setDeviceTypes(items || [])
           }
+          const res = await api.get('/v3/devicegroups', {
+            params: { page: 1, page_size: 9999, app_id }
+          })
+          if (res.code === 0) {
+            const { items } = res.data
+            setOptions(items || [])
+          }
+        } catch (e) {
+
         }
-        fn()
       }
-    }, [activePipeLine, app_id]
+      fn()
+    }, [app_id]
   )
+
+  const getName = () => {
+    const target = deviceTypes.find((o) => o.key === name)
+    if (target) {
+      return target.name
+    }
+    return '--'
+  }
   return (
     <div styleName='SelectDeviceForm'>
       <Form form={form} name='basic' className='SelectDeviceForm_content_from'>
@@ -63,7 +82,7 @@ const SelectDeviceForm = (props:any): JSX.Element => {
           <div className='group_item'>
             <ModelOpreationTitle text='设备类型'/>
             <span className='type_wrap'>
-                算能SE5盒子
+              {getName()}
             </span>
           </div>
 
