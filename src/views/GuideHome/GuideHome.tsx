@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { GButton } from '@src/UIComponents'
 import { addActiveTask } from '@reducer/tasksSilce'
 import { useDispatch } from 'react-redux'
 import { useDebounceFn } from 'ahooks'
@@ -16,13 +16,22 @@ import { ReactComponent as SOPH } from './icon/SOPH.svg'
 import { ReactComponent as Rock } from './icon/Rock.svg'
 import { ReactComponent as QUAL } from './icon/QUAL.svg'
 import { ReactComponent as SIGM } from './icon/SIGM.svg'
-
+import { gsap } from 'gsap'
 import './GuideHome.module.less'
+import { useEffect } from 'react'
 
 // 这里的开始就是添加一个任务
 const GuideHome = (): JSX.Element => {
   const dispatch = useDispatch()
   // const navigate = useNavigate()
+
+  useEffect(() => {
+    try {
+      gsap.fromTo('.gsap_GuideHome_manufature_svg', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 1, stagger: 0.125 });
+    } catch (e) {
+
+    }
+  }, [])
   const handleAddTask = useDebounceFn(() => {
     // 创建好像不需要什么信息
     dispatch(addActiveTask(null))
@@ -37,7 +46,7 @@ const GuideHome = (): JSX.Element => {
     <div styleName='GuideHome'>
       <div className='title'>共达地智能系统</div>
       <div className='sub_title'>从开发到部署只需简单三步</div>
-      <Button onClick={handleAddTask.run} className='start_gddi' type='primary'>开始</Button>
+      <GButton onClick={handleAddTask.run} className='start_gddi' type='primary'>自动训练模型</GButton>
       <div className='train_process'>
         <Shangchaun />
         <Youhua />
@@ -45,14 +54,14 @@ const GuideHome = (): JSX.Element => {
       </div>
       <div className='manefature_list_title'>我们支持多种类型芯片,完美定制高精度AI模型</div>
       <div className='manefature_list'>
-        <CAMB />
-        <Yingwenda />
-        <HISI />
-        <MEDI />
-        <QUAL />
-        <Rock />
-        <SIGM />
-        <SOPH />
+        <CAMB className='gsap_GuideHome_manufature_svg'/>
+        <Yingwenda className='gsap_GuideHome_manufature_svg' />
+        <HISI className='gsap_GuideHome_manufature_svg' />
+        <MEDI className='gsap_GuideHome_manufature_svg' />
+        <QUAL className='gsap_GuideHome_manufature_svg' />
+        <Rock className='gsap_GuideHome_manufature_svg' />
+        <SIGM className='gsap_GuideHome_manufature_svg' />
+        <SOPH className='gsap_GuideHome_manufature_svg' />
       </div>
     </div>
   )

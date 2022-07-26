@@ -28,7 +28,7 @@ const tasksSilce = createSlice({
 const { actions } = tasksSilce
 // 导出不允许直接丢啊、算了算了
 const {
-  modifyTaskName, checkoutTask, saveTaskActiveList, saveActivePipeLine
+  checkoutTask, saveTaskActiveList, saveActivePipeLine
 } = actions
 
 // 好像不见得需要初始化、留着吧
@@ -50,7 +50,7 @@ export {
   // 添加任务
   addActiveTask,
   saveActivePipeLine,
-  modifyTaskName,
+  // modifyTaskName,
   checkoutTask
 }
 

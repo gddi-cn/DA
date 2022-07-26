@@ -1,10 +1,10 @@
 
 import { PayloadAction } from '@reduxjs/toolkit'
 
-const findTaskIndexById = (reactKey: string, taskList: Array<TaskSlice.taskListItem>):number => {
-  const index = taskList.findIndex((o) => o.id === reactKey)
-  return index
-}
+// const findTaskIndexById = (reactKey: string, taskList: Array<TaskSlice.taskListItem>):number => {
+//   const index = taskList.findIndex((o) => o.id === reactKey)
+//   return index
+// }
 
 // 这个主要是做一些切换、删除初始化的操作
 // activeTaskInfo 要对这个重新赋值、
@@ -30,16 +30,16 @@ const fns = {
   },
   // 修改名字
   // 修改对应的key的项目、活跃项目重新赋值
-  modifyTaskName: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
-    const { modelName, reactKey } = action.payload
-    const { taskList } = state
-    const index = findTaskIndexById(reactKey, taskList)
-    console.log(index, 'index')
-    if (index !== -1) {
-      state.taskList[index].name = modelName
-      state.activeTaskInfo.name = modelName
-    }
-  },
+  // modifyTaskName: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
+  //   const { modelName, reactKey } = action.payload
+  //   const { taskList } = state
+  //   const index = findTaskIndexById(reactKey, taskList)
+  //   console.log(index, 'index')
+  //   if (index !== -1) {
+  //     state.taskList[index].name = modelName
+  //     state.activeTaskInfo.name = modelName
+  //   }
+  // },
 
   saveTaskActiveList: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
     // const { data } = action.payload
