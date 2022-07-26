@@ -100,8 +100,8 @@ const ModelDetail = (): JSX.Element => {
     getModelBaseInfo()
   }, [getModelBaseInfo])
 
-  useEffect(() => {
-    const initVersionData = async () => {
+  const initVersionData = useCallback(
+    async () => {
       try {
         if (!currentVersion?.id) {
           return
@@ -114,9 +114,13 @@ const ModelDetail = (): JSX.Element => {
       } catch (e) {
         console.error(e)
       }
-    }
+    }, [
+      currentVersion?.id, dispatch, model_id
+    ]
+  )
+  useEffect(() => {
     initVersionData()
-  }, [currentVersion?.id, dispatch, model_id])
+  }, [initVersionData])
 
   const views = useMemo(() => {
     if (isEmpty(versionInfo) || !model_id) {

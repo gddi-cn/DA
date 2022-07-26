@@ -1,5 +1,5 @@
 import api from '@api'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { GButton } from '@src/UIComponents'
 import StepProgress from './StepProgress'
 import ModelDetailType from '../../types'
@@ -11,11 +11,11 @@ import FlvMp4 from './FlvMp4'
 // import { ReactComponent as Moxingxunlian } from './icon/5.svg'
 // import { ReactComponent as Moxingtiaoyou } from './icon/6.svg'
 // import { ReactComponent as Moxingshengc } from './icon/7.svg'
-
+import { setVersionInfo } from '@reducer/modelDetailSlice'
 import { ReactComponent as Failed } from './icon/failed.svg'
 
 import { RootState } from '@reducer/index'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import './TrianFlow.module.less'
 
 const IconMap: any = {
@@ -31,12 +31,36 @@ const IconMap: any = {
 const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
   const { id } = props
   const [trainInfo, setTrainInfo] = useState<any>()
-
+  const dispatch = useDispatch()
   const timer = useRef<any>(null)
 
   const currentVersion = useSelector((state: RootState) => {
     return state.modelDetailSlice.currentVersion
   })
+  const model_id = useSelector((state: RootState) => {
+    if (state.tasksSilce.activePipeLine) {
+      return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.id
+    }
+    return ''
+  })
+  const initVersionData = useCallback(
+    async () => {
+      try {
+        if (!currentVersion?.id) {
+          return
+        }
+        const iterInfoRes = await api.get(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+        if (iterInfoRes.code === 0) {
+          const iterInfo = iterInfoRes.data
+          dispatch(setVersionInfo(iterInfo))
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }, [
+      currentVersion?.id, dispatch, model_id
+    ]
+  )
   useEffect(() => {
     const getTrainInfo = async () => {
       if (!currentVersion?.id) {
@@ -68,10 +92,10 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
       status
     } = trainInfo
 
-    if (![1, 2, 6].includes(status)) {
-      window.location.reload()
+    if ([2].includes(status)) {
+      initVersionData()
     }
-  }, [trainInfo])
+  }, [trainInfo, initVersionData])
 
   const getview = () => {
     if (!trainInfo) {
