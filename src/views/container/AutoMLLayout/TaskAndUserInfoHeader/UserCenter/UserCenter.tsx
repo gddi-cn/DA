@@ -20,6 +20,12 @@ const UserCenter = (): JSX.Element => {
       pathname: APP_LOGIN
     })
   }
+
+  // const handleNotfunod = () => {
+  //   navigate({
+  //     pathname: APP_DEVICE_INDEX + '123'
+  //   })
+  // }
   const menu = (
     <Menu
       style={{ width: 200 }}
@@ -39,7 +45,15 @@ const UserCenter = (): JSX.Element => {
               退出登录
             </div>
           ),
-        }
+        },
+        // {
+        //   key: '3',
+        //   label: (
+        //     <div onClick={handleNotfunod} >
+        //       404
+        //     </div>
+        //   ),
+        // }
       ]}
     />
   );

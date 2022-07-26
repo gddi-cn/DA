@@ -41,18 +41,18 @@ const SelectDevice = (): JSX.Element => {
       try {
         const data = await form.validateFields()
 
-        const { device_ids, group_id } = data
-        console.log(group_id)
-        if (isNil(group_id)) {
-          message.warning('请选择下发设备组')
-          return
-        }
+        const { device_ids } = data
+        // group_id
+        // if (isNil(group_id)) {
+        //   message.warning('请选择下发设备组')
+        //   return
+        // }
         if (isEmpty(device_ids) || isNil(device_ids)) {
           message.warning('请选择下发设备')
           return
         }
 
-        const res = await api.post(`/v3/apps/${app_id}/syncs`, { device_ids: device_ids, group_id: group_id })
+        const res = await api.post(`/v3/apps/${app_id}/syncs2`, { device_ids: device_ids })
         console.log(data)
 
         if (res.code === 0) {
