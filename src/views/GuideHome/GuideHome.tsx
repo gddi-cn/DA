@@ -17,6 +17,7 @@ import { ReactComponent as Rock } from './icon/Rock.svg'
 import { ReactComponent as QUAL } from './icon/QUAL.svg'
 import { ReactComponent as SIGM } from './icon/SIGM.svg'
 import { gsap } from 'gsap'
+
 import './GuideHome.module.less'
 import { useEffect } from 'react'
 
@@ -27,7 +28,13 @@ const GuideHome = (): JSX.Element => {
 
   useEffect(() => {
     try {
-      gsap.fromTo('.gsap_GuideHome_manufature_svg', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 1, stagger: 0.125 });
+      // gsap.fromTo('.gsap_GuideHome_manufature_svg', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025 });
+
+      // gsap.fromTo('.gsap_GuideHome_step_1 g path', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025, onComplete: step2 });
+      const tl = gsap.timeline();
+      tl.fromTo('.gsap_GuideHome_step_1 path', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025 })
+        .fromTo('.gsap_GuideHome_step_2 path', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025 })
+        .fromTo('.gsap_GuideHome_step_3 path', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025 });
     } catch (e) {
 
     }
@@ -48,9 +55,9 @@ const GuideHome = (): JSX.Element => {
       <div className='sub_title'>从开发到部署只需简单三步</div>
       <GButton onClick={handleAddTask.run} className='start_gddi' type='primary'>自动训练模型</GButton>
       <div className='train_process'>
-        <Shangchaun />
-        <Youhua />
-        <Bushu />
+        <Shangchaun className='gsap_GuideHome_step_1'/>
+        <Youhua className='gsap_GuideHome_step_2' />
+        <Bushu className='gsap_GuideHome_step_3' />
       </div>
       <div className='manefature_list_title'>我们支持多种类型芯片,完美定制高精度AI模型</div>
       <div className='manefature_list'>
