@@ -13,7 +13,7 @@ import { history, APP_GUIDE_PAGE } from '@router'
 import api from '@api'
 import { RootState } from '@reducer'
 import type TaskSlice from '../reducer/tasksSilce/taskSlice'
-import { isEmpty } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 
 export default function* taskSaga (): Generator<any> {
   yield takeLatest(getTaskActiveList.type, fetchTaskActiveList)
@@ -28,7 +28,7 @@ const findTaskIndexById = (reactKey: string, taskList: Array<TaskSlice.taskListI
   return index
 }
 
-function* fetchTaskActiveList ():any {
+function* fetchTaskActiveList (action:any):any {
   try {
     const res = yield call(() => api.get('/v3/projects', {
       params: {
@@ -43,10 +43,14 @@ function* fetchTaskActiveList ():any {
       yield put(saveTaskActiveList(list))
 
       if (!isEmpty(list)) {
+        if (!isNil(action.payload)) {
+          return
+        }
         const activeTaskInfo: TaskSlice.taskListItem = yield select(
           (state: RootState) => state.tasksSilce.activeTaskInfo
         )
         console.log(activeTaskInfo, 4747)
+
         if (isEmpty(activeTaskInfo)) {
           // 没有就第一个
           const _activeInfo = list[0]
