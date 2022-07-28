@@ -3,9 +3,12 @@ import RegisterFrom from '../RegisterFrom'
 import LoginForm from '../LoginForm'
 import { gsap } from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin'
+
 import { useEffect, useState } from 'react'
 
 import { ReactComponent as Gddilogo } from '../icon/gddi.svg'
+// import { ReactComponent as Background } from './icon/background.svg'
+// import { DrawSvg } from './gsapCusPlugin'
 import './LoginWrap.module.less'
 
 type Active = 'LoginForm' | 'ForgetPasswordFrom' |'RegisterFrom'
@@ -23,6 +26,24 @@ const LoginWrap = (): JSX.Element => {
       .fromTo('.breeze', { duration: 0.5, y: -50 }, { duration: 0.5, y: 0 })
   }, [])
 
+  // useEffect(() => {
+  //   gsap.registerPlugin(DrawSvg);
+  //   let i = 0;
+
+  //   gsap.set('.line', { attr: { stroke: 'hsl(1,100%, 50%)', 'stroke-width': 4, 'stroke-linecap': 'round' } });
+  //   gsap.set('.line2', { attr: { 'stroke-width': 6 }, opacity: 0.4 });
+  //   gsap.set('.line3', { attr: { 'stroke-width': 9 }, opacity: 0.15 });
+
+  //   [].forEach.call(document.getElementsByClassName('line'), (el) => {
+  //     gsap.timeline({ defaults: { duration: 1 }, repeat: -1, repeatDelay: (27 - i) / 50 })
+  //       .to(el, { duration: 2, attr: { stroke: 'hsl(360, 100%, 50%)', ease: 'power2.inOut' } }, 0)
+  //       .fromTo(el, { drawSVG: 0 }, { drawSVG: '35% 70%', ease: 'sine.in' }, i / 50)
+  //       .to(el, { drawSVG: '100% 100%', ease: 'sine.out' }, 1 + i / 50)
+  //       .progress(i / 20)
+  //     i++;
+  //   });
+  // }, [])
+
   const getCls = (key: Active) => {
     if (active === key) {
       return 'form_wrap_item form_wrap_item_active'
@@ -32,12 +53,14 @@ const LoginWrap = (): JSX.Element => {
   return (
     <div styleName='LoginWrap'>
       <div className='gddi_info_wrap'>
+
         <div className='gddi_info_inner'>
           <Gddilogo />
 
           <h3 className='system_name'></h3>
           <h5 className='system_des'></h5>
         </div>
+        {/* <Background className='Background_svg' /> */}
       </div>
       <div className='form_wrap'>
         <div className={getCls('LoginForm')}>

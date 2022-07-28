@@ -71,17 +71,37 @@ const TaskItem = (props: Props): JSX.Element => {
     return 'TaskItem_wrap'
   }
 
+  const getOunerCls = () => {
+    // console.log(activeTaskInfo.id)
+    // console.log(id)
+
+    if (activeTaskInfo?.id === id) {
+      return 'Tabs_Nav_Item_active'
+    }
+
+    return 'Tabs_Nav_Item'
+  }
+
   const Content = useMemo(() => {
     return (
       <TaskItemDetail rawData={data} needSync={true} />
     )
   }, [data])
 
+  const getActiveDiv = () => {
+    if (activeTaskInfo?.id === id) {
+      return 'inline-block'
+    }
+    return 'none'
+  }
+
   return (
 
-    <div styleName='TaskItem' className=''>
+    <div styleName='TaskItem' className={getOunerCls()}>
       <Popover content={Content} mouseEnterDelay={0.4} title={null} placement='bottomLeft' destroyTooltipOnHide>
         <div className={getCls()} onClick={handleCheckoutTask} >
+          {/* {getActiveDiv()} */}
+          <div className="hori-selector" style={{ display: getActiveDiv() }}><div className="left"></div><div className="right"></div></div>
           <div className='border_wrap'>
             <div className='task_name'>
               {name || id}

@@ -21,12 +21,12 @@ const TaskList = (): JSX.Element => {
   const taskList = useSelector((state: RootState) => {
     return state.tasksSilce.taskList
   })
-  const activeTaskInfo = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo
-  })
-  const getActiveNode = (data:TaskSlice.taskListItem) => {
-    return activeTaskInfo?.id === data?.id
-  }
+  // const activeTaskInfo = useSelector((state: RootState) => {
+  //   return state.tasksSilce.activeTaskInfo
+  // })
+  // const getActiveNode = (data:TaskSlice.taskListItem) => {
+  //   return activeTaskInfo?.id === data?.id
+  // }
 
   useEffect(() => {
     if (isEmpty(taskList)) {
