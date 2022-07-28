@@ -134,7 +134,7 @@ const ModelTrainConfig = (): JSX.Element => {
 
         const trainParams = {
           dataset_id: APP_DATA_SET_INDEX?.id,
-          dataset_version_id: APP_DATA_SET_INDEX?.latest_version?.id,
+          // dataset_version_id: APP_DATA_SET_INDEX?.latest_version?.id,
           describe: '--',
           gpu_count: gpu_count,
 

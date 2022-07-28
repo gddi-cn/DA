@@ -39,7 +39,7 @@ const EditDataset = (props: Props): JSX.Element => {
       // editDataset(id, row, setVisible)
       console.warn(row, 'rowrowrow')
 
-      const res: any = await api.patch(`/v2/datasets/${data?.id}`, row)
+      const res: any = await api.patch(`/v3/datasets/${data?.id}`, row)
       if (res.code === 0) {
         setVisible(false)
 

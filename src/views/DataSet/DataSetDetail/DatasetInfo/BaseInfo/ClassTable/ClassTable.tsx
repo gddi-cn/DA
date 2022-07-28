@@ -5,14 +5,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { isEmpty, isNil } from 'lodash';
 import { ReactCusScrollBar } from '@src/UIComponents'
 import type { Dispatch, SetStateAction } from 'react'
+import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import './ClassTable.module.less'
 
 type Props = {
-  version: any,
+  // version: any,
   whichSet: string,
   setClassInfo: Dispatch<SetStateAction<any>>,
   classInfo: any,
-  currentSet:any
+  currentSet:any,
+  datasetInfo: Data,
 }
 
 type ItemProps<T> = {
@@ -23,9 +25,9 @@ type ItemProps<T> = {
 
 type DataItem = {
   cover?: string,
-  class_name?: string,
+  name?: string,
   annotation_count?: number,
-  class_id:number
+  // class_id:number
 }
 function BodyItem<T extends DataItem> (props: ItemProps<T>) {
   const { data, currentSet, classInfo, setClassInfo } = props
@@ -41,7 +43,7 @@ function BodyItem<T extends DataItem> (props: ItemProps<T>) {
   }
 
   const getCls = () => {
-    if (classInfo?.class_id === data?.class_id) {
+    if (classInfo?.name === data?.name) {
       return 'body_item_wrap body_item_wrap_active'
     }
     return 'body_item_wrap'
@@ -52,7 +54,7 @@ function BodyItem<T extends DataItem> (props: ItemProps<T>) {
       <div className='body_item'>
         <img alt='gddi_img' src={data?.cover} className='label_cover' />
       </div>
-      <div className='body_item'>{data?.class_name}</div>
+      <div className='body_item'>{data?.name}</div>
       <div className='body_item'>{data?.annotation_count}</div>
       <div className='body_item'>{getPercent()}</div>
     </div>
@@ -60,7 +62,7 @@ function BodyItem<T extends DataItem> (props: ItemProps<T>) {
 }
 
 const ClassTable = (props: Props): JSX.Element => {
-  const { version, whichSet, currentSet, classInfo, setClassInfo } = props
+  const { datasetInfo, currentSet, classInfo, setClassInfo } = props
 
   const [statistic, setStatistic] = useState<any>({})
 
@@ -70,10 +72,10 @@ const ClassTable = (props: Props): JSX.Element => {
   const fetStatistics = useCallback(
     async () => {
       try {
-        if (isNil(version?.id)) {
+        if (isNil(datasetInfo?.id)) {
           return
         }
-        const res = await api.get(`/v2/sub-datasets/${version[whichSet]}/statistics`, {
+        const res = await api.get(`/v3/datasets/${datasetInfo?.id}/sub-datasets/${currentSet?.id}/classes`, {
           params: {
             page: 1, page_size: 999
           }
@@ -81,14 +83,14 @@ const ClassTable = (props: Props): JSX.Element => {
 
         if (res.code === 0) {
           setStatistic(res.data || {})
-          if (res.data.items) {
-            setClassInfo(res.data.items[0])
+          if (res.data) {
+            setClassInfo(res.data[0])
           }
         }
       } catch (e) {
 
       }
-    }, [version, whichSet, setClassInfo]
+    }, [currentSet?.id, datasetInfo?.id, setClassInfo]
   )
   useEffect(() => {
     fetStatistics()
@@ -109,14 +111,14 @@ const ClassTable = (props: Props): JSX.Element => {
     if (isEmpty(statistic)) {
       return null
     }
-    const { total, items } = statistic
+
     // (items as Array<any>)
     return (
       <>
         <ReactCusScrollBar id='body_wrap'>
           <div className='body_wrap'>
             {
-              (items as Array<any>)?.map((o, i) => {
+              (statistic as Array<any>)?.map((o, i) => {
                 return <BodyItem key={i} data={o} currentSet={currentSet} classInfo={classInfo} setClassInfo={setClassInfo} />
               })
             }
@@ -124,7 +126,7 @@ const ClassTable = (props: Props): JSX.Element => {
         </ReactCusScrollBar>
 
         <div className='Pagination_wrap'>
-          <Pagination size="small" total={total} showQuickJumper hideOnSinglePage pageSize={999} />
+          <Pagination size="small" total={statistic.length} showQuickJumper hideOnSinglePage pageSize={999} />
         </div>
       </>
     )

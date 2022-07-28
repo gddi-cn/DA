@@ -9,7 +9,7 @@ import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCa
 import './BaseInfo.module.less'
 
 type Props={
-    version:any,
+    // version:any,
     currentSet: any,
     datasetInfo: Data,
     whichSet: string,
@@ -18,7 +18,7 @@ type Props={
 }
 
 const BaseInfo = (props: Props): JSX.Element => {
-  const { version, whichSet, setClassInfo, classInfo, currentSet, datasetInfo } = props
+  const { whichSet, setClassInfo, classInfo, currentSet, datasetInfo } = props
 
   return (
     <div styleName='BaseInfo'>
@@ -54,14 +54,14 @@ const BaseInfo = (props: Props): JSX.Element => {
         useMemo(() => (
           <div className='echartOrTable'>
             <ClassTable
-              version={version}
+              datasetInfo={datasetInfo}
               whichSet={whichSet}
               setClassInfo={setClassInfo}
               classInfo={classInfo}
               currentSet={currentSet}
             />
           </div>
-        ), [classInfo, setClassInfo, version, whichSet, currentSet])
+        ), [classInfo, setClassInfo, whichSet, currentSet, datasetInfo])
       }
     </div>
   )

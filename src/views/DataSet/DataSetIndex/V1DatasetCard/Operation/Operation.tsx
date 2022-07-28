@@ -30,7 +30,7 @@ function Operation (props: Props): JSX.Element {
   const navigate = useNavigate()
   const deleteDataset = async () => {
     setLoading(true)
-    const res = await api.delete(`/v2/datasets/${data?.id}`);
+    const res = await api.delete(`/v3/datasets/${data?.id}`);
     if (res.code === 0) {
       setLoading(false)
       fetchData({ isInit: true })
@@ -69,7 +69,7 @@ function Operation (props: Props): JSX.Element {
 
     socketPushMsgForProject(activePipeLine, {
       active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL,
-      APP_DATASET_DETAIL: { id: data?.id, version_id: data?.latest_version?.id }
+      APP_DATASET_DETAIL: { id: data?.id }
     })
   }
 

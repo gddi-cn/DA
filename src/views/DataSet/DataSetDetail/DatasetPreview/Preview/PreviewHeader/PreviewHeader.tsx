@@ -14,7 +14,7 @@ const PreviewHeader = (props: Props): JSX.Element => {
   }
   return (
     <div styleName='PreviewHeader'>
-      <div className='PreviewHeader_left_wrap'>{classInfo?.class_name || '--'}</div>
+      <div className='PreviewHeader_left_wrap'>{classInfo?.name || '--'}</div>
       <div className='PreviewHeader_right_wrap'>
         <TypeSettingBotton onChange={handleTypeChange} />
       </div>

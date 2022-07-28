@@ -8,19 +8,20 @@ import api from '@api'
 import './ListView.module.less'
 
 export type FectData = {
-    isInit?: boolean,
-    callback?: () => void
+  isInit?: boolean,
+  callback?: () => void
 }
 
-type Props={
-    scenes:string,
-    classInfo: any,
-    currentId: any
+type Props = {
+  scenes: string,
+  classInfo: any,
+  currentId: any,
+  id: string
 }
 const ListView = (props: Props): JSX.Element => {
-  const { currentId, scenes, classInfo } = props
-  console.log(classInfo, 'classInfo')
-  const { class_id } = classInfo
+  const { currentId, scenes, classInfo, id } = props
+
+  const { name } = classInfo
   const [show, setShow] = useState(false)
 
   const params = useRef({
@@ -63,7 +64,7 @@ const ListView = (props: Props): JSX.Element => {
           }
         }
         lastId.current = currentId
-        const res = await api.get(`/v2/sub-datasets/${currentId}/images`, { params: { ...params.current, class_id } })
+        const res = await api.get(`/v3/datasets/${id}/sub-datasets/${currentId}/images`, { params: { ...params.current, name } })
         if (res.code === 0) {
           const { items, total } = res.data
 
@@ -79,7 +80,7 @@ const ListView = (props: Props): JSX.Element => {
       } catch (e) {
 
       }
-    }, [currentId, class_id]
+    }, [currentId, id, name]
   )
 
   useEffect(() => {
@@ -99,7 +100,9 @@ const ListView = (props: Props): JSX.Element => {
   }
 
   const list = useMemo(() => {
-    console.log(dataListLen)
+    if (dataListLen === 0) {
+      return null
+    }
     return (
       datasetList.current.map((o) => {
         return (

@@ -13,16 +13,17 @@ type Props = {
 }
 const Preview = (props: Props): JSX.Element => {
   const { classInfo, datasetInfo, currentId } = props
-  const { scenes } = datasetInfo
+  const { scene, id } = datasetInfo
   const [viewType, setViewType] = useState<string>('grid')
 
   const View = () => {
     if (viewType === 'grid') {
       return (
         <ListView
-          scenes={scenes}
+          scenes={scene}
           classInfo={classInfo}
           currentId={currentId}
+          id={id}
         />
       )
     }
@@ -30,9 +31,10 @@ const Preview = (props: Props): JSX.Element => {
     if (viewType === 'slick') {
       return (
         <SlickView
-          scenes={scenes}
+          scenes={scene}
           classInfo={classInfo}
           currentId={currentId}
+          id={id}
         />
       )
     }

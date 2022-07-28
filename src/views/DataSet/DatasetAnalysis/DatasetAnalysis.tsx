@@ -27,9 +27,9 @@ const DatasetAnalysis = (): JSX.Element => {
 
   const [version, setVersion] = useState<any>({})
 
-  const [versionList, setVersionList] = useState<any[]>([])
+  // const [versionList, setVersionList] = useState<any[]>([])
 
-  const [value, setValue] = useState<string>('')
+  // const [value, setValue] = useState<string>('')
 
   const [currentSet, setCurrentSet] = useState<any>({})
 
@@ -72,16 +72,16 @@ const DatasetAnalysis = (): JSX.Element => {
           const target = (list as Array<any>).find((o) => o.id === version_id)
 
           if (target) {
-            setValue(target.tag)
+            // setValue(target.tag)
             setVersion(target)
           } else {
             const target = list[0]
             if (target) {
-              setValue(target.tag)
+              // setValue(target.tag)
               setVersion(target)
             }
           }
-          setVersionList(list)
+          // setVersionList(list)
         }
       }
     } catch (e) {
@@ -210,20 +210,20 @@ const DatasetAnalysis = (): JSX.Element => {
     return <Radar dataList={dataList} />
   }
 
-  const handleChange = (value: any, option: any) => {
-    const data = option['data-value']
+  // const handleChange = (value: any, option: any) => {
+  //   const data = option['data-value']
 
-    // 内部
-    setValue(data.id)
-    // 外部用i
-    setVersion(data)
-    if (activePipeLine?.APP_DATASET_ANALYSE) {
-      return
-    }
-    const { id } = activePipeLine?.APP_DATASET_ANALYSE
+  //   // 内部
+  //   setValue(data.id)
+  //   // 外部用i
+  //   setVersion(data)
+  //   if (activePipeLine?.APP_DATASET_ANALYSE) {
+  //     return
+  //   }
+  //   const { id } = activePipeLine?.APP_DATASET_ANALYSE
 
-    getAnalysisData({ id, version_id: data.id })
-  }
+  //   getAnalysisData({ id, version_id: data.id })
+  // }
 
   console.log(version)
 
@@ -231,7 +231,7 @@ const DatasetAnalysis = (): JSX.Element => {
     <div styleName='DatasetAnalysis'>
       <div className='DatasetAnalysis_wrap'>
         <div className='DatasetAnalysis_l_wrap'>
-          <DatasetInfo initFetchDatasetInfo={initFetchDatasetInfo} datasetInfo={datasetInfo} versionList={versionList} handleChange={handleChange} value={value}/>
+          <DatasetInfo initFetchDatasetInfo={initFetchDatasetInfo} datasetInfo={datasetInfo} />
         </div>
         <div className='DatasetAnalysis_r_wrap'>
           <div className='dataset_info'>

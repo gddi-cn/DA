@@ -10,20 +10,27 @@ import './V1DatasetCard.module.less'
 import { useState } from 'react'
 
 export type Data = {
-  id: string,
   cover: string,
+  created: number,
+  id: string,
   name: string,
-  scenes: string,
-  status: string,
+  scene: string,
+  status: number,
   summary: string,
-  latest_version: {
-    id:string,
-    tag: string,
-    train_set: {
-      image_count: number,
-      class_count: number
-    }
-  }
+  train_set: {
+    annotation_count: number
+    class_count: number
+    id: string
+    image_count: number
+    size: number
+  },
+  val_set: {
+    annotation_count: number
+    class_count: number
+    id: string
+    image_count: number
+    size: number
+  },
 }
 
 interface Props<T> {
@@ -35,7 +42,7 @@ interface Props<T> {
 
 function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
   const { data, fetchData, handleCardClick, activeId } = props
-  const { cover, name, scenes, latest_version, summary, status } = data
+  const { cover, name, scene, train_set, summary, status } = data
   const [loading, setLoading] = useState(false)
 
   const RenderInfoView = () => {
@@ -46,21 +53,21 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
 
             {name}
           </Tooltip>
-          <span className='dataset_version'>
-            {latest_version?.tag}
-          </span>
+          {/* <span className='dataset_version'>
+            {train_set?.tag}
+          </span> */}
         </div>
         <div className='second_row_wrap'>
           <div className='num_info_wrap'>
-            <Zhang /> <p>{latest_version?.train_set?.image_count || 0}张</p>
+            <Zhang /> <p>{train_set?.image_count || 0}张</p>
           </div>
           <div className='num_info_wrap'>
-            <Lei />  <p>{latest_version?.train_set?.class_count || 0}类</p>
+            <Lei />  <p>{train_set?.class_count || 0}类</p>
           </div>
         </div>
         <div className='third_row_wrap'>
           {/* <Tag text='共享' type='nomal' className='dataset_tag' /> */}
-          <Tag text={(MODEL_TYPES as any)[scenes] || '未知类型'} type='primary' className='dataset_tag' />
+          <Tag text={(MODEL_TYPES as any)[scene] || '未知类型'} type='primary' className='dataset_tag' />
         </div>
       </div>
     )
@@ -78,21 +85,21 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
   }
 
   const getHoverCls = () => {
-    if (![1, 4, 6].includes(+status)) {
+    if ([2].includes(+status)) {
       return 'has_hover'
     }
   }
 
   const getFailedView = () => {
+    // if (+status === 1) {
+    //   // 未验证
+    //   return (
+    //     <div className='getFailedView do_some_thing_now'>
+    //       未验证...
+    //     </div>
+    //   )
+    // }
     if (+status === 1) {
-      // 未验证
-      return (
-        <div className='getFailedView do_some_thing_now'>
-          未验证...
-        </div>
-      )
-    }
-    if (+status === 4) {
       // 验证中
       return (
         <div className='getFailedView do_some_thing_now'>
@@ -101,7 +108,7 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
       )
     }
 
-    if (+status === 5) {
+    if (+status === 3) {
       // 失败
       return (
         <div className='getFailedView'>
@@ -117,7 +124,7 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
   }
 
   const hasFailedView = () => {
-    if ([1, 4, 6].includes(+status)) {
+    if ([1, 3].includes(+status)) {
       return (
         <div className='failed_info'>
           {getFailedView()}
@@ -129,7 +136,7 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
   }
 
   const handleOnClick = () => {
-    if ([1, 4, 6].includes(+status)) {
+    if (![2].includes(+status)) {
       return
     }
     handleCardClick(data)

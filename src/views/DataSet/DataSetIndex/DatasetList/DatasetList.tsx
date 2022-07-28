@@ -78,7 +78,7 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
             params.current.page = 1
           }
         }
-        const res = await api.get('/v2/datasets', { params: params.current })
+        const res = await api.get('/v3/datasets', { params: params.current })
         if (res.code === 0) {
           const { items, total } = res.data
 

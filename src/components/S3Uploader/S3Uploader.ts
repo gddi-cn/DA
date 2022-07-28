@@ -435,7 +435,8 @@ export default class S3Uploader {
         ...data,
         key: this.serviceParams.Key,
         filename: this.filename,
-        bucket: this.serviceParams.Bucket
+        bucket: this.serviceParams.Bucket,
+        hash: this.fileHash
       });
     });
   }

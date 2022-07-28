@@ -25,9 +25,9 @@ const SelectDatasetFile = (): JSX.Element => {
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
-  const activeTaskInfo = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo || {}
-  })
+  // const activeTaskInfo = useSelector((state: RootState) => {
+  //   return state.tasksSilce.activeTaskInfo || {}
+  // })
   const navigate = useNavigate()
   const [percent, setLocalPercent] = useState<any>(0)
   const [isUploading, setIsUploading] = useState(false)
@@ -44,16 +44,17 @@ const SelectDatasetFile = (): JSX.Element => {
     nextLoad: 0
   });
 
-  const [proportion, setProportion] = useState<any>('2')
+  const [proportion, setProportion] = useState<any>(0.2)
 
   useEffect(() => {
-    if (activePipeLine.APP_LOCAL_FILE_STEP_3) {
+    console.log(activePipeLine, 'activePipeLineactivePipeLine')
+    if (activePipeLine?.APP_LOCAL_FILE_STEP_3?.proportion) {
       const { proportion } = activePipeLine.APP_LOCAL_FILE_STEP_3
       setProportion(proportion)
     } else {
       // 默认带上
       socketPushMsgForProject(activePipeLine, {
-        APP_LOCAL_FILE_STEP_3: { proportion: '2' }
+        APP_LOCAL_FILE_STEP_3: { proportion: 0.2 }
       })
     }
   }, [activePipeLine])
@@ -188,9 +189,9 @@ const SelectDatasetFile = (): JSX.Element => {
             </div>
             <div className='form_content'>
               <GSelect value={proportion} style={{ width: '100%' }} onChange={handleProportionChange}>
-                <Option value="1">7:3</Option>
-                <Option value="2">8:2（推荐使用）</Option>
-                <Option value="3">9:1</Option>
+                <Option value={0.3}>7:3</Option>
+                <Option value={0.2}>8:2（推荐使用）</Option>
+                <Option value={0.1}>9:1</Option>
               </GSelect>
             </div>
           </div>
@@ -222,39 +223,37 @@ const SelectDatasetFile = (): JSX.Element => {
         return
       }
 
-      console.log(activePipeLine, 225)
+      console.log(s3info, 225)
       const { APP_LOCAL_FILE_STEP_1, APP_LOCAL_FILE_STEP_2 } = activePipeLine
+
+      const { bucket, filename, key, hash } = s3info
       const createInfo = {
-        scenes: APP_LOCAL_FILE_STEP_1?.activeType,
+        scene: APP_LOCAL_FILE_STEP_1?.activeType,
         name: APP_LOCAL_FILE_STEP_2?.name,
         summary: APP_LOCAL_FILE_STEP_2?.summary,
         cover: APP_LOCAL_FILE_STEP_2?.cover,
-        proportion
+        key,
+        filename,
+        source: 1,
+        bucket,
+        val_share: proportion,
+        hash,
+        size: fileInfo.size
       }
       try {
-        const creteDatares = await api.post('/v2/datasets', createInfo);
+        const creteDatares = await api.post('/v3/datasets', createInfo);
         console.log(creteDatares, 'creteDatares')
         if (creteDatares.code === 0) {
           console.log('90909090')
-          const { draft_id } = creteDatares.data
-          const { bucket, filename, key } = s3info
 
-          const res = await api.post(`/v2/draft/${draft_id}/upload`, {
-            bucket, filename, key
+          message.success('创建数据集成功')
+          navigate({
+            pathname: APP_LOCAL_FILE_STEP_4
           })
-
-          if (res.code === 0) {
-            console.log(activeTaskInfo)
-
-            message.success('创建数据集成功')
-            navigate({
-              pathname: APP_LOCAL_FILE_STEP_4
-            })
-            // 创建成功就清理
-            socketPushMsgForProject(activePipeLine, {
-              active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_4,
-            })
-          }
+          // 创建成功就清理
+          socketPushMsgForProject(activePipeLine, {
+            active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_4,
+          })
         }
       } catch (e) {
         console.log(e)
@@ -266,7 +265,7 @@ const SelectDatasetFile = (): JSX.Element => {
         <GButton className={percent >= 100 ? 'yes_sir' : 'not_allow'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [percent, handleCnasel, navigate, activePipeLine, s3info, activeTaskInfo, proportion])
+  }, [percent, handleCnasel, navigate, activePipeLine, s3info, proportion, fileInfo.size])
 
   return (
     <div styleName='SelectDatasetFile' id='SelectDatasetFile'>

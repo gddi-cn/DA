@@ -1,20 +1,19 @@
-import { Select } from 'antd'
-import { ReactComponent as DownArrow } from '@src/views/DataSet/DataSetDetail/DatasetInfo/DatasetInfoHeader/icon/chevron-down_minor.svg'
+// import { Select } from 'antd'
+// import { ReactComponent as DownArrow } from '@src/views/DataSet/DataSetDetail/DatasetInfo/DatasetInfoHeader/icon/chevron-down_minor.svg'
 import EditDataset from '@src/views/DataSet/DataSetIndex/V1DatasetCard/EditDataset'
 import moment from 'moment'
 import './DatasetInfo.module.less'
 
-const { Option } = Select
+// const { Option } = Select
 
 type Props ={
     datasetInfo:any,
-    handleChange:any,
-    versionList:any[],
+
     initFetchDatasetInfo:any,
-    value:any
+
 }
 const DatasetInfo = (props: Props): JSX.Element => {
-  const { datasetInfo, handleChange, versionList, initFetchDatasetInfo, value } = props
+  const { datasetInfo, initFetchDatasetInfo } = props
   console.log(datasetInfo, 'datasetInfo')
   return (
     <div styleName='DatasetInfo'>
@@ -27,7 +26,7 @@ const DatasetInfo = (props: Props): JSX.Element => {
             {datasetInfo?.name}
           </div>
           <div className='point'>·</div>
-          <div className='tag_wrap' id='area'>
+          {/* <div className='tag_wrap' id='area'>
             <Select value={value} onChange={handleChange} style={{ width: 'auto' }} bordered={false} suffixIcon={<DownArrow />} getPopupContainer={() => document.getElementById('area') as any} >
 
               {
@@ -37,7 +36,7 @@ const DatasetInfo = (props: Props): JSX.Element => {
               }
             </Select>
 
-          </div>
+          </div> */}
         </div>
         <EditDataset data={datasetInfo} type='nomal' eleId='root' callback={initFetchDatasetInfo} />
       </div>

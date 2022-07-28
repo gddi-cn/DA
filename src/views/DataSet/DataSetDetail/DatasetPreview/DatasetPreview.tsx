@@ -7,7 +7,7 @@ import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCa
 import './DatasetPreview.module.less'
 
 type Props={
-  setWhichSet: Dispatch<SetStateAction<string>>,
+  setWhichSet: Dispatch<SetStateAction<any>>,
   classInfo:any,
   datasetInfo: Data,
   currentId:any

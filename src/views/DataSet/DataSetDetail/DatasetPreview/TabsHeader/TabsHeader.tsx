@@ -12,19 +12,19 @@ const CTabsHeader = (props: TabsHeaderProps): JSX.Element => {
   const dataList = [
     {
       label: '训练数据',
-      primaryKey: 'trainset_id',
+      primaryKey: 'train_set',
       icon: <Train />
     },
     {
       label: '验证数据',
-      primaryKey: 'validset_id',
+      primaryKey: 'val_set',
       icon: <Test />
     }
   ]
 
   return (
     <div styleName='TabsHeader'>
-      <TabsHeader dataList={dataList} handleChangeTab={handleChangeTab} defualtActiveKey="trainset_id" />
+      <TabsHeader dataList={dataList} handleChangeTab={handleChangeTab} defualtActiveKey="train_set" />
     </div>
   )
 }

@@ -2,33 +2,35 @@ import api from '@api'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { ImageSlider, UIDatasetVisual } from '@src/UIComponents'
 import { processData } from '../utils/getDataInfo'
-import { isNil, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import './SlickView.module.less'
 
 export type FectData = {
-    isInit?: boolean,
+  isInit?: boolean,
 
-    callback?: () => void
+  callback?: () => void
 }
 
 type RenderViewProps = {
-    data: any,
-    scenes: string,
+  data: any,
+  scenes: string,
 }
 type Props = {
-    scenes: string,
-    classInfo: any,
-    currentId: any
+  scenes: string,
+  classInfo: any,
+  currentId: any,
+  id: string
 }
 
 const RenderView = (props: RenderViewProps) => {
   const { data, scenes } = props
   const datainfo = processData(data, scenes)
-
-  if (isEmpty(datainfo)) {
+  console.log(datainfo)
+  if (isEmpty(datainfo?.url)) {
     return null
   }
+
   const {
 
     url,
@@ -50,8 +52,8 @@ const RenderView = (props: RenderViewProps) => {
 }
 
 const SlickView = (props: Props): JSX.Element => {
-  const { currentId, scenes, classInfo } = props
-  const { class_id } = classInfo
+  const { currentId, scenes, classInfo, id } = props
+  const { name } = classInfo
   const [dataList, setDataList] = useState<Array<any>>([])
   const [total, setTotal] = useState<number>(0)
 
@@ -81,14 +83,11 @@ const SlickView = (props: Props): JSX.Element => {
           }
         }
 
-        const res = await api.get(`/v2/sub-datasets/${currentId}/images`, { params: { ...params.current, class_id, page: page.current } })
+        const res = await api.get(`/v3/datasets/${id}/sub-datasets/${currentId}/images`, { params: { ...params.current, page: page.current, name } })
         if (res.code === 0) {
           const { items, total } = res.data
-
-          if (!isNil(items)) {
-            setDataList(items)
-            setTotal(total)
-          }
+          setDataList(items || [])
+          setTotal(total)
 
           funcInfo?.callback && funcInfo.callback()
         } else {
@@ -97,7 +96,7 @@ const SlickView = (props: Props): JSX.Element => {
       } catch (e) {
 
       }
-    }, [currentId, class_id]
+    }, [currentId, id, name]
   )
 
   useEffect(() => {
@@ -113,7 +112,7 @@ const SlickView = (props: Props): JSX.Element => {
 
   const renderView = (data: any) => {
     return (
-      <RenderView data={data} scenes={scenes}/>
+      <RenderView data={data} scenes={scenes} />
     )
   }
 

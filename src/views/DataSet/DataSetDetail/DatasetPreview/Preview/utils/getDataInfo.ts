@@ -22,7 +22,7 @@ export const processData = (data: any, scenes: any) => {
   let iamwantyou: any = {}
   let dataSet: any = []
   let rawImgDataSet: any = []
-  const { position, thumbnail_width: tw, thumbnail_height: th, thumbnail, url, width, height } = data
+  const { position, thumbnail_width: tw, thumbnail_height: th, thumbnail, url, width, height, annotations = [] } = data
 
   if ((scenes as string).includes('segment') || scenes === 'pose_detection') {
     if (position) {
@@ -134,46 +134,76 @@ export const processData = (data: any, scenes: any) => {
   }
 
   if (scenes === 'detection') {
-    rawImgDataSet = position?.map((dso: any) => {
-      const { position } = dso
-      const label = dso.class
-      const [x, y, w, h] = JSON.parse(position)
-      // console.warn(colorMap)
+    for (let i = 0; i < annotations.length; i++) {
+      const { position = [], class: label } = annotations[i]
       const color = randomColor({
         seed: label,
         format: 'rgba',
         luminosity: 'bright',
         alpha: 1
       })
-      return {
-        fill: transformColor(color, 0.35), // 迷一样
-        stroke: color,
-        // x y w h
-        rectData: [x * width, y * height, w * width - x * width, h * height - y * height],
-        // labelText: label + (persent === undefined ? '' : '-' + persent)
-        label: label,
-        type: 'CustomRect'
+      for (let j = 0; j < position.length; j++) {
+        const [x, y, w, h] = position[j]
+        rawImgDataSet.push({
+          fill: transformColor(color, 0.35), // 迷一样
+          stroke: color,
+          // x y w h
+          rectData: [x * width, y * height, w * width - x * width, h * height - y * height],
+          // labelText: label + (persent === undefined ? '' : '-' + persent)
+          label: label,
+          type: 'CustomRect'
+        })
+
+        dataSet.push({
+          fill: transformColor(color, 0.35), // 迷一样
+          stroke: color,
+          rectData: [x * tw, y * th, w * tw - x * tw, h * th - y * th],
+          // labelText: label + (persent === undefined ? '' : '-' + persent)
+          label: label,
+          type: 'CustomRect'
+        })
       }
-    })
-    dataSet = position?.map((dso: any) => {
-      const { position } = dso
-      const label = dso.class
-      const [x, y, w, h] = JSON.parse(position)
-      const color = randomColor({
-        seed: label,
-        format: 'rgba',
-        luminosity: 'bright',
-        alpha: 1
-      })
-      return {
-        fill: transformColor(color, 0.35), // 迷一样
-        stroke: color,
-        rectData: [x * tw, y * th, w * tw - x * tw, h * th - y * th],
-        // labelText: label + (persent === undefined ? '' : '-' + persent)
-        label: label,
-        type: 'CustomRect'
-      }
-    })
+    }
+    // rawImgDataSet = annotations?.map((dso: any) => {
+    //   const { position, class: label } = dso
+
+    //   const [x, y, w, h] = JSON.parse(position)
+    //   // console.warn(colorMap)
+    //   const color = randomColor({
+    //     seed: label,
+    //     format: 'rgba',
+    //     luminosity: 'bright',
+    //     alpha: 1
+    //   })
+    //   return {
+    //     fill: transformColor(color, 0.35), // 迷一样
+    //     stroke: color,
+    //     // x y w h
+    //     rectData: [x * width, y * height, w * width - x * width, h * height - y * height],
+    //     // labelText: label + (persent === undefined ? '' : '-' + persent)
+    //     label: label,
+    //     type: 'CustomRect'
+    //   }
+    // })
+    // dataSet = annotations?.map((dso: any) => {
+    //   const { position } = dso
+    //   const label = dso.class
+    //   const [x, y, w, h] = JSON.parse(position)
+    //   const color = randomColor({
+    //     seed: label,
+    //     format: 'rgba',
+    //     luminosity: 'bright',
+    //     alpha: 1
+    //   })
+    //   return {
+    //     fill: transformColor(color, 0.35), // 迷一样
+    //     stroke: color,
+    //     rectData: [x * tw, y * th, w * tw - x * tw, h * th - y * th],
+    //     // labelText: label + (persent === undefined ? '' : '-' + persent)
+    //     label: label,
+    //     type: 'CustomRect'
+    //   }
+    // })
   }
 
   if (scenes === 'classify') {
@@ -248,13 +278,17 @@ export const useGetDataInfo = (data: any, scenes:any) => {
   })
 
   useEffect(() => {
-    if (isEmpty(data) || isNil(data)) {
-      return
+    try {
+      if (isEmpty(data) || isNil(data)) {
+        return
+      }
+
+      const iamwantyou = processData(data, scenes)
+
+      setDataInfo(iamwantyou)
+    } catch (e) {
+      console.log(e)
     }
-
-    const iamwantyou = processData(data, scenes)
-
-    setDataInfo(iamwantyou)
   }, [data, scenes])
 
   return dataInfo

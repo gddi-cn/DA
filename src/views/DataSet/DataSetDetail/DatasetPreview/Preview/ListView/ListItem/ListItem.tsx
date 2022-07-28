@@ -13,6 +13,8 @@ const ListItem = (props: Props): JSX.Element => {
   const { data, scenes } = props
   const [visible, setvisible] = useState(false)
   const datainfo = useGetDataInfo(data, scenes)
+  // console.log(datainfo)
+  // console.log(data)
 
   const view = useMemo(() => {
     if (isEmpty(datainfo)) {

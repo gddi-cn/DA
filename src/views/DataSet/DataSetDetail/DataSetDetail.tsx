@@ -6,7 +6,6 @@ import DatasetPreview from './DatasetPreview'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 
 import api from '@api'
-import { isEmpty } from 'lodash'
 
 // import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 // import { socketPushMsgForProject } from '@ghooks'
@@ -20,16 +19,14 @@ import './DataSetDetail.module.less'
 //
 const DataSetDetail = (): JSX.Element => {
   // 现在是哪个数据集
-  const [whichSet, setWhichSet] = useState('trainset_id')
+  const [whichSet, setWhichSet] = useState<'train_set' |'val_set'>('train_set')
   // 标签信息
   const [classInfo, setClassInfo] = useState<any>({})
   // 获取数据集概括信息
   const [datasetInfo, setDatasetInfo] = useState<Data>({} as Data)
 
-  const [version, setVersion] = useState<any>({})
-
-  const [trainSetData, setTrainSetData] = useState<any>({})
-  const [validSetData, setValidSetData] = useState<any>({})
+  // const [trainSetData, setTrainSetData] = useState<any>({})
+  // const [validSetData, setValidSetData] = useState<any>({})
 
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
@@ -41,9 +38,11 @@ const DataSetDetail = (): JSX.Element => {
         const { APP_DATASET_DETAIL } = activePipeLine
         console.log(APP_DATASET_DETAIL, 'APP_DATASET_DETAIL')
         if (APP_DATASET_DETAIL?.id) {
-          const res = await api.get(`/v2/datasets/${APP_DATASET_DETAIL?.id}`)
+          const res = await api.get(`/v3/datasets/${APP_DATASET_DETAIL?.id}`)
           if (res.code === 0) {
             setDatasetInfo(res.data || {})
+            // setTrainSetData(res.data?.train_set || {})
+            // setValidSetData(res.data?.val_set || {})
           }
         }
       } catch (e) {
@@ -60,41 +59,13 @@ const DataSetDetail = (): JSX.Element => {
    * 测试、训练数据
    */
 
-  const fetAllSet = useCallback(async () => {
-    console.log(1)
-    try {
-      if (!isEmpty(version)) {
-        const trainRes = await api.get(`/v2/sub-datasets/${version.trainset_id}`)
-        const validRes = await api.get(`/v2/sub-datasets/${version.validset_id}`)
-
-        if (trainRes.code === 0) {
-          setTrainSetData(trainRes.data || {})
-        }
-
-        if (validRes.code === 0) {
-          setValidSetData(validRes.data || {})
-        }
-      }
-    } catch (e) {
-
-    }
-  }, [version])
-
-  useEffect(() => {
-    fetAllSet()
-  }, [fetAllSet])
-
   const currentSet = useMemo(() => {
     try {
-      const allSet: any = {
-        trainset_id: trainSetData,
-        validset_id: validSetData
-      }
-      return allSet[whichSet]
+      return datasetInfo[whichSet] || {}
     } catch {
       return {}
     }
-  }, [validSetData, trainSetData, whichSet])
+  }, [datasetInfo, whichSet])
 
   const leftContent = useMemo(() => {
     return (
@@ -105,17 +76,17 @@ const DataSetDetail = (): JSX.Element => {
           classInfo={classInfo}
           datasetInfo={datasetInfo}
           initFetchDatasetInfo={initFetchDatasetInfo}
-          version={version}
-          setVersion={setVersion}
+          // version={version}
+          // setVersion={setVersion}
           currentSet={currentSet}
         />
       </div>
     )
-  }, [whichSet, classInfo, datasetInfo, initFetchDatasetInfo, version, currentSet])
+  }, [whichSet, classInfo, datasetInfo, initFetchDatasetInfo, currentSet])
 
   const currentId = useMemo(() => {
-    return version[whichSet]
-  }, [whichSet, version])
+    return datasetInfo[whichSet]?.id
+  }, [whichSet, datasetInfo])
 
   const rightContent = useMemo(() => {
     return (
