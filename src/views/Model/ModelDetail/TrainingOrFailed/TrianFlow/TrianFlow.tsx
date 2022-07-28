@@ -111,6 +111,7 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
 
   const handleDetele = () => {
     console.log(1)
+    // /v2/models/{id}/versions/{version_id}
   }
 
   const handleReTrain = () => {
@@ -127,7 +128,7 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
 
     if (status === 3) {
       return (
-        <div>
+        <div className='failed_wrap'>
           <div className='failed_icon'>
             <Failed/>
           </div>
