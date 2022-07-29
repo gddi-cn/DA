@@ -1,5 +1,5 @@
 import type { SetStateAction, Dispatch } from 'react'
-import type { VersionItem, VersionInfo } from '@reducer/modelDetailSlice/modelDetailSlice.d.ts'
+import type { VersionInfo } from '@reducer/modelDetailSlice/modelDetailSlice.d.ts'
 export = ModelDetailType;
 export as namespace ModelDetailType;
 

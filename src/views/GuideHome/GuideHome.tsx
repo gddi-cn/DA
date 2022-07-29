@@ -52,6 +52,7 @@ const GuideHome = (): JSX.Element => {
   return (
     <div styleName='GuideHome'>
       <div className='title'>共达地智能系统</div>
+      <img src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0LjUgMi41aC0xM0EuNS41IDAgMDAxIDN2MTBhLjUuNSAwIDAwLjUuNWgxM2EuNS41IDAgMDAuNS0uNVYzYS41LjUgMCAwMC0uNS0uNXpNNS4yODEgNC43NWExIDEgMCAwMTAgMiAxIDEgMCAwMTAtMnptOC4wMyA2LjgzYS4xMjcuMTI3IDAgMDEtLjA4MS4wM0gyLjc2OWEuMTI1LjEyNSAwIDAxLS4wOTYtLjIwN2wyLjY2MS0zLjE1NmEuMTI2LjEyNiAwIDAxLjE3Ny0uMDE2bC4wMTYuMDE2TDcuMDggMTAuMDlsMi40Ny0yLjkzYS4xMjYuMTI2IDAgMDEuMTc3LS4wMTZsLjAxNS4wMTYgMy41ODggNC4yNDRhLjEyNy4xMjcgMCAwMS0uMDIuMTc1eiIgZmlsbD0iIzhDOEM4QyIvPjwvc3ZnPg=='/>
       <div className='sub_title'>从开发到部署只需简单三步</div>
       <GButton onClick={handleAddTask.run} className='start_gddi' type='primary'>自动训练模型</GButton>
       <div className='train_process'>

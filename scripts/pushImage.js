@@ -25,19 +25,19 @@ if (/[\u4e00-\u9fa5]/.test(_tag)) {
 
 const tag = _tag || gitCommitVersion
 
-const build = shell.exec(`docker build -t market-web:${tag} -f ./docker/Dockerfile .`)
+const build = shell.exec(`docker build -t market_web_06:${tag} -f ./docker/Dockerfile .`)
 if (build.code) {
   utils.error('npm run build failed……\n意外总比惊喜来得快~这就是生活吧\n我猜是你的小鲸鱼跪了')
 } else {
-  shell.exec(`docker tag market-web:${tag} hub.gddi.com/fe/market-web-stable:${tag}`)
-  const rst = shell.exec(`docker push hub.gddi.com/fe/market-web-stable:${tag}`)
+  shell.exec(`docker tag market_web_06:${tag} registry.gddi.com/fe/market_web_06:${tag}`)
+  const rst = shell.exec(`docker push registry.gddi.com/fe/market_web_06:${tag}`)
 
   if (rst.code) {
     utils.error('镜像推送失败……')
   } else {
     utils.success(`
     -----------------------------------------------------------------------------------------------------------
-    |    恭喜您推送镜像成功，具体地址请查看，https://hub.gddi.com/harbor/projects/39/repositories/market-web-stable      |
+    |    恭喜您推送镜像成功，具体地址请查看，https://registry.gddi.com/harbor/projects/39/repositories/market_web_06      |
     -----------------------------------------------------------------------------------------------------------
     `);
     // https://open.feishu.cn/open-apis/bot/v2/hook/a2b0d2ae-f050-4d2f-8af8-a912756f4fd9
@@ -56,7 +56,7 @@ if (build.code) {
 
                 {
                   tag: 'text',
-                  text: `hub.gddi.com/fe/market-web-stable:${tag}`
+                  text: `registry.gddi.com/fe/market_web_06:${tag}`
                 },
 
               ],

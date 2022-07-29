@@ -37,7 +37,9 @@ const babelRuntimeEntryHelpers = require.resolve(
 const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', {
   paths: [babelRuntimeEntry],
 });
-
+const imageInlineSizeLimit = parseInt(
+  process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
+);
 // const modifyVars = require('../src/asset/lessVar/antd_var')
 // const babelrc = fs.readFileSync();
 
@@ -103,12 +105,14 @@ module.exports = function (webpackEnv) {
       paths.appIndexJs,
     ],
     output: {
-      pathinfo: true,
+      // path: paths.appBuild,
+      pathinfo: isEnvDevelopment,
       publicPath: paths.publicUrlOrPath,
       // fix: allow globalObject to be expression
       // https://github.com/webpack/webpack/pull/12927
       // https://github.com/webpack/webpack/issues/12924
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
+      assetModuleFilename: 'static/media/[name].[hash][ext]',
       // webpack 5 废弃
       // jsonpFunction: `webpackJsonp${appPackageJson.name}`,
     },
@@ -130,6 +134,9 @@ module.exports = function (webpackEnv) {
       },
     },
     bail: isEnvProduction,
+    infrastructureLogging: {
+      level: 'none',
+    },
     resolve: {
       alias: {
         '@api': paths.resolveApp('src/net'),
@@ -165,6 +172,56 @@ module.exports = function (webpackEnv) {
         // { parser: { requireEnsure: false } },
         {
           oneOf: [
+            {
+              test: [/\.avif$/],
+              type: 'asset',
+              mimetype: 'image/avif',
+              parser: {
+                dataUrlCondition: {
+                  maxSize: imageInlineSizeLimit,
+                },
+              },
+            },
+            // "url" loader works like "file" loader except that it embeds assets
+            // smaller than specified limit in bytes as data URLs to avoid requests.
+            // A missing `test` is equivalent to a match.
+            {
+              test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+              type: 'asset',
+              parser: {
+                dataUrlCondition: {
+                  maxSize: imageInlineSizeLimit,
+                },
+              },
+            },
+            {
+              test: /\.svg$/,
+              // exclude
+              use: [
+                {
+                  loader: require.resolve('@svgr/webpack'),
+                  options: {
+                    prettier: false,
+                    svgo: false,
+                    svgoConfig: {
+                      plugins: [{ removeViewBox: false }],
+                    },
+                    titleProp: true,
+                    ref: true,
+                  },
+                },
+                {
+                  loader: require.resolve('file-loader'),
+                  options: {
+                    name: 'static/media/[name].[hash].[ext]',
+                  },
+                },
+              ],
+              issuer: {
+                and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
+              },
+            },
+
             // css 就不搞模块化了吧，没这个必要？
             {
               test: /\.css$/,
@@ -247,49 +304,7 @@ module.exports = function (webpackEnv) {
                 inputSourceMap: shouldUseSourceMap,
               },
             },
-            {
-              test: [/\.avif$/],
-              loader: require.resolve('url-loader'),
-              options: {
-                limit: '10000',
-                mimetype: 'image/avif',
-                name: 'static/media/[name].[hash:8].[ext]',
-              },
-            },
-            {
-              test: /\.svg$/,
-              use: [
-                {
-                  loader: require.resolve('@svgr/webpack'),
-                  options: {
-                    prettier: false,
-                    svgo: false,
-                    svgoConfig: {
-                      plugins: [{ removeViewBox: false }],
-                    },
-                    titleProp: true,
-                    ref: true,
-                  },
-                },
-                {
-                  loader: require.resolve('file-loader'),
-                  options: {
-                    name: 'static/media/[name].[hash].[ext]',
-                  },
-                },
-              ],
-              issuer: {
-                and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
-              },
-            },
-            {
-              test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-              loader: require.resolve('url-loader'),
-              options: {
-                limit: '10000',
-                name: 'static/media/[name].[hash:8].[ext]',
-              },
-            },
+
             // 不能给file-loader匹配到、不然你的glsl就GG了
             {
               test: /\.(md|glsl)$/,
@@ -300,11 +315,9 @@ module.exports = function (webpackEnv) {
               ]
             },
             {
-              loader: require.resolve('file-loader'),
+              // loader: require.resolve('file-loader'),
               exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.wasm$/, /\.(md|glsl)$/],
-              options: {
-                name: 'static/media/[name].[hash:8].[ext]',
-              },
+              type: 'asset/resource',
             },
 
           ]
@@ -395,7 +408,7 @@ module.exports = function (webpackEnv) {
               declarationMap: false,
               noEmit: true,
               incremental: true,
-              // tsBuildInfoFile: false,
+              tsBuildInfoFile: paths.appTsBuildInfoFile,
             },
           },
           context: paths.appPath,

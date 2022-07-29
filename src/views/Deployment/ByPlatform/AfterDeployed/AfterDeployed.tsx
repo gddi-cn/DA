@@ -1,5 +1,5 @@
 import StepHeaderOfThis from '../StepHeaderOfThis'
-import { ReactComponent as SuccessSvg } from './icon/undraw_done_re_oak4 1.svg'
+import { ReactComponent as SuccessSvg } from './icon/undraw_done_re.svg'
 import './AfterDeployed.module.less'
 
 const AfterDeployed = (props: any): JSX.Element => {
