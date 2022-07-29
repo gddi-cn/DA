@@ -1,12 +1,16 @@
 
 import { FooterBar, GButton, UploadFile, GSelect } from '@src/UIComponents'
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { Form, Input, Select } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import {
-  APP_LOCAL_FILE_STEP_2,
-  APP_LOCAL_FILE_STEP_4
+  APP_THIRDPARTY_STEP_2,
+  APP_THIRDPARTY_STEP_4
 } from '@router'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { socketPushMsgForProject } from '@ghooks'
 import './BaseInfoForm.module.less'
 
 const { Option } = Select
@@ -19,20 +23,48 @@ const regExp = /\.(png|jpg|jpeg)$/
 const BaseInfoForm = (): JSX.Element => {
   const navigate = useNavigate()
   const [form] = Form.useForm();
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
+
+  useEffect(() => {
+    if (activePipeLine.APP_THIRDPARTY_STEP_3) {
+      const FROM_DATA = activePipeLine.APP_THIRDPARTY_STEP_3
+      form.setFieldsValue(FROM_DATA)
+    }
+  }, [activePipeLine, form])
+
   const rightContent = useMemo(() => {
     const handleGoback = () => {
       navigate({
-        pathname: APP_LOCAL_FILE_STEP_2
+        pathname: APP_THIRDPARTY_STEP_2
+      })
+
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_THIRDPARTY_STEP_2
       })
     }
 
     const goNext = async () => {
       // 123
+      console.log(activePipeLine, '51')
       const data = await form.validateFields()
-      console.log(data)
-      navigate({
-        pathname: APP_LOCAL_FILE_STEP_4
-      })
+      const { APP_THIRDPARTY_STEP_2, APP_THIRDPARTY_SelectTrainType } = activePipeLine
+      const createParams = {
+        ...data,
+        url: APP_THIRDPARTY_STEP_2?.url,
+        scene: APP_THIRDPARTY_SelectTrainType?.activeType
+
+      }
+      console.log(createParams)
+      // navigate({
+      //   pathname: APP_THIRDPARTY_STEP_4
+      // })
+
+      // socketPushMsgForProject(activePipeLine, {
+      //   active_page: SNAPSHOT_KEY_OF_ROUTER.APP_THIRDPARTY_STEP_4
+      // })
     }
 
     return (
@@ -41,11 +73,19 @@ const BaseInfoForm = (): JSX.Element => {
         <GButton style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [form, navigate])
+  }, [activePipeLine, form, navigate])
+
+  const handleBaseInfoChange = (_: any, all_values: any) => {
+    console.log(all_values)
+    socketPushMsgForProject(activePipeLine, {
+      // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
+      APP_THIRDPARTY_STEP_3: all_values
+    })
+  }
   return (
     <div styleName='BaseInfoForm'>
       <div className='BaseInfoForm_wrap'>
-        <Form form={form} name="control-hooks" className='form_wrap'>
+        <Form form={form} name="control-hooks" className='form_wrap' onValuesChange={handleBaseInfoChange}>
           <Form.Item
             name="name"
             label="数据名称"
@@ -60,33 +100,15 @@ const BaseInfoForm = (): JSX.Element => {
           </Form.Item>
 
           <Form.Item
-            label='类型'
-            name='scenes'
-            rules={[{ required: true }]}
-          >
-            <GSelect >
-              <Option value='detection'>目标检测</Option>
-              <Option value='classify'>图片分类</Option>
-              {/* <Option value='face_detection' disabled>人脸检测</Option>
-            <Option value='face_recognition' disabled>人脸识别</Option> */}
-              <Option value='cityscapes_segment'>通用分割</Option>
-              <Option value='portrait_segment'>肖像分割</Option>
-              <Option value='pose_detection'>姿态检测</Option>
-              <Option value='monocular_3d_detection'>单目3D检测</Option>
-
-            </GSelect>
-          </Form.Item>
-
-          <Form.Item
             label='训练集与测试集比例'
-            name='bili'
+            name='val_share'
             rules={[{ required: true }]}
           >
 
-            <GSelect defaultValue="2" style={{ width: '100%' }} >
-              <Option value="1">7:3</Option>
-              <Option value="2">8:2（推荐使用）</Option>
-              <Option value="3">9:1</Option>
+            <GSelect defaultValue={0.2} style={{ width: '100%' }} >
+              <Option value={0.3}>7:3</Option>
+              <Option value={0.2}>8:2（推荐使用）</Option>
+              <Option value={0.1}>9:1</Option>
             </GSelect>
           </Form.Item>
 

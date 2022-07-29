@@ -16,7 +16,8 @@ import {
   APP_SelectDevice,
   APP_AfterDeployed,
   APP_SDK_Documents,
-  APP_DEVICE_INDEX
+  APP_DEVICE_INDEX,
+  APP_IncreaseData
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -34,6 +35,8 @@ const TaskStepLayout = lazy(() => import('@src/views/container/TaskStepLayout'))
 const GuideHome = lazy(() => import('@src/views/GuideHome'));
 
 const DataSetIndex = lazy(() => import('@src/views/DataSet/DataSetIndex'));
+
+const IncreaseData = lazy(() => import('@src/views/DataSet/IncreaseData'));
 
 const DataSetDetail = lazy(() => import('@src/views/DataSet/DataSetDetail'));
 
@@ -172,6 +175,12 @@ export default {
             {
               path: APP_SDK_Documents,
               element: SuspenseFn(Documents),
+
+            },
+
+            {
+              path: APP_IncreaseData,
+              element: SuspenseFn(IncreaseData),
 
             },
 

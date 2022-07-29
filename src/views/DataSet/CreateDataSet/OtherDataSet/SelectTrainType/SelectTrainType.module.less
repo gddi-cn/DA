@@ -1,0 +1,88 @@
+.SelectTrainType {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    :global {
+
+        .SelectTrainType_list_wrap {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+
+
+
+
+            .SelectTrainType_list {
+                width: 892px;
+                margin-top: 70px;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, calc((100% - 40px) / 3));
+                grid-template-rows: 174px;
+                grid-gap: 20px;
+
+                .SelectTrainType_list_item {
+                    height: 174px;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    border: 2px solid transparent;
+                    position: relative;
+                    background-color: #EDF8FF;
+
+                    svg {
+                        position: absolute;
+                        left: -6px;
+                        overflow: hidden;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+
+                .SelectTrainType_list_item_active {
+                    border: 2px solid #62B0E5;
+                    box-shadow: 0px 2px 4px rgba(177, 191, 202, 0.36);
+                    border-radius: 4px;
+                    transition: all 0.6s;
+
+                }
+
+                /* 16 */
+                .btn-16 {
+                    color: #000;
+                }
+
+                .btn-16:after {
+                    position: absolute;
+                    content: "";
+                    width: 0;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    direction: rtl;
+                    z-index: -1;
+                    box-shadow:
+                        -7px -7px 20px 0px #fff9,
+                        -4px -4px 5px 0px #fff9,
+                        7px 7px 20px 0px #0002,
+                        4px 4px 5px 0px #0001;
+                    transition: all 0.3s ease;
+                }
+
+                .btn-16:hover {
+                    color: #000;
+                }
+
+                .btn-16:hover:after {
+                    left: auto;
+                    right: 0;
+                    width: 100%;
+                }
+
+                .btn-16:active {
+                    top: 2px;
+                }
+            }
+        }
+    }
+}

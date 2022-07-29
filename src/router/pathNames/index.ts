@@ -24,6 +24,8 @@ export const APP_DATASET_CREATE_TYPE = '/app/select_carete_type'
 
 export const APP_DATASET_ANALYSE = '/app/dataset_analyse'
 
+export const APP_IncreaseData = '/app/IncreaseData'
+
 export const APP_MODEL_TRAIN_CONFIG = '/app/train_config'
 
 export const APP_MODEL_TRAIN_DETAIL = '/app/model_train_detail'
@@ -36,6 +38,7 @@ export const APP_LOCAL_FILE_STEP_3 = '/app/local_file/SelectDatasetFile'
 export const APP_LOCAL_FILE_STEP_4 = '/app/local_file/SelectTrainType'
 // 第三方流程
 export const APP_THIRDPARTY = '/app/thirdparty'
+export const APP_THIRDPARTY_SelectTrainType = '/app/thirdparty/SelectTrainType'
 export const APP_THIRDPARTY_STEP_4 = '/app/thirdparty/AfterCreate'
 export const APP_THIRDPARTY_STEP_3 = '/app/thirdparty/BaseInfoForm'
 export const APP_THIRDPARTY_STEP_1 = '/app/thirdparty/SelectPlatform'

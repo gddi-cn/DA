@@ -1,0 +1,58 @@
+.IncreaseData {
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    :global {
+        .IncreaseData_wrap {
+            width: 436px;
+            flex: 1;
+    
+        }
+
+        .add_data_title {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .form_title {
+            display: flex;
+
+            p {
+                &:nth-child(1) {
+                    color: red;
+                }
+
+                &:nth-child(2) {
+                    margin-left: 1px;
+                    color: #202223;
+                }
+            }
+        }
+
+        .footer_btn_wrap {
+            display: flex;
+
+            .previous_btn {
+                margin-right: 20px;
+            }
+        }
+
+        .select_wrap {
+
+
+            .form_content {
+                margin-top: 2px;
+            }
+        }
+
+        .tips_wrap {
+            margin: 20px 0;
+        }
+    }
+}

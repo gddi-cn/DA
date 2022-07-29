@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import EditDataset from '../../../DataSetIndex/V1DatasetCard/EditDataset'
 import { SmallButton } from '@src/UIComponents'
-import { APP_DATA_SET_INDEX } from '@router'
+import { APP_DATA_SET_INDEX, APP_IncreaseData } from '@router'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
@@ -89,6 +89,19 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
     })
   }
 
+  const handleGotoADDData = () => {
+    // if (activePipeLine?.APP_MODEL_TRAIN_DETAIL?.id) {
+    //   return null
+    // }
+    navigate({
+      pathname: APP_IncreaseData
+    })
+    socketPushMsgForProject(activePipeLine, {
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_IncreaseData,
+      // APP_DATASET_DETAIL: {}
+    })
+  }
+
   const showGoBackBtn = () => {
     if (activePipeLine?.APP_MODEL_TRAIN_DETAIL?.id) {
       return null
@@ -116,6 +129,7 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
 
       </div> */}
       <EditDataset data={datasetInfo} type='nomal' eleId='root' callback={initFetchDatasetInfo} />
+      <SmallButton type='nomal' className='add_data_wrap' onClick={handleGotoADDData}>添加数据</SmallButton>
       {
         showGoBackBtn()
       }

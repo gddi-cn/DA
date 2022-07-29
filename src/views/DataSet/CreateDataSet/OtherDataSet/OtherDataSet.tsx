@@ -6,13 +6,15 @@ import {
   APP_THIRDPARTY_STEP_1,
   APP_THIRDPARTY_STEP_2,
   APP_THIRDPARTY_STEP_3,
-  APP_THIRDPARTY_STEP_4
+  APP_THIRDPARTY_STEP_4,
+  APP_THIRDPARTY_SelectTrainType
 } from '@router'
 import './OtherDataSet.module.less'
 
 const pathkeys: {
     [index: string]: number
 } = {
+  [APP_THIRDPARTY_SelectTrainType]: 1,
   [APP_THIRDPARTY_STEP_1]: 1,
   [APP_THIRDPARTY_STEP_2]: 2,
   [APP_THIRDPARTY_STEP_3]: 3,

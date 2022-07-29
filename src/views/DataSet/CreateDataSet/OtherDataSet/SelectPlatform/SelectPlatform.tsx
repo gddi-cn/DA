@@ -5,8 +5,13 @@ import { Select, Form, Spin } from 'antd'
 import { isEmpty, isNil } from 'lodash';
 import api from '@api'
 import { useNavigate } from 'react-router-dom'
-import { APP_DATASET_CREATE_TYPE, APP_THIRDPARTY_STEP_2 } from '@router'
+import { APP_THIRDPARTY_SelectTrainType, APP_THIRDPARTY_STEP_2 } from '@router'
+
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './SelectPlatform.module.less'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants';
 
 const { Option } = Select;
 
@@ -17,16 +22,9 @@ const SelectPlatform = (): JSX.Element => {
   const [companyList, setcompanyList] = useState<any[]>([]);
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    const fn = async () => {
-      const res = await api.get('/v3/oauth/platforms')
-      if (res.code === 0) {
-        setcompanyList(res?.data)
-      }
-    }
-    fn()
-  }, [])
-
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
   const fetchUserList = async (platform: string) => {
     try {
       setLoading(true)
@@ -39,6 +37,23 @@ const SelectPlatform = (): JSX.Element => {
       console.log(e)
     }
   }
+  useEffect(() => {
+    if (activePipeLine?.APP_THIRDPARTY_STEP_1) {
+      form.setFieldsValue(activePipeLine.APP_THIRDPARTY_STEP_1)
+
+      fetchUserList(activePipeLine?.APP_THIRDPARTY_STEP_1?.source)
+    }
+  }, [form, activePipeLine])
+
+  useEffect(() => {
+    const fn = async () => {
+      const res = await api.get('/v3/oauth/platforms')
+      if (res.code === 0) {
+        setcompanyList(res?.data)
+      }
+    }
+    fn()
+  }, [])
 
   const handlePartyChange = (select: any, option:any) => {
     form.setFieldsValue({
@@ -54,7 +69,10 @@ const SelectPlatform = (): JSX.Element => {
   const rightContent = useMemo(() => {
     const handleGoback = () => {
       navigate({
-        pathname: APP_DATASET_CREATE_TYPE
+        pathname: APP_THIRDPARTY_SelectTrainType
+      })
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_THIRDPARTY_SelectTrainType
       })
     }
 
@@ -65,6 +83,9 @@ const SelectPlatform = (): JSX.Element => {
       navigate({
         pathname: APP_THIRDPARTY_STEP_2
       })
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_THIRDPARTY_STEP_2
+      })
     }
 
     return (
@@ -73,7 +94,28 @@ const SelectPlatform = (): JSX.Element => {
         <GButton style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [form, navigate])
+  }, [form, navigate, activePipeLine])
+
+  const handleFormChange = (changeValue: any, all_values: any) => {
+    if (Object.prototype.hasOwnProperty.call(changeValue, 'source')) {
+      // form.setFieldsValue({
+      //   app_template_id: undefined
+      // })
+      const _data = Object.assign(all_values, {
+        user: undefined
+      })
+      socketPushMsgForProject(activePipeLine, {
+        // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
+        APP_THIRDPARTY_STEP_1: _data
+      })
+      return
+    }
+
+    socketPushMsgForProject(activePipeLine, {
+      // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
+      APP_THIRDPARTY_STEP_1: all_values
+    })
+  }
 
   return (
     <div styleName='SelectPlatform'>
@@ -83,6 +125,7 @@ const SelectPlatform = (): JSX.Element => {
             form={form}
             name='ThirdPartyForm'
             className='ThirdPartyForm'
+            onValuesChange={handleFormChange}
           >
 
             <Form.Item
@@ -107,7 +150,7 @@ const SelectPlatform = (): JSX.Element => {
                     <Form.Item
                       label='账号选择'
                       name='user_open_id'
-                      //   rules={[{ required: true }]}
+                      rules={[{ required: true }]}
                       shouldUpdate={true}
                     >
                       <Select disabled={disabled} placeholder='请选择账号' >

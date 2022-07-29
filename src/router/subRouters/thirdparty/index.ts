@@ -4,7 +4,8 @@ import {
   APP_THIRDPARTY_STEP_1,
   APP_THIRDPARTY_STEP_2,
   APP_THIRDPARTY_STEP_3,
-  APP_THIRDPARTY_STEP_4
+  APP_THIRDPARTY_STEP_4,
+  APP_THIRDPARTY_SelectTrainType
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -20,12 +21,19 @@ const SelectPlatform = lazy(() => import('@src/views/DataSet/CreateDataSet/Other
 
 const SelectProject = lazy(() => import('@src/views/DataSet/CreateDataSet/OtherDataSet/SelectProject'));
 
+const SelectTrainType = lazy(() => import('@src/views/DataSet/CreateDataSet/OtherDataSet/SelectTrainType'));
+
 export default {
   path: APP_THIRDPARTY,
   strict: true,
   element: SuspenseFn(OtherDataSet),
   children: [
     // 仅有头部任务的
+    {
+      path: APP_THIRDPARTY_SelectTrainType,
+      element: SuspenseFn(SelectTrainType),
+
+    },
     {
       path: APP_THIRDPARTY_STEP_1,
       element: SuspenseFn(SelectPlatform),
