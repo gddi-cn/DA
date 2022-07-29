@@ -53,8 +53,8 @@ function* fetchTaskActiveList (action:any):any {
 
         if (isEmpty(activeTaskInfo)) {
           // 没有就第一个
-          const _activeInfo = list[0]
-          yield put(checkoutTask(_activeInfo))
+          // const _activeInfo = list[0]
+          // yield put(checkoutTask(_activeInfo))
         } else {
           // 有得话就是拿最新的数据,因为可能被修改了
           const _activeInfo = list.find((o) => o?.id === activeTaskInfo.id)

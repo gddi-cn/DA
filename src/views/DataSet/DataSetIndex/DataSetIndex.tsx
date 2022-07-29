@@ -57,7 +57,7 @@ const DataSetIndex = (): JSX.Element => {
       socketPushMsgForProject(
         activePipeLine, {
           active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_ANALYSE,
-          APP_DATASET_ANALYSE: { id: selectData?.id, version_id: selectData?.latest_version?.id }
+          APP_DATASET_ANALYSE: { id: selectData?.id }
         }
       )
       navigate({

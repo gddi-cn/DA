@@ -3,16 +3,16 @@ import TrianFlow from './TrianFlow'
 
 // import { useEffect, useState, useRef } from 'react'
 // import api from '@api'
-import { useSelector } from 'react-redux'
-import { RootState } from '@reducer/index'
+// import { useSelector } from 'react-redux'
+// import { RootState } from '@reducer/index'
 import { useMemo } from 'react'
 
 import './TrainingOrFailed.module.less'
 
 const TrainingOrFailed = (): JSX.Element => {
-  const id = useSelector((state: RootState) => {
-    return state.modelDetailSlice.id || ''
-  })
+  // const id = useSelector((state: RootState) => {
+  //   return state.modelDetailSlice.id || ''
+  // })
 
   return (
     <div styleName='TrainingOrFailed'>
@@ -29,9 +29,9 @@ const TrainingOrFailed = (): JSX.Element => {
         {
           useMemo(() => {
             return (
-              <TrianFlow id={id} />
+              <TrianFlow />
             )
-          }, [id])
+          }, [])
         }
       </div>
     </div>

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Empty } from 'antd'
 import Radar from './analysisRadar/radar'
 import { FooterBar, GButton } from '@src/UIComponents'
-import { isEmpty, isNil } from 'lodash'
+// import { isEmpty, isNil } from 'lodash'
 import { processEchartsData } from './analysisRadar/processEchartsData'
 import DatasetInfo from './DatasetInfo'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
@@ -25,13 +25,9 @@ const DatasetAnalysis = (): JSX.Element => {
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('error')
 
-  const [version, setVersion] = useState<any>({})
-
   // const [versionList, setVersionList] = useState<any[]>([])
 
   // const [value, setValue] = useState<string>('')
-
-  const [currentSet, setCurrentSet] = useState<any>({})
 
   // 获取数据集概括信息
   const [datasetInfo, setDatasetInfo] = useState<Data>({} as Data)
@@ -47,9 +43,20 @@ const DatasetAnalysis = (): JSX.Element => {
       try {
         if (activePipeLine?.APP_DATASET_ANALYSE) {
           const { id } = activePipeLine?.APP_DATASET_ANALYSE
-          const res = await api.get(`/v2/datasets/${id}`)
+          const res = await api.get(`/v3/datasets/${id}`)
           if (res.code === 0) {
             setDatasetInfo(res.data || {})
+
+            if (res.data?.assess) {
+              const { dataList } = processEchartsData(res.data?.assess)
+              setDataListt(dataList)
+            } else {
+              setError(true)
+              setErrorMessage('数据正在分析中，你可以忽略此步骤，点击下一步继续训练')
+            }
+          } else {
+            setError(true)
+            setErrorMessage('数据正在分析中，你可以忽略此步骤，点击下一步继续训练')
           }
         }
       } catch (e) {
@@ -58,99 +65,39 @@ const DatasetAnalysis = (): JSX.Element => {
     }, [activePipeLine]
   )
 
-  const initFetch = useCallback(async () => {
-    try {
-      if (!activePipeLine?.APP_DATASET_ANALYSE) {
-        return
-      }
-      const { id, version_id } = activePipeLine?.APP_DATASET_ANALYSE
-      if (id && version_id) {
-        const path = `/v2/datasets/${id}/versions`
-        const res = await api.get(path)
-        if (res.code === 0) {
-          const list = res.data || [];
-          const target = (list as Array<any>).find((o) => o.id === version_id)
+  // const getAnalysisData = useCallback(
+  //   async ({ id, version_id }:any) => {
+  //     try {
+  //       const res = await api.get(`/v2/datasets/${id}/versions/${version_id}/assess`)
+  //       if (res.code === 0) {
+  //         const { data } = res
+  //         if (!isEmpty(data) && !isNil(data)) {
+  //           const _v = data
+  //           if (Object.prototype.hasOwnProperty.call(_v, 'error')) {
+  //             setError(true)
+  //             setErrorMessage(_v?.error?.message)
+  //           } else {
+  //             const { dataList } = processEchartsData(_v)
+  //             setDataListt(dataList)
+  //           }
+  //         } else {
+  //           return true
+  //         }
+  //       } else {
+  //         setError(true)
+  //         setErrorMessage('数据正在分析中，你可以忽略此步骤，点击下一步继续训练')
 
-          if (target) {
-            // setValue(target.tag)
-            setVersion(target)
-          } else {
-            const target = list[0]
-            if (target) {
-              // setValue(target.tag)
-              setVersion(target)
-            }
-          }
-          // setVersionList(list)
-        }
-      }
-    } catch (e) {
-
-    }
-  }, [activePipeLine])
-
-  const getAnalysisData = useCallback(
-    async ({ id, version_id }:any) => {
-      try {
-        const res = await api.get(`/v2/datasets/${id}/versions/${version_id}/assess`)
-        if (res.code === 0) {
-          const { data } = res
-          if (!isEmpty(data) && !isNil(data)) {
-            const _v = data
-            if (Object.prototype.hasOwnProperty.call(_v, 'error')) {
-              setError(true)
-              setErrorMessage(_v?.error?.message)
-            } else {
-              const { dataList } = processEchartsData(_v)
-              setDataListt(dataList)
-            }
-          } else {
-            return true
-          }
-        } else {
-          setError(true)
-          setErrorMessage('数据正在分析中，你可以忽略此步骤，点击下一步继续训练')
-
-          return {}
-        }
-      } catch (e) {
-        return {}
-      }
-    }, []
-  )
-
-  const fetAllSet = useCallback(async () => {
-    console.log(1)
-    try {
-      if (!isEmpty(version)) {
-        const trainRes = await api.get(`/v2/sub-datasets/${version.trainset_id}`)
-        // const validRes = await api.get(`/v2/sub-datasets/${version.validset_id}`)
-
-        if (trainRes.code === 0) {
-          setCurrentSet(trainRes.data || {})
-        }
-      }
-    } catch (e) {
-
-    }
-  }, [version])
-
-  useEffect(() => {
-    if (!activePipeLine?.APP_DATASET_ANALYSE) {
-      return
-    }
-    const { id, version_id } = activePipeLine?.APP_DATASET_ANALYSE
-    getAnalysisData({ id, version_id })
-  }, [getAnalysisData, activePipeLine])
-
-  useEffect(() => {
-    fetAllSet()
-  }, [fetAllSet])
+  //         return {}
+  //       }
+  //     } catch (e) {
+  //       return {}
+  //     }
+  //   }, []
+  // )
 
   useEffect(() => {
     initFetchDatasetInfo()
-    initFetch()
-  }, [initFetchDatasetInfo, initFetch])
+  }, [initFetchDatasetInfo])
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
@@ -225,8 +172,6 @@ const DatasetAnalysis = (): JSX.Element => {
   //   getAnalysisData({ id, version_id: data.id })
   // }
 
-  console.log(version)
-
   return (
     <div styleName='DatasetAnalysis'>
       <div className='DatasetAnalysis_wrap'>
@@ -238,19 +183,19 @@ const DatasetAnalysis = (): JSX.Element => {
             <div className='info_list'>
               <div className='info_item_wrap'>
                 <p className='label'>数据大小：</p>
-                <p className='text'>{currentSet.size ? bytesToSize(currentSet.size) : '--'}</p>
+                <p className='text'>{datasetInfo?.train_set?.size ? bytesToSize(datasetInfo?.train_set?.size) : '--'}</p>
               </div>
               <div className='info_item_wrap'>
                 <p className='label'>数据量：</p>
-                <p className='text'>{currentSet.image_count}</p>
+                <p className='text'>{datasetInfo?.train_set?.image_count}</p>
               </div>
               <div className='info_item_wrap'>
                 <p className='label'>标注数：</p>
-                <p className='text'>{currentSet.annotation_count}</p>
+                <p className='text'>{datasetInfo?.train_set?.annotation_count}</p>
               </div>
               <div className='info_item_wrap'>
                 <p className='label'>标签种类：</p>
-                <p className='text'>{currentSet.class_count}</p>
+                <p className='text'>{datasetInfo?.train_set?.class_count}</p>
               </div>
             </div>
           </div>

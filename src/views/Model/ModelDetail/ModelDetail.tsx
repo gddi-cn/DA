@@ -54,7 +54,7 @@ const ModelDetail = (): JSX.Element => {
   //   const [currentVersion, setCurrentVersion] = useState<ModelDetailType.VersionItem >()
 
   //   const [versionInfo, setVersionInfo] = useState<ModelDetailType.VersionInfo>()
-  console.log(model_id, 'model_id')
+
   const getModelBaseInfo = useCallback(
     async () => {
       try {

@@ -33,8 +33,8 @@ const GuideHome = (): JSX.Element => {
       // gsap.fromTo('.gsap_GuideHome_step_1 g path', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025, onComplete: step2 });
       const tl = gsap.timeline();
       tl.fromTo('.gsap_GuideHome_step_1 path', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025 })
-        .fromTo('.gsap_GuideHome_step_2 path', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025 })
-        .fromTo('.gsap_GuideHome_step_3 path', { autoAlpha: 0, x: -100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025 });
+        .fromTo('.gsap_GuideHome_step_2 path', { autoAlpha: 0, y: -100 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.025 })
+        .fromTo('.gsap_GuideHome_step_3 path', { autoAlpha: 0, x: 100 }, { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.025 });
     } catch (e) {
 
     }

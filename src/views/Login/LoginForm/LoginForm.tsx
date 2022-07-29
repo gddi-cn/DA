@@ -80,7 +80,7 @@ const LoginForm = (props: any): JSX.Element => {
             <GButton type='primary' htmlType='submit' className='login_btn' onClick={handleSubmit} loading={isLoading}>
                           登 录
             </GButton>
-            <GButton type='default' htmlType='submit' className='login_btn' onClick={() => setActive('RegisterFrom')}>
+            <GButton type='default' className='login_btn' onClick={() => setActive('RegisterFrom')}>
                           注册
             </GButton>
           </Form.Item>

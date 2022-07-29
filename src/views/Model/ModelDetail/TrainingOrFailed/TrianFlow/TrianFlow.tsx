@@ -2,7 +2,7 @@ import api from '@api'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { GButton } from '@src/UIComponents'
 import StepProgress from './StepProgress'
-import ModelDetailType from '../../types'
+// import ModelDetailType from '../../types'
 import FlvMp4 from './FlvMp4'
 // import { ReactComponent as Shujuzhunbei } from './icon/1.svg'
 // import { ReactComponent as Shujuchuli } from './icon/2.svg'
@@ -13,10 +13,12 @@ import FlvMp4 from './FlvMp4'
 // import { ReactComponent as Moxingshengc } from './icon/7.svg'
 import { setVersionInfo } from '@reducer/modelDetailSlice'
 import { ReactComponent as Failed } from './icon/failed.svg'
-
+import { socketPushMsgForProject } from '@ghooks'
 import { RootState } from '@reducer/index'
 import { useSelector, useDispatch } from 'react-redux'
 import './TrianFlow.module.less'
+import { message } from 'antd'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
 const IconMap: any = {
   数据准备: 'https://s3.local.cdn.desauto.net/public/video/8740e037eeba8acf4b009b3e65627c6f.mp4',
@@ -28,14 +30,22 @@ const IconMap: any = {
   模型生成: 'https://s3.local.cdn.desauto.net/public/video/1d38699fbe9e718b964643076aa59a29.mp4',
 }
 
-const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
-  const { id } = props
+const TrianFlow = (): JSX.Element => {
+  // const { id } = props
   const [trainInfo, setTrainInfo] = useState<any>()
   const dispatch = useDispatch()
   const timer = useRef<any>(null)
 
   const currentVersion = useSelector((state: RootState) => {
     return state.modelDetailSlice.currentVersion
+  })
+
+  const task_id = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo?.id
+  })
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
   })
   const model_id = useSelector((state: RootState) => {
     if (state.tasksSilce.activePipeLine) {
@@ -61,28 +71,30 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
       currentVersion?.id, dispatch, model_id
     ]
   )
-  useEffect(() => {
-    const getTrainInfo = async () => {
+
+  const getTrainInfo = useCallback(
+    async () => {
       if (!currentVersion?.id) {
         return
       }
       try {
-        const res = await api.get(`/v3/models/${id}/versions/${currentVersion?.id}/progress`)
+        const res = await api.get(`/v3/models/${model_id}/versions/${currentVersion?.id}/progress`)
         if (res.code === 0) {
           setTrainInfo(res?.data)
         }
       } catch (e) {
 
       }
-    }
-
+    }, [currentVersion?.id, model_id]
+  )
+  useEffect(() => {
     getTrainInfo()
     timer.current = setInterval(getTrainInfo, 10000)
 
     return () => {
       clearInterval(timer.current)
     }
-  }, [currentVersion, id])
+  }, [getTrainInfo])
 
   useEffect(() => {
     if (!trainInfo) {
@@ -109,13 +121,55 @@ const TrianFlow = (props: ModelDetailType.TrianFlowProps): JSX.Element => {
     )
   }
 
-  const handleDetele = () => {
+  const handleDetele = async () => {
     console.log(1)
     // /v2/models/{id}/versions/{version_id}
+    try {
+      const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+      if (res.code === 0) {
+        const updateSnapRes = await api.patch(`/v3/projects/${task_id}`, {
+          dataset: {
+            id: '0'
+          },
+          model: {
+            id: '0',
+            version_id: '0'
+          },
+        })
+        if (updateSnapRes?.code === 0) {
+          socketPushMsgForProject(
+            activePipeLine,
+            {
+              active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
+              APP_DATA_SET_INDEX: null,
+              APP_MODEL_TRAIN_CONFIG: null,
+              APP_MODEL_TRAIN_DETAIL: null
+            }
+          )
+        } else {
+          message.error(updateSnapRes?.message)
+        }
+      } else {
+        message.error(res?.message || '删除失败')
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
-  const handleReTrain = () => {
+  const handleReTrain = async () => {
     console.log(1)
+    // /v3/models/{id}/versions/{version_id}/retry
+    try {
+      const res = await api.post(`/v3/models/${model_id}/versions/${currentVersion?.id}/retry`)
+      if (res.code === 0) {
+        getTrainInfo()
+      } else {
+        message.error(res?.message || '训练失败')
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const getIconView = () => {
