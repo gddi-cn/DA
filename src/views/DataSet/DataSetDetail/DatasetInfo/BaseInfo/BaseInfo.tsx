@@ -2,9 +2,12 @@
 import { ReactComponent as Note } from './icon/note.svg'
 
 import ClassTable from './ClassTable'
-import { Dispatch, SetStateAction, useMemo } from 'react'
+import EchartBar from './EchartBar'
+import { Dispatch, SetStateAction, useState, useCallback, useEffect, useMemo } from 'react'
 import { bytesToSize } from '@src/utils'
 import { IsEchartViewButton } from '@src/UIComponents'
+import api from '@api'
+import { isNil } from 'lodash';
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import './BaseInfo.module.less'
 
@@ -18,7 +21,66 @@ type Props={
 }
 
 const BaseInfo = (props: Props): JSX.Element => {
-  const { whichSet, setClassInfo, classInfo, currentSet, datasetInfo } = props
+  const { setClassInfo, classInfo, currentSet, datasetInfo } = props
+  const [checkType, setCheckType] = useState('FormView')
+  const [statistic, setStatistic] = useState<any>({})
+
+  // 统计信息、标签之类的
+  const fetStatistics = useCallback(
+    async () => {
+      try {
+        if (isNil(datasetInfo?.id)) {
+          return
+        }
+        const res = await api.get(`/v3/datasets/${datasetInfo?.id}/sub-datasets/${currentSet?.id}/classes`, {
+          params: {
+            page: 1, page_size: 999
+          }
+        })
+
+        if (res.code === 0) {
+          setStatistic(res.data || [])
+          if (res.data) {
+            setClassInfo(res.data[0])
+          }
+        }
+      } catch (e) {
+
+      }
+    }, [currentSet?.id, datasetInfo?.id, setClassInfo, setStatistic]
+  )
+
+  useEffect(() => {
+    fetStatistics()
+  }, [fetStatistics])
+  const handleCheckView = () => {
+    if (checkType === 'FormView') {
+      setCheckType('EchartView')
+    } else {
+      setCheckType('FormView')
+    }
+  }
+
+  const TableView = useMemo(() => (
+    <div className='echartOrTable' >
+      <ClassTable
+
+        setClassInfo={setClassInfo}
+        classInfo={classInfo}
+        currentSet={currentSet}
+
+        statistic={statistic}
+      />
+    </div>
+  ), [setClassInfo, classInfo, currentSet, statistic])
+
+  const BarView = useMemo(
+    () => {
+      return (
+        <EchartBar dataList={statistic}/>
+      )
+    }, [statistic]
+  )
 
   return (
     <div styleName='BaseInfo'>
@@ -47,21 +109,11 @@ const BaseInfo = (props: Props): JSX.Element => {
           </div>
         </div>
 
-        <IsEchartViewButton />
+        <IsEchartViewButton onClick={handleCheckView}/>
       </div>
 
       {
-        useMemo(() => (
-          <div className='echartOrTable'>
-            <ClassTable
-              datasetInfo={datasetInfo}
-              whichSet={whichSet}
-              setClassInfo={setClassInfo}
-              classInfo={classInfo}
-              currentSet={currentSet}
-            />
-          </div>
-        ), [classInfo, setClassInfo, whichSet, currentSet, datasetInfo])
+        checkType === 'EchartView' ? BarView : TableView
       }
     </div>
   )

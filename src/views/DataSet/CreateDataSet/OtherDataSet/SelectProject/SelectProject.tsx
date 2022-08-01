@@ -167,10 +167,19 @@ const SelectProject = (): JSX.Element => {
     )
   }, [activePipeLine, form, navigate])
 
-  const handleChange = (changeValue: any, all_values: any) => {
+  // const handleChange = (changeValue: any, all_values: any) => {
+  //   socketPushMsgForProject(activePipeLine, {
+  //     // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
+  //     APP_THIRDPARTY_STEP_2: all_values
+  //   })
+  // }
+
+  const handleOnSelect = (value:any, option:any) => {
+    console.log(option, 'option')
+    const { data_value } = option
     socketPushMsgForProject(activePipeLine, {
       // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
-      APP_THIRDPARTY_STEP_2: all_values
+      APP_THIRDPARTY_STEP_2: data_value
     })
   }
 
@@ -189,7 +198,7 @@ const SelectProject = (): JSX.Element => {
             form={form}
             name='ThirdPartyForm'
             className='ThirdPartyForm'
-            onValuesChange={handleChange}
+            // onValuesChange={handleChange}
           >
 
             <Form.Item
@@ -197,7 +206,7 @@ const SelectProject = (): JSX.Element => {
               name='url'
               rules={[{ required: true }]}
             >
-              <GSelect placeholder='未选择' >
+              <GSelect placeholder='未选择' onSelect={handleOnSelect}>
                 {
                   proList.map((o: any) => {
                     return (

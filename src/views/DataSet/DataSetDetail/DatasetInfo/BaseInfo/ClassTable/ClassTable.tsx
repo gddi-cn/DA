@@ -1,20 +1,21 @@
 // import type { PaginationProps } from 'antd';
 import { Pagination } from 'antd';
-import api from '@api'
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { isEmpty, isNil } from 'lodash';
+
+import { useMemo } from 'react';
+import { isEmpty } from 'lodash';
 import { ReactCusScrollBar } from '@src/UIComponents'
 import type { Dispatch, SetStateAction } from 'react'
-import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
+// import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import './ClassTable.module.less'
 
 type Props = {
   // version: any,
-  whichSet: string,
+  // whichSet: string,
   setClassInfo: Dispatch<SetStateAction<any>>,
   classInfo: any,
   currentSet:any,
-  datasetInfo: Data,
+
+  statistic:any
 }
 
 type ItemProps<T> = {
@@ -62,39 +63,7 @@ function BodyItem<T extends DataItem> (props: ItemProps<T>) {
 }
 
 const ClassTable = (props: Props): JSX.Element => {
-  const { datasetInfo, currentSet, classInfo, setClassInfo } = props
-
-  const [statistic, setStatistic] = useState<any>({})
-
-  // const lastwhichSet = useRef(whichSet)
-
-  // 统计信息、标签之类的
-  const fetStatistics = useCallback(
-    async () => {
-      try {
-        if (isNil(datasetInfo?.id)) {
-          return
-        }
-        const res = await api.get(`/v3/datasets/${datasetInfo?.id}/sub-datasets/${currentSet?.id}/classes`, {
-          params: {
-            page: 1, page_size: 999
-          }
-        })
-
-        if (res.code === 0) {
-          setStatistic(res.data || {})
-          if (res.data) {
-            setClassInfo(res.data[0])
-          }
-        }
-      } catch (e) {
-
-      }
-    }, [currentSet?.id, datasetInfo?.id, setClassInfo]
-  )
-  useEffect(() => {
-    fetStatistics()
-  }, [fetStatistics])
+  const { currentSet, classInfo, setClassInfo, statistic } = props
 
   const Header = () => {
     return (

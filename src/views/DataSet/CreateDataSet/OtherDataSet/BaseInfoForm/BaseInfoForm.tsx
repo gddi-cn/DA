@@ -1,7 +1,7 @@
 
 import { FooterBar, GButton, UploadFile, GSelect } from '@src/UIComponents'
 import { useMemo, useEffect } from 'react'
-import { Form, Input, Select } from 'antd'
+import { Form, Input, Select, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import {
   APP_THIRDPARTY_STEP_2,
@@ -11,6 +11,7 @@ import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import { socketPushMsgForProject } from '@ghooks'
+import api from '@api'
 import './BaseInfoForm.module.less'
 
 const { Option } = Select
@@ -32,6 +33,16 @@ const BaseInfoForm = (): JSX.Element => {
     if (activePipeLine.APP_THIRDPARTY_STEP_3) {
       const FROM_DATA = activePipeLine.APP_THIRDPARTY_STEP_3
       form.setFieldsValue(FROM_DATA)
+
+      if (!activePipeLine?.APP_THIRDPARTY_STEP_3?.val_share) {
+        socketPushMsgForProject(activePipeLine, {
+          APP_THIRDPARTY_STEP_3: Object.assign({ ...activePipeLine.APP_THIRDPARTY_STEP_3 }, { val_share: 0.2 })
+        })
+      }
+    } else {
+      socketPushMsgForProject(activePipeLine, {
+        APP_THIRDPARTY_STEP_3: { val_share: 0.2 }
+      })
     }
   }, [activePipeLine, form])
 
@@ -50,21 +61,35 @@ const BaseInfoForm = (): JSX.Element => {
       // 123
       console.log(activePipeLine, '51')
       const data = await form.validateFields()
-      const { APP_THIRDPARTY_STEP_2, APP_THIRDPARTY_SelectTrainType } = activePipeLine
-      const createParams = {
-        ...data,
-        url: APP_THIRDPARTY_STEP_2?.url,
-        scene: APP_THIRDPARTY_SelectTrainType?.activeType
+      try {
+        const { APP_THIRDPARTY_STEP_2, APP_THIRDPARTY_SelectTrainType } = activePipeLine
+        const createParams = {
+          ...data,
+          url: APP_THIRDPARTY_STEP_2?.url,
+          scene: APP_THIRDPARTY_SelectTrainType?.activeType,
+          hash: APP_THIRDPARTY_STEP_2?.md5,
+          filename: APP_THIRDPARTY_STEP_2?.name,
+          size: APP_THIRDPARTY_STEP_2?.size,
+          source: 2
+        }
+        console.log(createParams)
+        const creteDatares = await api.post('/v3/datasets', createParams);
+        console.log(creteDatares, 'creteDatares')
+        if (creteDatares.code === 0) {
+          console.log('90909090')
 
+          message.success('创建数据集成功')
+          navigate({
+            pathname: APP_THIRDPARTY_STEP_4
+          })
+
+          socketPushMsgForProject(activePipeLine, {
+            active_page: SNAPSHOT_KEY_OF_ROUTER.APP_THIRDPARTY_STEP_4
+          })
+        }
+      } catch (e) {
+        console.error(e)
       }
-      console.log(createParams)
-      // navigate({
-      //   pathname: APP_THIRDPARTY_STEP_4
-      // })
-
-      // socketPushMsgForProject(activePipeLine, {
-      //   active_page: SNAPSHOT_KEY_OF_ROUTER.APP_THIRDPARTY_STEP_4
-      // })
     }
 
     return (
@@ -105,7 +130,7 @@ const BaseInfoForm = (): JSX.Element => {
             rules={[{ required: true }]}
           >
 
-            <GSelect defaultValue={0.2} style={{ width: '100%' }} >
+            <GSelect style={{ width: '100%' }} >
               <Option value={0.3}>7:3</Option>
               <Option value={0.2}>8:2（推荐使用）</Option>
               <Option value={0.1}>9:1</Option>

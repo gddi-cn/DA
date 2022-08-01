@@ -1,5 +1,5 @@
 
-import echarts from 'echarts'
+import * as echarts from 'echarts'
 
 export const getOptions = (items) => {
   const dataAxis = items.map((o, i) => {

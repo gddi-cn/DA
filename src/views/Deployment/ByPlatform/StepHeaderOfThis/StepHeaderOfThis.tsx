@@ -3,8 +3,26 @@ import { ReactComponent as Arrow } from './icon/arrow.svg'
 import { ReactComponent as Shujuleixing } from './icon/应用模版-active.svg'
 import { ReactComponent as Jichuxingxin } from './icon/设置-default.svg'
 import { ReactComponent as Shangchuan } from './icon/设备-default.svg'
+import { useLocation } from 'react-router-dom';
+import {
+  APP_AfterDeployed,
+  APP_SelectModule,
+  APP_SetModuleConfig,
+  APP_ForecastModule,
+  APP_SelectDevice
+} from '@router'
 
 import './StepHeaderOfThis.module.less'
+
+const pathkeys: {
+  [index: string]: number
+} = {
+  [APP_SelectModule]: 1,
+  [APP_SetModuleConfig]: 2,
+  [APP_ForecastModule]: 2,
+  [APP_SelectDevice]: 3,
+  [APP_AfterDeployed]: 4,
+}
 
 type StepItem = {
     label: string,
@@ -36,10 +54,12 @@ const local_tab_list: StepItem[] = [
 
 //     activeKey: number
 // }
-const activeKey = 1
+
 const StepHeaderOfThis = (): JSX.Element => {
 //   const { activeKey = 1 } = props
-
+  const location = useLocation()
+  const { pathname } = location
+  const activeKey = pathkeys[pathname] || 1
   const data: StepItem[] = local_tab_list
 
   const StepItem = (step_data: StepItem) => {

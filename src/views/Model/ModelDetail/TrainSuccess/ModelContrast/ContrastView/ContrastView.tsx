@@ -25,7 +25,7 @@ const FormView = (props: any) => {
                 <div className='FormView_body_item_wrap' key={i}>
                   <div className='FormView_body_item'>{o.tag}</div>
                   <div className='FormView_body_item'>{o.dataset_name}</div>
-                  <div className='FormView_body_item'>{o.threshold}</div>
+                  <div className='FormView_body_item'>{o.threshold / 100}</div>
                   <div className='FormView_body_item'>{(+o.accuracy).toFixed(2)}%</div>
                   <div className='FormView_body_item'>{(+o.recall).toFixed(2)}%</div>
                   <div className='FormView_body_item'>{(+o.fScore).toFixed(2)}%</div>

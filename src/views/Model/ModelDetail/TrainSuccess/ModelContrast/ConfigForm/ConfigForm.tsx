@@ -10,7 +10,7 @@ const { Option } = Select;
 
 const children: React.ReactNode[] = [];
 for (let i = 1; i <= 100; i++) {
-  children.push(<Option key={i} value={i}>{i}</Option>);
+  children.push(<Option key={i} value={i}>{i / 100}</Option>);
 }
 
 const ConfigForm = (props:any): JSX.Element => {
