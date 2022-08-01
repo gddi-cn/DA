@@ -52,6 +52,7 @@ const DataSetIndex = (): JSX.Element => {
     const handleNext = () => {
       if (isEmpty(selectData) || isNil(selectData)) {
         message.warning('请选择数据集')
+        return
       }
       // const search = Qs.stringify({ id: selectData?.id, version_id: selectData?.latest_version?.id })
       socketPushMsgForProject(

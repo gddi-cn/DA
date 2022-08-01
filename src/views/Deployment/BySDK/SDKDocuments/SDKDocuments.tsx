@@ -1,10 +1,9 @@
 import { GIconInput } from '@src/UIComponents'
-import { useState } from 'react'
+import { useDeferredValue, useState } from 'react'
 
 import './SDKDocuments.module.less'
 
 const CusRdio = (props:any) => {
-  console.log(props)
   const { value, setChipType } = props
 
   const handleSelect = (v:string) => {
@@ -12,7 +11,6 @@ const CusRdio = (props:any) => {
   }
 
   const getActiveCls = (v:string) => {
-    console.log(v)
     if (v === value) {
       return 'item_active'
     }
@@ -27,12 +25,61 @@ const CusRdio = (props:any) => {
   )
 }
 
+const SDK_DOCS = [
+  {
+    name: '华为海思',
+    src: 'https://s3.local.cdn.desauto.net/public/docs/Huawei_hisi.pdf'
+  },
+  {
+    name: '华为昇腾',
+    src: 'https://s3.local.cdn.desauto.net/public/docs/Huawei_ascend.pdf'
+  },
+  {
+    name: '寒武纪',
+    src: 'https://s3.local.cdn.desauto.net/public/docs/Cambricon.pdf'
+  },
+
+  {
+    name: '算能SE5',
+    src: 'https://s3.local.cdn.desauto.net/public/docs/SOPHGO_se5.pdf'
+  },
+  {
+    name: '英伟达',
+    src: 'https://s3.local.cdn.desauto.net/public/docs/Nvidia.pdf'
+  },
+  {
+    name: '英特尔',
+    src: 'https://s3.local.cdn.desauto.net/public/docs/Intel.pdf'
+  },
+
+  {
+    name: '瑞芯微',
+    src: 'https://s3.local.cdn.desauto.net/public/docs/Rockchip.pdf'
+  },
+  {
+    name: '星宸',
+    src: 'https://s3.local.cdn.desauto.net/public/docs/Sigmastar.pdf'
+  },
+]
+
 const SDKDocuments = (): JSX.Element => {
   const [chipType, setChipType] = useState('x86')
 
+  const [pdfList, setPdfList] = useState(SDK_DOCS)
+
+  const deferList = useDeferredValue(pdfList)
+
   const handleSearch = (v: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(v)
+    const value = v.target.value
+    console.log(value)
+    if (value) {
+      const list = SDK_DOCS.filter((o) => o.name.includes(value))
+      setPdfList(list)
+    } else {
+      setPdfList(SDK_DOCS)
+    }
   }
+
   return (
     <div styleName='SDKDocuments'>
       <div className='search_header'>
@@ -43,22 +90,17 @@ const SDKDocuments = (): JSX.Element => {
         </div>
       </div>
       <div className='body_list'>
-        <div className='list_item'>
-          <div className='file_name'>XXX芯片</div>
-          <a className='down_load'>下载</a>
-        </div>
-        <div className='list_item'>
-          <div className='file_name'>XXX芯片</div>
-          <a className='down_load'>下载</a>
-        </div>
-        <div className='list_item'>
-          <div className='file_name'>XXX芯片</div>
-          <a className='down_load'>下载</a>
-        </div>
-        <div className='list_item'>
-          <div className='file_name'>XXX芯片</div>
-          <a className='down_load'>下载</a>
-        </div>
+        {
+          deferList.map((data, index) => {
+            return (
+              <div className='list_item' key={index}>
+                <div className='file_name'>{data.name}</div>
+                <a className='down_load' href={data.src} target='_blank' rel="noreferrer">下载</a>
+              </div>
+            )
+          })
+        }
+
       </div>
     </div>
   )

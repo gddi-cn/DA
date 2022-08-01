@@ -51,6 +51,9 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
     if (activePipeLine?.APP_DATA_SET_INDEX) {
       setActiveId(activePipeLine?.APP_DATA_SET_INDEX?.id)
       setSelectData(activePipeLine?.APP_DATA_SET_INDEX)
+    } else {
+      setActiveId('')
+      setSelectData({})
     }
   }, [activePipeLine, setSelectData])
 
@@ -122,7 +125,8 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
     setSelectData(data)
     socketPushMsgForProject(activePipeLine, {
       // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL,
-      APP_DATA_SET_INDEX: data
+      APP_DATA_SET_INDEX: data,
+      APP_DATASET_DETAIL: { id: data?.id }
     })
   }, [setSelectData, activePipeLine])
 

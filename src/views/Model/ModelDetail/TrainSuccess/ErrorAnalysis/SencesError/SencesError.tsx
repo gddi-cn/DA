@@ -7,6 +7,10 @@ import { processEchartsData } from './processLabelArt'
 import ListView from '../ListView'
 import SlickView from '../SlickView'
 import { objectToArray } from '../../utils'
+import { socketPushMsgForProject } from '@ghooks'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './SencesError.module.less'
 
 const SencesError = (props: any): JSX.Element => {
@@ -20,6 +24,10 @@ const SencesError = (props: any): JSX.Element => {
   const deferBboxList = useDeferredValue(BboxList)
 
   const [viewType, setViewType] = useState<string>('grid')
+
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
 
   useEffect(() => {
     const list = processEchartsData(data)
@@ -59,6 +67,13 @@ const SencesError = (props: any): JSX.Element => {
     return ReactComp[viewType] || null
   }, [deferBboxList, viewType])
 
+  const handleGotoDataDetail = () => {
+    socketPushMsgForProject(activePipeLine, {
+      // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL,
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL
+    })
+  }
+
   return (
     <div styleName='SencesError'>
       <TopErrorList dataList={dataList} selectError={selectError} titleText={`TOP${dataList.length} 识别错误的场景`} />
@@ -68,7 +83,7 @@ const SencesError = (props: any): JSX.Element => {
             该类需{currentData?.advice}
           </div>
           <div className='right_wrap'>
-            <SmallButton type='nomal'>补充数据</SmallButton>
+            <SmallButton type='nomal' onClick={handleGotoDataDetail}>补充数据</SmallButton>
             <TypeSettingBotton onChange={handleonChange}></TypeSettingBotton>
           </div>
         </div>

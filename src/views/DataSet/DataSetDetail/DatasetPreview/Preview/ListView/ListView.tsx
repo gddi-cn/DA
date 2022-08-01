@@ -64,7 +64,7 @@ const ListView = (props: Props): JSX.Element => {
           }
         }
         lastId.current = currentId
-        const res = await api.get(`/v3/datasets/${id}/sub-datasets/${currentId}/images`, { params: { ...params.current, name } })
+        const res = await api.get(`/v3/datasets/${id}/sub-datasets/${currentId}/images`, { params: { ...params.current, class: name } })
         if (res.code === 0) {
           const { items, total } = res.data
 
