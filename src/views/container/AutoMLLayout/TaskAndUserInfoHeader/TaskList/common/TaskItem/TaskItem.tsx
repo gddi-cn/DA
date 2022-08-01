@@ -1,6 +1,6 @@
 
 import { Popover } from 'antd'
-import { hiddenActiveTask, checkoutTask } from '@reducer/tasksSilce'
+import { hiddenActiveTask, checkoutTask, saveActivePipeLine } from '@reducer/tasksSilce'
 import { useDispatch, useSelector } from 'react-redux'
 // import { useDebounceFn } from 'ahooks'
 import { CloseOutlined } from '@ant-design/icons'
@@ -20,6 +20,9 @@ type Props = {
 const TaskItem = (props: Props): JSX.Element => {
   const activeTaskInfo = useSelector((state: RootState) => {
     return state.tasksSilce.activeTaskInfo
+  })
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine
   })
   const taskList = useSelector((state: RootState) => {
     return state.tasksSilce.taskList
@@ -58,6 +61,9 @@ const TaskItem = (props: Props): JSX.Element => {
   const handleCheckoutTask = () => {
     console.log(1)
     dispatch(checkoutTask(data))
+    // 去某些不在流程页面的时候需要回来，这个强推
+    // 性能啥的就忽略吧，PPT就别太纠结了是吧
+    dispatch(saveActivePipeLine({ ...activePipeLine }))
   }
 
   const getCls = () => {
