@@ -3,7 +3,7 @@ import * as echarts from 'echarts'
 
 export const getOptions = (items) => {
   const dataAxis = items.map((o, i) => {
-    return o.class_name
+    return o.name
   });
   const data = items.map((o, i) => {
     return o.annotation_count
