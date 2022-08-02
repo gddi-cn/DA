@@ -8,11 +8,13 @@ import './TaskAndUserInfoHeader.module.less'
 
 const TaskAndUserInfoHeader = (): JSX.Element => {
   const naviagte = useNavigate()
+
   const gotoGuide = () => {
     naviagte({
       pathname: APP_GUIDE_PAGE
     })
   }
+
   return (
     <div styleName='TaskAndUserInfoHeader'>
       <div className='logo_wrap' onClick={gotoGuide}>

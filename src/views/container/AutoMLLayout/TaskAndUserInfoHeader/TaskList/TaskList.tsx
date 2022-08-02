@@ -10,6 +10,7 @@ import { APP_GUIDE_PAGE } from '@router'
 import { useNavigate } from 'react-router-dom'
 import './TaskList.module.less'
 import { isEmpty } from 'lodash'
+// import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
 const TaskList = (): JSX.Element => {
   const navigate = useNavigate()
@@ -30,11 +31,12 @@ const TaskList = (): JSX.Element => {
 
   useEffect(() => {
     if (isEmpty(taskList)) {
+      // dispatch(saveActivePipeLine({ active_page: SNAPSHOT_KEY_OF_ROUTER.APP_GUIDE_PAGE }))
       navigate({
         pathname: APP_GUIDE_PAGE
       })
     }
-  }, [navigate, taskList])
+  }, [navigate, taskList, dispatch])
 
   const Add_tbn = useMemo(() => {
     return <AddButton />

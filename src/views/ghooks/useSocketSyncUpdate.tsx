@@ -15,6 +15,8 @@ export const useSocketSyncUpdate = () => {
   const wsInstance = useRef<Ws|null>(null)
   const [loginSuccess, setLoginSuccess] = useState(false)
 
+  const isFirst = useRef(true)
+
   const dispatch = useDispatch()
 
   const navigate = useNavigate()
@@ -31,6 +33,10 @@ export const useSocketSyncUpdate = () => {
   })
 
   useEffect(() => {
+    if (isFirst.current) {
+      isFirst.current = false
+      return
+    }
     if (isNil(activePipeLine)) {
       setLoading(true)
     } else {
@@ -138,6 +144,9 @@ export const useSocketSyncUpdate = () => {
         })
       }
     } else {
+      // if (window.location.pathname === APP_GUIDE_PAGE) {
+      //   return
+      // }
       // 不存在就去数据
       navigate({
         pathname: APP_DATA_SET_INDEX
