@@ -5,13 +5,14 @@ import { Input } from 'antd'
 import './GIconInput.module.less'
 
 const GIconInput = (props: InputProps): JSX.Element => {
+  const { className, ...rest } = props
   return (
-    <div styleName='GIconInput'>
+    <div styleName='GIconInput' className={className}>
       <div className='input_wrap'>
         <div className='icon_wrap'>
           <SearchOutlined />
         </div>
-        <Input {...props} />
+        <Input {...rest} />
       </div>
     </div>
   )

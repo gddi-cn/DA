@@ -44,6 +44,8 @@ import ModelOpreationTitle from './ModelOpreationTitle'
 
 import TransitionAnimation from './TransitionAnimation'
 
+import CusRadio from './CusRadio'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -65,5 +67,6 @@ export {
   GIconInput,
   IsEchartViewButton,
   ModelOpreationTitle,
-  TransitionAnimation
+  TransitionAnimation,
+  CusRadio
 }

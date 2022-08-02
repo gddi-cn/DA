@@ -3,7 +3,7 @@ import { useDeferredValue, useState } from 'react'
 
 import './SDKDocuments.module.less'
 
-const CusRdio = (props:any) => {
+const CusRadio = (props:any) => {
   const { value, setChipType } = props
 
   const handleSelect = (v:string) => {
@@ -86,7 +86,7 @@ const SDKDocuments = (): JSX.Element => {
         <div className='header_title'>选择芯片下载SDK压缩包</div>
         <div className='params_select_wrap'>
           <div className='SDKDocuments_input'><GIconInput placeholder='搜索芯片名称' onChange={handleSearch}></GIconInput></div>
-          <CusRdio value={chipType} setChipType={setChipType}></CusRdio>
+          <CusRadio value={chipType} setChipType={setChipType}></CusRadio>
         </div>
       </div>
       <div className='body_list'>

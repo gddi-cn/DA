@@ -1,14 +1,24 @@
 .SelectCreateType {
     width: 100%;
     height: calc(100vh - 50px);
-    overflow-y: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #fff;
 
     :global {
+
+        .SelectCreateType_wrap {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #fff;
+            width: 100%;
+        }
+
         .title {
             font-weight: 600;
             font-size: 42px;

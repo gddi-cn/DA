@@ -1,8 +1,8 @@
 
-import { TagRadioSelect, FooterBar, GButton } from '@src/UIComponents'
+import { TagRadioSelect, FooterBar, GButton, GIconInput, CusRadio } from '@src/UIComponents'
 import DatasetList from './DatasetList'
 import { MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
-import { useMemo, useRef, useState } from 'react'
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { isEmpty, isNil } from 'lodash'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
@@ -33,9 +33,20 @@ const DataSetIndex = (): JSX.Element => {
 
   const [selectData, setSelectData] = useState<any>({})
 
+  const [datasetName, setDatasetName] = useState<any>(undefined)
+
+  const deferName = useDeferredValue(datasetName)
+  const [isPublic, setIsPublic] = useState('2')
+
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
+
+  useEffect(() => {
+    if (paramsChangeAndFetch.current) {
+      paramsChangeAndFetch.current({ name: deferName }, { isInit: true })
+    }
+  }, [deferName])
 
   const handleOnChange = (data:any) => {
     let _id = data.id
@@ -71,10 +82,38 @@ const DataSetIndex = (): JSX.Element => {
     )
   }
 
+  const handleCusRadioChange = (value:string) => {
+    setIsPublic(value)
+
+    if (value === '1') {
+      if (paramsChangeAndFetch.current) {
+        paramsChangeAndFetch.current({ is_public: true }, { isInit: true })
+      }
+    } else {
+      if (paramsChangeAndFetch.current) {
+        paramsChangeAndFetch.current({ is_public: false }, { isInit: true })
+      }
+    }
+  }
+  const handleSearch = (v: React.ChangeEvent<HTMLInputElement>) => {
+    const value = v.target.value
+    setDatasetName(value)
+  }
   return (
     <div styleName='DataSetIndex' className='maxWidthAuto' >
 
       <div className='dataset_list_header'>
+        <GIconInput className='dataset_name_search' placeholder='请输入数据集名称' onChange={handleSearch} allowClear/>
+        <CusRadio
+          className='CusRadio_wrap'
+          value={isPublic}
+          onChange={handleCusRadioChange}
+          options={
+            [
+              { label: '公开数据集', value: '1' }, { label: '私有数据集', value: '2' }
+            ]
+          }
+        />
         <TagRadioSelect dataList={dataList} onChange={handleOnChange} value="all"/>
       </div>
 

@@ -1,0 +1,40 @@
+.CusRadio {
+    display: flex;
+
+    align-items: center;
+    cursor: pointer;
+    margin-left: 20px;
+    font-size: 14px;
+
+
+
+    :global {
+
+
+        .radio_wrap {
+            padding: 2px 10px;
+
+
+            border: 1px solid #3693D1;
+
+
+            &:nth-child(1) {
+                border-radius: 20px 0 0 20px;
+                border-right: none;
+            }
+
+            &:nth-child(2) {
+                border-radius: 0px 20px 20px 0px;
+            }
+
+        }
+
+
+
+        .item_active {
+            background-color: #3693D1;
+            color: #fff;
+            transition: all 0.3s;
+        }
+    }
+}

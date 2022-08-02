@@ -21,7 +21,9 @@ export type FectData = {
 type Params = {
   page?: number,
   page_size?: number,
-  scene?: undefined | string
+  scene?: undefined | string,
+  is_public: boolean,
+  name: undefined | string,
 }
 
 type Props = {
@@ -36,7 +38,9 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
   const params = useRef({
     page: 1,
     page_size: 30,
-    scene: undefined
+    scene: undefined,
+    is_public: false,
+    name: undefined
   })
   const [datasetList, setDatasetList] = useState<Array<any>>([])
   const [datasetTotal, setDatasetTotal] = useState(0)
@@ -87,6 +91,8 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
 
           if (!isNil(items)) {
             setDatasetList([..._datasetList.concat(items)])
+          } else {
+            setDatasetList([])
           }
           setDatasetTotal(total)
           funcInfo?.callback && funcInfo.callback()
@@ -157,7 +163,7 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
                 scrollableTarget={document.getElementById('scrollableDiv')?.firstChild as any}
               >
 
-                <div className='list_wrap'>
+                <div className={datasetTotal >= 5 ? 'list_wrap' : 'less_data_list_wrap'}>
                   <>
                     {
                       addBtn
