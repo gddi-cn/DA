@@ -81,7 +81,8 @@ function* addActiveTaskGen (): any {
       name: '未命名'
     }))
     if (res?.code === 0) {
-    //   const { items } = res.data
+      console.log(res.data, 'res.data')
+      yield put(checkoutTask(res.data || {}))
       yield put(getTaskActiveList(null))
     } else {
       // message.warning('G了')
