@@ -44,7 +44,7 @@ function* fetchTaskActiveList (action:any):any {
       yield put(saveTaskActiveList(list))
 
       if (!isEmpty(list)) {
-        if (!isNil(action.payload)) {
+        if (!isNil(action?.payload)) {
           return
         }
         const activeTaskInfo: TaskSlice.taskListItem = yield select(
@@ -80,7 +80,6 @@ function* addActiveTaskGen (): any {
       name: '未命名'
     }))
     if (res?.code === 0) {
-      console.log(res.data, 'res.data')
       yield put(saveActivePipeLineLoading(true))
 
       yield * fetchTaskActiveList(null)
@@ -168,8 +167,8 @@ function* modifyActiveTaskGen (action: any): any {
 
     if (res?.code === 0) {
       //   const { items } = res.data
+      yield put(checkoutTask(res.data))
       yield * fetchTaskActiveList(null)
-      // yield put(checkoutTask(data))
     } else {
       // message.warning('G了')
     }

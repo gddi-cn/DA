@@ -5,6 +5,10 @@ import { isNil } from 'lodash'
 export const socketPushMsgForProject = (activePipeLine: TaskSlice.PipeLine, new_data: TaskSlice.PipeLine) => {
   console.log('这就很尴尬了')
   try {
+    if (isNil(activePipeLine)) {
+      message.warning('请推送有效的信息')
+      return
+    }
     if (isNil(new_data)) {
       message.warning('请推送有效的信息')
       return

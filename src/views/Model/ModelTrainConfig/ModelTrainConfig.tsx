@@ -15,13 +15,12 @@ import { getTaskActiveList } from '@reducer/tasksSilce'
 // APP_MODEL_TRAIN_DETAIL
 
 import { socketPushMsgForProject } from '@ghooks'
-import { isEmpty } from 'lodash'
+import { isEmpty, clamp } from 'lodash'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@reducer/index'
 import './ModelTrainConfig.module.less'
 
-const taskType = 'detection'
 const ModelTrainConfig = (): JSX.Element => {
   const dispath = useDispatch()
   const navigate = useNavigate()
@@ -31,11 +30,16 @@ const ModelTrainConfig = (): JSX.Element => {
   // const [selected, setSelected] = useState<ModelTrainConfigType.ChipFetchResItem>({})
 
   const [maxFps, setMaxFps] = useState(30)
+  const [channelLimited, setChannelLimited] = useState(1)
 
   const [nextLoading, setNextLoading] = useState(false)
 
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
+  })
+
+  const task_scene = useSelector((state: RootState) => {
+    return state.tasksSilce?.activePipeLine?.APP_DATA_SET_INDEX?.scene || ''
   })
 
   const activeTaskInfo = useSelector((state: RootState) => {
@@ -46,6 +50,7 @@ const ModelTrainConfig = (): JSX.Element => {
     if (!isEmpty(activePipeLine?.APP_MODEL_TRAIN_CONFIG)) {
       formInstance.setFieldsValue(activePipeLine?.APP_MODEL_TRAIN_CONFIG)
       setMaxFps(activePipeLine?.APP_MODEL_TRAIN_CONFIG?.chip_info?.fps_limited)
+      setChannelLimited(activePipeLine?.APP_MODEL_TRAIN_CONFIG?.chip_info?.channel_limited)
     }
   }, [activePipeLine, formInstance])
 
@@ -80,12 +85,15 @@ const ModelTrainConfig = (): JSX.Element => {
     async (params:{
         brand: string, chip_type: string, name: string
     }) => {
+      if (!task_scene) {
+        return
+      }
       try {
         // const checkedType = ['monocular_3d_detection'].includes(taskType)
         // const application = checkedType ? 'cloud' : '-'
         const res = await api.get('/v3/capacity/-/chips', {
           params: {
-            ...params, task_type: taskType
+            ...params, task_type: task_scene
           }
         })
         if (res.code === 0) {
@@ -95,7 +103,7 @@ const ModelTrainConfig = (): JSX.Element => {
       } catch (e) {
 
       }
-    }, []
+    }, [task_scene]
   )
 
   useEffect(() => {
@@ -215,12 +223,19 @@ const ModelTrainConfig = (): JSX.Element => {
       if (changeValues.chip_info) {
         const { chip_info } = changeValues
         const _fpsmax = chip_info.fps_limited || 30
-        setMaxFps(_fpsmax)
 
+        const _channel = chip_info.channel_limited || 1
+
+        // const channel = clamp(_channel, 1, _channel)
+
+        const _fps = _fpsmax > 5 ? 5 : _fpsmax
+        const clampChannel = clamp(Math.floor(_fpsmax / _fps), 1, _channel)
+        setMaxFps(_fpsmax)
+        setChannelLimited(_channel)
         const _data = Object.assign(all_values, {
           mode: 2,
-          fps: 5,
-          channel: Math.floor(_fpsmax / 5)
+          fps: _fps,
+          channel: clampChannel
         })
         socketPushMsgForProject(
           activePipeLine, {
@@ -232,8 +247,8 @@ const ModelTrainConfig = (): JSX.Element => {
       }
 
       if (changeValues.fps) {
-        const channel = Math.floor((maxFps / +changeValues.fps))
-
+        const _channel = Math.floor((maxFps / +changeValues.fps))
+        const channel = clamp(_channel, 1, channelLimited)
         const _data = Object.assign(all_values, {
           channel
         })
@@ -248,8 +263,8 @@ const ModelTrainConfig = (): JSX.Element => {
         const { mode } = changeValues
         if (mode === 1) {
           const _fps = maxFps > 25 ? 25 : maxFps
-          const channel = Math.floor((maxFps / _fps))
-
+          const _channel = Math.floor((maxFps / _fps))
+          const channel = clamp(_channel, 1, channelLimited)
           const _data = Object.assign(all_values, {
             fps: _fps, channel
           })
@@ -260,8 +275,9 @@ const ModelTrainConfig = (): JSX.Element => {
           )
         } else if (mode === 2) {
           const _fps = maxFps > 5 ? 5 : maxFps
-          const channel = Math.floor((maxFps / _fps))
-
+          const _channel = Math.floor((maxFps / _fps))
+          console.log(_channel, 275)
+          const channel = clamp(_channel, 1, channelLimited)
           const _data = Object.assign(all_values, {
             fps: _fps, channel
           })
@@ -272,7 +288,8 @@ const ModelTrainConfig = (): JSX.Element => {
           )
         } else {
           const _fps = maxFps > 5 ? 5 : maxFps
-          const channel = Math.floor((maxFps / _fps))
+          const _channel = Math.floor((maxFps / _fps))
+          const channel = clamp(_channel, 1, channelLimited)
           const _data = Object.assign(all_values, {
             fps: 5, channel
           })
@@ -290,7 +307,7 @@ const ModelTrainConfig = (): JSX.Element => {
         }
       )
       // 如果变得芯片,应该初始化左边数据
-    }, [activePipeLine, maxFps]
+    }, [activePipeLine, maxFps, channelLimited]
   )
   return (
     <div styleName='ModelTrainConfig'>

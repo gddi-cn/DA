@@ -87,6 +87,7 @@ export const useSocketSyncUpdate = () => {
     }
 
     if (wsInstance.current) {
+      console.log(activeTaskInfo_id, '新建立')
       const _topic = `project.snap.${activeTaskInfo_id}`
 
       wsInstance.current?.send(JSON.stringify({

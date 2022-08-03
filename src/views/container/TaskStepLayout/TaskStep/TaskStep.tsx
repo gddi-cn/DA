@@ -30,6 +30,7 @@ import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
 import './TaskStep.module.less'
+import { isNil } from 'lodash'
 
 const DATASET_ACTIVE = [
   APP_DATA_SET_INDEX,
@@ -71,7 +72,7 @@ const TaskStep = (): JSX.Element => {
   const handleDatasetClick = () => {
     // 如果未训练能点可能是张宇那边数据问题
     if (activeTaskInfo?.model?.id) {
-      if (activePipeLine) {
+      if (!isNil(activePipeLine)) {
         socketPushMsgForProject(
           activePipeLine,
           {
@@ -83,17 +84,19 @@ const TaskStep = (): JSX.Element => {
           }
         )
       }
-    } else {
-      if (activePipeLine) {
-        socketPushMsgForProject(
-          activePipeLine,
-          {
-            active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
-
-          }
-        )
-      }
     }
+
+    // else {
+    //   if (activePipeLine) {
+    //     socketPushMsgForProject(
+    //       activePipeLine,
+    //       {
+    //         active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
+
+    //       }
+    //     )
+    //   }
+    // }
   }
 
   // 存在可以去看model详情、不存在则判断是不是选了数据了，有数据的情况下可以

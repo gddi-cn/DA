@@ -27,7 +27,6 @@ const fns = {
 
     state.activeTaskInfo = action.payload
 
-    state.activePipeLine = null
     // state.activeStep = 'dataset'
   },
   // 修改名字

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 // import type { Dispatch, SetStateAction } from 'react'
 import './TaskItem.module.less'
 import { useMemo } from 'react'
+import { isNil } from 'lodash'
 
 type Props = {
   data: TaskSlice.taskListItem,
@@ -63,6 +64,10 @@ const TaskItem = (props: Props): JSX.Element => {
     dispatch(checkoutTask(data))
     // 去某些不在流程页面的时候需要回来，这个强推
     // 性能啥的就忽略吧，PPT就别太纠结了是吧
+    // 神奇Bug
+    if (isNil(activePipeLine)) {
+      return
+    }
     dispatch(saveActivePipeLine({ ...activePipeLine }))
   }
 
