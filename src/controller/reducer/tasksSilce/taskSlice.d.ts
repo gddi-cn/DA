@@ -113,6 +113,7 @@ declare namespace TaskSlice {
 
         activeTaskInfo: Partial<taskListItem>,
 
-        activePipeLine: PipeLine|null
+        activePipeLine: PipeLine|null,
+        activePipeLineLoading: boolean
     }
 }

@@ -11,11 +11,11 @@ import { useNavigate } from 'react-router-dom'
 import { isNil } from 'lodash'
 // 全局的sokcet更新
 export const useSocketSyncUpdate = () => {
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const wsInstance = useRef<Ws|null>(null)
   const [loginSuccess, setLoginSuccess] = useState(false)
 
-  const isFirst = useRef(true)
+  // const isFirst = useRef(true)
 
   const dispatch = useDispatch()
 
@@ -32,17 +32,17 @@ export const useSocketSyncUpdate = () => {
     return null
   })
 
-  useEffect(() => {
-    if (isFirst.current) {
-      isFirst.current = false
-      return
-    }
-    if (isNil(activePipeLine)) {
-      setLoading(true)
-    } else {
-      setLoading(false)
-    }
-  }, [activePipeLine])
+  // useEffect(() => {
+  //   if (isFirst.current) {
+  //     isFirst.current = false
+  //     return
+  //   }
+  //   if (isNil(activePipeLine)) {
+  //     setLoading(true)
+  //   } else {
+  //     setLoading(false)
+  //   }
+  // }, [activePipeLine])
 
   useEffect(() => {
     try {
@@ -166,5 +166,5 @@ export const useSocketSyncUpdate = () => {
     // 如果页面不同、就navigate到页面
   }, [])
 
-  return [loading]
+  // return [loading]
 }

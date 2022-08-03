@@ -15,7 +15,8 @@ const initialState: TaskSlice.TaskState = {
   taskList: [],
   // 激活任务项数据、方便后边取
   activeTaskInfo: {},
-  activePipeLine: null
+  activePipeLine: null,
+  activePipeLineLoading: false
 
 }
 
@@ -28,7 +29,7 @@ const tasksSilce = createSlice({
 const { actions } = tasksSilce
 // 导出不允许直接丢啊、算了算了
 const {
-  checkoutTask, saveTaskActiveList, saveActivePipeLine
+  checkoutTask, saveTaskActiveList, saveActivePipeLine, saveActivePipeLineLoading
 } = actions
 
 // 好像不见得需要初始化、留着吧
@@ -51,7 +52,8 @@ export {
   addActiveTask,
   saveActivePipeLine,
   // modifyTaskName,
-  checkoutTask
+  checkoutTask,
+  saveActivePipeLineLoading
 }
 
 export default tasksSilce.reducer

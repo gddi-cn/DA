@@ -1,29 +1,54 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import TaskAndUserInfoHeader from './TaskAndUserInfoHeader'
 import { useSocketSyncUpdate } from '@src/views/ghooks'
-import './AutoMLLayout.module.less'
 import { Spin } from 'antd';
-import { useMemo } from 'react';
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
+import { useMemo, useEffect } from 'react';
+import { isEmpty } from 'lodash'
+import { APP_GUIDE_PAGE } from '@router'
+
+import './AutoMLLayout.module.less'
 
 const AutoMLLayout = (): JSX.Element => {
   // const location = useLocation()
+  const navigate = useNavigate()
   // console.log(location.pathname, 'location.pathname')
+  const activePipeLineLoading = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLineLoading
+  })
 
-  const [loading] = useSocketSyncUpdate()
-  const getView = () => {
-    // PPT是不需要性能的
-    if (loading) {
-      return (
-        <div className='transition_div'>
-          <Spin tip='页面加载中' />
-        </div>
-      )
-    } else {
-      return (
-        <Outlet />
-      )
+  const taskList = useSelector((state: RootState) => {
+    return state.tasksSilce.taskList
+  })
+  useEffect(() => {
+    console.log(taskList, '所以这就是去主页嘛')
+    if (isEmpty(taskList)) {
+      // dispatch(saveActivePipeLine({ active_page: SNAPSHOT_KEY_OF_ROUTER.APP_GUIDE_PAGE }))
+      navigate({
+        pathname: APP_GUIDE_PAGE
+      })
     }
-  }
+  }, [navigate, taskList])
+
+  useSocketSyncUpdate()
+
+  const getView = useMemo(
+    () => {
+      // PPT是不需要性能的
+      if (activePipeLineLoading) {
+        return (
+          <div className='transition_div'>
+            <Spin tip='页面加载中' />
+          </div>
+        )
+      } else {
+        return (
+          <Outlet />
+        )
+      }
+    }, [activePipeLineLoading]
+  )
 
   // if (taskList.length === 0) {
   //   return <Navigate to={APP_GUIDE_PAGE}/>
@@ -31,7 +56,7 @@ const AutoMLLayout = (): JSX.Element => {
   return (
     <div styleName='AutoMLLayout'>
       {useMemo(() => <TaskAndUserInfoHeader />, [])}
-      {getView()}
+      {getView}
     </div>
   )
 }

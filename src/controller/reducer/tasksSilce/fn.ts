@@ -24,8 +24,10 @@ const fns = {
     // const { reactKey } = action.payload
     // const { taskList } = state
     // const index = findTaskIndexById(reactKey, taskList)
+
     state.activeTaskInfo = action.payload
-    // state.activePipeLine = null
+
+    state.activePipeLine = null
     // state.activeStep = 'dataset'
   },
   // 修改名字
@@ -50,5 +52,11 @@ const fns = {
     // const { data } = action.payload
     state.activePipeLine = action.payload
   },
+
+  saveActivePipeLineLoading: (state: TaskSlice.TaskState, action: PayloadAction<any>) => {
+    // const { data } = action.payload
+    state.activePipeLineLoading = action.payload
+  },
+
 }
 export default fns

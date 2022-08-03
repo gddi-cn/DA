@@ -6,10 +6,11 @@ import {
   checkoutTask,
   hiddenActiveTask,
   visibleActiveTask,
-  modifyActiveTask
+  modifyActiveTask,
+  saveActivePipeLineLoading
 } from '@src/controller/reducer/tasksSilce'
 // import { message } from 'antd'
-import { history, APP_GUIDE_PAGE } from '@router'
+// import { history, APP_GUIDE_PAGE } from '@router'
 import api from '@api'
 import { RootState } from '@reducer'
 import type TaskSlice from '../reducer/tasksSilce/taskSlice'
@@ -57,13 +58,11 @@ function* fetchTaskActiveList (action:any):any {
           // yield put(checkoutTask(_activeInfo))
         } else {
           // 有得话就是拿最新的数据,因为可能被修改了
-          const _activeInfo = list.find((o) => o?.id === activeTaskInfo.id)
-          if (_activeInfo) {
-            yield put(checkoutTask(_activeInfo))
-          }
+          // const _activeInfo = list.find((o) => o?.id === activeTaskInfo.id)
+          // if (_activeInfo) {
+          //   yield put(checkoutTask(_activeInfo))
+          // }
         }
-      } else {
-        history.push({ pathname: APP_GUIDE_PAGE })
       }
     } else {
       // message.warning('G了')
@@ -82,8 +81,13 @@ function* addActiveTaskGen (): any {
     }))
     if (res?.code === 0) {
       console.log(res.data, 'res.data')
+      yield put(saveActivePipeLineLoading(true))
+
+      yield * fetchTaskActiveList(null)
+
       yield put(checkoutTask(res.data || {}))
-      yield put(getTaskActiveList(null))
+
+      yield put(saveActivePipeLineLoading(false))
     } else {
       // message.warning('G了')
     }
@@ -116,11 +120,13 @@ function* hiddenActiveTaskGen (action: any): any {
               activeTaskInfo = taskList[index - 1]
             }
           }
+          yield put(saveActivePipeLineLoading(true))
+          yield * fetchTaskActiveList(null)
           yield put(checkoutTask(activeTaskInfo))
+          yield put(saveActivePipeLineLoading(false))
         }
       }
       //   const { items } = res.data
-      yield put(getTaskActiveList(null))
     } else {
       // message.warning('G了')
     }
@@ -140,8 +146,11 @@ function* visibleActiveTaskGen (action: any): any {
 
     if (res?.code === 0) {
       //   const { items } = res.data
-      yield put(getTaskActiveList(null))
+
+      yield put(saveActivePipeLineLoading(true))
+      yield * fetchTaskActiveList(null)
       yield put(checkoutTask(data))
+      yield put(saveActivePipeLineLoading(false))
     } else {
       // message.warning('G了')
     }
@@ -159,7 +168,7 @@ function* modifyActiveTaskGen (action: any): any {
 
     if (res?.code === 0) {
       //   const { items } = res.data
-      yield put(getTaskActiveList(null))
+      yield * fetchTaskActiveList(null)
       // yield put(checkoutTask(data))
     } else {
       // message.warning('G了')
