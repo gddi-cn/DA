@@ -9,6 +9,7 @@
     "build": "node scripts/build.js",
     "lint": "eslint src",
     "image": " node ./scripts/pushImage.js",
+    "emcc": " node ./scripts/emcc_build_wasm.js",
     "bnp": "node scripts/build.js && node ./scripts/pushImage.js"
   },
   "keywords": [],

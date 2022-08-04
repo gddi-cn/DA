@@ -1,13 +1,20 @@
 import { isNil, isEmpty } from 'lodash'
 
 const getPrecisionSteps = (precisionSteps:any, key:number, index:any) => {
-  if (isNil(precisionSteps) || isEmpty(precisionSteps)) {
+  console.log(key, 'precisionSteps')
+  console.log(precisionSteps[key], 'precisionSteps')
+  try {
+    if (isNil(precisionSteps) || isEmpty(precisionSteps)) {
+      return '-'
+    }
+    return precisionSteps[key][index]
+  } catch (e) {
+    console.error(e)
     return '-'
   }
-  return precisionSteps[key][index]
 }
 export const getTableData = (data: any, filer:any) => {
-  console.log(data)
+  console.log(filer, 'filer')
   if (isNil(data) || isEmpty(data)) {
     return []
   }

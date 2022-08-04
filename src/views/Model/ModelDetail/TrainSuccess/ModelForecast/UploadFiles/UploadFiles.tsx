@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux'
 import { ModelOpreationTitle } from '@src/UIComponents'
 import './UploadFiles.module.less'
 
-const UploadFiles = (): JSX.Element => {
+const UploadFiles = (props:any): JSX.Element => {
+  const { fetchResult } = props
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
@@ -35,9 +36,9 @@ const UploadFiles = (): JSX.Element => {
       )
     }
     return (
-      <CommonUpload thres={thres} setLoading={setLoading} />
+      <CommonUpload thres={thres} setLoading={setLoading} fetchResult={fetchResult}/>
     )
-  }, [thres, model_type])
+  }, [thres, model_type, fetchResult])
   return (
     <div styleName='UploadFiles'>
       <Spin spinning={loading} tip='正在上传文件...'>

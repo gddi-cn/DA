@@ -17,9 +17,9 @@ import { ReactComponent as Rock } from './icon/Rock.svg'
 import { ReactComponent as QUAL } from './icon/QUAL.svg'
 import { ReactComponent as SIGM } from './icon/SIGM.svg'
 import { gsap } from 'gsap'
+import { useEffect } from 'react'
 
 import './GuideHome.module.less'
-import { useEffect } from 'react'
 
 // 这里的开始就是添加一个任务
 const GuideHome = (): JSX.Element => {

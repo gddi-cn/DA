@@ -72,10 +72,10 @@ const ForecastModule = (): JSX.Element => {
             <ModelOpreationTitle text='上传预测文件'/>
             <div className='tips_wrap'>
               <p>
-                              单次预测项目总数量不多于20个，单张图片不大于10 MB，单个视屏不大于100 MB.
+                单次预测项目总数量不多于20个，单张图片不大于10 MB，单个视频不大于100 MB.
               </p>
               <p>
-                              支持.jpg .jpge . png .mp4
+                支持.jpg.jpeg . png .mp4
               </p>
             </div>
             <div>

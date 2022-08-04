@@ -13,7 +13,7 @@ import './commonUpload.module.less'
 const { Dragger } = Upload;
 
 const CommonUpload = (props:any): JSX.Element => {
-  const { thres, setLoading } = props
+  const { thres, setLoading, fetchResult } = props
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
@@ -154,6 +154,10 @@ const CommonUpload = (props:any): JSX.Element => {
                 message: '正在预测',
                 description: '预测需要一定时间, 请耐心等待',
               });
+
+              if (fetchResult) {
+                fetchResult()
+              }
               setLoading(false)
             } else {
               notification.error({

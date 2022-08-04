@@ -26,7 +26,7 @@ const ModelList = () => {
       const res = await api.get('/v3/projects', {
         params: {
           name: deferName,
-          sort: 'asc',
+          sort: 'desc',
           page_size: 4
         }
       })

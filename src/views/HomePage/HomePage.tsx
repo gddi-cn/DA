@@ -3,12 +3,14 @@ import { Button, Switch } from 'antd'
 import { cusTheme } from '@src/utils'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATA_SET_INDEX } from '@router'
+
 import './HomePage.module.less'
 
 const less_dark = require('@src/theme/jsLib/less_dark')
 
 const HomePage = (): JSX.Element => {
   const navigate = useNavigate();
+
   const checkout = () => {
     cusTheme(less_dark)
   }

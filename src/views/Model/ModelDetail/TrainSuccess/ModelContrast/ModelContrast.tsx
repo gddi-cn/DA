@@ -86,7 +86,7 @@ const ModelContrast = (): JSX.Element => {
               modelVersions,
 
             } = tranFormData([res.data])
-
+            // 最初说返回N个版本，现在不需要了，代码预留了，现在懒得改
             raw_data.current = [res.data]
 
             setVersionListSet({

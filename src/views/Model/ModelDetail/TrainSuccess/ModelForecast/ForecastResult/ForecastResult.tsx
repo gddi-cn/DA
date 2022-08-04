@@ -39,7 +39,8 @@ const RenderView = (props: any) => {
   )
 }
 
-const ForecastResult = (): JSX.Element => {
+const ForecastResult = (props:any): JSX.Element => {
+  const { setFetchResult } = props
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
@@ -79,6 +80,11 @@ const ForecastResult = (): JSX.Element => {
       }
     }, [versionInfo]
   )
+
+  useEffect(() => {
+    // react源码还是骚气骚气的
+    setFetchResult(() => fetchData)
+  }, [setFetchResult, fetchData])
 
   useEffect(() => {
     fetchData()

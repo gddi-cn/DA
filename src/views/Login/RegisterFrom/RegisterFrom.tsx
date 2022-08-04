@@ -95,7 +95,7 @@ const RegisterFrom = (props: any): JSX.Element => {
   return (
     <div styleName='RegisterFrom' >
       <AsLink text={<span><LeftOutlined /> 返回登录</span>} onClick={handleGoBack} />
-      <Title text='忘记密码' errText={errMsg} />
+      <Title text='注册' errText={errMsg} />
       <Form
         form={form}
         name='register'

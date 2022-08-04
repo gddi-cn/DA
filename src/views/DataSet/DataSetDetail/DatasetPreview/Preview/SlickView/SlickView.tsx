@@ -82,7 +82,9 @@ const SlickView = (props: Props): JSX.Element => {
             page.current = 1
           }
         }
-
+        if (!name) {
+          return
+        }
         const res = await api.get(`/v3/datasets/${id}/sub-datasets/${currentId}/images`, { params: { ...params.current, page: page.current, class: name } })
         if (res.code === 0) {
           const { items, total } = res.data

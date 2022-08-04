@@ -22,7 +22,7 @@ const LoginWrap = (): JSX.Element => {
 
     const tl = gsap.timeline({ yoyo: true });
     tl.to('.system_name', { duration: 0.5, text: '共达地智能系统' })
-      .to('.system_des', { duration: 0.8, text: '零门槛定制高精度AI模 零代码部署至终端设备' })
+      .to('.system_des', { duration: 0.8, text: '零门槛定制高精度AI模型 零代码部署至终端设备' })
       .fromTo('.breeze', { duration: 0.5, y: -50 }, { duration: 0.5, y: 0 })
   }, [])
 

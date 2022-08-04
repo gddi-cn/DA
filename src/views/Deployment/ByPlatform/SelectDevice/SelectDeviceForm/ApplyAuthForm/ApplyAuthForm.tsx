@@ -34,7 +34,7 @@ const ApplyAuthForm = (props: any): JSX.Element => {
       let params = {}
       if (no_limited) {
         params = {
-          limit: 0, trail_days, app_id
+          limit: -1, trail_days, app_id
         }
       } else {
         params = {
@@ -83,7 +83,7 @@ const ApplyAuthForm = (props: any): JSX.Element => {
               <Space direction="vertical">
                 <Radio value={7}>7天</Radio>
                 <Radio value={14}>14天</Radio>
-                <Radio value={0}>永久</Radio>
+                <Radio value={-1}>永久</Radio>
                 <Radio value={8888}>自定义</Radio>
               </Space>
             </Radio.Group>

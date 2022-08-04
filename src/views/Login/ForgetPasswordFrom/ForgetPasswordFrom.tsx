@@ -56,8 +56,10 @@ const ForgetPasswordFrom = (props: any): JSX.Element => {
     }
   }
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async () => {
     try {
+      const values:any = await form.validateFields()
+      console.log(values)
       delete values.confirm
       setLoading(true)
       const res: any = await api.post('/v1/users/reset-pwd', values);

@@ -44,9 +44,9 @@ const LoginForm = (props: any): JSX.Element => {
         setErrMsg(errorMsg)
       }
     } catch (e) {
-      navigate({
-        pathname: '/'
-      })
+      // navigate({
+      //   pathname: '/'
+      // })
     }
   };
   return (

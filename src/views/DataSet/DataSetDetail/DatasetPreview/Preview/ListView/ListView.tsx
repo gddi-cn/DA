@@ -46,6 +46,9 @@ const ListView = (props: Props): JSX.Element => {
       if (!currentId) {
         return
       }
+      if (!name) {
+        return
+      }
       try {
         let _datasetList = [...datasetList.current]
         if (funcInfo) {
@@ -100,7 +103,7 @@ const ListView = (props: Props): JSX.Element => {
   }
 
   const list = useMemo(() => {
-    if (dataListLen === 0) {
+    if (dataListLen === 0 || datasetTotal === 0) {
       return null
     }
     return (
@@ -110,7 +113,7 @@ const ListView = (props: Props): JSX.Element => {
         )
       })
     )
-  }, [scenes, dataListLen])
+  }, [dataListLen, datasetTotal, scenes])
 
   return (
     <div styleName='ListView'>

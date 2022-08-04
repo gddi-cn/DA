@@ -35,6 +35,7 @@ function* fetchTaskActiveList (action:any):any {
       params: {
         status: 1,
         sort: 'asc',
+        order: 'created',
         page_size: 50
       }
     }))
