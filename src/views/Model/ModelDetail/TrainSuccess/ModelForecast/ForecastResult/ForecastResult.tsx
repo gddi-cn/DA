@@ -115,12 +115,19 @@ const ForecastResult = (props:any): JSX.Element => {
         return <RenderView data={data} scenes={model_type} />
       }
     }
+    // 1-预测中 2-成功 3-失败
+    const textArr:string[] = ['-', '预测中', '成功', '失败']
+    const textClsArr: string[] = ['-', 'running', 'success', 'failed']
     return (
       <div className='ForecastResult_item_werap'>
         <div className='canvas_wrap'>
           {getView()}
         </div>
-        <div className='info_wrap'>
+        <div className={`info_wrap ${textClsArr[data.status] || 'success'}`}>
+
+          <p className='thres'>
+            状态：{textArr[data.status] || '-'}
+          </p>
           <p className='thres'>阈值 : {data.thres}</p>
           <p>创建时间 : {moment(data.created * 1000).format('YYYY/MM/DD hh:mm:ss')}</p>
         </div>

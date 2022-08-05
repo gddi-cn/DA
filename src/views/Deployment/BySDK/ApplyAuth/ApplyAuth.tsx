@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import api from '@api'
 import DeviceGridTable from './DeviceGridTable'
 import { isNil, isEmpty } from 'lodash'
+import { useSelector } from 'react-redux'
+import { RootState } from '@reducer/index'
 import './ApplyAuth.module.less'
 
 const { Option } = Select;
@@ -15,8 +17,6 @@ const optionsList: OptionsT = [
   { label: '边缘端', value: 'Edge' },
   { label: '终端', value: 'Terminal' }
 ]
-
-const model_iter_id = '370994350389829632'
 
 const ApplyAuth = (): JSX.Element => {
   const [loading, setLoading] = useState(false)
@@ -35,6 +35,14 @@ const ApplyAuth = (): JSX.Element => {
 
     name: '',
 
+  })
+
+  const model_iter_id = useSelector((state: RootState) => {
+    // return '342463664469155840'
+    if (state.tasksSilce.activePipeLine) {
+      return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.version_id
+    }
+    return ''
   })
 
   const resSet = () => {
@@ -102,7 +110,7 @@ const ApplyAuth = (): JSX.Element => {
         console.log(e, 111)
         setLoading(false)
       }
-    }, [selected]
+    }, [model_iter_id, selected]
   )
 
   useEffect(() => {

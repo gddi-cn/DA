@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Upload, message, notification } from 'antd';
 import type { UploadProps } from 'antd';
 import { isEmpty } from 'lodash'
-import { ReactComponent as Tips } from '../../icon/tips.svg'
+// import { ReactComponent as Tips } from '../../icon/tips.svg'
 import { ReactComponent as Container } from '../../icon/container.svg'
 import { useDebounceFn } from 'ahooks'
 import { RootState } from '@reducer/index'
@@ -195,7 +195,13 @@ const CommonUpload = (props:any): JSX.Element => {
 
   return (
     <div styleName='commonUpload'>
-      <Tips />
+      {/* <Tips /> */}
+      <div className='tips_wrap'>
+        <p>单次预测项目总数量不多于20个</p>
+        <p>单张图片不大于10 MB</p>
+        <p>单个视屏不大于100 MB</p>
+        <p>支持.jpg .jpeg . png .mp4</p>
+      </div>
       <div className='upload_wrap'>
         <Dragger {...upProps}>
           <Container />

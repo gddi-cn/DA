@@ -4,7 +4,7 @@ import { useState, useRef, useMemo, useCallback, useEffect } from 'react'
 import { Select, message } from 'antd';
 import api from '@api'
 import { S3Uploader } from '@src/components'
-import { ReactComponent as Tips } from './icon/tips.svg'
+// import { ReactComponent as Tips } from './icon/tips.svg'
 
 import UploadingView from './UploadingView'
 import { useNavigate } from 'react-router-dom'
@@ -197,9 +197,26 @@ const SelectDatasetFile = (): JSX.Element => {
           </div>
         </div>
 
-        <div className='tips_wrap'>
-          <Tips />
-        </div></>
+        <div>
+          <div className='tips_wrap'>
+            <p>文件格式：</p>
+            <p>1.请按照右边引导示例文件构建压缩包，并严格按照示例文件夹名称命名。</p>
+            <p>2.压缩包支持zip、tar、gz格式。 图片格式： 1.目前支持图片类型分别为：png、jpg、jpeg。</p>
+
+          </div>
+          <div className='tips_wrap'>
+            <p>图片格式：</p>
+            <p>1.目前支持图片类型分别为：png、jpg、jpeg。 </p>
+
+          </div>
+          <div className='tips_wrap'>
+            <p>图片内容：</p>
+            <p>1.图片采集环境和实际场景要一致，如拍摄分辨率、拍摄视觉范围等。</p>
+            <p>2.图片需要涵盖更多实际场景变化，如拍照角度、光线阴暗变化，场景多，模型的泛能力越强。</p>
+
+          </div>
+        </div>
+      </>
     )
   }, [handleProportionChange, proportion])
 
