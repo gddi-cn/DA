@@ -1,5 +1,5 @@
 import { SmallButton } from '@src/UIComponents'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useCallback, useMemo } from 'react'
 import { message, Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import type { FectData } from '../../DatasetList/DatasetList'
@@ -18,14 +18,15 @@ import './Operation.module.less'
 type Props={
     setLoading: Dispatch<SetStateAction<boolean>>,
     data: Data,
-    fetchData: (info: FectData) => void
+    fetchData: (info: FectData) => void,
+    onlyShowDelete?:boolean
 }
 
 function Operation (props: Props): JSX.Element {
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
-  const { setLoading, fetchData, data } = props
+  const { setLoading, fetchData, data, onlyShowDelete } = props
 
   const navigate = useNavigate()
   const deleteDataset = async () => {
@@ -59,24 +60,39 @@ function Operation (props: Props): JSX.Element {
     evt.stopPropagation()
   }
 
-  const handleGotoDetail = () => {
-    console.log(data)
-    // const search = Qs.stringify({ id: data?.id, version_id: data?.latest_version?.id })
-    navigate({
-      pathname: APP_DATASET_DETAIL,
-      // search: search
-    })
+  const handleGotoDetail = useCallback(
+    () => {
+      console.log(data)
+      // const search = Qs.stringify({ id: data?.id, version_id: data?.latest_version?.id })
+      navigate({
+        pathname: APP_DATASET_DETAIL,
+        // search: search
+      })
 
-    socketPushMsgForProject(activePipeLine, {
-      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL,
-      APP_DATASET_DETAIL: { id: data?.id }
-    })
-  }
+      socketPushMsgForProject(activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL,
+        APP_DATASET_DETAIL: { id: data?.id }
+      })
+    }, [activePipeLine, data, navigate]
+  )
+
+  const otherBtn = useMemo(() => {
+    if (!onlyShowDelete) {
+      return (
+        <>
+          <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
+          <EditDataset data={data} callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
+        </>
+      )
+    }
+  }, [data, fetchData, handleGotoDetail, onlyShowDelete])
 
   return (
     <div styleName='Operation' onClick={handlePrevent}>
-      <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
-      <EditDataset data={data} callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
+
+      {
+        otherBtn
+      }
       <SmallButton type='delete' onClick={handleDelete}>删除</SmallButton>
 
     </div>

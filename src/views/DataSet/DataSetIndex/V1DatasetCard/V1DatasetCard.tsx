@@ -111,12 +111,15 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
     if (+status === 3) {
       // 失败
       return (
-        <div className='getFailedView'>
+        <div className='FailedView'>
           <div className='failed_title'>
             创建失败
           </div>
           <div className='failed_info_text'>
             数据集验证失败
+          </div>
+          <div className='oprations'>
+            <Operation setLoading={setLoading} data={data} fetchData={fetchData} onlyShowDelete={true} />
           </div>
         </div>
       )

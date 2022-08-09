@@ -14,7 +14,7 @@ const ByDemo = (props: any): JSX.Element => {
           <Demo></Demo>
         </div>
         <div className='type_item_wrap_mddle'>
-                  使用GDDi App查看模型效果
+                  GDDi App查看模型效果
         </div>
         <div className='type_item_wrap_bottom'>
                   通过安卓应用GDDiApp，您可以在移动端通过摄像头试用您的模型，产看效果。以达到demo目的。

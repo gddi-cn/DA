@@ -3,7 +3,7 @@ import { DownOutlined } from '@ant-design/icons'
 import api from '@api'
 import { Popover, Skeleton } from 'antd'
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react'
-import { GIconInput } from '@src/UIComponents'
+import { GIconInput, ReactCusScrollBar } from '@src/UIComponents'
 import TaskItemDetail from '../TaskList/common/TaskItemDetail'
 import { isEmpty } from 'lodash'
 import { useDispatch } from 'react-redux'
@@ -27,7 +27,7 @@ const ModelList = () => {
         params: {
           name: deferName,
           sort: 'desc',
-          page_size: 4
+          page_size: 10
         }
       })
       if (res.code === 0) {
@@ -91,10 +91,12 @@ const ModelList = () => {
       </div>
 
       <div className='list_wrap'>
+        <ReactCusScrollBar id='ModelList'>
+          {
+            getView()
+          }
+        </ReactCusScrollBar>
 
-        {
-          getView()
-        }
       </div>
     </div>
   )
@@ -104,7 +106,7 @@ const FindModels = (): JSX.Element => {
   return (
     <div styleName='FindModels'>
 
-      <Popover content={<ModelList />} destroyTooltipOnHide mouseEnterDelay={0.4} title={null} getPopupContainer={(triggerNode: any) => triggerNode.parentNode} placement='bottomLeft'>
+      <Popover content={<ModelList />} trigger={['click']} destroyTooltipOnHide mouseEnterDelay={0.4} title={null} getPopupContainer={(triggerNode: any) => triggerNode.parentNode} placement='bottomLeft'>
         <div className='FindModels_contents'>
           <DownOutlined className='icon'/>
         </div>
