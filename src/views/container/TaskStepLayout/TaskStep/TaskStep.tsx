@@ -8,6 +8,7 @@ import { ReactComponent as Arrow } from './icon/arrow.svg'
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import TaskNameBar from '../TaskNameBar'
+import ModelIterrator from '../ModelIterrator'
 import {
   APP_DATA_SET_INDEX,
   APP_DATASET_DETAIL,
@@ -181,6 +182,9 @@ const TaskStep = (): JSX.Element => {
             []
           )
         }
+      </div>
+      <div className='right_wrap'>
+        <ModelIterrator />
       </div>
     </div>
   )

@@ -5,8 +5,8 @@ import { RootState } from '@reducer/index'
 import { Select } from 'antd'
 import { GSelect } from '@src/UIComponents'
 import { setCurrentVersion } from '@reducer/modelDetailSlice'
-import './VerticalTabHandle.module.less'
 import { socketPushMsgForProject } from '@ghooks'
+import './VerticalTabHandle.module.less'
 
 // import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useMemo } from 'react'
@@ -65,7 +65,7 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
             const { data } = option
             const { id: version_id } = data
             if (activePipeLine.APP_MODEL_TRAIN_DETAIL) {
-              const _data = Object.assign(activePipeLine.APP_MODEL_TRAIN_DETAIL, { version_id })
+              const _data = Object.assign({ ...activePipeLine.APP_MODEL_TRAIN_DETAIL }, { version_id })
               socketPushMsgForProject(activePipeLine, {
                 APP_MODEL_TRAIN_DETAIL: _data
               })

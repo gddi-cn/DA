@@ -9,6 +9,7 @@ import MarginalEndGetCode from './MarginalEndGetCode'
 import MarginalEndRegisterForm from './MarginalEndRegisterForm'
 import EndUploadGxtBtn from './EndUploadGxtBtn'
 import { useState, useEffect, useCallback, useDeferredValue, useMemo } from 'react';
+import AddGroup from './AddGroup'
 import './DeviceIndex.module.less'
 
 const { Option } = Select;
@@ -33,28 +34,31 @@ const DeviceIndex = (): JSX.Element => {
 
   const deferDeviceName = useDeferredValue(deviceName)
 
+  const fetchGroups = useCallback(
+    async () => {
+      try {
+        setLoading(true)
+        const res = await api.get('/v3/devicegroups', {
+          params: { page: 1, type: deviceType, page_size: 1000 }
+        })
+        if (res.code === 0) {
+          const { items } = res.data
+          setOptions(items || [])
+        } else {
+          message.error(res?.message)
+        }
+      } catch (e) {
+
+      } finally {
+        setLoading(false)
+      }
+    }, [deviceType]
+  )
+
   useEffect(
     () => {
-      const fn = async () => {
-        try {
-          setLoading(true)
-          const res = await api.get('/v3/devicegroups', {
-            params: { page: 1, type: deviceType, page_size: 1000 }
-          })
-          if (res.code === 0) {
-            const { items } = res.data
-            setOptions(items || [])
-          } else {
-            message.error(res?.message)
-          }
-        } catch (e) {
-
-        } finally {
-          setLoading(false)
-        }
-      }
-      fn()
-    }, [deviceType]
+      fetchGroups()
+    }, [fetchGroups]
   )
 
   const fetchDeviceList = useCallback(
@@ -219,7 +223,7 @@ const DeviceIndex = (): JSX.Element => {
             </div>
           </div>
           <div className='select_block'>
-            <ModelOpreationTitle text='设备分组'></ModelOpreationTitle>
+            <ModelOpreationTitle text={<AddGroup fetchGroups={fetchGroups} deviceType={deviceType}/>}></ModelOpreationTitle>
             <div className='select_wrap'>
               <GSelect value={groupSelected} onChange={handleGroupChange} placeholder='请选择设备组' loading={loading}>
                 {
