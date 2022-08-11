@@ -59,7 +59,9 @@ const LoginWrap = (): JSX.Element => {
 
           <h3 className='system_name'></h3>
           <h5 className='system_des'></h5>
+
         </div>
+        <p className='footer_title'>网站备案：<a href='https://beian.miit.gov.cn/#/Integrated/recordQuery' target='blank'>粤ICP备2020111095号</a></p>
         {/* <Background className='Background_svg' /> */}
       </div>
       <div className='form_wrap'>

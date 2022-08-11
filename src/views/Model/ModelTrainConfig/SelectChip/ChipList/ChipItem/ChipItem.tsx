@@ -1,5 +1,6 @@
 import { titleMap, imgSrcMap } from '../../config'
 import { ReactComponent as Gddi } from '../../icon/gddi.svg'
+import { Tooltip } from 'antd'
 import './ChipItem.module.less'
 
 const ChipItem = (props: ModelTrainConfigType.ChipItem): JSX.Element => {
@@ -35,7 +36,10 @@ const ChipItem = (props: ModelTrainConfigType.ChipItem): JSX.Element => {
         </p>
         <div className='chip_info'>
           <p className='chip_type'>{data.chip_type}</p>
-          <p className='chip_name'>{data.name}</p>
+          <Tooltip title={data.name}>
+            <p className='chip_name'>{data.name}</p>
+          </Tooltip>
+
         </div>
       </div>
     </div>

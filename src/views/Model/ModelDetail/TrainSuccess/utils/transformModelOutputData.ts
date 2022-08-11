@@ -16,6 +16,10 @@ export const transformModelOutputData = (
 ) :any => {
   let dataSet: any = []
 
+  if (!data) {
+    return dataSet
+  }
+
   if (modelType === 'classify') {
     const first = data[0]
     if (isArray(first)) {
