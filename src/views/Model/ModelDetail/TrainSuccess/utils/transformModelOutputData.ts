@@ -38,7 +38,7 @@ export const transformModelOutputData = (
       });
     } else {
       dataSet = ([data] as any)?.map((dso: any) => {
-        const [label, acc] = dso
+        const [label = '-', acc = '-'] = dso
 
         const color = randomColor({
           luminosity: 'bright',

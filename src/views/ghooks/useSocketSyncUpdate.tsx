@@ -163,9 +163,15 @@ export const useSocketSyncUpdate = () => {
   }, [activePipeLine])
 
   useEffect(() => {
-    // 接受更新
-    // 如果页面不同、就navigate到页面
-  }, [])
+    // 阻止浏览器这个事件
+    window.onpopstate = function () {
+      if (activePipeLine) {
+        socketPushMsgForProject(activePipeLine, {
+
+        })
+      }
+    }
+  }, [activePipeLine])
 
   // return [loading]
 }

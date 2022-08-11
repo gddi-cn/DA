@@ -144,7 +144,7 @@ const CommonUpload = (props:any): JSX.Element => {
           try {
             const predictionRes = await api.post(`/v2/models/${id}/versions/${iter?.id}/prediction`, {
               source: urlArr,
-              thres: isEmpty(thres) ? versionInfo?.iter?.result?.best_threshold : +thres
+              thres: +thres
             })
 
             if (predictionRes.code === 0) {

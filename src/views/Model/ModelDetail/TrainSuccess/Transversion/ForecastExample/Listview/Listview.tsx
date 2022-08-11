@@ -22,6 +22,7 @@ const ListItem = (props:any) => {
     return (
       <div className='UIDatasetVisual_small_wrap' onClick={() => setvisible(true)}>
         <UIDatasetVisual
+          key="UIDatasetVisual_small_wrap"
           url={data.src}
           zoom={false}
           canvasData={dataSet || []}

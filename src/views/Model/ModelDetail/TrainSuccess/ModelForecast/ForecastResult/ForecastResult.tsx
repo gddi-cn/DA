@@ -16,7 +16,7 @@ import moment from 'moment'
 const { RangePicker } = DatePicker;
 const RenderView = (props: any) => {
   const { data, scenes } = props
-  const datainfo = transformModelOutputData({ data: data.result, modelType: scenes })
+  const datainfo = transformModelOutputData({ data: data.result || [], modelType: scenes })
 
   if (isEmpty(datainfo)) {
     return null

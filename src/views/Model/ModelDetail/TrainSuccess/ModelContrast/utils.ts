@@ -1,8 +1,6 @@
 import { isNil, isEmpty } from 'lodash'
 
 const getPrecisionSteps = (precisionSteps:any, key:number, index:any) => {
-  console.log(key, 'precisionSteps')
-  console.log(precisionSteps[key], 'precisionSteps')
   try {
     if (isNil(precisionSteps) || isEmpty(precisionSteps)) {
       return '-'
