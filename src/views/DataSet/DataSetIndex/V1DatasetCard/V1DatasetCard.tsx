@@ -17,6 +17,7 @@ export type Data = {
   scene: string,
   status: number,
   summary: string,
+  is_public:boolean,
   train_set: {
     annotation_count: number
     class_count: number

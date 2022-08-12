@@ -43,6 +43,9 @@ const DataSetIndex = (): JSX.Element => {
   })
 
   useEffect(() => {
+    if (!deferName) {
+      return
+    }
     if (paramsChangeAndFetch.current) {
       paramsChangeAndFetch.current({ name: deferName }, { isInit: true })
     }

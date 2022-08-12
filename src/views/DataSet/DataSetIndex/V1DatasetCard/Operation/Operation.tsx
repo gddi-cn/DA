@@ -1,5 +1,5 @@
 import { SmallButton } from '@src/UIComponents'
-import { Dispatch, SetStateAction, useCallback, useMemo } from 'react'
+import { Dispatch, SetStateAction, useCallback } from 'react'
 import { message, Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import type { FectData } from '../../DatasetList/DatasetList'
@@ -76,24 +76,43 @@ function Operation (props: Props): JSX.Element {
     }, [activePipeLine, data, navigate]
   )
 
-  const otherBtn = useMemo(() => {
-    if (!onlyShowDelete) {
+  // const otherBtn = useMemo(() => {
+  //   if (!onlyShowDelete) {
+  //     return (
+  //       <>
+  //         <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
+  //         <EditDataset data={data} callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
+  //       </>
+  //     )
+  //   }
+  // }, [data, fetchData, handleGotoDetail, onlyShowDelete])
+
+  const renderContent = () => {
+    if (onlyShowDelete) {
       return (
-        <>
-          <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
-          <EditDataset data={data} callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
-        </>
+        <SmallButton type='delete' onClick={handleDelete}>删除</SmallButton>
       )
     }
-  }, [data, fetchData, handleGotoDetail, onlyShowDelete])
+
+    if (data.is_public) {
+      return (
+        <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
+      )
+    }
+
+    return (
+      <>
+        <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
+        <EditDataset data={data} callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
+        <SmallButton type='delete' onClick={handleDelete}>删除</SmallButton>
+      </>
+    )
+  }
 
   return (
     <div styleName='Operation' onClick={handlePrevent}>
 
-      {
-        otherBtn
-      }
-      <SmallButton type='delete' onClick={handleDelete}>删除</SmallButton>
+      {renderContent()}
 
     </div>
   )

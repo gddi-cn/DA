@@ -1,7 +1,7 @@
 import { Collapse } from 'antd';
 import { ReactCusScrollBar } from '@src/UIComponents'
 import SDKDocuments from '../SDKDocuments'
-import AuthDocuments from '../AuthDocuments'
+// import AuthDocuments from '../AuthDocuments'
 import ApplyAuth from '../ApplyAuth'
 import './Documents.module.less'
 
@@ -29,9 +29,9 @@ const Documents = (props: any): JSX.Element => {
               <Panel header="SDK调用文档" key="1">
                 <SDKDocuments />
               </Panel>
-              <Panel header="SDK授权文档" key="2">
+              {/* <Panel header="SDK授权文档" key="2">
                 <AuthDocuments />
-              </Panel>
+              </Panel> */}
               <Panel header="SDK授权申请" key="3">
                 <ApplyAuth />
               </Panel>
