@@ -22,9 +22,17 @@ const ModelIterrator = (): JSX.Element => {
     return state.modelDetailSlice?.versionInfo?.iter?.gpu_count || 0
   })
 
+  const status = useSelector((state: RootState) => {
+    return state.modelDetailSlice?.versionInfo?.iter?.status || 0
+  })
+
   const Button = useMemo(() => {
     if (activePipeLine?.APP_MODEL_TRAIN_DETAIL?.id) {
       if (pathname !== APP_MODEL_TRAIN_DETAIL) {
+        return null
+      }
+
+      if (status !== 2) {
         return null
       }
       const { id, version_id } = activePipeLine.APP_MODEL_TRAIN_DETAIL
@@ -55,7 +63,7 @@ const ModelIterrator = (): JSX.Element => {
       )
     }
     return null
-  }, [activePipeLine, pathname, gpu_count, dispatch])
+  }, [activePipeLine, pathname, status, gpu_count, dispatch])
 
   return (
     <div styleName='ModelIterrator'>
