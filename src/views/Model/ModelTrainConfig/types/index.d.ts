@@ -35,6 +35,7 @@ declare namespace ModelTrainConfigType {
     interface ConfigSetting {
         // selected: ChipFetchResItem,
         formInstance:FormInstance,
-        maxFps:number
+        maxFps:number,
+        channelLimited: number,
     }
 }

@@ -220,7 +220,9 @@ const ModelTrainConfig = (): JSX.Element => {
     (changeValues: any, all_values: any) => {
       console.log(changeValues)
       console.log(all_values, 'all_values')
-      if (changeValues.chip_info) {
+
+      const hasTarget = (obj: any, key: string) => Object.prototype.hasOwnProperty.call(obj, key)
+      if (hasTarget(changeValues, 'chip_info')) {
         const { chip_info } = changeValues
         const _fpsmax = chip_info.fps_limited || 30
 
@@ -246,7 +248,7 @@ const ModelTrainConfig = (): JSX.Element => {
         return
       }
 
-      if (changeValues.fps) {
+      if (hasTarget(changeValues, 'fps')) {
         const _channel = Math.floor((maxFps / +changeValues.fps))
         const channel = clamp(_channel, 1, channelLimited)
         const _data = Object.assign(all_values, {
@@ -257,9 +259,42 @@ const ModelTrainConfig = (): JSX.Element => {
             APP_MODEL_TRAIN_CONFIG: _data
           }
         )
+
+        return
       }
 
-      if (changeValues.mode) {
+      if (hasTarget(changeValues, 'channel')) {
+        const _channel = changeValues.channel
+
+        const fps = all_values.fps
+
+        let simaulation = fps * _channel
+        console.log(fps, 'fps')
+        console.log(_channel, '_channel')
+        console.log(maxFps, 'maxFpshasTarget')
+        if (simaulation > maxFps) {
+          simaulation = Math.floor(maxFps / _channel)
+
+          simaulation = simaulation > 30 ? 30 : simaulation
+
+          console.log(simaulation, 'simaulation')
+        } else {
+          simaulation = fps
+        }
+
+        const _data = Object.assign(all_values, {
+          channel: _channel, fps: clamp(simaulation, 1, simaulation)
+        })
+        socketPushMsgForProject(
+          activePipeLine, {
+            APP_MODEL_TRAIN_CONFIG: _data
+          }
+        )
+
+        return
+      }
+
+      if (hasTarget(changeValues, 'mode')) {
         const { mode } = changeValues
         if (mode === 1) {
           const _fps = maxFps > 25 ? 25 : maxFps
@@ -301,11 +336,7 @@ const ModelTrainConfig = (): JSX.Element => {
           )
         }
       }
-      socketPushMsgForProject(
-        activePipeLine, {
-          APP_MODEL_TRAIN_CONFIG: all_values
-        }
-      )
+
       // 如果变得芯片,应该初始化左边数据
     }, [activePipeLine, maxFps, channelLimited]
   )
@@ -313,13 +344,13 @@ const ModelTrainConfig = (): JSX.Element => {
     <div styleName='ModelTrainConfig'>
       <div className='ModelTrainConfig_wrap'>
         <div className='ModelTrainConfig_wrap_left'>
-          <ConfigSetting formInstance={formInstance} maxFps={maxFps}/>
+          <ConfigSetting formInstance={formInstance} maxFps={maxFps} channelLimited={channelLimited} />
         </div>
         <div className='ModelTrainConfig_wrap_right'>
           {
             useMemo(() => {
               return (
-                <FilterHeader brandList={brandList} fetchChipList={fetchChipList}/>
+                <FilterHeader brandList={brandList} fetchChipList={fetchChipList} />
               )
             }, [brandList, fetchChipList])
           }

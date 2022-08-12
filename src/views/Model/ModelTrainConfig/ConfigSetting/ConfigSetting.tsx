@@ -74,7 +74,7 @@ const CusRadioGroup = (props: any) => {
 }
 
 const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element => {
-  const { formInstance } = props
+  const { formInstance, channelLimited } = props
 
   const userInfo = useSelector((state: any) => {
     return state.globalSlice.userInfo
@@ -135,7 +135,7 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
                       name='channel'
                       initialValue={1}
                     >
-                      <CusInputNumber disabled={true} />
+                      <CusInputNumber max={channelLimited} min={1} tips={`当前加速器支持最大路数为${channelLimited}`} />
                     </Form.Item>
                   </div>
                   <div className='form_cus_item'>

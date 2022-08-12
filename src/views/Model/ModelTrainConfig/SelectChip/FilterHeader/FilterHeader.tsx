@@ -21,15 +21,15 @@ const { Option } = Select;
 // ]
 // band name  chip_type
 // task_type 之前选中数据决定的
-type Props ={
-    brandList:any[],
-    fetchChipList:(data:any)=>void
+type Props = {
+  brandList: any[],
+  fetchChipList: (data: any) => void,
 }
 const FilterHeader = (props: Props): JSX.Element => {
   console.log(props)
   const { brandList, fetchChipList } = props
   const [form] = Form.useForm();
-  const onValuesChange = (changedValues:any, allValues:any) => {
+  const onValuesChange = (changedValues: any, allValues: any) => {
     console.log(changedValues, allValues)
     // todo fetch
     const { brand, ...rest } = allValues
@@ -47,7 +47,7 @@ const FilterHeader = (props: Props): JSX.Element => {
 
         >
 
-          <GIconInput autoComplete='off' placeholder='搜索芯片名称'/>
+          <GIconInput autoComplete='off' placeholder='搜索芯片名称' />
         </Form.Item>
 
         <Form.Item
