@@ -24,7 +24,7 @@ const MODEL_TYPES_ICON: any = {
   cityscapes_segment: <Tongyongfenge />,
   portrait_segment: <Xiaoxiangfenge />,
   pose_detection: <Zitaijiance />,
-  monocular_3d_detection: <Danmu3d />
+  car_pose_detection: <Danmu3d />
 }
 
 type arrItem = {

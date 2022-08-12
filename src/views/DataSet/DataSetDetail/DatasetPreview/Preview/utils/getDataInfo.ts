@@ -24,7 +24,7 @@ export const processData = (data: any, scenes: any) => {
   let rawImgDataSet: any = []
   const { position, thumbnail_width: tw, thumbnail_height: th, thumbnail, url, width, height, annotations = [] } = data
 
-  if ((scenes as string).includes('segment') || scenes === 'pose_detection') {
+  if ((scenes as string).includes('segment') || scenes === 'pose_detection' || scenes === 'car_pose_detection') {
     const first = annotations[0]
     if (first) {
       const { position } = first
