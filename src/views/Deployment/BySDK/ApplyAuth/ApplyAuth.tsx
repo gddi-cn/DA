@@ -36,7 +36,13 @@ const ApplyAuth = (): JSX.Element => {
     name: '',
 
   })
-
+  const model_id = useSelector((state: RootState) => {
+    // return '342463664469155840'
+    if (state.tasksSilce.activePipeLine) {
+      return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.id
+    }
+    return ''
+  })
   const model_iter_id = useSelector((state: RootState) => {
     // return '342463664469155840'
     if (state.tasksSilce.activePipeLine) {
@@ -127,9 +133,8 @@ const ApplyAuth = (): JSX.Element => {
   }
 
   const handleAuthClick = async () => {
-    const id = '370711229819887616'
     try {
-      const res = await api.post(`/v3/models/${id}/versions/${model_iter_id}/download/apply`, { apply_type: 1, device_ids: selectKeys })
+      const res = await api.post(`/v3/models/${model_id}/versions/${model_iter_id}/download/apply`, { apply_type: 1, device_ids: selectKeys })
       if (res.code === 0) {
         message.success(res?.message)
         fetchFn()
