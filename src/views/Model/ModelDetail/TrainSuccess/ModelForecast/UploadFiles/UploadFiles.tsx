@@ -36,7 +36,7 @@ const UploadFiles = (props:any): JSX.Element => {
       )
     }
     return (
-      <CommonUpload thres={thres} setLoading={setLoading} fetchResult={fetchResult}/>
+      <CommonUpload thres={thres} setLoading={setLoading} fetchResult={fetchResult} model_type={model_type}/>
     )
   }, [thres, model_type, fetchResult])
   return (

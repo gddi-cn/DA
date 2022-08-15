@@ -13,7 +13,7 @@ import './commonUpload.module.less'
 const { Dragger } = Upload;
 
 const CommonUpload = (props:any): JSX.Element => {
-  const { thres, setLoading, fetchResult } = props
+  const { thres, setLoading, fetchResult, model_type } = props
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
@@ -57,9 +57,11 @@ const CommonUpload = (props:any): JSX.Element => {
         continue
       }
 
-      if (videoReg.test(o.name)) {
-        videoList.push(o)
-        continue
+      if (model_type !== 'classify') {
+        if (videoReg.test(o.name)) {
+          videoList.push(o)
+          continue
+        }
       }
 
       errorList.list.push(o)
@@ -114,6 +116,7 @@ const CommonUpload = (props:any): JSX.Element => {
     }
     if (regFileFn(fileList)) {
       handleReset()
+      return
     }
 
     const proList = (fileList as Array<any>).map((o: any) => {
@@ -193,6 +196,12 @@ const CommonUpload = (props:any): JSX.Element => {
     fileList: rawFileList
   };
 
+  const getText = () => {
+    if (model_type === 'classify') {
+      return '支持.jpg .jpeg . png'
+    }
+    return '支持.jpg .jpeg . png .mp4'
+  }
   return (
     <div styleName='commonUpload'>
       {/* <Tips /> */}
@@ -200,7 +209,7 @@ const CommonUpload = (props:any): JSX.Element => {
         <p>单次预测项目总数量不多于20个</p>
         <p>单张图片不大于10 MB</p>
         <p>单个视屏不大于100 MB</p>
-        <p>支持.jpg .jpeg . png .mp4</p>
+        <p>{getText()}</p>
       </div>
       <div className='upload_wrap'>
         <Dragger {...upProps}>

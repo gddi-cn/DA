@@ -29,6 +29,10 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
     return state.tasksSilce.activePipeLine || {}
   })
 
+  const model_type = useSelector((state: RootState) => {
+    return state.modelDetailSlice.versionInfo?.model_type
+  })
+
   const Title = (title:string) => {
     return (
       <div className='title'>{title}</div>
@@ -91,6 +95,47 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
       )
     }, [currentVersion, versionList, activePipeLine, dispatch]
   )
+
+  const getMenuList = () => {
+    if (model_type === 'classify') {
+      return (
+        <>
+          {
+            TabItem('模型对比', 'model_contrast')
+          }
+          {
+            TabItem('错误分析', 'error_analysis')
+          }
+        </>
+      )
+    }
+
+    if (model_type === 'detection') {
+      return (
+        <>
+          {
+            TabItem('模型对比', 'model_contrast')
+          }
+          {
+            TabItem('错误分析', 'error_analysis')
+          }
+        </>
+      )
+    }
+    if (model_type === 'car_pose_detection') {
+      return (
+        <>
+
+          {
+            TabItem('错误分析', 'error_analysis')
+          }
+        </>
+      )
+    }
+    if (model_type === 'cityscapes_segment' || model_type === 'portrait_segment' || model_type === 'pose_detection') {
+      return null
+    }
+  }
   return (
     <div styleName='VerticalTabHandle'>
       <div className='VerticalTabHandle_block'>
@@ -117,10 +162,7 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
           TabItem('模型预测 ', 'model_forecast')
         }
         {
-          TabItem('模型对比', 'model_contrast')
-        }
-        {
-          TabItem('错误分析', 'error_analysis')
+          getMenuList()
         }
       </div>
 
