@@ -8,12 +8,16 @@ export const useGetDataInfo = (data: any, scenes: any) => {
   })
 
   useEffect(() => {
-    if (isEmpty(data) || isNil(data)) {
-      return
-    }
+    try {
+      if (isEmpty(data) || isNil(data)) {
+        return
+      }
 
-    const iamwantyou = transformModelOutputData({ modelType: scenes, data })
-    setDataInfo(iamwantyou)
+      const iamwantyou = transformModelOutputData({ modelType: scenes, data })
+      setDataInfo(iamwantyou)
+    } catch (e) {
+      console.error(e)
+    }
   }, [data, scenes])
 
   return dataInfo

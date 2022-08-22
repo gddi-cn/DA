@@ -14,18 +14,20 @@ const ListItem = (props:any) => {
     const {
 
       // url,
-      dataSet,
+      dataSet = [],
       // rawImgDataSet,
 
     } = datainfo
 
+    console.log(dataSet, 21212)
+
     return (
       <div className='UIDatasetVisual_small_wrap' onClick={() => setvisible(true)}>
         <UIDatasetVisual
-          key="UIDatasetVisual_small_wrap"
+
           url={data.src}
           zoom={false}
-          canvasData={dataSet || []}
+          canvasData={dataSet}
           drawCanvasData={model_type === 'detection' || model_type === 'monocular_3d_detection'}
           hasHtmlTips={model_type === 'classify'}
         />
@@ -58,6 +60,7 @@ const ListItem = (props:any) => {
           canvasData={dataSet || []}
           drawCanvasData={model_type === 'detection' || model_type === 'monocular_3d_detection'}
           hasHtmlTips={model_type === 'classify'}
+          key={data.src + 'big'}
         />
       </Modal>
     )
@@ -79,9 +82,9 @@ const Listview = (props: any): JSX.Element => {
       <ReactCusScrollBar id='ReactCusScrollBar'>
         <div className='Listview_wrap'>
           {
-            (dataList as any[]).map((o, i) => {
+            (dataList as any[]).map((o) => {
               return (
-                <ListItem data={o} key={i} model_type={model_type} />
+                <ListItem data={o} key={o.src} model_type={model_type} />
               )
             })
           }

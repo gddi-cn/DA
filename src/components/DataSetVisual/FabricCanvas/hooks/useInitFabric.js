@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { fabric } from 'fabric'
 import { isEmpty } from 'lodash'
 
@@ -57,6 +57,8 @@ const setDropAndScale = (ctx) => {
 
 export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoom = true }) => {
   const fbIns = useRef(null)
+  const [imgIns, setImgIns] = useState(null)
+
   useEffect(() => {
     if (canvasEle.current && canvasContainer.current && url) {
       const image = new Image()
@@ -64,89 +66,96 @@ export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoo
       image.src = url
 
       image.onload = function () {
-        const timer = setTimeout(() => {
-          if (!canvasEle.current && !canvasContainer.current) {
-            clearTimeout(timer)
-            return
-          }
-
-          if (zoom) {
-            fbIns.current = new fabric.Canvas(canvasEle.current)
-          } else {
-            fbIns.current = new fabric.StaticCanvas(canvasEle.current)
-          }
-
-          const width = (this).naturalWidth;
-
-          const height = (this).naturalHeight
-
-          fbIns.current.setBackgroundImage(
-            url,
-            fbIns.current.renderAll.bind(fbIns.current),
-            {
-              width,
-              height,
-              // originX: 'center',
-              // originY: 'top'
-            }
-          )
-
-          // 设置画布宽高
-          fbIns.current.setWidth((canvasContainer.current).offsetWidth).setHeight((canvasContainer.current).offsetHeight)
-          // 设置矩阵适应画布大小,如果图片超级大
-          const matrix = fbIns.current.viewportTransform
-          // 先直接 看看直接设定宽度为容器宽度
-          matrix[0] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
-          matrix[3] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
-          // if ((canvasContainer.current).offsetWidth < (this).naturalWidth) {
-          //   matrix[0] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
-          //   matrix[3] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
-          // }
-
-          const tran = matrix[0]
-          // 如果此时图高度比容器大，就继续转一手高度为最大，宽度忽略
-          if ((this).naturalHeight * tran > (canvasContainer.current).offsetHeight) {
-            matrix[0] = (canvasContainer.current).offsetHeight / ((this).naturalHeight * tran) * tran;
-            matrix[3] = (canvasContainer.current).offsetHeight / ((this).naturalHeight * tran) * tran;
-          }
-
-          // if ((canvasContainer.current).offsetWidth > (this).naturalWidth) {
-          //   matrix[0] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
-          //   matrix[3] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
-          // }
-
-          // 缩放后剧中显示，估计大佬也要求这玩意
-          const _tran = matrix[3]
-          const _width = (this).naturalWidth * _tran;
-          const _height = (this).naturalHeight * _tran;
-          const tranX = ((canvasContainer.current).offsetWidth - _width) / 2
-          const tranY = ((canvasContainer.current).offsetHeight - _height) / 2
-          matrix[4] = tranX
-          matrix[5] = tranY
-          fbIns.current.viewportTransform = matrix
-
-          // 然而实际上后端返回的啥我也暂时不清楚，有毒
-          if (canvasData && !isEmpty(canvasData)) {
-            for (const o of canvasData) {
-              drawData(fbIns.current, o)
-            }
-          }
-          fbIns.current.renderAll();
-          if (zoom) {
-            // const myCtx = new Fb(fbctx)
-            disableAnyFuck(fbIns.current)
-            setDropAndScale(fbIns.current)
-          }
-          clearTimeout(timer)
-        })
+        setImgIns(this)
       }
     }
+  }, [canvasContainer, canvasEle, url])
 
-    return () => {
-      if (fbIns.current?.dispose) {
-        fbIns.current.dispose()
+  useEffect(
+    () => {
+      if (!imgIns) {
+        return
       }
-      fbIns.current = null
-    }
-  }, [url, canvasEle, canvasContainer, zoom, canvasData])
+      if (canvasEle.current && canvasContainer.current && url) {
+        if (!canvasEle.current && !canvasContainer.current) {
+          return
+        }
+
+        if (zoom && fbIns.current === null) {
+          fbIns.current = new fabric.Canvas(canvasEle.current)
+        } else {
+          fbIns.current = new fabric.StaticCanvas(canvasEle.current)
+        }
+
+        const width = (imgIns).naturalWidth;
+
+        const height = (imgIns).naturalHeight
+
+        fbIns.current.setBackgroundImage(
+          url,
+          fbIns.current.renderAll.bind(fbIns.current),
+          {
+            width,
+            height,
+            // originX: 'center',
+            // originY: 'top'
+          }
+        )
+
+        // 设置画布宽高
+        fbIns.current.setWidth((canvasContainer.current).offsetWidth).setHeight((canvasContainer.current).offsetHeight)
+        // 设置矩阵适应画布大小,如果图片超级大
+        const matrix = fbIns.current.viewportTransform
+        // 先直接 看看直接设定宽度为容器宽度
+        matrix[0] = (canvasContainer.current).offsetWidth / (imgIns).naturalWidth;
+        matrix[3] = (canvasContainer.current).offsetWidth / (imgIns).naturalWidth;
+        // if ((canvasContainer.current).offsetWidth < (this).naturalWidth) {
+        //   matrix[0] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
+        //   matrix[3] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
+        // }
+
+        const tran = matrix[0]
+        // 如果此时图高度比容器大，就继续转一手高度为最大，宽度忽略
+        if ((imgIns).naturalHeight * tran > (canvasContainer.current).offsetHeight) {
+          matrix[0] = (canvasContainer.current).offsetHeight / ((imgIns).naturalHeight * tran) * tran;
+          matrix[3] = (canvasContainer.current).offsetHeight / ((imgIns).naturalHeight * tran) * tran;
+        }
+
+        // if ((canvasContainer.current).offsetWidth > (this).naturalWidth) {
+        //   matrix[0] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
+        //   matrix[3] = (canvasContainer.current).offsetWidth / (this).naturalWidth;
+        // }
+
+        // 缩放后剧中显示，估计大佬也要求这玩意
+        const _tran = matrix[3]
+        const _width = (imgIns).naturalWidth * _tran;
+        const _height = (imgIns).naturalHeight * _tran;
+        const tranX = ((canvasContainer.current).offsetWidth - _width) / 2
+        const tranY = ((canvasContainer.current).offsetHeight - _height) / 2
+        matrix[4] = tranX
+        matrix[5] = tranY
+        fbIns.current.viewportTransform = matrix
+
+        // 然而实际上后端返回的啥我也暂时不清楚，有毒
+        if (canvasData && !isEmpty(canvasData)) {
+          for (const o of canvasData) {
+            drawData(fbIns.current, o)
+          }
+        }
+        fbIns.current.renderAll();
+        if (zoom) {
+          // const myCtx = new Fb(fbctx)
+          disableAnyFuck(fbIns.current)
+          setDropAndScale(fbIns.current)
+        }
+      }
+
+      return () => {
+        if (fbIns.current?.dispose) {
+          fbIns.current.dispose()
+        }
+        fbIns.current = null
+      }
+    }, [canvasContainer, canvasData, canvasEle, url, zoom, imgIns]
+  )
 }

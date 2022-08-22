@@ -1,8 +1,10 @@
 import { Form, Radio, RadioChangeEvent, InputNumber, message } from 'antd';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
-import './ConfigSetting.module.less'
 import ModelTrainConfigType from '../types';
+import GFlops from './GFlops'
+import './ConfigSetting.module.less'
+
 // import { useEffect, useState } from 'react';
 // import { isEmpty } from 'lodash';
 
@@ -74,7 +76,7 @@ const CusRadioGroup = (props: any) => {
 }
 
 const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element => {
-  const { formInstance, channelLimited } = props
+  const { formInstance, channelLimited, maxFps } = props
 
   const userInfo = useSelector((state: any) => {
     return state.globalSlice.userInfo
@@ -145,7 +147,7 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
                       name='fps'
                       initialValue={5}
                     >
-                      <CusInputNumber min={1} max={30} upHandler={<CaretUpOutlined />} downHandler={<CaretDownOutlined />} tips={`当前加速器支持最大fps为${30}`} />
+                      <CusInputNumber min={1} max={maxFps} upHandler={<CaretUpOutlined />} downHandler={<CaretDownOutlined />} tips={`当前加速器支持最大fps为${maxFps}`} />
                     </Form.Item>
                   </div>
                 </span>
@@ -154,6 +156,8 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
           </Form.Item>
         </Form>
       </div>
+
+      <GFlops />
     </div>
   )
 }
