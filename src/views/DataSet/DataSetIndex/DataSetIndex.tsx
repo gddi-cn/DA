@@ -43,7 +43,7 @@ const DataSetIndex = (): JSX.Element => {
   })
 
   useEffect(() => {
-    if (!deferName) {
+    if (isNil(deferName)) {
       return
     }
     if (paramsChangeAndFetch.current) {
@@ -100,7 +100,7 @@ const DataSetIndex = (): JSX.Element => {
   }
   const handleSearch = (v: React.ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value
-    setDatasetName(value)
+    setDatasetName(value || '')
   }
   return (
     <div styleName='DataSetIndex' className='maxWidthAuto' >
