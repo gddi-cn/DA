@@ -75,7 +75,7 @@ const ForecastModule = (): JSX.Element => {
                 单次预测项目总数量不多于20个，单张图片不大于10 MB，单个视频不大于100 MB.
               </p>
               <p>
-                支持.jpg.jpeg . png .mp4
+                支持.jpg.jpeg . png
               </p>
             </div>
             <div>

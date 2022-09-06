@@ -18,6 +18,7 @@ export type Data = {
   status: number,
   summary: string,
   is_public:boolean,
+  reason:string,
   train_set: {
     annotation_count: number
     class_count: number
@@ -117,7 +118,11 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
             创建失败
           </div>
           <div className='failed_info_text'>
-            数据集验证失败
+            <Tooltip title={data?.reason || null}>
+
+              {data?.reason || '未知原因，请联系客服'}
+            </Tooltip>
+
           </div>
           <div className='oprations'>
             <Operation setLoading={setLoading} data={data} fetchData={fetchData} onlyShowDelete={true} />

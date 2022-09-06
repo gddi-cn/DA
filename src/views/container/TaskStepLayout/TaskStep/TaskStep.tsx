@@ -140,7 +140,31 @@ const TaskStep = (): JSX.Element => {
     }
   }
 
-  const getCls = (active_paths:any[]) => {
+  const getDataCls = ():string => {
+    if (activeTaskInfo?.model?.id) {
+      return 'active_step_item'
+    }
+    return ''
+  }
+
+  const getModelCls = (): string => {
+    if (activeTaskInfo?.model?.id) {
+      return 'active_step_item'
+    }
+    return ''
+  }
+
+  const getDeployCls = (): string => {
+    if (activeTaskInfo?.model?.id) {
+      if (activeTaskInfo?.additional?.status === 2) {
+        return 'active_step_item'
+      }
+      return ''
+    }
+    return ''
+  }
+
+  const getCls = (active_paths:any[], atvcls:string) => {
     // const findActiveMap = new Map([
     //   [DATASET_ACTIVE, 1],
     //   [MODEL_ACTIVE, 2],
@@ -154,23 +178,23 @@ const TaskStep = (): JSX.Element => {
     //   }
     // }
     if (active_paths.includes(pathname)) {
-      return 'step_item active_step_item'
+      return `step_item step_item_router_active ${atvcls}`
     }
 
-    return 'step_item'
+    return `step_item ${atvcls}`
   }
   return (
     <div styleName='TaskStep'>
       <div className='step_wrap '>
-        <div className={getCls(DATASET_ACTIVE)} onClick={handleDatasetClick}>
+        <div className={getCls(DATASET_ACTIVE, getDataCls())} onClick={handleDatasetClick}>
           <Shuju className='step_svg' />  数据
         </div>
         <span className='arrow_wrap'><Arrow /></span>
-        <div className={getCls(MODEL_ACTIVE)} onClick={handleModelClick}>
+        <div className={getCls(MODEL_ACTIVE, getModelCls())} onClick={handleModelClick}>
           <Moxing className='step_svg'/> 模型
         </div>
         <span className='arrow_wrap'><Arrow /></span>
-        <div className={getCls(PUBLISH_ACTIVE)} onClick={handleDeployClick}>
+        <div className={getCls(PUBLISH_ACTIVE, getDeployCls())} onClick={handleDeployClick}>
           <Bushu className='step_svg'/> 部署
         </div>
       </div>

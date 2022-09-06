@@ -43,7 +43,7 @@ const ModelInfomations = (): JSX.Element => {
   const getPercent = (per: any) => {
     if (per) {
       const num = per * 100
-      return (num as number).toFixed(2) + '%'
+      return (num as number).toFixed(0) + '%'
     }
     return '-%'
   }

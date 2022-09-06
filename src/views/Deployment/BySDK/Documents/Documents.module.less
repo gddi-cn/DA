@@ -3,11 +3,13 @@
     background-color: #fff;
     height: calc(100vh - 100px);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
     :global {
         .Documents_wrap {
             width: 100%;
-            height: 100%;
+            flex: 1;
             padding-top: 20px;
 
             .ReactScrollBar_cus_render_view {
@@ -20,6 +22,10 @@
                 width: 891px;
 
             }
+        }
+
+        .previous_btn {
+            margin-right: 0;
         }
 
         .zhanwei {

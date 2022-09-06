@@ -59,7 +59,7 @@ const ModelIterrator = (): JSX.Element => {
         }
       }
       return (
-        <GButton className='ModelIterrator_btn' type='primary' onClick={handleIter}>迭代</GButton>
+        <GButton className='ModelIterrator_btn' type='default' onClick={handleIter}>迭代</GButton>
       )
     }
     return null

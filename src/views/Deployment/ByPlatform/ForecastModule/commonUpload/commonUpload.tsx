@@ -25,7 +25,7 @@ const CommonUpload = (props:any): JSX.Element => {
 
     const imageReg = /\.(png|jpg|jpeg)$/
 
-    const videoReg = /\.(mp4)$/
+    // const videoReg = /\.(mp4)$/
 
     class Msg {
       list = []
@@ -56,10 +56,10 @@ const CommonUpload = (props:any): JSX.Element => {
         continue
       }
 
-      if (videoReg.test(o.name)) {
-        videoList.push(o)
-        continue
-      }
+      // if (videoReg.test(o.name)) {
+      //   videoList.push(o)
+      //   continue
+      // }
 
       errorList.list.push(o)
     }

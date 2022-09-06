@@ -33,9 +33,7 @@ const TaskList = (): JSX.Element => {
 
   return (
     <div styleName='TaskList'>
-      {
-        Add_tbn
-      }
+
       {
         taskList?.map((data) => {
           return (
@@ -45,6 +43,9 @@ const TaskList = (): JSX.Element => {
             />
           )
         })
+      }
+      {
+        Add_tbn
       }
       {/* <TabsNav
         dataList={taskList || []}

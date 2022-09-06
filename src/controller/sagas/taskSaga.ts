@@ -125,6 +125,10 @@ function* hiddenActiveTaskGen (action: any): any {
           yield put(checkoutTask(activeTaskInfo))
           yield put(saveActivePipeLineLoading(false))
         }
+      } else {
+        yield put(saveActivePipeLineLoading(true))
+        yield * fetchTaskActiveList(null)
+        yield put(saveActivePipeLineLoading(false))
       }
       //   const { items } = res.data
     } else {

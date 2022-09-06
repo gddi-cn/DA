@@ -14,32 +14,35 @@
         }
 
         .step_wrap {
-           
-     
+
+
             display: flex;
             justify-content: flex-start;
             align-items: center;
 
             .arrow_wrap {
                 height: 50px;
-        
+
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                margin: 0 40px;
+                margin: 0 28px;
             }
 
             .step_svg {
                 margin-right: 10px;
             }
 
+
+
             .step_item {
-                 height: 40px;
+                height: 40px;
                 background-color: var(--gddi-bg-color);
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 cursor: pointer;
+                padding: 0 15px;
 
                 color: #48A2DF;
                 font-size: 18px;
@@ -70,6 +73,11 @@
                     background-color: transparent;
 
                 }
+            }
+
+            .step_item_router_active {
+                background: #EDF8FF;
+                border-radius: 20px;
             }
 
             .active_step_item {

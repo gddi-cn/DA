@@ -73,6 +73,11 @@ export default {
   children: [
     // 仅有头部任务的
     {
+      path: APP_DEVICE_INDEX,
+      element: SuspenseFn(DeviceIndex),
+
+    },
+    {
 
       element: SuspenseFn(AutoMLLayout),
       children: [
@@ -87,11 +92,6 @@ export default {
 
         },
 
-        {
-          path: APP_DEVICE_INDEX,
-          element: SuspenseFn(DeviceIndex),
-
-        },
         // 本地文件上传
 
         localfile,

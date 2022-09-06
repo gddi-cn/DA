@@ -10,7 +10,7 @@ import { Form, message } from 'antd'
 import { titleMap } from './SelectChip/config'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_ANALYSE, APP_MODEL_TRAIN_DETAIL } from '@router'
-import { getTaskActiveList } from '@reducer/tasksSilce'
+import { getTaskActiveList, checkoutTask } from '@reducer/tasksSilce'
 
 // APP_MODEL_TRAIN_DETAIL
 
@@ -186,6 +186,7 @@ const ModelTrainConfig = (): JSX.Element => {
             navigate({
               pathname: APP_MODEL_TRAIN_DETAIL
             })
+            dispath(checkoutTask(patchProRes?.data))
             dispath(getTaskActiveList({
 
             }))

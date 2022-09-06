@@ -70,6 +70,7 @@ const DataSetDetail = (): JSX.Element => {
   const leftContent = useMemo(() => {
     return (
       <div className='leftContent'>
+
         <DatasetInfo
           whichSet={whichSet}
           setClassInfo={setClassInfo}

@@ -3,27 +3,27 @@ import { useDeferredValue, useState } from 'react'
 
 import './SDKDocuments.module.less'
 
-const CusRadio = (props:any) => {
-  const { value, setChipType } = props
+// const CusRadio = (props:any) => {
+//   const { value, setChipType } = props
 
-  const handleSelect = (v:string) => {
-    setChipType(v)
-  }
+//   const handleSelect = (v:string) => {
+//     setChipType(v)
+//   }
 
-  const getActiveCls = (v:string) => {
-    if (v === value) {
-      return 'item_active'
-    }
+//   const getActiveCls = (v:string) => {
+//     if (v === value) {
+//       return 'item_active'
+//     }
 
-    return ''
-  }
-  return (
-    <div className='CusRdio'>
-      <div className={`x86_wrap ${getActiveCls('x86')} `} onClick={() => handleSelect('x86')}>X86</div>
-      <div className={`arm_wrap ${getActiveCls('arm')} `} onClick={() => handleSelect('arm')}>ARM</div>
-    </div>
-  )
-}
+//     return ''
+//   }
+//   return (
+//     <div className='CusRdio'>
+//       <div className={`x86_wrap ${getActiveCls('x86')} `} onClick={() => handleSelect('x86')}>X86</div>
+//       <div className={`arm_wrap ${getActiveCls('arm')} `} onClick={() => handleSelect('arm')}>ARM</div>
+//     </div>
+//   )
+// }
 
 const SDK_DOCS = [
   {
@@ -63,7 +63,7 @@ const SDK_DOCS = [
 ]
 
 const SDKDocuments = (): JSX.Element => {
-  const [chipType, setChipType] = useState('x86')
+  // const [chipType, setChipType] = useState('x86')
 
   const [pdfList, setPdfList] = useState(SDK_DOCS)
 
@@ -86,7 +86,7 @@ const SDKDocuments = (): JSX.Element => {
         <div className='header_title'>选择芯片下载SDK压缩包</div>
         <div className='params_select_wrap'>
           <div className='SDKDocuments_input'><GIconInput placeholder='搜索芯片名称' onChange={handleSearch}></GIconInput></div>
-          <CusRadio value={chipType} setChipType={setChipType}></CusRadio>
+          {/* <CusRadio value={chipType} setChipType={setChipType}></CusRadio> */}
         </div>
       </div>
       <div className='body_list'>
