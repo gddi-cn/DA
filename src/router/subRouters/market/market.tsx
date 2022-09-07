@@ -27,7 +27,7 @@ import thirdparty from '../thirdparty';
 const NotFound = lazy(() => import('@src/views/NotFound'));
 
 const App = lazy(() => import('@src/views/container/app'));
-
+const NoScoketLayout = lazy(() => import('@src/views/container/NoScoketLayout'));
 const AutoMLLayout = lazy(() => import('@src/views/container/AutoMLLayout'));
 
 const TaskStepLayout = lazy(() => import('@src/views/container/TaskStepLayout'));
@@ -73,8 +73,13 @@ export default {
   children: [
     // 仅有头部任务的
     {
-      path: APP_DEVICE_INDEX,
-      element: SuspenseFn(DeviceIndex),
+      element: SuspenseFn(NoScoketLayout),
+      children: [
+        {
+          path: APP_DEVICE_INDEX,
+          element: SuspenseFn(DeviceIndex),
+        }
+      ]
 
     },
     {

@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-
+import TaskAndUserInfoHeader from './TaskAndUserInfoHeader'
 import './NoScoketLayout.module.less'
 
 // 给设备中心或者个人中心准备的layout，设计是奇怪了点
@@ -10,7 +10,7 @@ const NoScoketLayout = (): JSX.Element => {
   // }
   return (
     <div styleName='NoScoketLayout'>
-
+      <TaskAndUserInfoHeader />
       <Outlet />
     </div>
   )

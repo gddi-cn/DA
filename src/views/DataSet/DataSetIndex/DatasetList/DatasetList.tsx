@@ -27,11 +27,12 @@ type Params = {
 }
 
 type Props = {
-  setSelectData: React.Dispatch<any>
+  setSelectData: React.Dispatch<any>,
+  publicStatus:boolean
 }
 
 const DatasetList = (props: Props, ref: any): JSX.Element => {
-  const { setSelectData } = props
+  const { setSelectData, publicStatus } = props
 
   const [show, setShow] = useState(false)
 
@@ -121,10 +122,13 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
   }, [])
 
   const addBtn = useMemo(() => {
+    if (publicStatus) {
+      return null
+    }
     return (
       <AddDataset></AddDataset>
     )
-  }, [])
+  }, [publicStatus])
 
   const handleCardClick = useCallback((data: Data) => {
     setActiveId(data.id)

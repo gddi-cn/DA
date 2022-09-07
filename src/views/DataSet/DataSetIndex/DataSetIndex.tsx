@@ -7,11 +7,12 @@ import { isEmpty, isNil } from 'lodash'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_ANALYSE } from '@router'
-
+import { modifyActiveTask } from '@reducer/tasksSilce'
 import { socketPushMsgForProject } from '@ghooks'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@reducer/index'
 import './DataSetIndex.module.less'
+import moment from 'moment'
 
 const dataList:{label:string, id:string}[] = [
   { label: '全部类型', id: 'all' }
@@ -28,10 +29,12 @@ for (const [k, v] of Object.entries(MODEL_TYPES)) {
 
 const DataSetIndex = (): JSX.Element => {
   const paramsChangeAndFetch = useRef<any>(null)
-
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [selectData, setSelectData] = useState<any>({})
+
+  const [publicStatus, setPublicStatus] = useState(false)
 
   const [datasetName, setDatasetName] = useState<any>(undefined)
 
@@ -40,6 +43,10 @@ const DataSetIndex = (): JSX.Element => {
 
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
+  })
+
+  const reactKey = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo?.id
   })
 
   useEffect(() => {
@@ -69,6 +76,8 @@ const DataSetIndex = (): JSX.Element => {
         return
       }
       // const search = Qs.stringify({ id: selectData?.id, version_id: selectData?.latest_version?.id })
+      const name = moment().format('MM-DD') + '/' + selectData.name
+      dispatch(modifyActiveTask({ id: reactKey, params: { name: name } }))
       socketPushMsgForProject(
         activePipeLine, {
           active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_ANALYSE,
@@ -90,10 +99,12 @@ const DataSetIndex = (): JSX.Element => {
 
     if (value === '1') {
       if (paramsChangeAndFetch.current) {
+        setPublicStatus(true)
         paramsChangeAndFetch.current({ is_public: true }, { isInit: true })
       }
     } else {
       if (paramsChangeAndFetch.current) {
+        setPublicStatus(false)
         paramsChangeAndFetch.current({ is_public: false }, { isInit: true })
       }
     }
@@ -124,9 +135,9 @@ const DataSetIndex = (): JSX.Element => {
         {
           useMemo(() => {
             return (
-              <DatasetList ref={paramsChangeAndFetch} setSelectData={setSelectData} />
+              <DatasetList ref={paramsChangeAndFetch} setSelectData={setSelectData} publicStatus={publicStatus} />
             )
-          }, [])
+          }, [publicStatus])
         }
       </div>
       <FooterBar rightContent={<FooterRightView/>}/>

@@ -7,8 +7,9 @@ import { useLocation } from 'react-router-dom'
 import { APP_MODEL_TRAIN_DETAIL } from '@router'
 import { setCurrentVersion } from '@reducer/modelDetailSlice'
 import { socketPushMsgForProject } from '@ghooks'
+import { message, Popconfirm } from 'antd'
 import './ModelIterrator.module.less'
-import { message } from 'antd'
+import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
 const ModelIterrator = (): JSX.Element => {
   const location = useLocation()
@@ -58,8 +59,17 @@ const ModelIterrator = (): JSX.Element => {
           message.error(e?.message)
         }
       }
+
+      const handleGotoDataSet = () => {
+        socketPushMsgForProject(activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL
+        })
+      }
       return (
-        <GButton className='ModelIterrator_btn' type='default' onClick={handleIter}>迭代</GButton>
+        <Popconfirm placement="leftTop" title="是否添加数据再进行迭代？" onCancel={handleIter} onConfirm={handleGotoDataSet} okText="去添加数据" cancelText="直接迭代">
+          <GButton className='ModelIterrator_btn' type='default' >迭代</GButton>
+        </Popconfirm>
+
       )
     }
     return null
