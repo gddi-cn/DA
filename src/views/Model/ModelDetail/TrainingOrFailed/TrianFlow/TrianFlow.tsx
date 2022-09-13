@@ -15,6 +15,7 @@ import { setVersionInfo } from '@reducer/modelDetailSlice'
 import { ReactComponent as Failed } from './icon/failed.svg'
 import { socketPushMsgForProject } from '@ghooks'
 import { RootState } from '@reducer/index'
+import { checkoutTask } from '@reducer/tasksSilce'
 import { useSelector, useDispatch } from 'react-redux'
 import './TrianFlow.module.less'
 import { message } from 'antd'
@@ -137,6 +138,7 @@ const TrianFlow = (): JSX.Element => {
           },
         })
         if (updateSnapRes?.code === 0) {
+          dispatch(checkoutTask(updateSnapRes.data))
           socketPushMsgForProject(
             activePipeLine,
             {

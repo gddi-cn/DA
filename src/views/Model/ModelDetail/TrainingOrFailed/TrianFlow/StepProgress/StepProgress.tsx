@@ -31,7 +31,7 @@ const StepProgress = (props: Props) => {
       }
 
       <div className='percent_wrap'>
-        {+(progress * 100).toFixed(2)}%
+        {+(progress * 100).toFixed(0)}%
       </div>
     </div>
   )

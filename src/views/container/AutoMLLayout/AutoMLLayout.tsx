@@ -36,6 +36,7 @@ const AutoMLLayout = (): JSX.Element => {
   const getView = useMemo(
     () => {
       // PPT是不需要性能的
+      console.log(activePipeLineLoading, 'activePipeLineLoading')
       if (activePipeLineLoading) {
         return (
           <div className='transition_div'>

@@ -27,7 +27,8 @@ const ModelList = () => {
         params: {
           name: deferName,
           sort: 'desc',
-          page_size: 10
+          page_size: 10,
+          status: 2
         }
       })
       if (res.code === 0) {

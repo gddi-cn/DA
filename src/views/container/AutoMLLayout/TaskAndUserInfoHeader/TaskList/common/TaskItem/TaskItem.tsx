@@ -1,6 +1,6 @@
 
 import { Popover } from 'antd'
-import { hiddenActiveTask, checkoutTask, saveActivePipeLine } from '@reducer/tasksSilce'
+import { hiddenActiveTask, checkoutTask, saveActivePipeLine, saveActivePipeLineLoading } from '@reducer/tasksSilce'
 import { useDispatch, useSelector } from 'react-redux'
 // import { useDebounceFn } from 'ahooks'
 import { CloseOutlined } from '@ant-design/icons'
@@ -61,7 +61,12 @@ const TaskItem = (props: Props): JSX.Element => {
 
   const handleCheckoutTask = () => {
     console.log(1)
+    dispatch(saveActivePipeLineLoading(true))
     dispatch(checkoutTask(data))
+    const timer = setTimeout(() => {
+      clearTimeout(timer)
+      dispatch(saveActivePipeLineLoading(false))
+    }, 0)
     // 去某些不在流程页面的时候需要回来，这个强推
     // 性能啥的就忽略吧，PPT就别太纠结了是吧
     // 神奇Bug
