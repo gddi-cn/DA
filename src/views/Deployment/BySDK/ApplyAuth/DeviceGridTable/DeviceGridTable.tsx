@@ -5,6 +5,7 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { isEmpty } from 'lodash'
 
 import './DeviceGridTable.module.less'
+// import { SmallButton } from '@src/UIComponents';
 
 const column: any[] = [
 
@@ -27,6 +28,10 @@ const column: any[] = [
     label: '授权状态',
     className: 'DeviceGridTable_header_item_auth'
   },
+  // {
+  //   label: '操作',
+
+  // },
 ]
 
 const DeviceGridTable = (props: any): JSX.Element => {
@@ -73,6 +78,12 @@ const DeviceGridTable = (props: any): JSX.Element => {
       </div>
     )
   }
+
+  // const getDownloadBtn = (ModelAuth: any) => {
+  //   return (
+  //     <SmallButton type='primary' className='' disabled={ModelAuth !== 'Authorized'}>下载</SmallButton>
+  //   )
+  // }
 
   const getView = () => {
     if (loading) {
@@ -148,6 +159,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
                 <div className='DeviceGridTable_body_item_wrap'>{data?.chip || '-'}</div>
                 <div className='DeviceGridTable_body_item_wrap'>{getState(data?.state)}</div>
                 <div className='DeviceGridTable_body_item_wrap_auth'>{getModelAuth(data?.ModelAuth)}</div>
+                {/* <div className='DeviceGridTable_body_item_wrap'>{getDownloadBtn(data?.ModelAuth)}</div> */}
               </div>
             )
           })

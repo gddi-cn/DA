@@ -1,0 +1,33 @@
+.LisenceTable {
+    width: 100%;
+    border-radius: 8px;
+
+    padding: 10px;
+
+    overflow: hidden;
+
+    :global {
+        .ant-table {
+            background-color: transparent !important;
+        }
+
+        .ant-table-cell {
+            background-color: transparent !important;
+        }
+
+        .ant-table-thead>tr>th,
+        .ant-table-tbody>tr>td {
+            border-bottom: 1px solid #62B0E5 !important;
+            background-color: transparent !important;
+        }
+
+        .ant-table-cell::before {
+            display: none;
+        }
+
+        .look_over_some_shit {
+            color: #62B0E5;
+            cursor: pointer;
+        }
+    }
+}

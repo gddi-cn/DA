@@ -3,6 +3,7 @@ import { ReactCusScrollBar, GButton, FooterBar } from '@src/UIComponents'
 import SDKDocuments from '../SDKDocuments'
 // import AuthDocuments from '../AuthDocuments'
 import ApplyAuth from '../ApplyAuth'
+import DownloadLisense from '../DownloadLisense'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
@@ -64,8 +65,11 @@ const Documents = (props: any): JSX.Element => {
               {/* <Panel header="SDK授权文档" key="2">
                 <AuthDocuments />
               </Panel> */}
-              <Panel header="SDK授权申请" key="3">
+              <Panel header="SDK授权申请" key="2">
                 <ApplyAuth />
+              </Panel>
+              <Panel header="SDK授权下载" key="3">
+                <DownloadLisense />
               </Panel>
             </Collapse>
             <div className='zhanwei'></div>
