@@ -190,8 +190,11 @@ const ModelTrainConfig = (): JSX.Element => {
             dispath(getTaskActiveList({
 
             }))
+          } else {
+            message.error(patchProRes?.message)
           }
         } else {
+          message.error(startTrainRes?.message)
           setNextLoading(false)
         }
 

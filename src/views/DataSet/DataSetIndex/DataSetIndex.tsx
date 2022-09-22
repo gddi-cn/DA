@@ -4,7 +4,7 @@ import DatasetList from './DatasetList'
 import { MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { isEmpty, isNil } from 'lodash'
-import { message } from 'antd'
+import { message, notification } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_ANALYSE } from '@router'
 import { modifyActiveTask } from '@reducer/tasksSilce'
@@ -73,6 +73,17 @@ const DataSetIndex = (): JSX.Element => {
     const handleNext = () => {
       if (isEmpty(selectData) || isNil(selectData)) {
         message.warning('请选择数据集')
+        return
+      }
+      console.log(selectData)
+      const { train_set, val_set } = selectData
+      if (train_set?.class_count !== val_set?.class_count) {
+        notification.error({
+          message: '提示',
+          duration: 3,
+          description:
+            '训练集与验证集类别不一致，请补全数据后再训练。',
+        });
         return
       }
       // const search = Qs.stringify({ id: selectData?.id, version_id: selectData?.latest_version?.id })

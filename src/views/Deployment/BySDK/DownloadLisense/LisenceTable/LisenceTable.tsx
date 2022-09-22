@@ -37,22 +37,21 @@ const DownLoadBtn = (props: DownLoadBtnProps) => {
   };
 
   const handleDownClick = (cusFileName?: string) => {
+    function downloadAs (url: any, fileName: any) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      link.target = '_blank'
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
     function downLoad (data: any, filename: string) {
       const url = URL.createObjectURL(new Blob([data], { type: 'application/octet-stream' }));
 
       downloadAs(url, filename);
       URL.revokeObjectURL(url);
-
-      function downloadAs (url: any, fileName: any) {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        link.target = '_blank'
-
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      }
     }
 
     const fn = async () => {
@@ -60,7 +59,13 @@ const DownLoadBtn = (props: DownLoadBtnProps) => {
       try {
         const res = await api.get(`/v3/models/${model_id}/versions/${model_iter_id}/license/${license_id}`, { responseType: 'blob', onDownloadProgress: onprogress })
 
-        downLoad(res, cusFileName || 'model.gem')
+        downLoad(res, cusFileName || 'license')
+        const modelRes = await api.get(`/v3/models/${model_id}/versions/${model_iter_id}/download`)
+        console.log(modelRes, 'modelRes')
+        if (modelRes.code === 0) {
+          const { hash, url } = modelRes.data
+          downloadAs(url, hash || 'model')
+        }
         setloading(false)
       } catch (e) {
         setloading(false)
