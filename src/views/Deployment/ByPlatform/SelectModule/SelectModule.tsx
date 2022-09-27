@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './SelectModule.module.less'
+import moment from 'moment';
 
 const SelectList = (props:any) => {
   const { onChange, device_type, value } = props
@@ -118,6 +119,10 @@ const SelectModule = (): JSX.Element => {
     return state.tasksSilce.activePipeLine || {}
   })
 
+  const app_anme = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo?.name
+  })
+
   useEffect(() => {
     if (!isEmpty(activePipeLine?.APP_SelectModule)) {
       form.setFieldsValue(activePipeLine?.APP_SelectModule)
@@ -147,15 +152,17 @@ const SelectModule = (): JSX.Element => {
 
         }
 
+        const name = `应用-${app_anme}-${moment().format('YYYY-MM-DD hh:mm:ss')}`
+
         if (isEmpty(adapter_device)) {
           parmas = {
-            name: '0.6无命名应用',
+            name: name,
             adapter_device: undefined,
             ...rest
           }
         } else {
           parmas = {
-            name: '0.6无命名应用',
+            name: name,
             adapter_device: adapter_device[adapter_device.length - 1],
             ...rest
           }
@@ -195,7 +202,7 @@ const SelectModule = (): JSX.Element => {
         <GButton style={{ width: 132 }} type='primary' onClick={goNext} loading={loading}>下一步</GButton>
       </div>
     )
-  }, [loading, navigate, activePipeLine, form])
+  }, [loading, navigate, activePipeLine, form, app_anme])
 
   const handleAllChange = (changeValue:any, all_value:any) => {
     console.log(all_value)

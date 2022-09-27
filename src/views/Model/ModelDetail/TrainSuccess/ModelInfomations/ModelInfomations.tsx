@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import './ModelInfomations.module.less'
 
 const { Panel } = Collapse;
-const mode_text = ['速度优先', '精度优先', '自定义']
+const mode_text = ['', '速度优先', '精度优先', '自定义']
 const ModelInfomations = (): JSX.Element => {
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
@@ -19,9 +19,9 @@ const ModelInfomations = (): JSX.Element => {
   }
 
   const { iter } = versionInfo
-  const { app_data_args, gpu_count, platform } = iter
+  const { app_data_args, gpu_count, platform, channel = 1, mode = 1 } = iter
   const platformlist = JSON.parse(platform)
-  const { fps = 5, channel = 1, mode = 1 } = JSON.parse(app_data_args)
+  const { fps = 5 } = JSON.parse(app_data_args)
   const getTime = () => {
     const { begin, end } = versionInfo.iter
     let valueList: any = []
