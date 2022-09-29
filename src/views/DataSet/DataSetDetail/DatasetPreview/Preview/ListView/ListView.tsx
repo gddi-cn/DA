@@ -51,20 +51,18 @@ const ListView = (props: Props): JSX.Element => {
       }
       try {
         let _datasetList = [...datasetList.current]
-        if (funcInfo) {
+        if (funcInfo?.isInit || (lastId.current !== currentId)) {
           // 初始化
-          const { isInit } = funcInfo
-          if (isInit) {
-            const scrollRef = document.getElementById('scrollableDiv')?.firstChild as any
-            if (scrollRef) {
-              scrollRef?.scrollTo({
-                top: 0,
-                // behavior: 'smooth'
-              })
-            }
-            _datasetList = []
-            params.current.page = 1
+
+          const scrollRef = document.getElementById('scrollableDiv')?.firstChild as any
+          if (scrollRef) {
+            scrollRef?.scrollTo({
+              top: 0,
+              // behavior: 'smooth'
+            })
           }
+          _datasetList = []
+          params.current.page = 1
         }
         lastId.current = currentId
         const res = await api.get(`/v3/datasets/${id}/sub-datasets/${currentId}/images`, { params: { ...params.current, class: name } })
@@ -109,11 +107,11 @@ const ListView = (props: Props): JSX.Element => {
     return (
       datasetList.current.map((o) => {
         return (
-          <ListItem key={o.hash} data={o} scenes={scenes} />
+          <ListItem key={o.hash + '-' + currentId} data={o} scenes={scenes} />
         )
       })
     )
-  }, [dataListLen, datasetTotal, scenes])
+  }, [dataListLen, datasetTotal, scenes, currentId])
 
   return (
     <div styleName='ListView'>

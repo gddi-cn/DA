@@ -1,7 +1,7 @@
 import { UIDatasetVisual, ReactCusScrollBar } from '@src/UIComponents'
 import { useMemo, useState } from 'react'
 // import { isEmpty } from 'lodash'
-import { Modal } from 'antd'
+import { Modal, Image } from 'antd'
 import { useGetDataInfo } from '../../../utils'
 import './Listview.module.less'
 
@@ -19,7 +19,11 @@ const ListItem = (props:any) => {
 
     } = datainfo
 
-    console.log(dataSet, 21212)
+    if (model_type === 'keypoints_based_action') {
+      return (
+        <Image src={(data.src as any)} />
+      )
+    }
 
     return (
       <div className='UIDatasetVisual_small_wrap' onClick={() => setvisible(true)}>

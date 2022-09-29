@@ -12,6 +12,20 @@ import './commonUpload.module.less'
 
 const { Dragger } = Upload;
 
+class Msg {
+  list = []
+  getMsg = () => {
+    if (!isEmpty(this.list)) {
+      return this.list.reduce((a: any, b: any, index: number) => {
+        if (index === 0) {
+          return b.name
+        }
+        return a + '、' + b.name
+      }, '')
+    }
+  }
+}
+
 const CommonUpload = (props:any): JSX.Element => {
   const { thres, setLoading, fetchResult, model_type } = props
   const versionInfo = useSelector((state: RootState) => {
@@ -28,20 +42,6 @@ const CommonUpload = (props:any): JSX.Element => {
 
     const videoReg = /\.(mp4)$/
 
-    class Msg {
-      list = []
-      getMsg = () => {
-        if (!isEmpty(this.list)) {
-          return this.list.reduce((a: any, b: any, index: number) => {
-            if (index === 0) {
-              return b.name
-            }
-            return a + '、' + b.name
-          }, '')
-        }
-      }
-    }
-
     const imgList: any = []
     const videoList: any = []
 
@@ -52,6 +52,12 @@ const CommonUpload = (props:any): JSX.Element => {
     const videoListErr: any = new Msg()
 
     for (const o of fileList) {
+      if (model_type === 'keypoints_based_action') {
+        if (imageReg.test(o.name)) {
+          errorList.list.push(o)
+          continue
+        }
+      }
       if (imageReg.test(o.name)) {
         imgList.push(o)
         continue
@@ -200,15 +206,35 @@ const CommonUpload = (props:any): JSX.Element => {
     if (model_type === 'classify') {
       return '支持.jpg .jpeg . png'
     }
+    if (model_type === 'keypoints_based_action') {
+      return '支持 .mp4'
+    }
     return '支持.jpg .jpeg . png .mp4'
+  }
+
+  const getOtherTips = () => {
+    if (model_type === 'keypoints_based_action') {
+      return (
+        <>
+          <p>单次预测项目总数量不多于20个</p>
+
+          <p>单个视屏不大于100 MB</p>
+        </>
+      )
+    }
+    return (
+      <>
+        <p>单次预测项目总数量不多于20个</p>
+        <p>单张图片不大于10 MB</p>
+        <p>单个视屏不大于100 MB</p>
+      </>
+    )
   }
   return (
     <div styleName='commonUpload'>
       {/* <Tips /> */}
       <div className='tips_wrap'>
-        <p>单次预测项目总数量不多于20个</p>
-        <p>单张图片不大于10 MB</p>
-        <p>单个视屏不大于100 MB</p>
+        {getOtherTips()}
         <p>{getText()}</p>
       </div>
       <div className='upload_wrap'>

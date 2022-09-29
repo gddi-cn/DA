@@ -6,8 +6,8 @@ import api from '@api'
 import { RootState } from '@reducer/index'
 import { useSelector } from 'react-redux'
 import { transformModelOutputData } from '../../utils'
-import { ImageSlider, UIDatasetVisual } from '@src/UIComponents'
-import FlvMp4 from '../FlvMp4'
+import { ImageSlider, UIDatasetVisual, FlvMp4 } from '@src/UIComponents'
+
 import { DatePicker, Skeleton, Empty } from 'antd'
 
 import './ForecastResult.module.less'

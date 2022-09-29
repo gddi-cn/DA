@@ -1,7 +1,8 @@
 import { isEmpty, chunk } from 'lodash'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ImageSlider, UIDatasetVisual } from '@src/UIComponents'
 import { transformModelOutputData } from '../../../utils'
+import { Image } from 'antd'
 import './SlickView.module.less'
 
 const RenderView = (props: any) => {
@@ -17,6 +18,14 @@ const RenderView = (props: any) => {
 
   } = datainfo
   // 这里不能让react复用、我猜是离屏canvas导致的缓存问题~
+  if (scenes === 'keypoints_based_action') {
+    return (
+      <div className='ant-image-warp'>
+        <Image src={(data.src as any)} />
+      </div>
+
+    )
+  }
   return (
     <UIDatasetVisual
       key={Math.random().toString(36).slice(2)}
@@ -27,6 +36,17 @@ const RenderView = (props: any) => {
       hasHtmlTips={scenes === 'classify'}
     />
   )
+}
+
+const RenderDotView = (props: any) => {
+  const { data } = props
+  const view = useMemo(() => {
+    console.log(data, 44)
+    return (
+      <img className='img_dot_btn' src={data?.src} />
+    )
+  }, [data])
+  return view
 }
 
 const SlickView = (props: any): JSX.Element => {
@@ -57,7 +77,7 @@ const SlickView = (props: any): JSX.Element => {
 
   const renderDotView = (o: any) => {
     return (
-      <img className='img_dot_btn' src={o?.src} />
+      <RenderDotView data={o}/>
     )
   }
   return (

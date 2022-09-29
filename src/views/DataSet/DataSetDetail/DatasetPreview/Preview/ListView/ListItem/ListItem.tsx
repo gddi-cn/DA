@@ -1,5 +1,6 @@
 import { useGetDataInfo } from '../../utils/getDataInfo'
-import { UIDatasetVisual } from '@src/UIComponents'
+import { UIDatasetVisual, FlvMp4 } from '@src/UIComponents'
+
 import { useMemo, useState } from 'react'
 import { isEmpty } from 'lodash'
 import { Modal } from 'antd'
@@ -13,20 +14,25 @@ const ListItem = (props: Props): JSX.Element => {
   const { data, scenes } = props
   const [visible, setvisible] = useState(false)
   const datainfo = useGetDataInfo(data, scenes)
-  // console.log(datainfo)
-  // console.log(data)
 
+  // console.log(data)
+  console.log(datainfo)
   const view = useMemo(() => {
     if (isEmpty(datainfo)) {
       return null
     }
     const {
       thumbnailUrl,
-      // url,
+      url,
       dataSet,
       // rawImgDataSet,
 
     } = datainfo
+    if (scenes === 'keypoints_based_action') {
+      return (
+        <FlvMp4 src={(url as any)} />
+      )
+    }
 
     return (
       <div className='UIDatasetVisual_small_wrap' onClick={() => setvisible(true)}>

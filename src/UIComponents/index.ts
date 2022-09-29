@@ -46,6 +46,8 @@ import TransitionAnimation from './TransitionAnimation'
 
 import CusRadio from './CusRadio'
 
+import FlvMp4 from './FlvMp4'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -68,5 +70,6 @@ export {
   IsEchartViewButton,
   ModelOpreationTitle,
   TransitionAnimation,
-  CusRadio
+  CusRadio,
+  FlvMp4
 }

@@ -2,9 +2,9 @@ import { chunk } from 'lodash'
 import { Image } from 'antd';
 // import { TransitionAnimation } from '@src/UIComponents'
 import { VideoCameraOutlined } from '@ant-design/icons'
-import FlvMp4 from '@src/views/Model/ModelDetail/TrainSuccess/ModelForecast/FlvMp4'
+// import FlvMp4 from '@src/views/Model/ModelDetail/TrainSuccess/ModelForecast/FlvMp4'
 import { useEffect, useRef, useState } from 'react'
-import { ImageSlider } from '@src/UIComponents'
+import { ImageSlider, FlvMp4 } from '@src/UIComponents'
 import './SlickView.module.less'
 
 const RenderView = (props: any) => {

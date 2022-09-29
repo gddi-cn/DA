@@ -1,6 +1,6 @@
 import api from '@api'
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { ImageSlider, UIDatasetVisual } from '@src/UIComponents'
+import { ImageSlider, UIDatasetVisual, FlvMp4 } from '@src/UIComponents'
 import { processData } from '../utils/getDataInfo'
 import { isEmpty } from 'lodash'
 
@@ -38,6 +38,12 @@ const RenderView = (props: RenderViewProps) => {
     rawImgDataSet,
 
   } = datainfo
+
+  if (scenes === 'keypoints_based_action') {
+    return (
+      <FlvMp4 src={(url as any)} />
+    )
+  }
   // 这里不能让react复用、我猜是离屏canvas导致的缓存问题~
   return (
     <UIDatasetVisual
