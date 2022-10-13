@@ -17,7 +17,7 @@ const GFlops = (): JSX.Element => {
     if (!isEmpty(activePipeLine?.APP_MODEL_TRAIN_CONFIG)) {
       const config = activePipeLine?.APP_MODEL_TRAIN_CONFIG
       if (!isNil(config.fps)) {
-        setGFlopsNum(`${111}GFlops`)
+        // setGFlopsNum(`${111}GFlops`)
         const { fps, chip_info, channel } = config
         const { application, brand, chip_type, name } = chip_info
         const res = await api.get(`/v3/capacity/${application}/value`, {

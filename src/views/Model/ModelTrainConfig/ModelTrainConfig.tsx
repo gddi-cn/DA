@@ -234,14 +234,15 @@ const ModelTrainConfig = (): JSX.Element => {
 
         // const channel = clamp(_channel, 1, _channel)
 
-        const _fps = _fpsmax > 5 ? 5 : _fpsmax
+        const _fps = _fpsmax > 25 ? 25 : _fpsmax
         console.log(_fps, _fpsmax)
         const clampChannel = clamp(Math.floor(_fpsmax / _fps), 1, _channel)
         setMaxFps(_fpsmax)
         setChannelLimited(_channel)
+        const reallyFps = _fpsmax > 5 ? 5 : _fpsmax
         const _data = Object.assign(all_values, {
           mode: 2,
-          fps: _fps,
+          fps: reallyFps,
           channel: clampChannel
         })
         socketPushMsgForProject(
@@ -302,10 +303,13 @@ const ModelTrainConfig = (): JSX.Element => {
       if (hasTarget(changeValues, 'mode')) {
         const { mode } = changeValues
         console.log(maxFps, 'maxFps326')
+        const _fps = maxFps > 25 ? 25 : maxFps
+        const _channel = Math.floor((maxFps / _fps))
+        const channel = clamp(_channel, 1, channelLimited)
         if (mode === 1) {
           const _fps = maxFps > 25 ? 25 : maxFps
-          const _channel = Math.floor((maxFps / _fps))
-          const channel = clamp(_channel, 1, channelLimited)
+          // const _channel = Math.floor((maxFps / _fps))
+          // const channel = clamp(_channel, 1, channelLimited)
           const _data = Object.assign(all_values, {
             fps: _fps, channel
           })
@@ -316,9 +320,9 @@ const ModelTrainConfig = (): JSX.Element => {
           )
         } else if (mode === 2) {
           const _fps = maxFps > 5 ? 5 : maxFps
-          const _channel = Math.floor((maxFps / _fps))
-          console.log(_channel, 275)
-          const channel = clamp(_channel, 1, channelLimited)
+          // const _channel = Math.floor((maxFps / _fps))
+          // console.log(_channel, 275)
+          // const channel = clamp(_channel, 1, channelLimited)
           const _data = Object.assign(all_values, {
             fps: _fps, channel
           })
