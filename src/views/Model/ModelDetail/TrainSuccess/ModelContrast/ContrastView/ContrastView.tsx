@@ -1,4 +1,4 @@
-import { ReactCusScrollBar, IsEchartViewButton, GEcharts } from '@src/UIComponents'
+import { ReactCusScrollBar, IsEchartViewButton, GEcharts, Glegend } from '@src/UIComponents'
 import { getOptions, getThresOptions } from '../utils'
 import { useState } from 'react'
 import './ContrastView.module.less'
@@ -46,7 +46,14 @@ const EchartView = (props: any) => {
   const list = config_type === 'version' ? getOptions(dataList) : getThresOptions(dataList)
   return (
     <div className='EchartView'>
-      <GEcharts options={list} />
+      <div className='cus_legend_wrap'>
+        <Glegend color='#A3D0EF' label='准确率'></Glegend>
+        <Glegend color='#5AABE2' label='召回率'></Glegend>
+        <Glegend color='#085082' label='F1 Score'></Glegend>
+      </div>
+      <div className='chart_wrap'>
+        <GEcharts options={list} />
+      </div>
     </div>
   )
 }

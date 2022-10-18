@@ -1,5 +1,5 @@
 
-import * as echarts from 'echarts'
+// import * as echarts from 'echarts'
 import { isEmpty } from 'lodash'
 
 export const getOptions = (items) => {
@@ -27,10 +27,17 @@ export const getOptions = (items) => {
 
   const option = {
     legend: {
-      data: ['准确率', '召回率']
+      data: ['准确率', '召回率'],
+      show: false
     },
     tooltip: {
       trigger: 'axis',
+      backgroundColor: '#061926',
+      borderWidth: 0,
+      borderRadius: 10,
+      textStyle: {
+        color: '#fff'
+      },
       axisPointer: {
         type: 'cross',
         label: {
@@ -71,12 +78,12 @@ export const getOptions = (items) => {
         show: true
       }
     },
-    // grid: {
-    //   left: '3%',
-    //   right: '4%',
-    //   bottom: '3%',
-    //   containLabel: true
-    // },
+    grid: {
+      left: '0%',
+      right: '0%',
+      bottom: '8%',
+      containLabel: true
+    },
     dataZoom: [
       {
         show: true,
@@ -107,14 +114,10 @@ export const getOptions = (items) => {
         barGap: '30%',
 
         itemStyle: {
-          color: new echarts.graphic.LinearGradient(
-            0, 0, 0, 1,
-            [
-              { offset: 0, color: '#83bff6' },
-              { offset: 0.5, color: '#188df0' },
-              { offset: 1, color: '#6699FF' }
-            ]
-          )
+          color: '#A3D0EF',
+          borderRadius: [10, 10, 0, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
 
         data: dataAcc
@@ -126,7 +129,10 @@ export const getOptions = (items) => {
         barGap: '30%',
 
         itemStyle: {
-          color: '#999'
+          color: '#5AABE2',
+          borderRadius: [10, 10, 0, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
 
         data: dataRec

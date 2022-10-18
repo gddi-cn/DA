@@ -29,7 +29,13 @@ export const getOptions = (v: any, xData: any) => {
         label: {
           backgroundColor: '#6a7985'
         }
-      }
+      },
+      backgroundColor: '#061926',
+      borderWidth: 0,
+      borderRadius: 10,
+      textStyle: {
+        color: '#fff'
+      },
     },
     legend: {
       data: v && v.map ? v.map((o: any, i: any) => {

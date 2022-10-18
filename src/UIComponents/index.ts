@@ -48,6 +48,8 @@ import CusRadio from './CusRadio'
 
 import FlvMp4 from './FlvMp4'
 
+import Glegend from './Glegend'
+
 export {
   TypeSettingBotton,
   Tag,
@@ -71,5 +73,6 @@ export {
   ModelOpreationTitle,
   TransitionAnimation,
   CusRadio,
-  FlvMp4
+  FlvMp4,
+  Glegend
 }

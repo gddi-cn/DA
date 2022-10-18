@@ -144,7 +144,8 @@ export const getThresOptions = (data: any) => {
   const option = {
 
     legend: {
-      data: ['精确率', '召回率', 'F1 Score']
+      data: ['精确率', '召回率', 'F1 Score'],
+      show: false
     },
 
     tooltip: {
@@ -154,7 +155,13 @@ export const getThresOptions = (data: any) => {
         label: {
           backgroundColor: '#6a7985'
         }
-      }
+      },
+      backgroundColor: '#061926',
+      borderWidth: 0,
+      borderRadius: 10,
+      textStyle: {
+        color: '#fff'
+      },
     },
 
     xAxis: {
@@ -174,7 +181,12 @@ export const getThresOptions = (data: any) => {
       z: 10,
       type: 'value',
     },
-
+    grid: {
+      left: '0%',
+      right: '8%',
+      bottom: '8%',
+      containLabel: true
+    },
     yAxis: {
       data: dataAxis,
       type: 'category',
@@ -229,8 +241,12 @@ export const getThresOptions = (data: any) => {
         barMaxWidth: 17,
         barGap: '30%',
         data: accuracyArr,
+
         itemStyle: {
-          color: '#2EC16B'
+          color: '#A3D0EF',
+          borderRadius: [0, 10, 10, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
       },
       {
@@ -239,9 +255,13 @@ export const getThresOptions = (data: any) => {
         barMaxWidth: 17,
         barGap: '30%',
         itemStyle: {
-          color: '#FF6584'
+          color: '#5AABE2',
+          borderRadius: [0, 10, 10, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
-        data: recallArr
+        data: recallArr,
+
       },
       {
         type: 'bar',
@@ -249,9 +269,13 @@ export const getThresOptions = (data: any) => {
         barMaxWidth: 17,
         barGap: '30%',
         itemStyle: {
-          color: '#48A2DF'
+          color: '#085082',
+          borderRadius: [0, 10, 10, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
-        data: fScoreArr
+        data: fScoreArr,
+
       }
     ]
   };
@@ -284,7 +308,8 @@ export const getOptions = (data:any) => {
   const option = {
 
     legend: {
-      data: ['精确率', '召回率', 'F1 Score']
+      data: ['精确率', '召回率', 'F1 Score'],
+      show: false
     },
 
     tooltip: {
@@ -294,9 +319,20 @@ export const getOptions = (data:any) => {
         label: {
           backgroundColor: '#6a7985'
         }
-      }
+      },
+      backgroundColor: '#061926',
+      borderWidth: 0,
+      borderRadius: 10,
+      textStyle: {
+        color: '#fff'
+      },
     },
-
+    grid: {
+      left: '0%',
+      right: '8%',
+      bottom: '8%',
+      containLabel: true
+    },
     xAxis: {
 
       axisLabel: {
@@ -370,8 +406,12 @@ export const getOptions = (data:any) => {
         barGap: '30%',
         data: accuracyArr,
         itemStyle: {
-          color: '#2EC16B'
+          color: '#A3D0EF',
+          borderRadius: [0, 10, 10, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
+
       },
       {
         type: 'bar',
@@ -379,8 +419,12 @@ export const getOptions = (data:any) => {
         barMaxWidth: 17,
         barGap: '30%',
         itemStyle: {
-          color: '#FF6584'
+          color: '#5AABE2',
+          borderRadius: [0, 10, 10, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
+
         data: recallArr
       },
       {
@@ -388,8 +432,12 @@ export const getOptions = (data:any) => {
         name: 'F1 Score',
         barMaxWidth: 17,
         barGap: '30%',
+
         itemStyle: {
-          color: '#48A2DF'
+          color: '#085082',
+          borderRadius: [0, 10, 10, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
         data: fScoreArr
       }

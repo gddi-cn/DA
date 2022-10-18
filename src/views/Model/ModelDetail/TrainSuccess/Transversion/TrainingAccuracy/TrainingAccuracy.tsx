@@ -1,4 +1,4 @@
-import { IsEchartViewButton, ReactCusScrollBar, GEcharts } from '@src/UIComponents'
+import { IsEchartViewButton, ReactCusScrollBar, GEcharts, Glegend } from '@src/UIComponents'
 import { isNil } from 'lodash'
 import { useState, useMemo } from 'react'
 import { getOptions } from './options'
@@ -42,7 +42,15 @@ const EchartView = (props:any) => {
   const { dataList } = props
   return (
     <div className='EchartView'>
-      <GEcharts options={getOptions(dataList)} />
+      <div className='cus_legend_wrap'>
+        <Glegend color='#A3D0EF' label='准确率'></Glegend>
+        <Glegend color='#5AABE2' label='召回率'></Glegend>
+        <Glegend color='#085082' label='F1 Score'></Glegend>
+      </div>
+      <div className='chart_wrap'>
+        <GEcharts options={getOptions(dataList)} />
+      </div>
+
     </div>
   )
 }
