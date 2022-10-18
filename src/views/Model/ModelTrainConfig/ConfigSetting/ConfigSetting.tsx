@@ -67,9 +67,9 @@ const CusRadioGroup = (props: any) => {
   return (
     <Radio.Group onChange={handleOnChange} {...rest}>
 
-      <Radio value={1}>速度优先</Radio>
-      <Radio value={2}>精度优先</Radio>
-      <Radio value={3}>自定义</Radio>
+      <Radio value={2}>速度优先</Radio>
+      <Radio value={1}>精度优先</Radio>
+      <Radio value={0}>自定义</Radio>
 
     </Radio.Group>
   )
@@ -129,9 +129,9 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
               //   return null
               // }
               return (
-                <span style={{ display: type !== 3 ? 'none' : 'block' }} className='additional_from_items'>
+                <span style={{ display: type !== 0 ? 'none' : 'block' }} className='additional_from_items'>
                   <div className='form_cus_item'>
-                    <div className='label'>单芯片部署路数</div>
+                    <div className='label'>算法并行数</div>
                     <Form.Item
 
                       name='channel'

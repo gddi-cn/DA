@@ -6,6 +6,7 @@ import datasetDefault from './icon/default.svg'
 import moment from 'moment'
 import api from '@api'
 import { useEffect, useState } from 'react'
+import { MODEL_TYPES } from '@src/constants'
 import './TaskItemDetail.module.less'
 
 // 貌似里边需要很多细节额、如果是进行中的话、似乎需要更新很多信息
@@ -128,6 +129,15 @@ const TaskItemDetail = (props: Props): JSX.Element => {
       return '--'
     }
   }
+
+  const getModelType = () => {
+    try {
+      const md_type: any = data?.additional?.model_type || ''
+      return (MODEL_TYPES as any)[md_type] || '未知'
+    } catch (e) {
+      return '未知'
+    }
+  }
   return (
     <div styleName='TaskItemDetail'>
       <div className={`TaskItemDetail_inner ${getModelTypeCls('_info_wrap')}`}>
@@ -143,7 +153,7 @@ const TaskItemDetail = (props: Props): JSX.Element => {
 
           <div className='bottom_wrap'>
             <div className={`model_type ${getModelTypeCls('')}`}>
-              {data?.additional?.model_type || '未知'}
+              {getModelType()}
             </div>
             <div className='platform'>
               <ChipSvg className='ChipSvg'/>
