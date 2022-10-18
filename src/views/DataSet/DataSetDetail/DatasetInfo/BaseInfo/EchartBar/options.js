@@ -1,5 +1,5 @@
 
-import * as echarts from 'echarts'
+// import * as echarts from 'echarts'
 
 export const getOptions = (items) => {
   const dataAxis = items.map((o, i) => {
@@ -17,6 +17,12 @@ export const getOptions = (items) => {
   const option = {
     tooltip: {
       trigger: 'axis',
+      backgroundColor: '#061926',
+      borderWidth: 0,
+      borderRadius: 10,
+      textStyle: {
+        color: '#fff'
+      },
       axisPointer: {
         type: 'cross',
         label: {
@@ -92,28 +98,28 @@ export const getOptions = (items) => {
         barMaxWidth: 17,
         barGap: '30%',
         showBackground: true,
+        backgroundStyle: {
+          color: '#EDF8FF',
+          borderRadius: [10, 10, 0, 0] // （顺时针左上，右上，右下，左下）
+        },
         itemStyle: {
-          color: new echarts.graphic.LinearGradient(
-            0, 0, 0, 1,
-            [
-              { offset: 0, color: '#83bff6' },
-              { offset: 0.5, color: '#188df0' },
-              { offset: 1, color: '#6699FF' }
-            ]
-          )
+          color: '#48A2DF',
+          borderRadius: [10, 10, 0, 0],
+          borderWidth: 1,
+          borderType: 'solid'
         },
-        emphasis: {
-          itemStyle: {
-            color: new echarts.graphic.LinearGradient(
-              0, 0, 0, 1,
-              [
-                { offset: 0, color: '#2378f7' },
-                { offset: 0.7, color: '#2378f7' },
-                { offset: 1, color: '#83bff6' }
-              ]
-            )
-          }
-        },
+        // emphasis: {
+        //   itemStyle: {
+        //     color: new echarts.graphic.LinearGradient(
+        //       0, 0, 0, 1,
+        //       [
+        //         { offset: 0, color: '#2378f7' },
+        //         { offset: 0.7, color: '#2378f7' },
+        //         { offset: 1, color: '#83bff6' }
+        //       ]
+        //     )
+        //   }
+        // },
         data: data
       }
     ]
