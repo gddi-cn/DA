@@ -113,9 +113,9 @@ const TrainInfo = (): JSX.Element => {
   ] = getConfig()
 
   const text:string[] = [
-    '',
-    '速度优先',
+    '自定义',
     '精度优先',
+    '速度优先',
     '自定义'
   ]
 
