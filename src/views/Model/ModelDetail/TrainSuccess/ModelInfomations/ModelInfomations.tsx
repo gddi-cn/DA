@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import './ModelInfomations.module.less'
 
 const { Panel } = Collapse;
-const mode_text = ['', '速度优先', '精度优先', '自定义']
+const mode_text = ['自定义', '精度优先', '速度优先', '自定义']
 const ModelInfomations = (): JSX.Element => {
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
