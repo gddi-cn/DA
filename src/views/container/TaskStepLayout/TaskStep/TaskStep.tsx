@@ -24,7 +24,18 @@ import {
   APP_AfterDeployed,
   APP_ForecastModule,
   APP_SelectModule,
-  APP_SetModuleConfig
+  APP_SetModuleConfig,
+  APP_LOCAL_FILE,
+  APP_LOCAL_FILE_STEP_1,
+  APP_LOCAL_FILE_STEP_2,
+  APP_LOCAL_FILE_STEP_3,
+  APP_LOCAL_FILE_STEP_4,
+  APP_THIRDPARTY,
+  APP_THIRDPARTY_STEP_1,
+  APP_THIRDPARTY_STEP_2,
+  APP_THIRDPARTY_STEP_3,
+  APP_THIRDPARTY_STEP_4,
+  APP_THIRDPARTY_SelectTrainType
 } from '@router'
 
 import { socketPushMsgForProject } from '@ghooks'
@@ -37,7 +48,19 @@ const DATASET_ACTIVE = [
   APP_DATA_SET_INDEX,
   APP_DATASET_DETAIL,
   APP_DATASET_ANALYSE,
-  APP_MODEL_TRAIN_CONFIG
+  APP_MODEL_TRAIN_CONFIG,
+
+  APP_LOCAL_FILE,
+  APP_LOCAL_FILE_STEP_1,
+  APP_LOCAL_FILE_STEP_2,
+  APP_LOCAL_FILE_STEP_3,
+  APP_LOCAL_FILE_STEP_4,
+  APP_THIRDPARTY,
+  APP_THIRDPARTY_STEP_1,
+  APP_THIRDPARTY_STEP_2,
+  APP_THIRDPARTY_STEP_3,
+  APP_THIRDPARTY_STEP_4,
+  APP_THIRDPARTY_SelectTrainType
 ]
 
 const MODEL_ACTIVE = [
@@ -185,7 +208,7 @@ const TaskStep = (): JSX.Element => {
   }
   return (
     <div styleName='TaskStep'>
-      <div className='step_wrap '>
+      <div className='TaskStep_step_wrap '>
         <div className={getCls(DATASET_ACTIVE, getDataCls())} onClick={handleDatasetClick}>
           <Shuju className='step_svg' />  数据
         </div>

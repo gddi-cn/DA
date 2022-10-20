@@ -1,5 +1,5 @@
 import { CreateDatasetStep } from '@src/UIComponents'
-
+import TaskStep from '@src/views/container/TaskStepLayout/TaskStep'
 import { Outlet, useLocation } from 'react-router-dom';
 
 import {
@@ -32,6 +32,7 @@ const LocalDataSet = (): JSX.Element => {
   const currentStep = pathkeys[pathname] || 1
   return (
     <div styleName='LocalDataSet'>
+      <TaskStep />
       <div className='step_wrap'>
         <CreateDatasetStep type='local' activeKey={currentStep} />
       </div>
