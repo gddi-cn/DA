@@ -19,5 +19,12 @@ const fns = {
   setModelId: (state: ModelDetailSlice.ModelDetailSliceState, action: PayloadAction<any>) => {
     state.id = action.payload
   },
+
+  initModelDetialSlice: (state: ModelDetailSlice.ModelDetailSliceState) => {
+    state.id = undefined
+    state.versionList = []
+    state.currentVersion = ({} as ModelDetailSlice.VersionItem)
+    state.versionInfo = ({} as ModelDetailSlice.VersionInfo)
+  },
 }
 export default fns

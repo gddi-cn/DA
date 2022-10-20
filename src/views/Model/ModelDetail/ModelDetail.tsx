@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import { message, Skeleton, Modal } from 'antd';
 import { isEmpty } from 'lodash';
-import { setCurrentVersion, setVersionList, setVersionInfo, setModelId } from '@reducer/modelDetailSlice'
+import { setCurrentVersion, setVersionList, setVersionInfo, setModelId, initModelDetialSlice } from '@reducer/modelDetailSlice'
 import { checkoutTask } from '@reducer/tasksSilce'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'
@@ -96,6 +96,11 @@ const ModelDetail = (): JSX.Element => {
     }, [dispatch, model_id, model_version_id]
   )
 
+  useEffect(() => {
+    return () => {
+      dispatch(initModelDetialSlice())
+    }
+  }, [dispatch])
   useEffect(() => {
     getModelBaseInfo()
   }, [getModelBaseInfo])

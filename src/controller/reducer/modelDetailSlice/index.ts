@@ -29,7 +29,8 @@ const {
   setVersionList,
   setCurrentVersion,
   setVersionInfo,
-  setModelId
+  setModelId,
+  initModelDetialSlice
 } = actions
 
 // 好像不见得需要初始化、留着吧
@@ -40,7 +41,8 @@ export {
   setCurrentVersion,
   setVersionInfo,
   setVersionList,
-  setModelId
+  setModelId,
+  initModelDetialSlice
 }
 
 export default tasksSilce.reducer

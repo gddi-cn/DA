@@ -1,9 +1,10 @@
 import api from '@api'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { GButton } from '@src/UIComponents'
-import StepProgress from './StepProgress'
+// import StepProgress from './StepProgress'
 // import ModelDetailType from '../../types'
-import FlvMp4 from './FlvMp4'
+// import FlvMp4 from './FlvMp4'
+import ForceAutoPlayVedio from './ForceAutoPlayVedio'
 // import { ReactComponent as Shujuzhunbei } from './icon/1.svg'
 // import { ReactComponent as Shujuchuli } from './icon/2.svg'
 // import { ReactComponent as Shujuzhuanhuan } from './icon/3.svg'
@@ -21,15 +22,15 @@ import './TrianFlow.module.less'
 import { message } from 'antd'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
-const IconMap: any = {
-  数据准备: 'https://s3.local.cdn.desauto.net/public/video/8740e037eeba8acf4b009b3e65627c6f.mp4',
-  数据评估: 'https://s3.local.cdn.desauto.net/public/video/2fc77123ede372d895ef28b3b8aea97f.mp4',
-  数据优化: 'https://s3.local.cdn.desauto.net/public/video/d589c2c5a4c4b0a6071179310d7bab68.mp4',
-  模型搜索: 'https://s3.local.cdn.desauto.net/public/video/4fa6d2a746a3508bc7ffa2a436028b12.mp4',
-  模型训练: 'https://s3.local.cdn.desauto.net/public/video/efd8588863102d84f4b9609206ad93b5.mp4',
-  模型调优: 'https://s3.local.cdn.desauto.net/public/video/64ff0211ca0df421423668a1f1db485f.mp4',
-  模型生成: 'https://s3.local.cdn.desauto.net/public/video/1d38699fbe9e718b964643076aa59a29.mp4',
-}
+// const IconMap: any = {
+//   数据准备: 'https://s3.local.cdn.desauto.net/public/video/8740e037eeba8acf4b009b3e65627c6f.mp4',
+//   数据评估: 'https://s3.local.cdn.desauto.net/public/video/2fc77123ede372d895ef28b3b8aea97f.mp4',
+//   数据优化: 'https://s3.local.cdn.desauto.net/public/video/d589c2c5a4c4b0a6071179310d7bab68.mp4',
+//   模型搜索: 'https://s3.local.cdn.desauto.net/public/video/4fa6d2a746a3508bc7ffa2a436028b12.mp4',
+//   模型训练: 'https://s3.local.cdn.desauto.net/public/video/efd8588863102d84f4b9609206ad93b5.mp4',
+//   模型调优: 'https://s3.local.cdn.desauto.net/public/video/64ff0211ca0df421423668a1f1db485f.mp4',
+//   模型生成: 'https://s3.local.cdn.desauto.net/public/video/1d38699fbe9e718b964643076aa59a29.mp4',
+// }
 
 const TrianFlow = (): JSX.Element => {
   // const { id } = props
@@ -110,17 +111,17 @@ const TrianFlow = (): JSX.Element => {
     }
   }, [trainInfo, initVersionData])
 
-  const getview = () => {
-    if (!trainInfo) {
-      return null
-    }
-    const {
-      current, flows, progress
-    } = trainInfo
-    return (
-      <StepProgress flows={flows} current={current} progress={progress}/>
-    )
-  }
+  // const getview = () => {
+  //   if (!trainInfo) {
+  //     return null
+  //   }
+  //   const {
+  //     current, flows, progress
+  //   } = trainInfo
+  //   return (
+  //     <StepProgress flows={flows} current={current} progress={progress}/>
+  //   )
+  // }
 
   const handleDetele = async () => {
     console.log(1)
@@ -174,12 +175,12 @@ const TrianFlow = (): JSX.Element => {
     }
   }
 
-  const getIconView = () => {
+  const getAnimationsView = () => {
     if (!trainInfo) {
       return null
     }
     const {
-      current, flows, status
+      progress, status
     } = trainInfo
 
     if (status === 3) {
@@ -199,8 +200,8 @@ const TrianFlow = (): JSX.Element => {
       )
     }
     return (
-      <div className='icon_wrap'>
-        <FlvMp4 src={IconMap[flows[current]]} />
+      <div className='flows_wrap'>
+        <ForceAutoPlayVedio progress={progress} />
         {/* {IconMap[flows[current]] || null} */}
       </div>
     )
@@ -210,12 +211,12 @@ const TrianFlow = (): JSX.Element => {
       {/* <div className='icon_wrap'>
         {getIconView()}
       </div> */}
-      {getIconView()}
-      <div className='step_wrap'>
+      {getAnimationsView()}
+      {/* <div className='step_wrap'>
         {
           getview()
         }
-      </div>
+      </div> */}
     </div>
   )
 }
