@@ -32,6 +32,8 @@ const SelectDatasetFile = (): JSX.Element => {
   const [percent, setLocalPercent] = useState<any>(0)
   const [isUploading, setIsUploading] = useState(false)
   const [s3info, setS3info] = useState<any>({})
+
+  const [exampleUrl, setExampleUrl] = useState('')
   const [fileInfo, setFileInfo] = useState({
     filename: '',
     size: 0
@@ -57,6 +59,32 @@ const SelectDatasetFile = (): JSX.Element => {
         APP_LOCAL_FILE_STEP_3: { proportion: 0.2 }
       })
     }
+  }, [activePipeLine])
+
+  useEffect(() => {
+    const fn = async () => {
+      try {
+        const datasetType = activePipeLine?.APP_LOCAL_FILE_STEP_1?.activeType
+        if (datasetType) {
+          const res = await api.get('/v2/example', {
+            params: {
+              scene: datasetType
+            }
+          })
+          console.log(res, 'resres')
+          if (res.code === 0) {
+            const { url } = res?.data
+
+            setExampleUrl(url)
+          } else {
+
+          }
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    fn()
   }, [activePipeLine])
 
   const handleCnasel = useDebounceFn(
@@ -200,7 +228,8 @@ const SelectDatasetFile = (): JSX.Element => {
         <div>
           <div className='tips_wrap'>
             <p>文件格式：</p>
-            <p>1.请按照右边引导示例文件构建压缩包，并严格按照示例文件夹名称命名。</p>
+            <p>1.请按照引导示例文件构建压缩包，并严格按照示例文件夹名称命名。<a href={exampleUrl}>下载示例</a></p>
+
             <p>2.压缩包支持zip、tar、gz格式。 图片格式： 1.目前支持图片类型分别为：png、jpg、jpeg。</p>
 
           </div>
@@ -218,7 +247,7 @@ const SelectDatasetFile = (): JSX.Element => {
         </div>
       </>
     )
-  }, [handleProportionChange, proportion])
+  }, [exampleUrl, handleProportionChange, proportion])
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
