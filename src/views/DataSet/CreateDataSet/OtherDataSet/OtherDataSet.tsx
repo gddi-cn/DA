@@ -1,5 +1,5 @@
 import { CreateDatasetStep } from '@src/UIComponents'
-
+import TaskStep from '@src/views/container/TaskStepLayout/TaskStep'
 import { Outlet, useLocation } from 'react-router-dom';
 
 import {
@@ -28,6 +28,7 @@ const OtherDataSet = (): JSX.Element => {
 
   return (
     <div styleName='OtherDataSet'>
+      <TaskStep />
       <div className='step_wrap'>
         <CreateDatasetStep type='thirdparty' activeKey={currentStep} />
       </div>

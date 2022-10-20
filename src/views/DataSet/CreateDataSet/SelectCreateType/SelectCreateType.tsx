@@ -9,6 +9,7 @@ import { RootState } from '@reducer/index'
 import { useNavigate } from 'react-router-dom'
 import { FooterBar, GButton } from '@src/UIComponents'
 import { useMemo } from 'react'
+import TaskStep from '@src/views/container/TaskStepLayout/TaskStep'
 import './SelectCreateType.module.less'
 
 const SelectCreateType = (props: any): JSX.Element => {
@@ -54,6 +55,7 @@ const SelectCreateType = (props: any): JSX.Element => {
   return (
     <div styleName='SelectCreateType'>
       <div className='SelectCreateType_wrap'>
+        <TaskStep />
         <div className='title'>
           您想如何创建数据集？
         </div>

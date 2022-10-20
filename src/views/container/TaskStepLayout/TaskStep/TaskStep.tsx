@@ -35,7 +35,8 @@ import {
   APP_THIRDPARTY_STEP_2,
   APP_THIRDPARTY_STEP_3,
   APP_THIRDPARTY_STEP_4,
-  APP_THIRDPARTY_SelectTrainType
+  APP_THIRDPARTY_SelectTrainType,
+  APP_DATASET_CREATE_TYPE
 } from '@router'
 
 import { socketPushMsgForProject } from '@ghooks'
@@ -60,7 +61,8 @@ const DATASET_ACTIVE = [
   APP_THIRDPARTY_STEP_2,
   APP_THIRDPARTY_STEP_3,
   APP_THIRDPARTY_STEP_4,
-  APP_THIRDPARTY_SelectTrainType
+  APP_THIRDPARTY_SelectTrainType,
+  APP_DATASET_CREATE_TYPE
 ]
 
 const MODEL_ACTIVE = [
