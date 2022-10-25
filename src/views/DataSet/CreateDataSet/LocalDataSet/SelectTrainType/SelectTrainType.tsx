@@ -6,6 +6,7 @@ import { ReactComponent as Tongyongfenge } from './icon/tongyongfenge.svg'
 import { ReactComponent as Xiaoxiangfenge } from './icon/xiaoxiangfenge.svg'
 import { ReactComponent as Zitaijiance } from './icon/zitaijiance.svg'
 import { ReactComponent as Danmu3d } from './icon/danmu3d.svg'
+import { ReactComponent as Dongzuoshibie } from './icon/dongzuoshibie.svg'
 import { isEmpty } from 'lodash'
 import { MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +26,7 @@ const MODEL_TYPES_ICON: any = {
   portrait_segment: <Xiaoxiangfenge />,
   pose_detection: <Zitaijiance />,
   car_pose_detection: <Danmu3d />,
-  // keypoints_based_action: <Zitaijiance />,
+  keypoints_based_action: <Dongzuoshibie />,
 }
 
 type arrItem = {
