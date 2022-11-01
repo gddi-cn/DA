@@ -22,6 +22,7 @@ const GFlops = (): JSX.Element => {
   console.log(activePipeLine, 22)
   const fetchFn = useCallback(async () => {
     try {
+      // 其实这一块都没意义了的，懒得删除了，就留着把，因为fps和chanel是写死的
       if (!isEmpty(activePipeLine?.APP_MODEL_TRAIN_CONFIG)) {
         const config = activePipeLine?.APP_MODEL_TRAIN_CONFIG
         const { fps, chip_info, channel, mode } = config
@@ -34,8 +35,13 @@ const GFlops = (): JSX.Element => {
         })
 
         if (res?.code === 0) {
-          const { fps, channel } = res.data
-          setGFlopsNum({ fps, channel })
+          const { channel } = res.data
+          if (mode === 2) {
+            setGFlopsNum({ fps: 25, channel })
+          }
+          if (mode === 1) {
+            setGFlopsNum({ fps: 5, channel })
+          }
         } else {
           message.error(res?.message)
         }
