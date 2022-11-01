@@ -34,9 +34,9 @@ function* fetchTaskActiveList (action:any):any {
     const res = yield call(() => api.get('/v3/projects', {
       params: {
         status: 1,
-        sort: 'asc',
-        order: 'created',
-        page_size: 50
+        sort: 'desc',
+        order: 'updated',
+        page_size: 6
       }
     }))
     if (res?.code === 0) {
