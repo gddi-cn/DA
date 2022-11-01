@@ -29,6 +29,8 @@ const SelectDatasetFile = (): JSX.Element => {
   //   return state.tasksSilce.activeTaskInfo || {}
   // })
   const navigate = useNavigate()
+
+  const [loading, setLoading] = useState(false)
   const [percent, setLocalPercent] = useState<any>(0)
   const [isUploading, setIsUploading] = useState(false)
   const [s3info, setS3info] = useState<any>({})
@@ -287,12 +289,14 @@ const SelectDatasetFile = (): JSX.Element => {
         size: fileInfo.size
       }
       try {
+        setLoading(true)
         const creteDatares = await api.post('/v3/datasets', createInfo);
         console.log(creteDatares, 'creteDatares')
         if (creteDatares.code === 0) {
           console.log('90909090')
 
           message.success('创建数据集成功')
+          setLoading(false)
           navigate({
             pathname: APP_LOCAL_FILE_STEP_4
           })
@@ -300,18 +304,21 @@ const SelectDatasetFile = (): JSX.Element => {
           socketPushMsgForProject(activePipeLine, {
             active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_4,
           })
+        } else {
+          setLoading(false)
         }
       } catch (e) {
         console.log(e)
+        setLoading(false)
       }
     }
     return (
       <div className='footer_btn_wrap'>
         <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
-        <GButton className={percent >= 100 ? 'yes_sir' : 'not_allow'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
+        <GButton disabled={loading} className={percent >= 100 ? 'yes_sir' : 'not_allow'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [percent, handleCnasel, navigate, activePipeLine, s3info, proportion, fileInfo.size])
+  }, [loading, percent, handleCnasel, navigate, activePipeLine, s3info, proportion, fileInfo.size])
 
   return (
     <div styleName='SelectDatasetFile' id='SelectDatasetFile'>
