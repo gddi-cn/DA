@@ -27,6 +27,10 @@ const ModelIterrator = (): JSX.Element => {
     return state.modelDetailSlice?.versionInfo?.iter?.status || 0
   })
 
+  const model_type = useSelector((state: RootState) => {
+    return state.modelDetailSlice?.versionInfo?.iter?.model_type || 'unknow'
+  })
+
   const Button = useMemo(() => {
     if (activePipeLine?.APP_MODEL_TRAIN_DETAIL?.id) {
       if (pathname !== APP_MODEL_TRAIN_DETAIL) {
@@ -34,6 +38,12 @@ const ModelIterrator = (): JSX.Element => {
       }
 
       if (status !== 2) {
+        return null
+      }
+      // detection: '目标检测',
+      //   classify: '图片分类',
+
+      if (!['detection', 'classify'].includes(model_type)) {
         return null
       }
       const { id, version_id } = activePipeLine.APP_MODEL_TRAIN_DETAIL
@@ -73,7 +83,7 @@ const ModelIterrator = (): JSX.Element => {
       )
     }
     return null
-  }, [activePipeLine, pathname, status, gpu_count, dispatch])
+  }, [activePipeLine, pathname, status, model_type, gpu_count, dispatch])
 
   return (
     <div styleName='ModelIterrator'>
