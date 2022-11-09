@@ -9,7 +9,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 import rootReducer from '../reducer'
 
 import rootSaga from '../sagas'
@@ -18,13 +18,7 @@ import rootSaga from '../sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 
-const middleware = [thunk, sagaMiddleware, logger];
-
-// const store = createStore(
-//   rootReducer,
-//   composeEnhancers(applyMiddleware(...middleware))
-
-// );
+const middleware = [thunk, sagaMiddleware];
 
 const store = configureStore({
   reducer: rootReducer,

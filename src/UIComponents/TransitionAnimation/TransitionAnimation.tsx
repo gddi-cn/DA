@@ -1,11 +1,10 @@
 
 import './TransitionAnimation.module.less'
 
-const TransitionAnimation = (props: any): JSX.Element => {
-  console.log(props)
+const TransitionAnimation = (): JSX.Element => {
   return (
     <div styleName='TransitionAnimation'>
-          TransitionAnimation
+      TransitionAnimation
     </div>
   )
 }

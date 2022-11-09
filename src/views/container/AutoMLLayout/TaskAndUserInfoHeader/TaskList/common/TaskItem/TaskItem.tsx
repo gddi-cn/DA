@@ -60,7 +60,6 @@ const TaskItem = (props: Props): JSX.Element => {
   }
 
   const handleCheckoutTask = () => {
-    console.log(1)
     dispatch(saveActivePipeLineLoading(true))
     dispatch(checkoutTask(data))
     const timer = setTimeout(() => {

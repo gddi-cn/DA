@@ -146,7 +146,6 @@ const TaskStep = (): JSX.Element => {
   // 存在可以去看model详情、不存在则不可点击
   // 要存在模型才可以点击这个、是模型必须训练完了才可以点击
   const handleDeployClick = () => {
-    console.log(1)
     if (activeTaskInfo?.model?.id) {
       if (activePipeLine) {
         if (activeTaskInfo?.additional?.status === 2) {

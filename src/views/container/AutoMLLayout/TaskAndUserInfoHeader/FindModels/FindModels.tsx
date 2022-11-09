@@ -49,7 +49,6 @@ const ModelList = () => {
 
   const modelList = useMemo(() => {
     const handleAddActiveTask = (data:any) => {
-      console.log(1)
       dispatch(visibleActiveTask({ data }))
     }
     return models.map((o: any, i: number) => {

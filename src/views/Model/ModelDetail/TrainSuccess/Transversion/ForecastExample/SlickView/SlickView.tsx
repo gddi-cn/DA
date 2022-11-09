@@ -62,7 +62,6 @@ const SlickView = (props: any): JSX.Element => {
   }, [dataList])
 
   const fetchData = () => {
-    console.log(1)
     setFictitiousList(chunkList.current[page.current - 1])
   }
   const renderView = (data: any) => {

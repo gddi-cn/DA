@@ -96,7 +96,6 @@ export class Ws {
   // 监听成功
   onopen () {
     this.ws.onopen = () => {
-      console.log(this.ws, 'onopen')
       const TOKEN = localStorage.getItem('token') || '';
       this.send(JSON.stringify({
         // AppID: 'xjqwGiV5uKK5KMJj1qzJsuKQnmJ26iXDCtQSKr4xd8vOlr4gIFWbofnfWQ8eCcAc',

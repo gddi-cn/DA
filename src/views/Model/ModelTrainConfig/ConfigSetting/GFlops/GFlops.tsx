@@ -60,7 +60,7 @@ const GFlops = (): JSX.Element => {
       {
         mode === 0 ? null : (
           <>
-            <p>fps：{GFlopsNum.fps}</p>
+            <p>帧率设置：{GFlopsNum.fps}</p>
 
             <p>算法并行数：{GFlopsNum.channel}</p>
 

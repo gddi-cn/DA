@@ -1,4 +1,3 @@
-
 import './FooterBar.module.less'
 
 type Props = {
@@ -9,9 +8,12 @@ const FooterBar = (props: Props): JSX.Element => {
   const { rightContent } = props
   return (
     <div styleName='FooterBar'>
-      <div></div>
-      <div className='right_wrap'>
-        {rightContent}
+      <div className="g_footer_padding" />
+      <div className="g_footer_container">
+        <div />
+        <div className='g_footer_right_wrap'>
+          {rightContent}
+        </div>
       </div>
     </div>
   )

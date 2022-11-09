@@ -44,12 +44,6 @@ for (const [k, v] of Object.entries(MODEL_TYPES)) {
   })
 }
 
-// type Props = {
-//     setCurrentStep: any,
-//     createInfo: any,
-//     setCreateInfo: any,
-// }
-
 const SelectTrainType = (): JSX.Element => {
   // const { setCurrentStep, createInfo, setCreateInfo } = props
   const activePipeLine = useSelector((state: RootState) => {

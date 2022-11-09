@@ -46,6 +46,7 @@ module.exports = {
     'react/no-unused-prop-types': 0,
     'react/display-name': ['off', { ignoreTranspilerName: false }],
     'react/prop-types': 0,
+    'no-multiple-empty-lines': 0,
     'generator-star-spacing': [
       'error',
       {

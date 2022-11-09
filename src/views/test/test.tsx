@@ -8,12 +8,6 @@ import { UpCircleOutlined } from '@ant-design/icons'
 import './test.module.less'
 
 const Test = (props:any):JSX.Element => {
-  console.log(props)
-
-  const onUpload = () => {
-    console.log(1)
-  }
-
   const leftContent = useMemo(() => {
     return (
       <div className='leftContent'>
@@ -21,7 +15,7 @@ const Test = (props:any):JSX.Element => {
 
         <div className='upload_view'>
           <UpCircleOutlined />
-          <UploadFile regExp={/\.(png|jpg|jpeg)$/} maxSize={2 * 1024 * 1024} onUpload={onUpload} >
+          <UploadFile regExp={/\.(png|jpg|jpeg)$/} maxSize={2 * 1024 * 1024}>
             <Button>上传文件</Button>
           </UploadFile>
           <p>

@@ -1,17 +1,22 @@
 .FooterBar {
-    width: 100%;
-    height: 48px;
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 60px;
-    flex-shrink: 0;
-    border-top: 1px solid #EDF8FF;
-
     :global {
-        .test1 {
-            color: yellowgreen;
+        .g_footer_padding {
+            width: 100%;
+            height: 48px;
+        }
+        .g_footer_container {
+            height: 48px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 60px;
+            flex-shrink: 0;
+            border-top: 1px solid #EDF8FF;
+
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     }
 }

@@ -89,7 +89,6 @@ const ModelDetail = (): JSX.Element => {
         } else {
           message.error(res.message)
         }
-        console.log(1)
       } catch (e) {
 
       }
@@ -147,8 +146,6 @@ const ModelDetail = (): JSX.Element => {
   // 训练失败的时候也有这个，懒得写在saga里边了
   const handleDetele = useCallback(
     () => {
-      console.log(1)
-
       const okfn = async () => {
         try {
           const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersion?.id}`)

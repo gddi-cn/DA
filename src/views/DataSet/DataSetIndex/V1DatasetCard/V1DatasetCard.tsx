@@ -33,6 +33,9 @@ export type Data = {
     image_count: number
     size: number
   },
+  assess: Record<string, number>,
+  updated: number,
+  username: string,
 }
 
 interface Props<T> {

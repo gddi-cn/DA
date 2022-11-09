@@ -26,7 +26,6 @@ type Props ={
 
 }
 const ImageSlick = (props:Props): JSX.Element => {
-  console.log('我没更新吧？')
   const { dataList = [], renderView, renderDotView, fetchData, total, page_size = 10, page } = props
 
   // // 存放看过的数据，其实也就是按查询的一页一页的

@@ -124,22 +124,8 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
           <Form.Item dependencies={['mode']} noStyle>
             {({ getFieldValue }) => {
               const type = getFieldValue('mode')
-              console.log(type, 'typetype')
-              // if (type !== 3) {
-              //   return null
-              // }
               return (
                 <span style={{ display: type !== 0 ? 'none' : 'block' }} className='additional_from_items'>
-                  <div className='form_cus_item'>
-                    <div className='label'>算法并行数</div>
-                    <Form.Item
-
-                      name='channel'
-                      initialValue={1}
-                    >
-                      <CusInputNumber max={channelLimited} min={1} tips={`当前加速器支持最大路数为${channelLimited}`} />
-                    </Form.Item>
-                  </div>
                   <div className='form_cus_item'>
                     <div className='label'>帧率设置</div>
                     <Form.Item
@@ -148,6 +134,16 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
                       initialValue={5}
                     >
                       <CusInputNumber min={1} max={maxFps} upHandler={<CaretUpOutlined />} downHandler={<CaretDownOutlined />} tips={`当前加速器支持最大fps为${maxFps}`} />
+                    </Form.Item>
+                  </div>
+                  <div className='form_cus_item'>
+                    <div className='label'>算法并行数</div>
+                    <Form.Item
+
+                      name='channel'
+                      initialValue={1}
+                    >
+                      <CusInputNumber max={channelLimited} min={1} tips={`当前加速器支持最大路数为${channelLimited}`} />
                     </Form.Item>
                   </div>
                 </span>

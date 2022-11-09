@@ -32,18 +32,6 @@ export const useSocketSyncUpdate = () => {
     return null
   })
 
-  // useEffect(() => {
-  //   if (isFirst.current) {
-  //     isFirst.current = false
-  //     return
-  //   }
-  //   if (isNil(activePipeLine)) {
-  //     setLoading(true)
-  //   } else {
-  //     setLoading(false)
-  //   }
-  // }, [activePipeLine])
-
   useEffect(() => {
     try {
       // const url = `${(window).globalConfig.socket.protocol}://${window.location.host}/api/v1/ws`
@@ -55,7 +43,6 @@ export const useSocketSyncUpdate = () => {
 
         if (topic === 'login') {
           if (status) {
-            console.log('login_58', status)
             setLoginSuccess(true)
           } else {
             wsInstance.current?.close()
@@ -69,11 +56,10 @@ export const useSocketSyncUpdate = () => {
         }))
       })
     } catch (e) {
-      console.log(e, 36363)
+      console.error(e)
     }
 
     return () => {
-      console.log('我为啥要注销')
       wsInstance.current?.destroy()
     }
   }, [])
@@ -87,7 +73,6 @@ export const useSocketSyncUpdate = () => {
     }
 
     if (wsInstance.current) {
-      console.log(activeTaskInfo_id, '新建立')
       const _topic = `project.snap.${activeTaskInfo_id}`
 
       wsInstance.current?.send(JSON.stringify({
@@ -108,7 +93,6 @@ export const useSocketSyncUpdate = () => {
       wsInstance.current.subscribe('notice', (notice_data: any) => {
         const { topic, data } = notice_data
         if (topic === _topic) {
-          console.log(data, 'subscribe_data saveActivePipeLine')
           // 这里只做保存
           dispatch(saveActivePipeLine(data))
         }
@@ -116,7 +100,6 @@ export const useSocketSyncUpdate = () => {
     }
 
     return () => {
-      console.log('我为啥要退出???', activeTaskInfo_id)
       window.globalSocketPushMsgForProject = null
       // 退订之前的东西
       const _topic = `project.snap.${activeTaskInfo_id}`
@@ -131,7 +114,6 @@ export const useSocketSyncUpdate = () => {
   useEffect(() => {
   // 监听当前active task info，变化了就都发回去，也不管啥的
   // 变化可能是某个页面数据变了，也可能页面变了，反正都是要发送的，但是怎么判断这个东西变了还是要研究研究
-    console.log('activePipeLine', activePipeLine)
     if (isNil(activePipeLine)) {
       return
     }

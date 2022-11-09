@@ -117,7 +117,6 @@ const SlickContent = (props: Props): JSX.Element => {
   }, [dataSource, renderView])
 
   const preView_now = useMemo(() => {
-    console.log('preView_now')
     if (!dataSource.now) {
       return null
     }

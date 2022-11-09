@@ -71,7 +71,6 @@ const SDKDocuments = (): JSX.Element => {
 
   const handleSearch = (v: React.ChangeEvent<HTMLInputElement>) => {
     const value = v.target.value
-    console.log(value)
     if (value) {
       const list = SDK_DOCS.filter((o) => o.name.includes(value))
       setPdfList(list)

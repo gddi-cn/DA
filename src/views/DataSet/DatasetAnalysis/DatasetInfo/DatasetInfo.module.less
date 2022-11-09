@@ -7,8 +7,8 @@
     :global {
         .dataset_info_block_item {
             display: flex;
-            color: #637381;
             font-size: 14px;
+            margin-bottom: 4px;
         }
 
         .dataset_info_wrap {
@@ -31,17 +31,21 @@
             }
         }
 
-        .dataset_title {
-            font-size: 18px;
-            line-height: 20px;
-            /* identical to box height, or 111% */
+        .dataset-info-cover {
+            overflow: hidden;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            img {
+                width: 100%;
+                object-fit: contain;
+            }
+        }
 
-
-            color: #061926;
-            font-weight: 500;
-
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(98, 176, 229, 0.5);
+        .hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #b8ddf5;
         }
     }
 }

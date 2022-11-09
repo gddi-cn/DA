@@ -124,7 +124,6 @@ const TrianFlow = (): JSX.Element => {
   // }
 
   const handleDetele = async () => {
-    console.log(1)
     // /v2/models/{id}/versions/{version_id}
     try {
       const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
@@ -161,7 +160,6 @@ const TrianFlow = (): JSX.Element => {
   }
 
   const handleReTrain = async () => {
-    console.log(1)
     // /v3/models/{id}/versions/{version_id}/retry
     try {
       const res = await api.post(`/v3/models/${model_id}/versions/${currentVersion?.id}/retry`)

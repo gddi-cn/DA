@@ -13,7 +13,6 @@ import TaskStep from '@src/views/container/TaskStepLayout/TaskStep'
 import './SelectCreateType.module.less'
 
 const SelectCreateType = (props: any): JSX.Element => {
-  console.log(props)
   const navigate = useNavigate()
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}

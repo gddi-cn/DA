@@ -22,7 +22,6 @@ const AutoMLLayout = (): JSX.Element => {
     return state.tasksSilce.taskList
   })
   useEffect(() => {
-    console.log(taskList, '所以这就是去主页嘛')
     if (isEmpty(taskList)) {
       // dispatch(saveActivePipeLine({ active_page: SNAPSHOT_KEY_OF_ROUTER.APP_GUIDE_PAGE }))
       navigate({
@@ -36,7 +35,6 @@ const AutoMLLayout = (): JSX.Element => {
   const getView = useMemo(
     () => {
       // PPT是不需要性能的
-      console.log(activePipeLineLoading, 'activePipeLineLoading')
       if (activePipeLineLoading) {
         return (
           <div className='transition_div'>

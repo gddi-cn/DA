@@ -7,7 +7,7 @@ import { ReactComponent as Xiaoxiangfenge } from './icon/xiaoxiangfenge.svg'
 import { ReactComponent as Zitaijiance } from './icon/zitaijiance.svg'
 import { ReactComponent as Danmu3d } from './icon/danmu3d.svg'
 import { isEmpty } from 'lodash'
-import { MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { THIRD_PARTY_MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_CREATE_TYPE, APP_THIRDPARTY_STEP_1 } from '@router'
 import { message } from 'antd'
@@ -34,7 +34,7 @@ type arrItem = {
 }
 const arr: arrItem[] = []
 
-for (const [k, v] of Object.entries(MODEL_TYPES)) {
+for (const [k, v] of Object.entries(THIRD_PARTY_MODEL_TYPES)) {
   arr.push({
     icon: MODEL_TYPES_ICON[k],
     sences: v,
@@ -42,18 +42,13 @@ for (const [k, v] of Object.entries(MODEL_TYPES)) {
   })
 }
 
-// type Props = {
-//     setCurrentStep: any,
-//     createInfo: any,
-//     setCreateInfo: any,
-// }
-
 const SelectTrainType = (): JSX.Element => {
-  // const { setCurrentStep, createInfo, setCreateInfo } = props
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
+
   const navigate = useNavigate()
+
   const [activeType, setActiveType] = useState('')
 
   useEffect(() => {
@@ -97,7 +92,6 @@ const SelectTrainType = (): JSX.Element => {
   }, [activeType, navigate, activePipeLine])
 
   const handleClick = (data: arrItem) => {
-    console.log(data)
     setActiveType(data.value)
 
     socketPushMsgForProject(activePipeLine, {
@@ -113,6 +107,7 @@ const SelectTrainType = (): JSX.Element => {
     }
     return 'SelectTrainType_list_item btn-16'
   }
+
   return (
     <div styleName='SelectTrainType'>
       <div className='SelectTrainType_list_wrap'>
