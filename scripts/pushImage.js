@@ -2,7 +2,7 @@ const shell = require('shelljs')
 const utils = require('./utils')
 const chalk = require('chalk');
 const https = require('https')
-const pj = require('./package.json')
+const pj = require('../package.json')
 
 const fs = require('fs')
 const gitHEAD = fs.readFileSync('.git/HEAD', 'utf-8').trim() // ref: refs/heads/develop
