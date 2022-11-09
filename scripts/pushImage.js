@@ -13,15 +13,7 @@ const gitCommitVersion = develop + '-' + gitVersion // 例如dev环境: "develop
 // const gitCommitVersion = 'latest'
 const args = require('minimist')(process.argv.slice(2))
 
-
 const _describetion = args['--d'] || args.d || `${new Date().valueOf()} 更新`
-
-if (/[\u4e00-\u9fa5]/.test(_tag)) {
-  console.log(chalk.yellow('命令参数:'))
-  console.log(_tag)
-  console.log(chalk.redBright('中文优雅、博大精深，但是docker并不支持'))
-  process.exit(1)
-}
 
 const tag = pj.version
 
