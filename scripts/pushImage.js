@@ -2,6 +2,7 @@ const shell = require('shelljs')
 const utils = require('./utils')
 const chalk = require('chalk');
 const https = require('https')
+const pj = require('package.json')
 
 const fs = require('fs')
 const gitHEAD = fs.readFileSync('.git/HEAD', 'utf-8').trim() // ref: refs/heads/develop
@@ -12,7 +13,6 @@ const gitCommitVersion = develop + '-' + gitVersion // 例如dev环境: "develop
 // const gitCommitVersion = 'latest'
 const args = require('minimist')(process.argv.slice(2))
 
-const _tag = args['--tag'] || args.tag || new Date().valueOf()
 
 const _describetion = args['--d'] || args.d || `${new Date().valueOf()} 更新`
 
@@ -23,7 +23,7 @@ if (/[\u4e00-\u9fa5]/.test(_tag)) {
   process.exit(1)
 }
 
-const tag = _tag || gitCommitVersion
+const tag = pj.version
 
 const build = shell.exec(`docker build -t market_web_06:${tag} -f ./docker/Dockerfile .`)
 if (build.code) {
