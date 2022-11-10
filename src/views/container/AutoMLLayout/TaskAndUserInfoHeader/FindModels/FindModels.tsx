@@ -42,7 +42,7 @@ const ModelList = () => {
     } catch (e) {
       setLoading(false)
     }
-  }, [deferName]
+  }, [deferName, init]
   )
 
   useEffect(() => {
