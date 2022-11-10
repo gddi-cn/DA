@@ -23,7 +23,7 @@ import underexposed1 from './analysisImg/underexposed_1.png'
 
 export const nameItemMapping = [
   { name: '图片尺寸', item: AnalyzeItem.ImageSize },
-  { name: '图片尺寸', item: AnalyzeItem.FineSize},
+  { name: '图片尺寸', item: AnalyzeItem.FineSize },
   { name: '场景丰富度', item: AnalyzeItem.SceneDiversity },
   { name: '场景丰富度', item: AnalyzeItem.ImgDiscrimination },
   { name: '细粒度', item: AnalyzeItem.FineGrain },
