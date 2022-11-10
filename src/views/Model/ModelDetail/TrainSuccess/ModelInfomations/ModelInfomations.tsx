@@ -119,11 +119,11 @@ const ModelInfomations = (): JSX.Element => {
               <p>{mode_text[mode]}</p>
             </div>
             <div className='top_content_wrap_item'>
-              <p>FPS：</p>
+              <p>帧率设置：</p>
               <p>{fps}</p>
             </div>
             <div className='top_content_wrap_item'>
-              <p>单芯片路数：</p>
+              <p>算法并行数：</p>
               <p>{channel}</p>
             </div>
           </div>

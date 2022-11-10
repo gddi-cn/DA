@@ -21,6 +21,8 @@ export enum ScoreClass {
 
 export enum AnalyzeItem {
   ImageSize = 'image_size',
+  FineSize = 'fine_size', // 兼容旧数据
+  ImgDiscrimination = 'img_discrimination', // 兼容旧数据
   SceneDiversity = 'scene_diversity',
   FineGrain = 'fine_grain',
   LongTail = 'long_tail',

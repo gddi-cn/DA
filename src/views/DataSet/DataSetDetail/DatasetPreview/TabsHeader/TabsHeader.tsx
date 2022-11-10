@@ -16,7 +16,7 @@ const CTabsHeader = (props: TabsHeaderProps): JSX.Element => {
       icon: <Train />
     },
     {
-      label: '验证数据',
+      label: '测试数据',
       primaryKey: 'val_set',
       icon: <Test />
     }

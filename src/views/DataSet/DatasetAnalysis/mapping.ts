@@ -23,7 +23,9 @@ import underexposed1 from './analysisImg/underexposed_1.png'
 
 export const nameItemMapping = [
   { name: '图片尺寸', item: AnalyzeItem.ImageSize },
+  { name: '图片尺寸', item: AnalyzeItem.FineSize},
   { name: '场景丰富度', item: AnalyzeItem.SceneDiversity },
+  { name: '场景丰富度', item: AnalyzeItem.ImgDiscrimination },
   { name: '细粒度', item: AnalyzeItem.FineGrain },
   { name: '类别均衡度', item: AnalyzeItem.LongTail },
   { name: '小样本分布', item: AnalyzeItem.FewShot },
@@ -50,7 +52,35 @@ export const tipMapping: Map<AnalyzeItem, DataAnalyzeTip> = new Map([
     },
   ],
   [
+    AnalyzeItem.FineSize,
+    {
+      name: '图片尺寸',
+      description: '数据集图片尺寸综合质量',
+      explain: '小尺寸图片数占数据总数的比值越小，该指标数值越大，数据集的尺寸良品率越高，质量越优。',
+      suggestion: {
+        excellent: ['数据集表现较优', ''],
+        great: ['数据集表现较优', ''],
+        notBad: ['数据集表现良好', '建议适当增加大尺寸图片或高分辨率图片'],
+        bad: ['数据集表现较差', '建议增加更多大尺寸或高分辨率图片'],
+      },
+    },
+  ],
+  [
     AnalyzeItem.SceneDiversity,
+    {
+      name: '场景丰富度',
+      description: '图片所覆盖的场景丰富程度',
+      explain: '图片间特征的差异度越大，该指标数值越大，数据集的场景丰富度越高。',
+      suggestion: {
+        excellent: ['数据集场景丰富度较高', ''],
+        great: ['数据集场景丰富度较高', ''],
+        notBad: ['数据集场景丰富度一般', '建议适当增加更多不同场景的图片数据'],
+        bad: ['数据集场景丰富度较低', '建议增加更多不同场景的图片数据'],
+      },
+    },
+  ],
+  [
+    AnalyzeItem.ImgDiscrimination,
     {
       name: '场景丰富度',
       description: '图片所覆盖的场景丰富程度',
@@ -186,7 +216,16 @@ export const imgMapping: Map<AnalyzeItem, AnalyzeImage> = new Map([
       output: size1,
       outputTip: '图片尺寸小',
     }
-  ], // 未有图片
+  ],
+  [
+    AnalyzeItem.FineSize,
+    {
+      input: size0,
+      inputTip: '图片尺寸大',
+      output: size1,
+      outputTip: '图片尺寸小',
+    }
+  ],
   [
     AnalyzeItem.SceneDiversity,
     {
@@ -195,7 +234,16 @@ export const imgMapping: Map<AnalyzeItem, AnalyzeImage> = new Map([
       output: scene1,
       outputTip: '场景丰富度低',
     }
-  ], // 未有图片
+  ],
+  [
+    AnalyzeItem.ImgDiscrimination,
+    {
+      input: scene0,
+      inputTip: '场景丰富度高',
+      output: scene1,
+      outputTip: '场景丰富度低',
+    }
+  ],
   [
     AnalyzeItem.FineGrain,
     {
