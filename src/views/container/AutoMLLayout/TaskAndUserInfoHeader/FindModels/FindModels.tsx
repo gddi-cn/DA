@@ -15,6 +15,7 @@ const ModelList = () => {
   const [models, setModels] = useState<Array<any>>([])
   const [loading, setLoading] = useState(false)
   const [modelName, setModelName] = useState<string|undefined>()
+  const [init, setInit] = useState<boolean>(false)
 
   const dispatch = useDispatch()
 
@@ -28,11 +29,12 @@ const ModelList = () => {
           name: deferName,
           sort: 'desc',
           page_size: 10,
-          status: 2
+          status: init ? undefined : 2
         }
       })
       if (res.code === 0) {
         const { data } = res
+        setInit(true)
         setModels(data?.items || [])
       }
 
