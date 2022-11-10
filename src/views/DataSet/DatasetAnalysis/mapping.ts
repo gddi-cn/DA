@@ -142,7 +142,7 @@ export const tipMapping: Map<AnalyzeItem, DataAnalyzeTip> = new Map([
       description: '图片曝光均衡度',
       explain: '欠曝型图片数占数据总数的比值越小，该指标数值越大，数据集的光照质量越高，质量越优。',
       suggestion: {
-        excellent: ['数据表现较优', ''],
+        excellent: ['数据集表现较优', ''],
         great: ['数据表现较优', ''],
         notBad: ['数据表现良好', '建议适当增强数据集图片亮度'],
         bad: ['数据光照质量较差', '建议大幅增强数据集图片亮度'],
@@ -156,7 +156,7 @@ export const tipMapping: Map<AnalyzeItem, DataAnalyzeTip> = new Map([
       description: '图片中检测的目标尺寸大小',
       explain: '小目标型图片数占数据总数的比值越小，该指标数值越大。',
       suggestion: {
-        excellent: ['', ''],
+        excellent: ['数据集表现较优', ''],
         great: ['数据集表现较优', ''],
         notBad: ['数据集表现良好', '建议适当增加目标尺寸较大的图片'],
         bad: ['当前存在较多小目标图片', '建议增加更多目标尺寸较大的图片'],

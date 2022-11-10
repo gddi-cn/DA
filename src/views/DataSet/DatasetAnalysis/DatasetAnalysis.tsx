@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import api from '@api'
 import { useNavigate } from 'react-router-dom'
 
@@ -48,6 +48,23 @@ const DatasetAnalysis = (): JSX.Element => {
 
   const detailData = useMemo(
     () => {
+      // 兼容旧数据
+      if (item === AnalyzeItem.ImageSize || item === AnalyzeItem.FineSize) {
+        const [data] = dataList
+          .filter(x => x.sign === AnalyzeItem.ImageSize || x.sign === AnalyzeItem.FineSize)
+          .filter(Boolean)
+
+        return data || undefined
+      }
+
+      if (item === AnalyzeItem.SceneDiversity || item === AnalyzeItem.ImgDiscrimination) {
+        const [data] = dataList
+          .filter(x => x.sign === AnalyzeItem.SceneDiversity || x.sign === AnalyzeItem.ImgDiscrimination)
+          .filter(Boolean)
+
+        return data || undefined
+      }
+
       const [data] = dataList.filter(x => x.sign === item)
 
       return data || undefined

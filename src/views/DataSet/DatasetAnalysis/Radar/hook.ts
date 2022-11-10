@@ -28,6 +28,7 @@ const useInitChart = (
 const useMouseEvent = (
   chartRef: React.MutableRefObject<EChartsType | null>,
   init: boolean,
+  dataList: Array<AnalyzeData>,
   onSignChange?: (sign?: AnalyzeItem) => void,
 ) => {
   React.useEffect(
@@ -42,7 +43,7 @@ const useMouseEvent = (
         let sign: AnalyzeItem | undefined;
 
         nameItemMapping.forEach(({ name, item }) => {
-          if (params.name.includes(name)) {
+          if (params.name.includes(name) && dataList.some(x => x.sign === item)) {
             sign = item
           }
         })
@@ -50,7 +51,7 @@ const useMouseEvent = (
         onSignChange && onSignChange(sign)
       })
     },
-    [init]
+    [init, dataList]
   )
 }
 
@@ -62,7 +63,7 @@ const useOptions = (
 ) => {
   const [currentSign, setCurrentSign] = React.useState<AnalyzeItem | undefined>(undefined)
 
-  useMouseEvent(chartRef, init, setCurrentSign)
+  useMouseEvent(chartRef, init, dataList, setCurrentSign)
 
   React.useEffect(
     () => {
