@@ -173,7 +173,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
     };
 
     const getStatusCheckbox = (data: any) => {
-      if (data?.ModelAuth === 'Authorized') {
+      if (data && data.ModelAuth === 'Authorized' && data.state === 'online') {
         const index = selectedRowKeys.findIndex((o:any) => o === data.id)
         const checked = index !== -1
         return (

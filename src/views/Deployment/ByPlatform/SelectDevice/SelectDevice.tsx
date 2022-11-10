@@ -40,10 +40,6 @@ const SelectDevice = (): JSX.Element => {
       // 发送给socket next
       try {
         const data = await form.validateFields()
-        console.log('data====================================data')
-        console.log(data)
-        console.log('data====================================data')
-
         const { device_ids } = data
         // group_id
         // if (isNil(group_id)) {
