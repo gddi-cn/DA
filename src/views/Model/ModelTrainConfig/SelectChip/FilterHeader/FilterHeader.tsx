@@ -26,7 +26,6 @@ type Props = {
   fetchChipList: (data: any) => void,
 }
 const FilterHeader = (props: Props): JSX.Element => {
-  console.log(props)
   const { brandList, fetchChipList } = props
   const [form] = Form.useForm();
   const onValuesChange = (changedValues: any, allValues: any) => {

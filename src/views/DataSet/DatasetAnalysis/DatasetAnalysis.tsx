@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Empty, Typography } from 'antd'
 import Radar from './Radar'
-import { FooterBar, GButton } from '@src/UIComponents'
+import { FooterBar, GButton, ReactCusScrollBar } from '@src/UIComponents'
 import { processEchartsData } from './processEchartsData'
 import DatasetInfo from './DatasetInfo'
 import { APP_DATA_SET_INDEX, APP_MODEL_TRAIN_CONFIG } from '@router'
@@ -147,34 +147,40 @@ const DatasetAnalysis = (): JSX.Element => {
     <div styleName='DatasetAnalysis'>
       <div className='da-container'>
         <div className='meta'>
-          <DatasetInfo
-            initFetchDatasetInfo={initFetchDatasetInfo}
-            datasetInfo={datasetInfo}
-          />
+          <ReactCusScrollBar id='dataset_meta'>
+            <div className="wrap">
+              <DatasetInfo
+                initFetchDatasetInfo={initFetchDatasetInfo}
+                datasetInfo={datasetInfo}
+              />
+            </div>
+          </ReactCusScrollBar>
         </div>
         <div className='right'>
           {
             error ? (
               <ErrorHelper msg={errorMessage} />
             ) : (
-              <div className='analysis'>
-                <div className="radar">
-                  <div className="title">
-                    <Typography.Title level={5}>
-                      数据分析维度
-                    </Typography.Title>
+              <ReactCusScrollBar id='dataset_ana_right'>
+                <div className='analysis'>
+                  <div className="radar">
+                    <div className="title">
+                      <Typography.Title level={5} className='content'>
+                        数据分析维度
+                      </Typography.Title>
+                    </div>
+                    <Radar dataList={dataList} onItemChange={(item) => setItem(item)} />
                   </div>
-                  <Radar dataList={dataList} onItemChange={(item) => setItem(item)} />
-                </div>
-                <div className="detail">
-                  <div className="title">
-                    <Typography.Title level={5}>
-                      数据分析详情
-                    </Typography.Title>
+                  <div className="detail">
+                    <div className="title">
+                      <Typography.Title level={5} className='content'>
+                        数据分析详情
+                      </Typography.Title>
+                    </div>
+                    <Details detail={detailData || {}} />
                   </div>
-                  <Details detail={detailData || {}} />
                 </div>
-              </div>
+              </ReactCusScrollBar>
             )
           }
         </div>

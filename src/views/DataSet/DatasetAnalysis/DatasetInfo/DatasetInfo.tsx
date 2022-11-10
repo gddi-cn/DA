@@ -23,7 +23,7 @@ const DatasetInfo: React.FC<Props> = (
 ) => {
   return (
     <div styleName='DatasetInfo'>
-      <Typography.Title level={5}>
+      <Typography.Title level={5} className='dataset_info_title'>
         数据信息
       </Typography.Title>
       <hr className='hr' />

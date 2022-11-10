@@ -18,20 +18,23 @@
     }
 }
 
-.color-text(@font-weight: 600) {
+.color-text(@font-weight: 600, @font-size: 18px) {
     &-green {
         color: #19a051;
         font-weight: @font-weight;
+        font-size: @font-size;
         margin-bottom: 0;
     }
     &-blue {
         color: #48A2DF;
         font-weight: @font-weight;
+        font-size: @font-size;
         margin-bottom: 0;
     }
     &-red {
         color: #ff6177;
         font-weight: @font-weight;
+        font-size: @font-size;
         margin-bottom: 0;
     }
 }
@@ -92,7 +95,7 @@
                 justify-content: center;
                 margin-top: 5px;
                 .content {
-                    .color-text(400);
+                    .color-text(400, 14px);
                 }
             }
             &-img {
@@ -112,12 +115,14 @@
                             color: #19a051;
                             margin-top: 10px;
                             margin-bottom: 0;
+                            font-size: 14px;
                         }
                         &-bad {
                             text-align: center;
                             color: #ff6177;
                             margin-top: 10px;
                             margin-bottom: 0;
+                            font-size: 14px;
                         }
                     }
                 }

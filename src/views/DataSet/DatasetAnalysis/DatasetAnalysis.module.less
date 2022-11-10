@@ -11,23 +11,26 @@
             display: flex;
             flex: 1;
             width: 100%;
-            padding: 10px 30px;
+            padding: 20px 30px;
             max-width: 1920px;
             margin: 0 auto;
             overflow: hidden;
             .meta {
+                padding: 20px 0;
+                .wrap {
+                    padding: 0 20px;
+                }
                 width: 248px;
                 height: 645px;
                 margin-right: 2.9vw;
                 background-color: #fff;
                 border-radius: 12px;
                 flex-shrink: 0;
-                padding: 20px;
             }
             .right {
                 flex: 1;
                 background-color: #fff;
-                padding: 20px;
+                padding: 20px 0;
                 border-radius: 12px;
                 height: 100%;
                 overflow: auto;
@@ -35,6 +38,7 @@
                     display: grid;
                     grid-template: repeat(1, 1fr) / repeat(2, 1fr);
                     grid-column-gap: 25px;
+                    padding: 0 20px;
                     .radar, .detail {
                         border-radius: 4px;
                         padding: 20px;
@@ -46,6 +50,9 @@
                             position: absolute;
                             left: 20px;
                             top: 20px;
+                            .content {
+                                font-size: 18px;
+                            }
                         }
                     }
                     .radar {
@@ -54,7 +61,7 @@
                     .detail {
                         background-color: #F8FCFF;
                         border: 1px solid #76b9e7;
-                        padding-bottom: 72px;
+                        padding-bottom: 36px;
                     }
                 }
             }

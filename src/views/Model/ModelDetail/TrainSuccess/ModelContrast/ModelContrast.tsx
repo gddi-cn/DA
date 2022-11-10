@@ -79,7 +79,6 @@ const ModelContrast = (): JSX.Element => {
         const best = best_threshold * 100
         const res = await api.get(`/v2/models/${versionInfo.id}/compareversions`)
         if (res.code === 0) {
-          console.log(res)
           if (res.data) {
             const {
               dataset_list,

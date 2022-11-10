@@ -59,7 +59,6 @@ const ModelTrainConfig = (): JSX.Element => {
       try {
         const res = await api.get('/v3/capacity/-/brands')
         if (res.code === 0) {
-          console.log(res)
           if (res.data) {
             const { data } = res
             const list = (data as any[]).map((o) => {

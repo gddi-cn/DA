@@ -73,7 +73,6 @@ const SelectDatasetFile = (): JSX.Element => {
               scene: datasetType
             }
           })
-          console.log(res, 'resres')
           if (res.code === 0) {
             const { url } = res?.data
 
@@ -215,7 +214,7 @@ const SelectDatasetFile = (): JSX.Element => {
         <div className='select_percent'>
           <div className='select_wrap'>
             <div className='form_title'>
-              <p>*</p><p>训练集与测试集比1例</p>
+              <p>*</p><p>训练集与测试集比例</p>
             </div>
             <div className='form_content'>
               <GSelect value={proportion} style={{ width: '100%' }} onChange={handleProportionChange}>
@@ -230,7 +229,9 @@ const SelectDatasetFile = (): JSX.Element => {
         <div>
           <div className='tips_wrap'>
             <p>文件格式：</p>
-            <p>1.请按照引导示例文件构建压缩包，并严格按照示例文件夹名称命名。<a href={exampleUrl}>下载示例</a></p>
+            <p>1.请按照引导示例文件构建压缩包，并严格按照示例文件夹名称命名。
+              <a href={exampleUrl} target='_blank' rel='noreferrer'>下载示例</a>
+            </p>
 
             <p>2.压缩包支持zip、tar、gz格式。 图片格式： 1.目前支持图片类型分别为：png、jpg、jpeg。</p>
 

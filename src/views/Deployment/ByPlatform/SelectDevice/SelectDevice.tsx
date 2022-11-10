@@ -40,6 +40,9 @@ const SelectDevice = (): JSX.Element => {
       // 发送给socket next
       try {
         const data = await form.validateFields()
+        console.log('data====================================data')
+        console.log(data)
+        console.log('data====================================data')
 
         const { device_ids } = data
         // group_id
@@ -52,8 +55,7 @@ const SelectDevice = (): JSX.Element => {
           return
         }
 
-        const res = await api.post(`/v3/apps/${app_id}/syncs2`, { device_ids: device_ids })
-        console.log(data)
+        const res = await api.post(`/v3/apps/${app_id}/syncs2`, { device_ids })
 
         if (res.code === 0) {
           message.success('下发成功')

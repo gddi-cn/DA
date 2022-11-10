@@ -19,13 +19,13 @@ export const getOptions = (
     },
     radar: {
       shape: 'circle',
-      radius: '70%',
+      radius: '50%',
       triggerEvent: true,
       indicator,
       axisName: {
         rich: {
           value: {
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 500,
             width: 100,
             height: 40,
@@ -35,7 +35,7 @@ export const getOptions = (
             backgroundColor: 'transparent',
           },
           bg: {
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 500,
             width: 100,
             height: 40,

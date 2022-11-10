@@ -85,7 +85,6 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
         <GSelect onChange={handleChange} value={currentVersion.id}>
           {
             versionList.map((data) => {
-              console.log(data, 59)
               return (
                 <Option key={data.id} value={data.id} data={data} >{data.name}</Option>
               )
