@@ -21,7 +21,7 @@ const ModelList = () => {
 
   const deferName = useDeferredValue(modelName)
 
-  const getModelList = useCallback(async () => {
+  const getModelList = async () => {
     try {
       setLoading(true)
       const res = await api.get('/v3/projects', {
@@ -42,12 +42,11 @@ const ModelList = () => {
     } catch (e) {
       setLoading(false)
     }
-  }, [deferName, init]
-  )
+  }
 
   useEffect(() => {
     getModelList()
-  }, [getModelList])
+  }, [deferName])
 
   const modelList = useMemo(() => {
     const handleAddActiveTask = (data:any) => {
