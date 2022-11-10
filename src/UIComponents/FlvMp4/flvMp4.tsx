@@ -15,21 +15,16 @@ const createFlv = (url: any, video: any, setvideoLoading: any) => {
   flvplayer.attachMediaElement(video);
   flvplayer.load();
   flvplayer.pause();
-  flvplayer.on(flvjs.Events.METADATA_ARRIVED, (args: any) => {
-    console.log('METADATA_ARRIVED', args);
-
+  flvplayer.on(flvjs.Events.METADATA_ARRIVED, (_: any) => {
     setvideoLoading(false);
   });
   flvplayer.on(flvjs.Events.MEDIA_INFO, (args: any) => {
-    console.log(args);
     setvideoLoading(false);
   });
 
   flvplayer.on(flvjs.Events.ERROR, (args: any) => {
-    console.log(args, 'Events.ERROR');
     if (flvplayer) {
       flvplayer.destroy();
-      // createFlv(url, video, setvideoLoading)
     }
   });
 }

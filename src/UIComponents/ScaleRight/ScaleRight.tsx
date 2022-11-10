@@ -43,8 +43,6 @@ const ScaleRight = (props: Props): JSX.Element => {
 
   const { left, right } = getWidth()
 
-  console.log(left, right)
-
   return (
     <div styleName='ScaleRight'>
       <div className='left_wrap' style={left}>

@@ -25,7 +25,6 @@ const PlatSelect = (props: Props): JSX.Element => {
     <div styleName='PlatSelect'>
       {
         companyList.map((o, i) => {
-          console.log(o)
           return (
             <div className={getCls(o)} key={i} onClick={() => handleSelect(o)}>
               {o.name}

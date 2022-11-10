@@ -9,7 +9,6 @@ type Props = {
 const PreviewHeader = (props: Props): JSX.Element => {
   const { classInfo, setViewType } = props
   const handleTypeChange = (key: string) => {
-    console.log(key, 'handleTypeChange')
     setViewType(key)
   }
   return (

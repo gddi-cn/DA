@@ -36,7 +36,6 @@ const DataSetDetail = (): JSX.Element => {
     async () => {
       try {
         const { APP_DATASET_DETAIL } = activePipeLine
-        console.log(APP_DATASET_DETAIL, 'APP_DATASET_DETAIL')
         if (APP_DATASET_DETAIL?.id) {
           const res = await api.get(`/v3/datasets/${APP_DATASET_DETAIL?.id}`)
           if (res.code === 0) {

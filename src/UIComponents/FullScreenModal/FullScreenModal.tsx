@@ -1,8 +1,7 @@
 
 import './FullScreenModal.module.less'
 
-const FullScreenModal = (props: any): JSX.Element => {
-  console.log(props)
+const FullScreenModal = (): JSX.Element => {
   return (
     <div styleName='FullScreenModal'>
           FullScreenModal
