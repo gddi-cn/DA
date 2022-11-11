@@ -129,12 +129,16 @@ const ModelTrainConfig = (): JSX.Element => {
         // const config = await formInstance.getFieldsValue()
         // todo : 把选中的数据数据和这些合并、创建模型训练
 
-        console.log(config)
         const {
           APP_DATA_SET_INDEX,
 
         } = activePipeLine
         const { fps, gpu_count, mode, chip_info, channel } = config
+
+        if (gpu_count > 1) {
+          return message.warning('当前资源被占用，需等待一定时间才可进行训练')
+        }
+
         const { application, brand, chip_type, name } = chip_info
         const _pro_Name = activeTaskInfo?.name
         const pro_name = _pro_Name === '未命名' ? `模型-${APP_DATA_SET_INDEX?.name || '未命名'}` : _pro_Name
@@ -154,7 +158,6 @@ const ModelTrainConfig = (): JSX.Element => {
         setNextLoading(true)
         const startTrainRes = await api.post('/v3/models', trainParams)
         if (startTrainRes?.code === 0) {
-          console.log(startTrainRes)
           message.success('模型开始训练')
           const { data } = startTrainRes
           const params = {

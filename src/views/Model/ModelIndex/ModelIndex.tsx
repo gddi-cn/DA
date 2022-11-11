@@ -1,11 +1,10 @@
-
+import React from 'react'
 import './ModelIndex.module.less'
 
-const ModelIndex = (props: any): JSX.Element => {
-  console.log(props)
+const ModelIndex: React.FC = () => {
   return (
     <div styleName='ModelIndex'>
-          ModelIndex
+      ModelIndex
     </div>
   )
 }

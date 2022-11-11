@@ -1,3 +1,5 @@
+import { message } from 'antd'
+
 class EventCenter {
   // 通过事件类型作为属性来管理不通的事件回调
   eventStack:any = {}
@@ -118,7 +120,8 @@ export class Ws {
   // 监听错误
   onerror () {
     this.ws.onerror = (err:any) => {
-      console.log(err, 'onerror')
+      console.error(err)
+      message.error('当前与服务器已断开连接，请稍后再试')
       this.reconnection()
       this.isReconnectionLoading = false
     }

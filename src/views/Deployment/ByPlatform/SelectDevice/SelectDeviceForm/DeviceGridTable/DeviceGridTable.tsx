@@ -1,4 +1,4 @@
-import { Checkbox, Empty, Spin } from 'antd'
+import { Checkbox, Empty, Spin, Tooltip } from 'antd'
 import { useState, useCallback, useEffect, useRef } from 'react'
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import ApplyAuthForm from '../ApplyAuthForm'
@@ -30,7 +30,6 @@ const column: any[] = [
 ]
 
 const DeviceGridTable = (props: any): JSX.Element => {
-  console.log(props)
   const { group_id, app_id, onChange, value } = props
 
   const [dataSource, setDataSource] = useState<any[]>([]); // 数据
@@ -84,13 +83,23 @@ const DeviceGridTable = (props: any): JSX.Element => {
     fetchFn()
   }, [fetchFn])
 
-  const getState = (state:any) => {
-    const objText: any = {
-      online: '在线',
-      offline: '离线',
-      deleted: '已注销'
+  const getState = (state: 'online' | 'offline' | 'deleted') => {
+    switch (state) {
+    case 'online':
+      return '在线'
+    case 'offline':
+      return (
+        <Tooltip title='设备未连接到训练平台'>
+          <span style={{ color: '#ff6177' }}>
+            离线
+          </span>
+        </Tooltip>
+      )
+    case 'deleted':
+      return '已注销'
+    default:
+      return ''
     }
-    return objText[state] || '-'
   }
 
   const getModelAuth = (data:any) => {
