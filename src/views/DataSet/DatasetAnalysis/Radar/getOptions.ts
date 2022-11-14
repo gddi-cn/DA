@@ -12,7 +12,7 @@ export const getOptions = (
     max: 100,
   }))
 
-  const value = dataList.map(data => data.score)
+  const value = dataList.map(data => (data.score * 100 | 0) / 100)
 
   return {
     title: {
