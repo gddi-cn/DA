@@ -10,7 +10,7 @@ import { APP_DATASET_ANALYSE } from '@router'
 import { modifyActiveTask } from '@reducer/tasksSilce'
 import { socketPushMsgForProject } from '@ghooks'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '@reducer/index'
+import { RootState } from '@reducer'
 import './DataSetIndex.module.less'
 import moment from 'moment'
 
@@ -82,7 +82,7 @@ const DataSetIndex = (): JSX.Element => {
           message: '提示',
           duration: 3,
           description:
-            '训练集与验证集类别不一致，请补全数据后再训练。',
+            '训练数据与测试数据标签不一致，请补全数据后再开始训练。',
         });
         return
       }

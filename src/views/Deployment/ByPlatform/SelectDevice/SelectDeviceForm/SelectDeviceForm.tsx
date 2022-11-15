@@ -65,7 +65,7 @@ const SelectDeviceForm = (props:any): JSX.Element => {
         }
       }
       fn()
-    }, [app_id]
+    }, [app_id, form]
   )
 
   const getName = () => {
@@ -75,6 +75,7 @@ const SelectDeviceForm = (props:any): JSX.Element => {
     }
     return '--'
   }
+
   return (
     <div styleName='SelectDeviceForm'>
       <Form form={form} name='basic' className='SelectDeviceForm_content_from'>
