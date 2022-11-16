@@ -1,13 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react'
 
-import { Form, Input, Row, Col, message } from 'antd';
+import { Col, Form, Input, message, Row } from 'antd'
 import { GButton } from '@src/UIComponents'
 import api from '@api'
-import {
-  validateServiceName,
-  validateServicePwd,
-  validateServicePhone
-} from '@src/utils';
+import { validateServiceName, validateServicePhone, validateServicePwd } from '@src/utils'
 import Title from '../common/Title'
 import AsLink from '../common/AsLink'
 import { LeftOutlined } from '@ant-design/icons'
@@ -38,6 +34,7 @@ const RegisterFrom = (props: any): JSX.Element => {
   }, [])
 
   const handleSubmit = async () => {
+
     try {
       const values = await form.validateFields()
       delete values.confirm
@@ -53,6 +50,7 @@ const RegisterFrom = (props: any): JSX.Element => {
           content: '注册成功！',
           duration: 1,
         });
+        setActive('LoginForm')
       }
     } catch (e) {
       setLoading(false)
@@ -65,10 +63,9 @@ const RegisterFrom = (props: any): JSX.Element => {
       const mobile = form.getFieldsValue().mobile
       if (mobile && (/^1[3-9]\d{9}$/.test(mobile))) {
         const getEmailCode = async (params: any): Promise<any> => {
-          const res: any = await api.get('/v1/sms', {
+          return await api.get('/v1/sms', {
             params: params
           })
-          return res
         }
         const res = await getEmailCode({ mobile: mobile })
         if (res.code === 0) {
@@ -192,7 +189,7 @@ const RegisterFrom = (props: any): JSX.Element => {
             loading={isLoading}
             onClick={handleSubmit}
           >
-                      注册
+            注册
           </GButton>
         </Form.Item>
       </Form>
