@@ -24,8 +24,12 @@ const FormView = (props: any) => {
                 <div className='FormView_body_item_wrap' key={i}>
                   <div className='FormView_body_item'>{o.tag}</div>
                   <div className='FormView_body_item'>{o.dataset_name}</div>
-                  <div className='FormView_body_item'>{(+o.accuracy).toFixed(2)}%</div>
-                  <div className='FormView_body_item'>{(+o.recall).toFixed(2)}%</div>
+                  <div className='FormView_body_item'>
+                    {o.accuracy && !isNaN(parseInt(o.accuracy)) ? `${(o.accuracy * 1e4 | 0) / 1e2} %` : '--'}
+                  </div>
+                  <div className='FormView_body_item'>
+                    {o.recall && !isNaN(parseInt(o.recall)) ? `${(o.recall * 1e4 | 0) /1e2} %` : '--'}
+                  </div>
                   <div className='FormView_body_item'>{(+o.fScore).toFixed(2)}%</div>
                 </div>
               )

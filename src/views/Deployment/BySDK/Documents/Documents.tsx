@@ -1,26 +1,23 @@
+import React from 'react'
 import { Collapse } from 'antd';
 import { ReactCusScrollBar, GButton, FooterBar } from '@src/UIComponents'
 import SDKDocuments from '../SDKDocuments'
-// import AuthDocuments from '../AuthDocuments'
 import ApplyAuth from '../ApplyAuth'
 import DownloadLisense from '../DownloadLisense'
 import { useSelector } from 'react-redux'
-import { RootState } from '@reducer/index'
+import { RootState } from '@reducer'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { socketPushMsgForProject } from '@ghooks'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { APP_SELECT_DEPLOY_TYPE } from '@router'
 import './Documents.module.less'
+import DeviceLicense from '@views/Deployment/BySDK/DeviceLicense'
+import CloudLicense from '@views/Deployment/BySDK/CloudLicense'
 
 const { Panel } = Collapse;
 
-const Documents = (props: any): JSX.Element => {
-  console.log(props)
-  const onChange = (key: string | string[]) => {
-    console.log(key);
-  };
-
+const Documents: React.FC = () => {
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
@@ -48,26 +45,28 @@ const Documents = (props: any): JSX.Element => {
 
   return (
     <div styleName='Documents'>
-
       <div className='Documents_wrap'>
         <ReactCusScrollBar id='Documents'>
           <div className='Documents_content'>
             <Collapse
               defaultActiveKey={['1']}
-              onChange={onChange}
               expandIconPosition='end'
+              accordion
             >
-              <Panel header="SDK调用文档" key="1">
+              <Panel header="SDK 调用文档" key="1">
                 <SDKDocuments />
               </Panel>
-              {/* <Panel header="SDK授权文档" key="2">
-                <AuthDocuments />
-              </Panel> */}
-              <Panel header="SDK授权申请" key="2">
-                <ApplyAuth />
+              {/*<Panel header="SDK授权申请" key="2">*/}
+              {/*  <ApplyAuth />*/}
+              {/*</Panel>*/}
+              {/*<Panel header="SDK授权下载" key="3">*/}
+              {/*  <DownloadLisense />*/}
+              {/*</Panel>*/}
+              <Panel header={'SDK 绑定设备授权'} key={'2'}>
+                <DeviceLicense />
               </Panel>
-              <Panel header="SDK授权下载" key="3">
-                <DownloadLisense />
+              <Panel header={'SDK 云授权'} key={'3'}>
+                <CloudLicense />
               </Panel>
             </Collapse>
             <div className='zhanwei'></div>
