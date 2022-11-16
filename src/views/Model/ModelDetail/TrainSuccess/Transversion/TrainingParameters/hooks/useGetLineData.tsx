@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react'
 import { easyWebSocket } from './easy-websocket';
 import { getEchartListOptions } from './getEchartListOptions';

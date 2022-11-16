@@ -1,11 +1,12 @@
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import CommonUpload from './commonUpload'
 import SingleEyeAssessment from './SingleEyeAssessment'
-import { InputNumber, Spin } from 'antd';
+import { InputNumber, Spin } from 'antd'
 import { RootState } from '@reducer/index'
 import { useSelector } from 'react-redux'
 import { ModelOpreationTitle } from '@src/UIComponents'
 import './UploadFiles.module.less'
+import { DatasetScene } from '@views/DataSet/DatasetAnalysis/type'
 
 const UploadFiles = (props:any): JSX.Element => {
   const { fetchResult } = props
@@ -42,15 +43,23 @@ const UploadFiles = (props:any): JSX.Element => {
   return (
     <div styleName='UploadFiles'>
       <Spin spinning={loading} tip='正在上传文件...'>
-        <div className='forecast_paramas_block'>
+        {
+          (model_type && (model_type as DatasetScene) === DatasetScene.Classify) ? null : (
+            <div className='forecast_paramas_block'>
 
-          <ModelOpreationTitle text="阈值设置"></ModelOpreationTitle>
-          <div className='input_content'>
-            <InputNumber placeholder="请输入阈值" onChange={handleOnChange} min="0" value={thres}
-              max="1"
-              step="0.05" />
-          </div>
-        </div>
+              <ModelOpreationTitle text="阈值设置"></ModelOpreationTitle>
+              <div className='input_content'>
+                <InputNumber
+                  placeholder="请输入阈值"
+                  onChange={handleOnChange}
+                  min="0"
+                  value={thres}
+                  max="1"
+                  step="0.05" />
+              </div>
+            </div>
+          )
+        }
 
         <div className='forecast_paramas_block'>
 

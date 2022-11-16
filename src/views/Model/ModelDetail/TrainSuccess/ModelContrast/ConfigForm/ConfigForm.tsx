@@ -1,10 +1,11 @@
-import { ReactCusScrollBar, ModelOpreationTitle, GSelect } from '@src/UIComponents'
+import { GSelect, ModelOpreationTitle, ReactCusScrollBar } from '@src/UIComponents'
 import { Form, Select } from 'antd'
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
 import { RootState } from '@reducer/index'
 import { useSelector } from 'react-redux'
 import './ConfigForm.module.less'
+import { DatasetScene } from '@views/DataSet/DatasetAnalysis/type'
 
 const { Option } = Select;
 
@@ -17,6 +18,8 @@ const ConfigForm = (props:any): JSX.Element => {
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
+
+  const isClassify = versionInfo?.model_type && (versionInfo.model_type as DatasetScene) === DatasetScene.Classify
 
   const { versionListSet, setFilterParams } = props
   const {
@@ -93,6 +96,7 @@ const ConfigForm = (props:any): JSX.Element => {
     }
     setFilterParams(allValues)
   }
+
   return (
     <div styleName='ConfigForm'>
       <ReactCusScrollBar id='ReactCusScrollBar'>
@@ -143,28 +147,28 @@ const ConfigForm = (props:any): JSX.Element => {
                 {({ getFieldValue }) => {
                   const type = getFieldValue('config_type')
                   console.log(type, 'typetype')
-                  // if (type === 'threshold') {
-                  //   return (
-
-                  // }
                   return (
                     <>
                       <span style={{ display: type === 'threshold' ? 'block' : 'none' }}>
-                        <Form.Item
-                          label='阈值'
-                          name="thres_m"
+                        {
+                          isClassify ? null : (
+                            <Form.Item
+                              label='阈值'
+                              name="thres_m"
 
-                        >
-                          <GSelect
-                            mode="multiple"
-                            allowClear
-                            style={{ width: '100%' }}
-                            placeholder="选择阈值"
+                            >
+                              <GSelect
+                                mode="multiple"
+                                allowClear
+                                style={{ width: '100%' }}
+                                placeholder="选择阈值"
 
-                          >
-                            {children}
-                          </GSelect>
-                        </Form.Item>
+                              >
+                                {children}
+                              </GSelect>
+                            </Form.Item>
+                          )
+                        }
                         <Form.Item
                           label='模型版本'
                           name="version_s"
@@ -205,15 +209,19 @@ const ConfigForm = (props:any): JSX.Element => {
                             }
                           </GSelect>
                         </Form.Item>
-                        <Form.Item
-                          label='阈值'
-                          name="thres_s"
+                        {
+                          isClassify ? null : (
+                            <Form.Item
+                              label='阈值'
+                              name="thres_s"
 
-                        >
-                          <GSelect style={{ width: '100%' }} placeholder="选择阈值">
-                            {children}
-                          </GSelect>
-                        </Form.Item>
+                            >
+                              <GSelect style={{ width: '100%' }} placeholder="选择阈值">
+                                {children}
+                              </GSelect>
+                            </Form.Item>
+                          )
+                        }
                       </span>
                     </>
                   )

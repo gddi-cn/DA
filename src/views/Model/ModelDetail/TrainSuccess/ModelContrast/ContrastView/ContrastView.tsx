@@ -12,6 +12,7 @@ const FormView = (props: any) => {
       <div className='FormView_header'>
         <div className='FormView_header_item'>模型版本</div>
         <div className='FormView_header_item'>验证集版本</div>
+        <div className='FormView_header_item'>阈值</div>
         <div className='FormView_header_item'>精准率</div>
         <div className='FormView_header_item'>召回率</div>
         <div className='FormView_header_item'>F1 SCORE</div>
@@ -25,12 +26,18 @@ const FormView = (props: any) => {
                   <div className='FormView_body_item'>{o.tag}</div>
                   <div className='FormView_body_item'>{o.dataset_name}</div>
                   <div className='FormView_body_item'>
+                    {(o.threshold || o.threshold === 0) && !isNaN(parseInt(o.threshold)) ? o.threshold / 100 : '--'}
+                  </div>
+                  <div className='FormView_body_item'>
                     {o.accuracy && !isNaN(parseInt(o.accuracy)) ? `${(o.accuracy * 1e4 | 0) / 1e2} %` : '--'}
                   </div>
                   <div className='FormView_body_item'>
                     {o.recall && !isNaN(parseInt(o.recall)) ? `${(o.recall * 1e4 | 0) /1e2} %` : '--'}
                   </div>
                   <div className='FormView_body_item'>{(+o.fScore).toFixed(2)}%</div>
+                  <div className='FormView_body_item'>
+                    {o.fScore && !isNaN(parseInt(o.fScore)) ? `${(o.fScore * 1e4 | 0) /1e2} %` : '--'}
+                  </div>
                 </div>
               )
             })
