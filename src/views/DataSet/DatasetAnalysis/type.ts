@@ -63,8 +63,7 @@ export enum DatasetScene {
   Detection = 'detection',
   Classify = 'classify',
   CityscapesSegment = 'cityscapes_segment',
-  PortraitSegment = 'portrait_segment',
-  Monocular3DDetection = 'monocular_3d_detection',
   PoseDetection = 'pose_detection',
-  CarPoseDetection = 'car_pose_detection'
+  CarPoseDetection = 'car_pose_detection',
+  KeyPointsBasedAction = 'keypoints_based_action'
 }

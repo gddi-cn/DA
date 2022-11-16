@@ -37,11 +37,7 @@ const AmazingWrap = (props: AmazingWrapProps) => {
     </div>
   )
 }
-// type Props = {
-//   setCurrentStep: any,
-//   createInfo: any,
-//   setCreateInfo: any,
-// }
+
 const DatasetBaseInfoForm = (): JSX.Element => {
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
@@ -71,12 +67,7 @@ const DatasetBaseInfoForm = (): JSX.Element => {
 
     const goNext = async () => {
       const data = await form.validateFields()
-      console.log(data, 'data')
-      // const { name, cover, summary } = data
 
-      // const _obj = Object.assign({}, createInfo, { summary, cover: cover, name })
-      // setCreateInfo(_obj)
-      // setCurrentStep(3)
       // 发送socket
       navigate({
         pathname: APP_LOCAL_FILE_STEP_3

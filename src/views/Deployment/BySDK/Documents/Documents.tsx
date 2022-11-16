@@ -52,8 +52,6 @@ const Documents = (props: any): JSX.Element => {
       <div className='Documents_wrap'>
         <ReactCusScrollBar id='Documents'>
           <div className='Documents_content'>
-
-            <div className='teching'>教程</div>
             <Collapse
               defaultActiveKey={['1']}
               onChange={onChange}
