@@ -11,9 +11,6 @@ import './ConfigSetting.module.less'
 const CusInputNumber = (props: any) => {
   const { onChange, ...rest } = props
   const handleOnChange = (value: string) => {
-    console.log('changed', value);
-    // const {max} = props
-    // if(value){}
     onChange(value)
   };
   const handleStep = (value: string, info: { offset: number, type: 'up' | 'down' }) => {
@@ -44,25 +41,6 @@ const CusRadioGroup = (props: any) => {
     const value = e.target.value
 
     onChange(value);
-    // if (value === 1) {
-    //   const _fps = maxFps > 25 ? 25 : maxFps
-    //   const channel = Math.floor((maxFps / _fps))
-    //   formInstance.setFieldsValue({
-    //     fps: _fps, channel
-    //   })
-    // } else if (value === 2) {
-    //   const _fps = maxFps > 5 ? 5 : maxFps
-    //   const channel = Math.floor((maxFps / _fps))
-    //   formInstance.setFieldsValue({
-    //     fps: _fps, channel
-    //   })
-    // } else {
-    //   const _fps = maxFps > 5 ? 5 : maxFps
-    //   const channel = Math.floor((maxFps / _fps))
-    //   formInstance.setFieldsValue({
-    //     fps: 5, channel
-    //   })
-    // }
   };
   return (
     <Radio.Group onChange={handleOnChange} {...rest}>
@@ -106,7 +84,10 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
               name='gpu_count'
               initialValue={1}
             >
-              <CusInputNumber min={1} max={user_gpu} upHandler={<CaretUpOutlined />} downHandler={<CaretDownOutlined />} tips={`您当前的训练配额卡数是${user_gpu}个，想升级服务请联系客服。`} />
+              <CusInputNumber
+                min={1} upHandler={<CaretUpOutlined />}
+                downHandler={<CaretDownOutlined />}
+              />
             </Form.Item>
           </div>
 
