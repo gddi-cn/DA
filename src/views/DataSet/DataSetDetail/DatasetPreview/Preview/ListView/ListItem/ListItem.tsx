@@ -16,7 +16,6 @@ const ListItem = (props: Props): JSX.Element => {
   const datainfo = useGetDataInfo(data, scenes)
 
   // console.log(data)
-  console.log(datainfo)
   const view = useMemo(() => {
     if (isEmpty(datainfo)) {
       return null

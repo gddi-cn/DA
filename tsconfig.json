@@ -34,8 +34,8 @@
       "@reducer/*": ["./src/controller/reducer/*"],
       "@reducer": ["./src/controller/reducer"],
       "@ghooks": ["./src/views/ghooks"],
-      "@ghooks/*": ["./src/views/ghooks/*"],
-    },
+      "@ghooks/*": ["./src/views/ghooks/*"]
+    }
   },
   "include": [
     "src",

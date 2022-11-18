@@ -26,7 +26,6 @@ type Props = {
 const RenderView = (props: RenderViewProps) => {
   const { data, scenes } = props
   const datainfo = processData(data, scenes)
-  console.log(datainfo)
   if (isEmpty(datainfo?.url)) {
     return null
   }

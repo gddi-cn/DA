@@ -9,6 +9,7 @@ const rootReducer = combineReducers({
   modelDetailSlice
   // test
 });
+
 export type RootState = ReturnType<typeof rootReducer>
 
 export default rootReducer
