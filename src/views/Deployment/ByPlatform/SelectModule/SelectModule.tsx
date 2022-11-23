@@ -258,7 +258,6 @@ const SelectModule = (): JSX.Element => {
               <Form.Item dependencies={['adapter_device']} >
                 {({ getFieldValue }) => {
                   const type = getFieldValue('adapter_device')
-                  console.log(type, 'typetype')
                   return (
                     <Form.Item
                       noStyle

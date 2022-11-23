@@ -5,18 +5,18 @@ import { deviceListPageAtom, devicesAtom, deviceTotalAtom, PAGE_SIZE } from './s
 import { useAtom } from 'jotai'
 
 const Container = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  //position: absolute;
+  //left: 0;
+  //right: 0;
+  //bottom: 0;
   display: flex;
   justify-content: flex-end;
-  padding: 0 36px 40px;
+  //padding: 0 36px 40px;
 `
 
 const Footer: React.FC = () => {
   const [total] = useAtom(deviceTotalAtom)
-  const [, setPage] = useAtom(deviceListPageAtom)
+  const [page, setPage] = useAtom(deviceListPageAtom)
 
   return (
     <Container>
@@ -24,6 +24,7 @@ const Footer: React.FC = () => {
         pageSize={PAGE_SIZE}
         total={total}
         size={'small'}
+        current={page}
         onChange={(p) => setPage(p)}
       />
     </Container>

@@ -1,4 +1,4 @@
-import { isNil, isEmpty } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 
 const getPrecisionSteps = (precisionSteps:any, key:number, index:any) => {
   try {
@@ -11,22 +11,29 @@ const getPrecisionSteps = (precisionSteps:any, key:number, index:any) => {
     return '-'
   }
 }
+
 export const getTableData = (data: any, filer:any) => {
-  console.log(filer, 'filer')
   if (isNil(data) || isEmpty(data)) {
     return []
   }
 
-  const { config_type, thres_s, dataset_version, version_m = [], version_s, thres_m = [] } = filer
-  // getPrecisionSteps(precisionSteps, threshold, 2)
-  let version_of_dataset :any = {}
+  const {
+    config_type,
+    dataset_version,
+    version_s,
+    version_m = [],
+    thres_s,
+    thres_m = []
+  } = filer
+
+  let version_of_dataset: any = {}
+
   for (let i = 0; i < data.length; i++) {
     if (data[i].dataset_id === dataset_version) {
       version_of_dataset = data[i]
     }
   }
-  console.log(version_of_dataset, 'version_of_dataset')
-  console.log(filer, 'filer')
+
   if (isEmpty(version_of_dataset)) {
     return []
   }
@@ -34,9 +41,8 @@ export const getTableData = (data: any, filer:any) => {
   const listByFilter:any[] = []
 
   const { versions } = version_of_dataset
-
+  
   if (config_type === 'version') {
-    // version_m ,thres_s
     for (let i = 0; i < versions.length; i++) {
       const { tag } = versions[i]
       if (isEmpty(version_m)) {
@@ -63,7 +69,6 @@ export const getTableData = (data: any, filer:any) => {
       }
     }
   } else {
-    // version_s thres_m
     for (let i = 0; i < versions.length; i++) {
       const { tag } = versions[i]
       if (version_s === tag) {
@@ -100,7 +105,6 @@ export const getTableData = (data: any, filer:any) => {
 }
 
 export const update = (data:any, value:any, unique:any) => {
-  console.log(value, 'valuevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue')
   return data.map((o:any) => {
     const { key, tag, precisionSteps } = o
     if (key === unique) {
@@ -141,25 +145,18 @@ export const getThresOptions = (data: any) => {
 
   const dataAxis = data.map((o: any) => o.threshold)
 
-  const option = {
+  return {
 
     legend: {
-      data: ['精确率', '召回率', 'F1 Score'],
-      show: false
+      data: ['精确率', '召回率', 'F1 Score'], show: false
     },
 
     tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        label: {
+      trigger: 'axis', axisPointer: {
+        type: 'cross', label: {
           backgroundColor: '#6a7985'
         }
-      },
-      backgroundColor: '#061926',
-      borderWidth: 0,
-      borderRadius: 10,
-      textStyle: {
+      }, backgroundColor: '#061926', borderWidth: 0, borderRadius: 10, textStyle: {
         color: '#fff'
       },
     },
@@ -171,115 +168,59 @@ export const getThresOptions = (data: any) => {
         textStyle: {
           color: '#999999'
         }
-      },
-      axisTick: {
+      }, axisTick: {
         show: false
-      },
-      axisLine: {
+      }, axisLine: {
         show: false
-      },
-      z: 10,
-      type: 'value',
-    },
-    grid: {
-      left: '0%',
-      right: '8%',
-      bottom: '8%',
-      containLabel: true
-    },
-    yAxis: {
-      data: dataAxis,
-      type: 'category',
-      axisLine: {
+      }, z: 10, type: 'value',
+    }, grid: {
+      left: '0%', right: '8%', bottom: '8%', containLabel: true
+    }, yAxis: {
+      data: dataAxis, type: 'category', axisLine: {
         show: false
-      },
-      axisTick: {
+      }, axisTick: {
         show: false
-      },
-      splitLine: {
+      }, splitLine: {
         show: true
-      },
-      axisLabel: {
+      }, axisLabel: {
         textStyle: {
           color: '#999'
-        },
-        show: true
+        }, show: true
       }
-    },
-    // grid: {
+    }, // grid: {
     //   left: '3%',
     //   right: '4%',
     //   bottom: '3%',
     //   containLabel: true
     // },
-    dataZoom: [
-      {
-        show: true,
+    dataZoom: [{
+      show: true,
 
-        height: 13,
-        showDataShadow: true,
+      height: 13, showDataShadow: true,
+    }, {
+      type: 'inside',
+
+    }, {
+
+      show: true, yAxisIndex: 0, filterMode: 'empty', width: 13, height: '80%', showDataShadow: false, left: '93%'
+    }], series: [{
+      type: 'bar', name: '精确率', barMaxWidth: 17, barGap: '30%', data: accuracyArr,
+
+      itemStyle: {
+        color: '#A3D0EF', borderRadius: [0, 10, 10, 0], borderWidth: 1, borderType: 'solid'
       },
-      {
-        type: 'inside',
+    }, {
+      type: 'bar', name: '召回率', barMaxWidth: 17, barGap: '30%', itemStyle: {
+        color: '#5AABE2', borderRadius: [0, 10, 10, 0], borderWidth: 1, borderType: 'solid'
+      }, data: recallArr,
 
-      },
-      {
+    }, {
+      type: 'bar', name: 'F1 Score', barMaxWidth: 17, barGap: '30%', itemStyle: {
+        color: '#085082', borderRadius: [0, 10, 10, 0], borderWidth: 1, borderType: 'solid'
+      }, data: fScoreArr,
 
-        show: true,
-        yAxisIndex: 0,
-        filterMode: 'empty',
-        width: 13,
-        height: '80%',
-        showDataShadow: false,
-        left: '93%'
-      }
-    ],
-    series: [
-      {
-        type: 'bar',
-        name: '精确率',
-        barMaxWidth: 17,
-        barGap: '30%',
-        data: accuracyArr,
-
-        itemStyle: {
-          color: '#A3D0EF',
-          borderRadius: [0, 10, 10, 0],
-          borderWidth: 1,
-          borderType: 'solid'
-        },
-      },
-      {
-        type: 'bar',
-        name: '召回率',
-        barMaxWidth: 17,
-        barGap: '30%',
-        itemStyle: {
-          color: '#5AABE2',
-          borderRadius: [0, 10, 10, 0],
-          borderWidth: 1,
-          borderType: 'solid'
-        },
-        data: recallArr,
-
-      },
-      {
-        type: 'bar',
-        name: 'F1 Score',
-        barMaxWidth: 17,
-        barGap: '30%',
-        itemStyle: {
-          color: '#085082',
-          borderRadius: [0, 10, 10, 0],
-          borderWidth: 1,
-          borderType: 'solid'
-        },
-        data: fScoreArr,
-
-      }
-    ]
-  };
-  return option
+    }]
+  }
 }
 
 export const getOptions = (data:any) => {

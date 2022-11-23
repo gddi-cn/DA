@@ -5,10 +5,10 @@ import Header from './TableHeader'
 import Body from './TableBody'
 
 const Container = styled.div`
-  width: 784px;
-  max-width: 100%;
+  //width: 784px;
+  //max-width: 100%;
+  width: 100%;
   overflow: hidden;
-  margin-top: 40px;
 `
 
 const LicenseTable: React.FC = () => {

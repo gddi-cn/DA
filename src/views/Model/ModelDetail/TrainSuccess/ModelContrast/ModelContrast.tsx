@@ -58,23 +58,17 @@ const ModelContrast = (): JSX.Element => {
 
   // const [loading, setloading] = useState(false)
 
-  // console.log(loading)
-
   useEffect(() => {
-    console.log(deferFilterParams, raw_data.current)
     if (!deferFilterParams.dataset_version) {
       return
     }
     const list = getTableData(raw_data.current, deferFilterParams)
-    console.log(list)
     setDataList(list)
   }, [deferFilterParams])
 
   useEffect(() => {
     const fn = async () => {
       try {
-        // setloading(true)
-        // const { model_type } = versionInfo
         const best_threshold = versionInfo.iter.result?.best_threshold
         const best = best_threshold * 100
         const res = await api.get(`/v2/models/${versionInfo.id}/compareversions`)
@@ -98,14 +92,8 @@ const ModelContrast = (): JSX.Element => {
               dataset_version: raw_data.current[0].dataset_id
             })
           }
-          // setCompareversions(listData)
-        } else {
-          // setloading(false)
         }
       } catch (e) {
-        console.log(e, 'eeee')
-
-        // setloading(false)
       }
     }
     fn()

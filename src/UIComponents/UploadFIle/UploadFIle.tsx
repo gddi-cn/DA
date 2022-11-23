@@ -25,7 +25,7 @@ interface Props {
   tips?: React.ReactNode,
   value?:any,
   isShowFileName?:boolean
-
+  [key: string]: any;
 }
 
 const UplaodImageView = (type: string | undefined, tips: React.ReactNode | undefined) => {
@@ -55,7 +55,6 @@ const UploadFIle = (props: Props): JSX.Element => {
   const [errList, setErrList] = useState<string[]>([])
 
   useEffect(() => {
-    console.log(value, 'valuevaluevalue')
     setFilesrc(value || '')
   }, [value])
 

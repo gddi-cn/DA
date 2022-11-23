@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal as AntdModal, Button as AntdButton } from 'antd'
+import { Modal as AntdModal, Button as AntdButton, ModalProps } from 'antd'
 import styled from 'styled-components'
 import { CloseOutlined } from '@ant-design/icons'
 
@@ -42,7 +42,7 @@ const Content = styled.div`
   padding: 0 40px;
 `
 
-interface DialogProps {
+interface DialogProps extends ModalProps {
   open: boolean
   onClose: () => void
   children?: React.ReactNode
@@ -53,6 +53,7 @@ const Dialog: React.FC<DialogProps> = (
     open,
     onClose,
     children,
+    ...props
   }
 ) => {
 
@@ -63,8 +64,7 @@ const Dialog: React.FC<DialogProps> = (
       closable={false}
       centered
       width={1400}
-      destroyOnClose={false}
-      maskTransitionName={''}
+      {...props}
     >
       <CloseButton
         shape={'circle'}

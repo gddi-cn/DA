@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Select, Spin } from 'antd';
+import { Divider, Select, Spin } from 'antd'
 import { SelectProps } from 'antd/es/select';
 import debounce from 'lodash/debounce';
 
@@ -8,14 +8,15 @@ export interface DebounceSelectProps<ValueType = any>
   fetchOptions: (search: string) => Promise<ValueType[]>;
   debounceTimeout?: number;
   onFirstLoad?: (options: ValueType[]) => void
+  getExtendOptions?: (refresh: () => void) => React.ReactNode;
 }
 
-
-function RemoteSelect<ValueType extends { key?: string; label: React.ReactNode; value: string | number } = any>(
+function RemoteSelect<ValueType extends { key?: string | number; label: React.ReactNode; value: string | number } = any>(
   {
     fetchOptions,
     debounceTimeout = 400,
     onFirstLoad,
+    getExtendOptions,
     ...props
   }: DebounceSelectProps
 ) {
@@ -64,6 +65,21 @@ function RemoteSelect<ValueType extends { key?: string; label: React.ReactNode; 
       onSearch={debounceFetcher}
       notFoundContent={fetching ? <Spin size="small" /> : null}
       options={options}
+      dropdownRender={menu => (
+        <>
+          {
+            getExtendOptions ? (
+              <>
+                <div style={{ padding: '4px 8px 0' }}>
+                  { getExtendOptions(() => { debounceFetcher('') } ) }
+                </div>
+                <Divider style={{ margin: '8px 0' }} />
+              </>
+            ) : null
+          }
+          {menu}
+        </>
+      )}
       {...props}
     />
   );

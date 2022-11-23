@@ -36,3 +36,17 @@ export const useListData = () => {
     noData: deviceLicenseList.length <= 0,
   }
 }
+
+export const useReload = () => {
+  const [id] = useAtom(idAtom)
+  const [versionId] = useAtom(versionIdAtom)
+  const [, setDeviceLicenseList] = useAtom(deviceLicenseListAtom)
+
+  return () => {
+    if (!id || !versionId) return
+    fetchDeviceLicenseList(id, versionId)
+      .then((data) => {
+        setDeviceLicenseList(produce(_ => data))
+      })
+  }
+}

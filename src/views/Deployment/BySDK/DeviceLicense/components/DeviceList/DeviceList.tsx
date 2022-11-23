@@ -3,7 +3,7 @@ import { Button as AntButton } from 'antd'
 import { License } from '@src/shared/types/license'
 import styled from 'styled-components'
 
-import Dialog from '../Dialog'
+import Dialog from '../../../components/Dialog'
 import DeviceTable from './DeviceTable'
 import Footer from './Footer'
 import { useDeviceList } from './hook'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row as AntRow, Typography } from 'antd'
+import { Col, Row as AntRow } from 'antd'
 import styled from 'styled-components'
 
 const Row = styled(AntRow)`

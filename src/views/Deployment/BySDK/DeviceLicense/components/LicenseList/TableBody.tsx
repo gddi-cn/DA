@@ -6,8 +6,9 @@ import { Col, Row as AntRow, Tooltip, Typography } from 'antd'
 import { formatUnixTime } from '@src/utils/tools'
 import LicenseStatusTag from '@src/components/LicenseStatusTag'
 import styled from 'styled-components'
-import Divider from './Divider'
-import DeviceList from '../DeviceList/DeviceList'
+import Divider from '../../../components/Divider'
+import DeviceList from '../DeviceList'
+import { LicenseStatus } from '@src/shared/enum/license'
 
 const Row = styled(AntRow)`
   padding: 14px 12px;
@@ -45,7 +46,7 @@ const TableRow: React.FC<License & { idx: number }> = (
         <Col span={4}>
           <Tooltip title={(expire || expire === 0) ? `${expire} 天` : '-'}>
             <Typography.Text ellipsis>
-              { (expire || expire === 0) ? `${expire} 天` : '-' }
+              { status === LicenseStatus.UNDER_REVIEW ? '-' : ((expire || expire === 0) ? `${expire} 天` : '-') }
             </Typography.Text>
           </Tooltip>
         </Col>

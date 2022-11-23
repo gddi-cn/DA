@@ -1,10 +1,18 @@
 import React from 'react'
-import { Container } from '../components'
+
+import { useInit } from './hook'
+
+import Container from '../components/Container'
+import LicenseList from './components/LicenseList'
+import Apply from './components/Apply'
 
 const CloudLicense: React.FC = () => {
+  useInit()
+
   return (
     <Container>
-      Cloud License
+      <LicenseList />
+      <Apply />
     </Container>
   )
 }

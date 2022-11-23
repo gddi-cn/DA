@@ -117,7 +117,7 @@ const RegisterForm = (props: any): JSX.Element => {
   const [failedList, setFailedList] = useState<Array<any>>([])
 
   const showModal = () => {
-    if (!groupSelected) {
+    if (!groupSelected && groupSelected !== 0) {
       message.warning('请选择设备组')
       return
     }

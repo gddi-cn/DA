@@ -11,6 +11,7 @@ import EndUploadGxtBtn from './EndUploadGxtBtn'
 import { useState, useEffect, useCallback, useDeferredValue, useMemo } from 'react';
 import AddGroup from './AddGroup'
 import './DeviceIndex.module.less'
+import { DeviceType } from '@src/shared/enum/device'
 
 const { Option } = Select;
 
@@ -44,6 +45,11 @@ const DeviceIndex = (): JSX.Element => {
         if (res.code === 0) {
           const { items } = res.data
           setOptions(items || [])
+
+          if ((items || []).some((x: any) => x.id === 0)) {
+            setGroupSelected(0)
+          }
+
         } else {
           message.error(res?.message)
         }
@@ -75,7 +81,8 @@ const DeviceIndex = (): JSX.Element => {
             page_size: 1000,
             sort_by_expire: undefined,
             sort_by_status: undefined,
-            name: deferDeviceName
+            name: deferDeviceName,
+            type: (groupSelected === 0 || groupSelected === '0') ? deviceType: undefined
           }
         })
         if (res.code === 0) {
@@ -93,7 +100,7 @@ const DeviceIndex = (): JSX.Element => {
       //   ...params.pagination,
       //   total: 200
       // })
-    }, [groupSelected, deferDeviceName]
+    }, [groupSelected, deferDeviceName, deviceType]
   )
 
   useEffect(() => {
@@ -141,7 +148,7 @@ const DeviceIndex = (): JSX.Element => {
 
   const AddBtnOfEdge = useMemo(() => {
     const handleVisibleChange = (visible: boolean) => {
-      if (!groupSelected) {
+      if (!groupSelected && groupSelected !== 0) {
         message.warning('请选择设备组')
         return
       }

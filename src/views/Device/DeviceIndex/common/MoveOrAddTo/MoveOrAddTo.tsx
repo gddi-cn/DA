@@ -59,12 +59,6 @@ const MoveOrAddTo = (props: any): JSX.Element => {
   };
 
   const onChange = async (value:any) => {
-    //   page: 1,
-    //       page_size: 10,
-    //           sort_by_expire: undefined,
-    //               sort_by_status: undefined,
-    //                   name: undefined
-    console.log(`selected ${value}`);
     setLoading(true)
     try {
       const mehtod = doMethod === 'move'

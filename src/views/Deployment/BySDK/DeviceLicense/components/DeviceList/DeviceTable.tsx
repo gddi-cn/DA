@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row as AntRow, Tooltip, Typography } from 'antd'
 import styled from 'styled-components'
-import Divider from '../LicenseList/Divider'
+import Divider from '../../../components/Divider/Divider'
 import { LicensedDevice } from '@src/shared/types/device'
 import { formatUnixTime } from '@src/utils/tools'
 import { useAtom } from 'jotai'
@@ -16,8 +16,9 @@ const Container = styled.div`
 `
 
 const Table = styled.div`
-  width: 568px;
-  max-width: 100%;
+  width: 100%;
+  //width: 568px;
+  //max-width: 100%;
 `
 
 const Row = styled(AntRow)`

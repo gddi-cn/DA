@@ -2,7 +2,7 @@ import { GSelect, ModelOpreationTitle, ReactCusScrollBar } from '@src/UIComponen
 import { Form, Select } from 'antd'
 import { useEffect } from 'react'
 
-import { RootState } from '@reducer/index'
+import { RootState } from '@reducer'
 import { useSelector } from 'react-redux'
 import './ConfigForm.module.less'
 import { DatasetScene } from '@views/DataSet/DatasetAnalysis/type'
@@ -18,7 +18,7 @@ const ConfigForm = (props:any): JSX.Element => {
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
-
+  
   const isClassify = versionInfo?.model_type && (versionInfo.model_type as DatasetScene) === DatasetScene.Classify
 
   const { versionListSet, setFilterParams } = props
@@ -41,8 +41,6 @@ const ConfigForm = (props:any): JSX.Element => {
   }, [form, dataset_list, modelVersions, versionInfo])
 
   const handleOnValuesChange = (c_values:any, allValues:any) => {
-    // console.log(c_values, allValues)
-
     const best_threshold = versionInfo.iter.result?.best_threshold
     const best = best_threshold * 100
     if (c_values.dataset_version) {
@@ -137,7 +135,11 @@ const ConfigForm = (props:any): JSX.Element => {
               >
                 <GSelect style={{ width: '100%' }}>
                   <Option value="version">模型版本</Option>
-                  <Option value="threshold">阈值</Option>
+                  {
+                    isClassify ? null : (
+                      <Option value="threshold">阈值</Option>
+                    )
+                  }
                 </GSelect>
               </Form.Item>
             </div>
@@ -146,7 +148,6 @@ const ConfigForm = (props:any): JSX.Element => {
               <Form.Item dependencies={['config_type']} noStyle>
                 {({ getFieldValue }) => {
                   const type = getFieldValue('config_type')
-                  console.log(type, 'typetype')
                   return (
                     <>
                       <span style={{ display: type === 'threshold' ? 'block' : 'none' }}>
@@ -155,7 +156,6 @@ const ConfigForm = (props:any): JSX.Element => {
                             <Form.Item
                               label='阈值'
                               name="thres_m"
-
                             >
                               <GSelect
                                 mode="multiple"

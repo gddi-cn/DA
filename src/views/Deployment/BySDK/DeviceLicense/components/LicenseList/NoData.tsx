@@ -9,7 +9,6 @@ const NoData: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 55,
         marginTop: 3,
       }}
     >

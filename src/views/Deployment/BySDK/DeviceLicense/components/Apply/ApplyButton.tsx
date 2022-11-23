@@ -3,11 +3,14 @@ import styled from 'styled-components'
 import { Button as AntdButton } from 'antd'
 
 const Container = styled.div`
-  padding-bottom: 20px;
-  padding-right: 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  padding: 20px 40px;
 `
 
 const Button = styled(AntdButton)`

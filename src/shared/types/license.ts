@@ -1,5 +1,6 @@
-import { LicensedDevice } from '@src/shared/types/device'
+import { GroupDevice, LicensedDevice } from '@src/shared/types/device'
 import { LicenseStatus, LicenseType } from '@src/shared/enum/license'
+import { DeviceGroup } from '@src/shared/types/deviceGroup'
 
 // 授权
 export interface License {
@@ -11,7 +12,7 @@ export interface License {
   created: number;
   // 许可设备列表
   devices: Array<LicensedDevice>;
-  // 授权有效期 (sdk 中是天数 云端是时间戳）
+  // 授权有效期 (sdk 中是天数）
   expire: number,
   // 授权 ID
   id: string,
@@ -23,4 +24,11 @@ export interface License {
   status: LicenseStatus;
   // 更新时间
   updated: number;
+}
+
+export interface ApplyModel {
+  apply_type: LicenseType;
+  device_ids?: Array<GroupDevice['id']>;
+  group_id?: DeviceGroup['id'];
+  request_days: number;
 }
