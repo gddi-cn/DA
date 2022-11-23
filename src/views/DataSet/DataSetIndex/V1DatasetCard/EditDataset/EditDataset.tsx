@@ -107,7 +107,7 @@ const EditDataset = (props: Props): JSX.Element => {
             name='cover'
             initialValue={data?.cover}
           >
-            <UploadFile tips='支持.jpg .jpeg .png 等图片文件,文件不得大于2MB' hasPreview={true} maxSize={maxSize} regExp={regExp} />
+            <UploadFile tips='支持.jpg .jpeg .png 等图片文件，文件不得大于2MB' hasPreview={true} maxSize={maxSize} regExp={regExp} />
           </Form.Item>
 
           <div className='btn_wrap'>

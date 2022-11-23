@@ -204,12 +204,12 @@ const CommonUpload = (props:any): JSX.Element => {
 
   const getText = () => {
     if (model_type === 'classify') {
-      return '支持.jpg .jpeg . png'
+      return '支持.jpg .jpeg .png'
     }
     if (model_type === 'keypoints_based_action') {
       return '支持 .mp4'
     }
-    return '支持.jpg .jpeg . png .mp4'
+    return '支持.jpg .jpeg .png .mp4'
   }
 
   const getOtherTips = () => {
@@ -218,7 +218,7 @@ const CommonUpload = (props:any): JSX.Element => {
         <>
           <p>单次预测项目总数量不多于20个</p>
 
-          <p>单个视屏不大于100 MB</p>
+          <p>单个视频不大于100 MB</p>
         </>
       )
     }
@@ -226,7 +226,7 @@ const CommonUpload = (props:any): JSX.Element => {
       <>
         <p>单次预测项目总数量不多于20个</p>
         <p>单张图片不大于10 MB</p>
-        <p>单个视屏不大于100 MB</p>
+        <p>单个视频不大于100 MB</p>
       </>
     )
   }

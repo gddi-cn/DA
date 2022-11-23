@@ -235,7 +235,7 @@ const SelectDatasetFile = (): JSX.Element => {
               <a href={exampleUrl} target='_blank' rel='noreferrer'>下载示例</a>
             </p>
 
-            <p>2.压缩包支持zip、tar、gz格式。 图片格式： 1.目前支持图片类型分别为：png、jpg、jpeg。</p>
+            <p>2.压缩包支持zip、tar、gz格式。</p>
 
           </div>
           <div className='tips_wrap'>
