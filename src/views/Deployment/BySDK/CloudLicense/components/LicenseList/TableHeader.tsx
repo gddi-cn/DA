@@ -17,10 +17,10 @@ const TableHeader: React.FC = () => {
       <Col span={2}>
         序号
       </Col>
-      <Col span={4}>
+      <Col span={3}>
         创建时间
       </Col>
-      <Col span={4}>
+      <Col span={3}>
         到期日期
       </Col>
       <Col span={3}>
@@ -30,9 +30,12 @@ const TableHeader: React.FC = () => {
         调用次数
       </Col>
       <Col span={3}>
+        剩余次数
+      </Col>
+      <Col span={3}>
         授权状态
       </Col>
-      <Col span={5}>
+      <Col span={4}>
         操作
       </Col>
     </Row>

@@ -62,6 +62,24 @@ const modelAPI = {
       }
     }
   },
+
+  downloadModel: async(modelId: string, version_id: string): Promise<APIResponse<Blob>> => {
+    try {
+      const data = await http.get(
+        `/v3/models/${modelId}/versions/${version_id}/download`,
+        { responseType: 'blob' }
+      )
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
 }
 
 export default modelAPI

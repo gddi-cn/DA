@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import Divider from '../../../components/Divider'
 import DeviceList from '../DeviceList'
 import { LicenseStatus } from '@src/shared/enum/license'
+import Download from './Download'
 
 const Row = styled(AntRow)`
   padding: 14px 12px;
@@ -55,6 +56,7 @@ const TableRow: React.FC<License & { idx: number }> = (
         </Col>
         <Col span={8}>
           <DeviceList devices={devices || []} />
+          <Download id={id} disabled={status !== LicenseStatus.PASS} />
         </Col>
       </Row>
     </>

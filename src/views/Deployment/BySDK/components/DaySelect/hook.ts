@@ -20,6 +20,16 @@ export const useDateSelect = () => {
     [disabled]
   )
 
+  React.useEffect(
+    () => {
+      return () => {
+        form.resetFields()
+        setDisabled(true)
+      }
+    },
+    []
+  )
+
   return {
     form,
     handleChange,

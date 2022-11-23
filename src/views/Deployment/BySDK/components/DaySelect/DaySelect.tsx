@@ -77,6 +77,7 @@ const DaySelect: React.FC<DaySelectProps> = (
               placeholder={'请输入天数'}
               autoComplete={'off'}
               precision={0}
+              defaultValue={30}
             />
           </Form.Item>
         </Form>

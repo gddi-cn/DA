@@ -13,7 +13,7 @@ const Apply: React.FC = () => {
   return (
     <>
       <ApplyButton openDialog={openDialog} />
-      <Dialog open={open} onClose={closeDialog}>
+      <Dialog open={open} onClose={closeDialog} destroyOnClose>
         <DaySelect Footer={DaySelectFooter} />
       </Dialog>
     </>
