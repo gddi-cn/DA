@@ -29,7 +29,7 @@ export const validateServiceEmail = (rule: any, value: string) => {
 // 效验用户名
 export const validateServiceName = (rule: any, value: string) => {
   if (!value) {
-    return Promise.reject(new Error('请输入用户名'))
+    return Promise.reject(new Error('请输入用户名！'))
   } else {
     const reg = /^[a-zA-Z0-9_]{5,12}$/
     if (reg.test(value)) {
@@ -43,7 +43,7 @@ export const validateServiceName = (rule: any, value: string) => {
 // 效验密码
 export const validateServicePwd = (rule: any, value: string) => {
   if (!value) {
-    return Promise.reject(new Error('请输入验证码'))
+    return Promise.reject(new Error('请输入密码！'))
   } else {
     if (value.length >= 8 && value.length <= 20) {
       return Promise.resolve();

@@ -52,7 +52,7 @@ const AddForm = (props: any) => {
       >
         <Form.Item
           name="name"
-          rules={[{ required: true, message: 'Please input your group name!' }]}
+          rules={[{ required: true, message: '请输入设备组名称' }]}
         >
           <Input placeholder='请输入设备组名称' />
         </Form.Item>

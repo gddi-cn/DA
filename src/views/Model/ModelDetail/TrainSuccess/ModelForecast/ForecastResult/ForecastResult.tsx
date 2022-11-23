@@ -164,7 +164,7 @@ const ForecastResult = (props:any): JSX.Element => {
     if (total === 0) {
       return (
         <div>
-          <Empty description='暂无数据,请上传预测数据'/>
+          <Empty description='暂无数据，请上传预测数据'/>
         </div>
       )
     }

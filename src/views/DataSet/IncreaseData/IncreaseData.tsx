@@ -215,7 +215,7 @@ const IncreaseData = (): JSX.Element => {
           <div className='tips_wrap'>
             <p>文件格式：</p>
             <p>1.请按照右边引导示例文件构建压缩包，并严格按照示例文件夹名称命名。</p>
-            <p>2.压缩包支持zip、tar、gz格式。 图片格式： 1.目前支持图片类型分别为：png、jpg、jpeg。</p>
+            <p>2.压缩包支持zip、tar、gz格式。</p>
 
           </div>
           <div className='tips_wrap'>

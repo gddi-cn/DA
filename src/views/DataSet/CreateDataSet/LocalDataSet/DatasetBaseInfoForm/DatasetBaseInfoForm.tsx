@@ -132,7 +132,7 @@ const DatasetBaseInfoForm = (): JSX.Element => {
           name="cover"
           label="上传数据集封面"
         >
-          <UploadFile hasPreview={true} tips="支持.jpg .jpeg .png 等图片文件,文件不得大于2MB" maxSize={maxSize} regExp={regExp}>
+          <UploadFile hasPreview={true} tips="支持.jpg .jpeg .png 等图片文件，文件不得大于2MB" maxSize={maxSize} regExp={regExp}>
 
           </UploadFile>
         </Form.Item>
