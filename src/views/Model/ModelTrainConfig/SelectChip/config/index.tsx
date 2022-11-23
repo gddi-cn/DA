@@ -26,6 +26,7 @@ const imgSrcMap: any = {
 const titleMap: any = {
   Apple: '苹果',
   Huawei: '华为海思',
+  Ingenic: '君正',
   MediaTek: '联发科',
   Nvidia: '英伟达',
   Qualcomm: '高通',
