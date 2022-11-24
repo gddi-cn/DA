@@ -106,7 +106,12 @@ const ConfigSetting = (props: ModelTrainConfigType.ConfigSetting): JSX.Element =
               name='gpu_count'
               initialValue={1}
             >
-              <CusInputNumber min={1} max={user_gpu} upHandler={<CaretUpOutlined />} downHandler={<CaretDownOutlined />} tips={`您当前的训练配额卡数是${user_gpu}个，想升级服务请联系客服。`} />
+              <CusInputNumber
+                min={1} max={user_gpu}
+                upHandler={<CaretUpOutlined />}
+                downHandler={<CaretDownOutlined />}
+                tips={`您当前的训练配额卡数是${user_gpu}个，想升级服务请联系客服。`}
+              />
             </Form.Item>
           </div>
 

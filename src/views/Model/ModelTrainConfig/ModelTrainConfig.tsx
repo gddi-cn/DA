@@ -136,7 +136,7 @@ const ModelTrainConfig = (): JSX.Element => {
         const { fps, gpu_count, mode, chip_info, channel } = config
 
         if (gpu_count > 1) {
-          return message.warning('当前资源被占用，需等待一定时间才可进行训练')
+          message.warning('当前资源被占用，需等待一定时间才可进行训练')
         }
 
         const { application, brand, chip_type, name } = chip_info
