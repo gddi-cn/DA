@@ -8,10 +8,15 @@ import Operation from './Operation'
 import type { FectData } from '../DatasetList/DatasetList'
 import './V1DatasetCard.module.less'
 import { useState } from 'react'
+import { DatasetDownloadStatus } from '@src/shared/enum/dataset'
 
 export type Data = {
   cover: string,
   created: number,
+  download: {
+    status: DatasetDownloadStatus,
+    url?: string,
+  },
   id: string,
   name: string,
   scene: string,

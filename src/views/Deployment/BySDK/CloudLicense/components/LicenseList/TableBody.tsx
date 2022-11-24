@@ -11,7 +11,6 @@ import { cloudLicenseListAtom } from './store'
 import LicenseStatusTag from '@src/components/LicenseStatusTag'
 import Divider from '../../../components/Divider'
 import Download from './DownLoad'
-import moment from 'moment'
 
 const Row = styled(AntRow)`
   padding: 14px 12px;
@@ -34,7 +33,7 @@ const TableRow: React.FC<License & { idx: number }> = (
 ) => {
   const e = status === LicenseStatus.UNDER_REVIEW ?
     '-' : ((expire || expire === 0)
-      ? `${moment(expire * 1000).format('YYYY/MM/DD')}` : '-')
+      ? formatUnixTime(expire) : '-')
 
   const q = status === LicenseStatus.UNDER_REVIEW ?
     '-' : ((quantity || quantity === 0)

@@ -9,11 +9,13 @@ import { useNavigate } from 'react-router-dom'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import EditDataset from '../../../DataSetIndex/V1DatasetCard/EditDataset'
 import { SmallButton } from '@src/UIComponents'
-import { APP_IncreaseData } from '@router'
+import { APP_IncreaseData } from '@src/router'
 import { useSelector } from 'react-redux'
-import { RootState } from '@reducer/index'
+import { RootState } from '@reducer'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { socketPushMsgForProject } from '@ghooks'
+
+import Download from './Download'
 
 import './DatasetInfoHeader.module.less'
 
@@ -112,7 +114,7 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
       </div> */}
       <EditDataset data={datasetInfo} type='nomal' eleId='root' callback={initFetchDatasetInfo} />
       <SmallButton type='nomal' className='add_data_wrap' onClick={handleGotoADDData}>添加数据</SmallButton>
-
+      <Download {...datasetInfo} refresh={initFetchDatasetInfo} />
     </div>
   )
 }

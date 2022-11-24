@@ -12,7 +12,7 @@ const classes:{[index:string]:string} = {
   success: 'success',
   falied: 'falied',
   not_start: 'not_start',
-  nomal: 'nomal',
+  normal: 'nomal',
   primary: 'primary',
 }
 

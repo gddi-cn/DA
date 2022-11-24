@@ -21,7 +21,7 @@ const TableHeader: React.FC = () => {
         创建时间
       </Col>
       <Col span={3}>
-        到期日期
+        到期时间
       </Col>
       <Col span={3}>
         授权实例数
