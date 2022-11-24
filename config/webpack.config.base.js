@@ -13,7 +13,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
+// const ESLintPlugin = require('eslint-webpack-plugin');
 
 const babelOptions = require(paths.appBabelrc)
 
@@ -372,25 +372,25 @@ module.exports = function (webpackEnv) {
       }),
       new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
       new webpack.DefinePlugin(env.stringified),
-      new ESLintPlugin({
-        // Plugin options
-        extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
-        formatter: require.resolve('react-dev-utils/eslintFormatter'),
-        eslintPath: require.resolve('eslint'),
-        failOnError: true,
-        context: paths.appSrc,
-        cache: true,
-        cacheLocation: path.resolve(
-          paths.appNodeModules,
-          '.cache/.eslintcache'
-        ),
-        // ESLint class options
-        cwd: paths.appPath,
-        resolvePluginsRelativeTo: __dirname,
-        baseConfig: {
-          extends: [paths.appEslintlrc],
-        },
-      }),
+      // new ESLintPlugin({
+      //   // Plugin options
+      //   extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+      //   formatter: require.resolve('react-dev-utils/eslintFormatter'),
+      //   eslintPath: require.resolve('eslint'),
+      //   failOnError: true,
+      //   context: paths.appSrc,
+      //   cache: true,
+      //   cacheLocation: path.resolve(
+      //     paths.appNodeModules,
+      //     '.cache/.eslintcache'
+      //   ),
+      //   // ESLint class options
+      //   cwd: paths.appPath,
+      //   resolvePluginsRelativeTo: __dirname,
+      //   baseConfig: {
+      //     extends: [paths.appEslintlrc],
+      //   },
+      // }),
       new ForkTsCheckerWebpackPlugin({
 
         typescript: {
