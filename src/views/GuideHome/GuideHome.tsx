@@ -60,7 +60,7 @@ const GuideHome = (): JSX.Element => {
         <Youhua className='gsap_GuideHome_step_2' />
         <Bushu className='gsap_GuideHome_step_3' />
       </div>
-      <div className='manefature_list_title'>我们支持多种类型芯片,完美定制高精度AI模型</div>
+      <div className='manefature_list_title'>我们支持多种类型芯片，完美定制高精度AI模型</div>
       <div className='manefature_list'>
         <CAMB className='gsap_GuideHome_manufature_svg'/>
         <Yingwenda className='gsap_GuideHome_manufature_svg' />

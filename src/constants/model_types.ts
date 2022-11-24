@@ -8,7 +8,8 @@ export const MODEL_TYPES = {
   // portrait_segment: '肖像分割',
   pose_detection: '姿态检测',
   car_pose_detection: '单目3D检测',
-  keypoints_based_action: '动作识别'
+  // hidden entry
+  // keypoints_based_action: '动作识别'
   // monocular_3d_detection: '单目3D检测'
 }
 
