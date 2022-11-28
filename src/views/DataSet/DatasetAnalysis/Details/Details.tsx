@@ -1,9 +1,16 @@
 import './details.module.less'
-import { DetailProps } from '@views/DataSet/DatasetAnalysis/type'
 import React from 'react'
 import { Typography } from 'antd'
 import Score, { getProgressClassName } from '@views/DataSet/DatasetAnalysis/Details/Score'
 import { getScoreClass } from '@views/DataSet/DatasetAnalysis/utils'
+import { AnalyzeData } from '@src/shared/types/dataset'
+
+
+type DetailProps = {
+  detail: {
+    [p in keyof AnalyzeData]?: AnalyzeData[p]
+  }
+}
 
 const Details: React.FC<DetailProps> = (
   {

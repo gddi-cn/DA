@@ -60,7 +60,7 @@ const TaskNameBar = (): JSX.Element => {
     <div styleName='TaskNameBar'>
       <div className='edit_icon_wrap' >
         <EditOutlined onClick={handleModifyTaskName} />
-        <Modal destroyOnClose title="修改训练基础信息" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false} confirmLoading={loading}>
+        <Modal destroyOnClose title="修改训练基础信息" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false} confirmLoading={loading}>
 
           <Input maxLength={20} onChange={handleOnchange} defaultValue={task_name} />
           <p className='ant_moddl_tips'>最多20个字符</p>

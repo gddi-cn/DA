@@ -176,7 +176,7 @@ const DeviceIndex = (): JSX.Element => {
     () => {
       return (
         <>
-          <MarginalEndRegisterForm groupSelected={groupSelected} callBack={fetchDeviceList} />
+          <MarginalEndRegisterForm deviceType={deviceType} groupSelected={groupSelected} callBack={fetchDeviceList} />
           {AddBtnOfEdge}
 
         </>
@@ -187,7 +187,7 @@ const DeviceIndex = (): JSX.Element => {
   const AddBtnOfEnd = useMemo(
     () => {
       return (
-        <EndUploadGxtBtn key='注册设备' groupSelected={groupSelected} callBack={fetchDeviceList} />
+        <EndUploadGxtBtn key='注册设备' deviceType={deviceType} groupSelected={groupSelected} callBack={fetchDeviceList} />
       )
     }, [groupSelected, fetchDeviceList]
   )

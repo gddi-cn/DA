@@ -1,8 +1,10 @@
 import React from 'react'
 import { EChartsType, init as initChart } from 'echarts'
-import { AnalyzeData, AnalyzeItem, RadarProps } from '@views/DataSet/DatasetAnalysis/type'
 import { getOptions } from './getOptions'
-import { nameItemMapping } from '@views/DataSet/DatasetAnalysis/mapping'
+import { AnalyzeData  } from '@src/shared/types/dataset'
+import { nameItemMapping } from '@src/shared/mapping/dataset'
+import { AnalyzeItem } from '@src/shared/enum/dataset'
+import { RadarProps } from '@views/DataSet/DatasetAnalysis/Radar/Radar'
 
 const useInitChart = (
   chartRef: React.MutableRefObject<EChartsType | null>,

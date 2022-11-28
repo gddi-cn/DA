@@ -60,7 +60,7 @@ const EditDataset = (props: Props): JSX.Element => {
             修改数据集信息
           </div>
         }
-        visible={visible}
+        open={visible}
         // onOk={handleIgOk}
         getContainer={document.getElementById(eleId || 'modal_wrap') as any}
         onCancel={handleCancel}

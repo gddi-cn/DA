@@ -59,7 +59,7 @@ const Dialog: React.FC<DialogProps> = (
 
   return (
     <Modal
-      visible={open}
+      open={open}
       footer={null}
       closable={false}
       centered

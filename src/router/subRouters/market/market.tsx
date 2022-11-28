@@ -46,7 +46,8 @@ const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/Sel
 
 const DatasetAnalysis = lazy(() => import('@src/views/DataSet/DatasetAnalysis'));
 
-const ModelTrainConfig = lazy(() => import('@src/views/Model/ModelTrainConfig'));
+// const ModelTrainConfig = lazy(() => import('@src/views/Model/ModelTrainConfig'));
+const ModelTrainConfig = lazy(() => import('@src/views/Model/TrainConfig'));
 
 const ModelDetail = lazy(() => import('@src/views/Model/ModelDetail'));
 

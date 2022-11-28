@@ -152,7 +152,7 @@ const SelectModule = (): JSX.Element => {
 
         }
 
-        const name = `应用-${app_anme}-${moment().format('YYYY-MM-DD hh:mm:ss')}`
+        const name = `应用-${app_anme}-${moment().format('YYYY-MM-DD HH:mm:ss')}`
 
         if (isEmpty(adapter_device)) {
           parmas = {

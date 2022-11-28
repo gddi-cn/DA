@@ -60,7 +60,7 @@ const ListItem = (props: Props): JSX.Element => {
     return (
       <Modal
         title={null}
-        visible={visible}
+        open={visible}
         // maskClosable={false}
         // keyboard={false}
         onOk={() => setvisible(false)}

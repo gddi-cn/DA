@@ -18,7 +18,7 @@ const FailedTablie = (props: any, ref:any): JSX.Element => {
   return (
     <div styleName='FailedTablie'>
 
-      <Modal title="注册失败设备" visible={isModalVisible} onCancel={handleCancel} getContainer={false} footer={null}>
+      <Modal title="注册失败设备" open={isModalVisible} onCancel={handleCancel} getContainer={false} footer={null}>
         <Table columns={columns} dataSource={dataSource} pagination={{ pageSize: 8, hideOnSinglePage: true }} />
       </Modal>
     </div>

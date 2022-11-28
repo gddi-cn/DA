@@ -1,5 +1,6 @@
-import { AnalyzeData, AnalyzeItem } from '@views/DataSet/DatasetAnalysis/type'
-import { imgMapping, tipMapping } from '@views/DataSet/DatasetAnalysis/mapping'
+import { AnalyzeItem } from '@src/shared/enum/dataset'
+import { imgMapping, tipMapping } from '@src/shared/mapping/dataset'
+import { AnalyzeData } from '@src/shared/types/dataset'
 
 export const processEchartsData = (assessResult: Record<AnalyzeItem, number>): Array<AnalyzeData> =>
   Object.entries(assessResult).map(([item, source]) => ({
