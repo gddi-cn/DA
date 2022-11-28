@@ -1,7 +1,7 @@
 import React from 'react'
 import { Progress, Tooltip } from 'antd'
 import { getColor, getScoreClass, getSubColor } from '@views/DataSet/DatasetAnalysis/utils'
-import { ScoreClass } from '@views/DataSet/DatasetAnalysis/type'
+import { ScoreClass } from '@src/shared/enum/dataset'
 
 export const getProgressClassName = (score: number): string => {
   const sc = getScoreClass(score)

@@ -1,4 +1,4 @@
-import { DatasetDownloadStatus } from '@src/shared/enum/dataset'
+import { AnalyzeItem, DatasetDownloadStatus } from '@src/shared/enum/dataset'
 
 export interface Dataset {
   cover: string,
@@ -32,3 +32,33 @@ export interface Dataset {
   updated: number,
   username: string,
 }
+
+export interface DataAnalyzeSuggestion {
+  excellent: [string, string],
+  great: [string, string],
+  notBad: [string, string],
+  bad: [string, string],
+}
+
+export interface DataAnalyzeTip {
+  name: string,
+  description: string,
+  explain: string,
+  suggestion: DataAnalyzeSuggestion,
+}
+
+
+export interface AnalyzeImage {
+  input: any,
+  inputTip: string,
+  output: any,
+  outputTip: string,
+}
+
+export interface AnalyzeData {
+  sign: AnalyzeItem,
+  score: number,
+  tip?: DataAnalyzeTip,
+  img?: AnalyzeImage,
+}
+

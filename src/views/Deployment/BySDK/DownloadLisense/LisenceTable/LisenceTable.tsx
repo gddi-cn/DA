@@ -135,7 +135,7 @@ const DevicesModalView = (props:any) => {
   return (
     <div>
       <span className='look_over_some_shit' onClick={showModal}>查看设备列表</span>
-      <Modal title="设备列表" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null} destroyOnClose={true} getContainer={false}>
+      <Modal title="设备列表" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null} destroyOnClose={true} getContainer={false}>
         <Table
           dataSource={devices || []}
           columns={columns}
@@ -155,7 +155,7 @@ const LisenceTable = (props: any): JSX.Element => {
         title: '创建时间',
         dataIndex: 'created',
         render (created: number) {
-          const time = moment(created * 1000).format('YYYY-MM-DD hh:mm:ss')
+          const time = moment(created * 1000).format('YYYY-MM-DD HH:mm:ss')
           return time
         },
         ellipsis: true,

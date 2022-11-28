@@ -9,7 +9,7 @@ import { GButton } from '@src/UIComponents'
 import './RegisterForm.module.less'
 
 const FormContent = (props: any) => {
-  const { callBack, groupSelected } = props
+  const { callBack, groupSelected, deviceType } = props
   const [form] = Form.useForm();
   const [confirmLoading, setconfirmLoading] = useState(false)
 
@@ -50,7 +50,18 @@ const FormContent = (props: any) => {
       const { files, device_name } = data
       const formData = new FormData();
       files.map((item: any) => formData.append('files', item?.originFileObj))
-      const res = await api.post('/v3/device/offline_register', formData, { onUploadProgress: onprogress, params: { group: groupSelected, device_type_id: device_name[device_name.length - 1] } })
+      const res = await api.post(
+        '/v3/device/offline_register',
+        formData,
+        {
+          onUploadProgress: onprogress,
+          params: {
+            group: groupSelected,
+            device_type_id: device_name[device_name.length - 1],
+            device_type: deviceType
+          }
+        }
+        )
       // console.log(res, 'resres')
       if (res.code === 0) {
         message.success(res?.message)
@@ -110,7 +121,7 @@ const FormContent = (props: any) => {
 }
 
 const RegisterForm = (props: any): JSX.Element => {
-  const { callBack, groupSelected } = props
+  const { callBack, groupSelected, deviceType } = props
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const DeviceAuthRef = useRef<any>(null)
@@ -128,7 +139,7 @@ const RegisterForm = (props: any): JSX.Element => {
     <div styleName='RegisterForm' id='RegisterForm'>
       <div className='register_btn' onClick={showModal} key='注册设备'>
         <Popover
-          content={<FormContent callBack={(arr:any) => {
+          content={<FormContent deviceType={deviceType} callBack={(arr:any) => {
             callBack && callBack()
             setIsModalVisible(false);
             if (arr) {
@@ -152,7 +163,7 @@ const RegisterForm = (props: any): JSX.Element => {
       <Modal
         key='Basic Modal'
         title='Basic Modal'
-        visible={isModalVisible}
+        open={isModalVisible}
         modalRender={() => null}
         onCancel={() => setIsModalVisible(false)}
         getContainer={false}

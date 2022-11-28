@@ -1,4 +1,4 @@
-// 应用藏经
+// 应用场景
 export enum ApplicationScene {
   // 终端
   ENDPOINT = 'endpoint',

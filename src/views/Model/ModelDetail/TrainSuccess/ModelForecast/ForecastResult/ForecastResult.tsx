@@ -129,7 +129,7 @@ const ForecastResult = (props:any): JSX.Element => {
             状态：{textArr[data.status] || '-'}
           </p>
           <p className='thres'>阈值 : {data.thres}</p>
-          <p>创建时间 : {moment(data.created * 1000).format('YYYY/MM/DD hh:mm:ss')}</p>
+          <p>创建时间 : {moment(data.created * 1000).format('YYYY/MM/DD HH:mm:ss')}</p>
         </div>
       </div>
     )
@@ -144,7 +144,7 @@ const ForecastResult = (props:any): JSX.Element => {
             <div className='ForecastResult_renderDotView_tips'>
               <div>阈值:{data.thres}</div>
               <div>预测时间:</div>
-              <div>{moment(data.created * 1000).format('YYYY/MM/DD hh:mm:ss')}</div>
+              <div>{moment(data.created * 1000).format('YYYY/MM/DD HH:mm:ss')}</div>
             </div>
           ) : null
         }

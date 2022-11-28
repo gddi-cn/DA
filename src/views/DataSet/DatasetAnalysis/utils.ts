@@ -1,4 +1,4 @@
-import { ScoreClass } from './type'
+import { ScoreClass } from '@src/shared/enum/dataset'
 
 export const getScoreClass = (score: number): ScoreClass => {
   if (score >= 100) return ScoreClass.Excellent

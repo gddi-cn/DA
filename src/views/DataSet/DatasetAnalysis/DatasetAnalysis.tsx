@@ -13,9 +13,10 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './DatasetAnalysis.module.less'
-import { AnalyzeData, AnalyzeItem } from '@views/DataSet/DatasetAnalysis/type'
 import Details from '@views/DataSet/DatasetAnalysis/Details'
 import { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
+import { AnalyzeData } from '@src/shared/types/dataset'
+import { AnalyzeItem } from '@src/shared/enum/dataset'
 
 const ErrorHelper: React.FC<{msg: string}> = (
   {

@@ -28,6 +28,8 @@ type DataItem = {
   cover?: string,
   name?: string,
   annotation_count?: number,
+  // file_type: 'video' | 'image',
+  // url: string,
   // class_id:number
 }
 function BodyItem<T extends DataItem> (props: ItemProps<T>) {

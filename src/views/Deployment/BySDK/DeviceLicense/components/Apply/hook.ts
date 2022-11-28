@@ -170,7 +170,7 @@ export const useRegister = () => {
       file.originFileObj && formData.append('files', file.originFileObj)
     })
 
-    const { success, data } = await deviceAPI.offlineRegister(group.value, formData)
+    const { success, data } = await deviceAPI.offlineRegister(group.value, formData, DeviceType.TERMINAL)
 
     setLoading(false)
 

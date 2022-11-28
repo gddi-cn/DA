@@ -5,10 +5,10 @@ import moment from 'moment'
 import './DatasetInfo.module.less'
 import { Image, Typography } from 'antd'
 import { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
-import { sceneNameMapping } from '@views/DataSet/DatasetAnalysis/mapping'
-import { DatasetScene } from '@views/DataSet/DatasetAnalysis/type'
 import datasetDefault from '@src/asset/images/datasetDefault.png'
 import { bytesToSize } from '@src/utils'
+import { sceneNameMapping } from '@src/shared/mapping/dataset'
+import { DatasetScene } from '@src/shared/enum/dataset'
 
 type Props ={
     datasetInfo: Data,

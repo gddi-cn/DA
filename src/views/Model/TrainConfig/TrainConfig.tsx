@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { FooterBar } from '@src/UIComponents'
+import { FooterBar, ReactCusScrollBar } from '@src/UIComponents'
 
 import Filter from './components/Filter'
 import Config from './components/Config'
@@ -22,25 +22,30 @@ const Content = styled.div`
   width: 100%;
   padding: 20px 38px;
   display: flex;
+  overflow: hidden;
 `
 
 const Left = styled.div`
   width: 248px;
-  padding: 20px;
+  padding: 20px 0;
   background-color: #fff;
   border-radius: 8px;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
+`
+
+const LeftContent = styled.div`
+  padding: 0 20px;
 `
 
 const Right = styled.div`
   margin-left: 56px;
   height: 100%;
-  padding: 20px;
-  overflow-y: auto;
+  padding: 20px 0;
+  overflow: hidden;
   background-color: #edf8ff;
   flex: 1;
-  border-right: 8px;
+  border-radius: 8px;
 `
 
 const TrainConfig: React.FC = () => {
@@ -48,8 +53,12 @@ const TrainConfig: React.FC = () => {
     <Container>
       <Content>
         <Left>
-          <Filter />
-          <Config />
+          <ReactCusScrollBar id={'chip_selected_left_scroll'}>
+            <LeftContent>
+              <Filter />
+              <Config />
+            </LeftContent>
+          </ReactCusScrollBar>
         </Left>
         <Right>
           <ChipList />

@@ -48,7 +48,7 @@ const ListItem = (props:any) => {
     return (
       <Modal
         title={null}
-        visible={visible}
+        open={visible}
         // maskClosable={false}
         // keyboard={false}
         onOk={() => setvisible(false)}

@@ -1,7 +1,8 @@
 import { ECBasicOption } from 'echarts/types/dist/shared'
-import { tipMapping } from '@views/DataSet/DatasetAnalysis/mapping'
-import { AnalyzeData, AnalyzeItem, ScoreClass } from '../type'
 import { getColor, getScoreClass } from '@views/DataSet/DatasetAnalysis/utils'
+import { tipMapping } from '@src/shared/mapping/dataset'
+import { AnalyzeData } from '@src/shared/types/dataset'
+import { AnalyzeItem, ScoreClass } from '@src/shared/enum/dataset'
 
 export const getOptions = (
   dataList: Array<AnalyzeData>,

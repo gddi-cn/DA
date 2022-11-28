@@ -9,7 +9,7 @@ import { isEmpty, isNil } from 'lodash'
 // import './UploadGxtBtn.module.less'
 const maxSize = 10 * 1024 * 1024
 const UploadGxtBtn = (props: any) => {
-  const { callBack, groupSelected } = props
+  const { callBack, groupSelected, deviceType } = props
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState<any>(0)
   const timeRef = useRef<any>({
@@ -40,7 +40,6 @@ const UploadGxtBtn = (props: any) => {
   };
   const uploadFile = useDebounceFn(
     () => {
-      console.log(fileList.current, '111');
       (
         async () => {
           try {
@@ -51,8 +50,10 @@ const UploadGxtBtn = (props: any) => {
             fileList.current.map((item: any) => formData.append('files', item))
             // console.log(formData, 'formData')
             // formData.append('group', selected?.id)
-            const res = await api.post('/v3/device/offline_register', formData, { onUploadProgress: onprogress, params: { group: groupSelected } })
-            console.log(res, 'resres')
+            const res = await api.post(
+              '/v3/device/offline_register',
+              formData,
+              { onUploadProgress: onprogress, params: { group: groupSelected, device_type: deviceType } })
             if (res.code === 0) {
               message.success(res?.message)
               callBack && callBack()

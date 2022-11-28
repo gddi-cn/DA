@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { RootState } from '@reducer'
 import { useSelector } from 'react-redux'
 import './ConfigForm.module.less'
-import { DatasetScene } from '@views/DataSet/DatasetAnalysis/type'
+import { DatasetScene } from '@src/shared/enum/dataset'
 
 const { Option } = Select;
 

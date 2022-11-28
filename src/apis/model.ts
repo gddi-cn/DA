@@ -2,6 +2,7 @@ import http from '@src/utils/http'
 import { APIResponse } from '@src/shared/types/api'
 import { ApplyModel, License } from '@src/shared/types/license'
 import { LicenseStatus, LicenseType } from '@src/shared/enum/license'
+import { CreateModelData, CreateModelResponse } from '@src/shared/types/model'
 
 const modelAPI = {
   fetchLicenseList: async (
@@ -72,6 +73,21 @@ const modelAPI = {
       return {
         success: true,
         data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
+  createModel: async (data: CreateModelData): Promise<APIResponse<CreateModelResponse>> => {
+    try {
+      const { data: resData } = await http.post('/v3/models', data)
+      return {
+        success: true,
+        data: resData,
       }
     } catch (e) {
       console.error(e)

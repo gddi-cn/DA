@@ -4,7 +4,7 @@ import { useState } from 'react'
 import './ContrastView.module.less'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
-import { DatasetScene } from '@views/DataSet/DatasetAnalysis/type'
+import { DatasetScene } from '@src/shared/enum/dataset'
 
 const FormView = (props: any) => {
   const { dataList } = props
