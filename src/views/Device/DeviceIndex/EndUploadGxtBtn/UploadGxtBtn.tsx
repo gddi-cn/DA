@@ -55,7 +55,7 @@ const UploadGxtBtn = (props: any) => {
               formData,
               { onUploadProgress: onprogress, params: { group: groupSelected, device_type: deviceType } })
             if (res.code === 0) {
-              message.success(res?.message)
+              message.success('上传成功')
               callBack && callBack()
               if (!isNil(res?.data)) {
                 const arr = res?.data.filter((o: any) => o?.result !== 'Success')

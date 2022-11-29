@@ -46,7 +46,6 @@ const FormContent = (props: any) => {
       // console.log(formData, 'formData')
       // formData.append('group', selected?.id)
       const data = await form.validateFields()
-      console.log(data, 'datadatadata')
       const { files, device_name } = data
       const formData = new FormData();
       files.map((item: any) => formData.append('files', item?.originFileObj))
@@ -64,7 +63,7 @@ const FormContent = (props: any) => {
         )
       // console.log(res, 'resres')
       if (res.code === 0) {
-        message.success(res?.message)
+        message.success('上传成功')
 
         if (!isNil(res?.data)) {
           const arr = res?.data.filter((o: any) => o?.result !== 'Success')

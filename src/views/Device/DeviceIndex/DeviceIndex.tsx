@@ -1,5 +1,5 @@
 
-import { Select, message, Popover } from 'antd'
+import { Select, message, Popover, Input } from 'antd'
 import { GSelect, ModelOpreationTitle, GIconInput, GButton } from '@src/UIComponents'
 import DeviceTable from './DeviceTable'
 import api from '@api'
@@ -248,7 +248,8 @@ const DeviceIndex = (): JSX.Element => {
         <div className='device_grid_wrap'>
           <div className='search_header'>
             <div className='name_input_wrap'>
-              <GIconInput placeholder='搜索设备名称' onChange={handleInputChange} value={deferDeviceName}/>
+              <GIconInput placeholder='搜索设备名称' onChange={handleInputChange} value={deviceName}/>
+              {/*<Input onChange={handleInputChange} value={deferDeviceName} />*/}
             </div>
             <div className='add_device_wrap'>
               {RegisterView}
