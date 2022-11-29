@@ -1,14 +1,5 @@
-import { DatasetDownloadStatus, DatasetScene } from '@src/shared/enum/dataset'
+import { AnalyzeItem, DatasetDownloadStatus, DatasetScene } from '@src/shared/enum/dataset'
 import { AnalyzeImage, DataAnalyzeTip } from '@src/shared/types/dataset'
-import { AnalyzeItem } from '@src/shared/enum/dataset'
-
-export const datasetDownloadStatusNameMapping: Map<DatasetDownloadStatus, string> = new Map([
-  [DatasetDownloadStatus.FAILED, /*      */'重新申请'],
-  [DatasetDownloadStatus.SUCCESS, /*     */'下载'],
-  [DatasetDownloadStatus.UNKNOWN, /*     */'申请下载'],
-  [DatasetDownloadStatus.DOWNLOADING, /* */'处理中']
-])
-
 import fewShot0 from '@views/DataSet/DatasetAnalysis/analysisImg/few_shot_0.png'
 import fewShot1 from '@views/DataSet/DatasetAnalysis/analysisImg/few_shot_1.png'
 import fine0 from '@views/DataSet/DatasetAnalysis/analysisImg/fine_0.png'
@@ -29,6 +20,21 @@ import smallDetect0 from '@views/DataSet/DatasetAnalysis/analysisImg/small_detec
 import smallDetect1 from '@views/DataSet/DatasetAnalysis/analysisImg/small_detect_1.png'
 import underexposed0 from '@views/DataSet/DatasetAnalysis/analysisImg/underexposed_0.png'
 import underexposed1 from '@views/DataSet/DatasetAnalysis/analysisImg/underexposed_1.png'
+import area0 from '@views/DataSet/DatasetAnalysis/analysisImg/area0.png'
+import area1 from '@views/DataSet/DatasetAnalysis/analysisImg/area1.png'
+import duration0 from '@views/DataSet/DatasetAnalysis/analysisImg/duration0.gif'
+import duration1 from '@views/DataSet/DatasetAnalysis/analysisImg/duration1.gif'
+import distinction0 from '@views/DataSet/DatasetAnalysis/analysisImg/distinction0.gif'
+import distinction1 from '@views/DataSet/DatasetAnalysis/analysisImg/distinction1.gif'
+import keyPoints0 from '@views/DataSet/DatasetAnalysis/analysisImg/key_points0.gif'
+import keyPoints1 from '@views/DataSet/DatasetAnalysis/analysisImg/key_points1.gif'
+
+export const datasetDownloadStatusNameMapping: Map<DatasetDownloadStatus, string> = new Map([
+  [DatasetDownloadStatus.FAILED, /*      */'重新申请'],
+  [DatasetDownloadStatus.SUCCESS, /*     */'下载'],
+  [DatasetDownloadStatus.UNKNOWN, /*     */'申请下载'],
+  [DatasetDownloadStatus.DOWNLOADING, /* */'处理中']
+])
 
 export const nameItemMapping = [
   { name: '图片尺寸', item: AnalyzeItem.ImageSize },
@@ -39,10 +45,15 @@ export const nameItemMapping = [
   { name: '类别均衡度', item: AnalyzeItem.LongTail },
   { name: '小样本分布', item: AnalyzeItem.FewShot },
   { name: '光照质量', item: AnalyzeItem.Underexposed },
-  { name: '目标尺寸', item: AnalyzeItem.SmallDetect },
+  { name: '目标尺寸', item: AnalyzeItem.SMALL_DETECT },
   { name: '目标分散度', item: AnalyzeItem.Intensive },
   { name: '目标完整度', item: AnalyzeItem.Occlusion },
   { name: '尺寸均衡度', item: AnalyzeItem.MultiScale },
+  { name: '目标尺寸', item: AnalyzeItem.AREA },
+  { name: '类别均衡度', item: AnalyzeItem.LONG_TAIL_ACTION },
+  { name: '动作持续时间', item: AnalyzeItem.ACTION_DURATION },
+  { name: '动作幅度', item: AnalyzeItem.DISTINCT_DEGREE },
+  { name: '关键点遮挡', item: AnalyzeItem.KEY_POINTS_VISIBILITY },
 ]
 
 export const tipMapping: Map<AnalyzeItem, DataAnalyzeTip> = new Map([
@@ -159,7 +170,7 @@ export const tipMapping: Map<AnalyzeItem, DataAnalyzeTip> = new Map([
     },
   ],
   [
-    AnalyzeItem.SmallDetect,
+    AnalyzeItem.SMALL_DETECT,
     {
       name: '目标尺寸',
       description: '图片中检测的目标尺寸大小',
@@ -211,6 +222,78 @@ export const tipMapping: Map<AnalyzeItem, DataAnalyzeTip> = new Map([
         great: ['数据集表现较优', ''],
         notBad: ['数据集表现良好', '建议适当增加目标尺寸较均衡的图片，减小类别内目标之间的尺寸差异'],
         bad: ['数据集目标尺寸差异较大', '建议增加更多目标尺寸较均衡的图片，减小类别内目标之间的尺寸差异'],
+      },
+    },
+  ],
+  [
+    AnalyzeItem.AREA,
+    {
+      name: '目标尺寸',
+      description: '数据集检测到的人体或人体部位大小',
+      explain: '检测目标（人体或人体部位）在画面中过小时为小目标，小目标占总数据的比值越小，该指标数值越大，数据集的质量越优。',
+      suggestion: {
+        excellent: ['数据集表现较优', ''],
+        great: ['数据集表现较优', ''],
+        notBad: ['数据集表现良好', '建议增加数据，让目标尽量清晰位于屏幕中间'],
+        bad: ['数据集表现较差', '建议增加数据，让目标尽量清晰位于屏幕中间'],
+      },
+    },
+  ],
+  [
+    AnalyzeItem.LONG_TAIL_ACTION,
+    {
+      name: '类别均衡度',
+      description: '数据集各类别数据量均衡度',
+      explain: '每类动作类别间样本数差异度越小，该指标数值越大，数据集的类别均衡度越高，质量越优。',
+      suggestion: {
+        excellent: ['数据集表现较优', ''],
+        great: ['数据集表现较优', ''],
+        notBad: ['数据集表现良好', '建议适当增加小样本类别的数据量'],
+        bad: ['数据集类别差异较大', '建议增加小样本类别的数据量'],
+      },
+    },
+  ],
+  [
+    AnalyzeItem.ACTION_DURATION,
+    {
+      name: '动作持续时间',
+      description: '动作持续时间均值',
+      explain: '单类动作持续时间超过一定值，即复杂动作，复杂动作数量占数据总数的比值越小，该指标越大。动作拆分得越细，' +
+        '越容易被识别，比如“波比跳”可以拆分为“蹲下”、“平板撑”、“跳跃”三个类别。',
+      suggestion: {
+        excellent: ['数据集表现较优', ''],
+        great: ['数据集表现较优', ''],
+        notBad: ['存在一定量的复杂动作', '建议优化数据，尽量将单个完整动作拆分为多个动作类别'],
+        bad: ['复杂动作较多', '建议优化数据，尽量将单个完整动作拆分为多个动作类别'],
+      },
+    },
+  ],
+  [
+    AnalyzeItem.DISTINCT_DEGREE,
+    {
+      name: '动作幅度',
+      description: '动作持续时间内关键点位移幅度',
+      explain: '动作幅度越小，算法性能越高，可支持的算法并发数也越大，前端视频可以允许更大的抽帧间隔，' +
+        '例如：“站立不动”的幅度较小动作，每 10 帧跑一次动作识别即可，“跑步” 等幅度较大动作，需要5帧跑一次。',
+      suggestion: {
+        excellent: ['动作识别需要的性能较少，落地系统的效率较高', ''],
+        great: ['动作幅度合理', ''],
+        notBad: ['', ''],
+        bad: ['', ''],
+      },
+    },
+  ],
+  [
+    AnalyzeItem.KEY_POINTS_VISIBILITY,
+    {
+      name: '关键点遮挡',
+      description: '动作持续时间内关键点的遮挡情况',
+      explain: '计算每类动作在动作持续时间内关键点置信度的均值，判断关键点的遮挡情况，关键点被遮挡的情况越少，该指标数值越大，动作越容易识别。',
+      suggestion: {
+        excellent: ['数据集表现较优', ''],
+        great: ['数据集表现较优', ''],
+        notBad: ['数据集表现良好', '建议增加数据，注意调整相机位置，减少被遮挡的情况'],
+        bad: ['数据集表现较差', '建议增加数据，注意调整相机位置，减少被遮挡的情况'],
       },
     },
   ],
@@ -290,7 +373,7 @@ export const imgMapping: Map<AnalyzeItem, AnalyzeImage> = new Map([
     }
   ],
   [
-    AnalyzeItem.SmallDetect,
+    AnalyzeItem.SMALL_DETECT,
     {
       input: smallDetect0,
       inputTip: '目标尺寸大',
@@ -323,7 +406,54 @@ export const imgMapping: Map<AnalyzeItem, AnalyzeImage> = new Map([
       inputTip: '目标尺寸差异小',
       output: multiScale1,
       outputTip: '目标尺寸差异大',
-    }
+    },
+  ],
+  [
+    AnalyzeItem.AREA,
+    {
+      input: area0,
+      inputTip: '尺寸适中',
+      output: area1,
+      outputTip: '尺寸过大或过小',
+    },
+  ],
+  [
+    AnalyzeItem.LONG_TAIL_ACTION,
+    {
+      input: longTail0,
+      inputTip: '类别数据均衡',
+      output: longTail1,
+      outputTip: '类别数据差异大',
+    },
+  ],
+  [
+    AnalyzeItem.ACTION_DURATION,
+    {
+      input: duration0,
+      inputTip: '单个标签动作持续时间短',
+      output: duration1,
+      outputTip: '单个标签动作持续时间长',
+    },
+  ],
+  [
+    AnalyzeItem.DISTINCT_DEGREE,
+    {
+      input: distinction0,
+      inputTip: '动作幅度小',
+      output: distinction1,
+      outputTip: '动作幅度大',
+      inputColor: '#48a2df',
+      outputColor: '#48a2df',
+    },
+  ],
+  [
+    AnalyzeItem.KEY_POINTS_VISIBILITY,
+    {
+      input: keyPoints0,
+      inputTip: '关键点清晰',
+      output: keyPoints1,
+      outputTip: '关键点遮挡多',
+    },
   ],
 ])
 

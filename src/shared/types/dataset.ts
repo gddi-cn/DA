@@ -53,6 +53,8 @@ export interface AnalyzeImage {
   inputTip: string,
   output: any,
   outputTip: string,
+  inputColor?: string,
+  outputColor?: string,
 }
 
 export interface AnalyzeData {
