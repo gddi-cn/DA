@@ -28,7 +28,7 @@ export const useChipList = () => {
   const [chip_type] = useAtom(chipTypeAtom)
   const [name] = useAtom(nameAtom)
   const [allChip, setAllChip] = useAtom(allChipListAtom)
-  const [selectedChip] = useAtom(selectedChipAtom)
+  const [selectedChip, setSelectedChip] = useAtom(selectedChipAtom)
   const [configType, setConfigType] = useAtom(configTypeAtom)
   const [fps, setFps] = useAtom(configFpsAtom)
   const [channel, setConcurrent] = useAtom(configConcurrentAtom)
@@ -74,6 +74,7 @@ export const useChipList = () => {
         setAllChip(data)
       })
       .finally(() => {
+        setSelectedChip(undefined)
         setLoading(false)
       })
   }, [application, brand, chip_type, name, task_type])
