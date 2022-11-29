@@ -11,7 +11,7 @@ export const brandListAtom = atom<Array<ChipBrand>>([])
 
 export const allChipListAtom = atom<Array<Chip>>([])
 export const hotChipListAtom = atom<Array<Chip>>(
-  (get) => get(allChipListAtom).filter(x => x.is_hot)
+  (get) => get(allChipListAtom).filter(x => x.is_hot).map(x => ({ ...x, _copy: true }))
 )
 
 export const selectedChipAtom = atom<Chip | undefined>(undefined)

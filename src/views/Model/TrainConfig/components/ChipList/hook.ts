@@ -119,7 +119,10 @@ export const useChip = (chip: Chip) => {
 
   const [selectedChip, setSelectedChip] = useAtom(selectedChipAtom)
 
-  const selected = (selectedChip?.name === chip.name) && (selectedChip?.chip_type === chip.chip_type)
+  const selected =
+    (selectedChip?.name === chip.name)
+    && (selectedChip?.chip_type === chip.chip_type)
+    && (selectedChip?._copy === chip._copy)
 
   const handleClick = () => {
     if (selected) return setSelectedChip(undefined)

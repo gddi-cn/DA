@@ -63,6 +63,16 @@ const ChipType = styled.div`
   padding: 1px;
 `
 
+const formatName = (name: string): string => {
+  if (name === 'SE5') return 'BM1684'
+
+  if (/\d+plus$/.test(name)) {
+    return name.slice(0, -4) + '+'
+  }
+
+  return name
+}
+
 const ChipItem: React.FC<Chip> = (chip) => {
   const { chipContainerRef, handleClick } = useChip(chip)
   const { name, brand, chip_type } = chip
@@ -71,7 +81,7 @@ const ChipItem: React.FC<Chip> = (chip) => {
     <ChipContainer ref={chipContainerRef} onClick={handleClick}>
       <ChipLogo src={chipNameLogoMapping.get(name)} />
       <BrandLogo src={chipBrandLittleLogoMapping.get(brand)} />
-      <ChipName>{ (name as string) === 'SE5' ? 'BM1684' : name }</ChipName>
+      <ChipName>{formatName(name)}</ChipName>
       <ChipType>{chip_type}</ChipType>
     </ChipContainer>
   )

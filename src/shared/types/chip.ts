@@ -23,6 +23,8 @@ export interface Chip {
   url: string;
   // 热门芯片
   is_hot: boolean;
+  // 过滤后的副本设为 true 以便实现只能高亮选中一个
+  _copy?: boolean;
 }
 
 // 芯片列表接口参数
