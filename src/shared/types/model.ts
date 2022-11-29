@@ -36,3 +36,42 @@ export interface CreateModelResponse {
   // 模型版本 ID
   version_id: string,
 }
+
+// 模型版本对比列表
+export interface ModelCompareVersion {
+  // 训练精度
+  accuracy: number,
+  // 最佳阈值
+  best_threshold: number,
+  // F-Score
+  f_score: number,
+  // 模型版本名称
+  name: string,
+  // 0.01 阈值粒度精度列表(key 为 阈值 * 100, value 为 [精确率 * 100, 召回率 * 100, F1 Score * 100])
+  precision_steps: Record<number, [number, number, number]>,
+  // 测试精度
+  recall: number,
+  // 版本标签
+  tag: string,
+  // 模型版本更新时间
+  updated: string,
+}
+
+// 模型版本对比
+export interface ModelCompare {
+  // 数据集 ID
+  dataset_id: string,
+  // 模型名称
+  name: string,
+  // 模型对比列表
+  versions: ModelCompareVersion[]
+}
+
+export interface ModelCompareTableData {
+  tag: string,
+  dataset_name: string,
+  threshold: number,
+  fScore: number | string,
+  recall: number | string,
+  accuracy: number | string,
+}
