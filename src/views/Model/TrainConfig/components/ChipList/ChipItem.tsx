@@ -9,7 +9,7 @@ const ChipContainer = styled.div`
   border-radius: 8px;
   outline: 1px solid #d9ecff;
   box-sizing: border-box;
-  width: 171px;
+  //width: 155px;
   display: flex;
   flex-direction: column;
   align-items: center;

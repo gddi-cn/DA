@@ -38,7 +38,7 @@ const ReactCusScrollBar = (props: Props): JSX.Element => {
         autoHide
         {...scrollProps}
         style={{
-          boxShadow: scrollTop > 0 ? 'inset 0 5px 5px -5px rgb(0 0 0 / 0.3)' : 'none',
+          boxShadowTop: scrollTop > 0 ? "0px 1px 3px 0px rgba(0,0,0,0.12)" : 'none',
           transition: 'box-shadow 0.3s',
         }}>
         {Memo}

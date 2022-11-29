@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { InputNumber, Radio, Space, Tooltip } from 'antd'
+import { InputNumber as AntInputNumber, Radio, Space, Tooltip } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
 
 import { ChipConfigType } from '@src/shared/enum/chip'
@@ -33,10 +33,10 @@ const Divider = styled.hr`
   border-right: none;
   border-top: 1px solid rgba(98, 176, 229, 0.5)
 `
-
-
-const InputContainer = styled.div`
-  padding-left: 22px;
+const InputNumber = styled(AntInputNumber)`
+  &.ant-input-number-disabled {
+    color: #48A2DF;
+  }
 `
 
 const Label = styled.label`
@@ -103,9 +103,9 @@ const Config: React.FC = () => {
       <LeftTitle>模型配置</LeftTitle>
       <Title>多卡训练</Title>
       <Tooltip open={showTip} color={'#fff'} title={<WarnTip tip={tip} />} placement={'bottom'}>
-        <InputNumber<number>
+        <InputNumber
           value={cardNum}
-          onChange={handleCardNumChange}
+          onChange={(v) => handleCardNumChange(v as (number | null))}
           min={1}
           precision={0}
           style={{ width: '100%' }}
@@ -125,22 +125,20 @@ const Config: React.FC = () => {
           }
         </Space>
       </RadioGroup>
-      <InputContainer>
-        <Label htmlFor={'fps_input'}>帧率设置</Label>
-        <InputNumber<number>
-          min={1} id={'fps_input'} disabled={disableInput} addonAfter={<Suffix>FPS</Suffix>}
-          value={configFps} onChange={handleFpsChange}
-          style={{ width: '100%' }}
-          precision={0}
-        />
-        <Label htmlFor={'concurrent_input'}>算法并行数</Label>
-        <InputNumber
-          min={1} id={'concurrent_input'} disabled={disableInput}
-          value={configConcurrent} onChange={handleConcurrentChange}
-          style={{ width: '100%' }}
-          precision={0}
-        />
-      </InputContainer>
+      <Label htmlFor={'fps_input'}>帧率设置</Label>
+      <InputNumber
+        min={1} id={'fps_input'} disabled={disableInput} addonAfter={<Suffix>FPS</Suffix>}
+        value={configFps} onChange={v => handleFpsChange(v as (number | null))}
+        style={{ width: '100%', color: '#aaeeaa' }}
+        precision={0}
+      />
+      <Label htmlFor={'concurrent_input'}>算法并行数</Label>
+      <InputNumber
+        min={1} id={'concurrent_input'} disabled={disableInput}
+        value={configConcurrent} onChange={(v) => handleConcurrentChange(v as (number | null))}
+        style={{ width: '100%' }}
+        precision={0}
+      />
     </Container>
   )
 }
