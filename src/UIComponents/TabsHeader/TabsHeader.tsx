@@ -18,8 +18,6 @@ type TabItemProps<T> = {
 function TabItem<T extends TabHeaderDataItem> (props: TabItemProps<T>) {
   const { data, activeKey, handleClick } = props
   const getCls = () => {
-    // console.log(activeTaskInfo.id)
-    // console.log(id)
     if (data?.primaryKey === activeKey) {
       return 'tab_item_header tab_item_header_active'
     }

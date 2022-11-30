@@ -1,5 +1,6 @@
 export const chineseObj = {
-  // brightness: '拍摄光照质量',
+  brightness: '拍摄光照质量',
+  small: '目标尺寸',
   underexposed: '拍摄光照质量',
   small_detect: '目标尺寸',
   occlusion: '目标完整性',

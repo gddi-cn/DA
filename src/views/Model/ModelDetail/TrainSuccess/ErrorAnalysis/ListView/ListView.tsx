@@ -14,7 +14,7 @@ export type FectData = {
 }
 
 type Props={
-    bboxList:any[]
+    bboxList: any[]
 }
 const ListView = (props: Props): JSX.Element => {
   const { bboxList } = props
@@ -63,6 +63,7 @@ const ListView = (props: Props): JSX.Element => {
       }
     }, []
   )
+
   useEffect(() => {
     if (bboxList) {
       chunkList.current = chunk(bboxList, 50)
@@ -70,20 +71,13 @@ const ListView = (props: Props): JSX.Element => {
       setDatasetTotal(bboxList.length)
       fetchData({ isInit: true })
     }
-
-    // const fn = () => {
-    //   fetchData({ isInit: true })
-    // }
-    // window.addEventListener('resize', fn)
-    // return () => {
-    //   window.removeEventListener('resize', fn)
-    // }
   }, [fetchData, bboxList])
 
   const fetchMoreData = () => {
     page.current++;
     fetchData()
   }
+
   const list = useMemo(() => {
     return updateList.map((o, i) => {
       return (
@@ -91,6 +85,7 @@ const ListView = (props: Props): JSX.Element => {
       )
     })
   }, [updateList, versionInfo])
+
   return (
     <div styleName='ListView'>
       <ReactCusScrollBar id="scrollableDiv">
@@ -119,7 +114,6 @@ const ListView = (props: Props): JSX.Element => {
               </InfiniteScroll>
             ) : null
         }
-
       </ReactCusScrollBar>
     </div>
   )

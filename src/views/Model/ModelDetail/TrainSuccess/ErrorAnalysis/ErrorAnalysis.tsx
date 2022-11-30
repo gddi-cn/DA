@@ -36,6 +36,7 @@ const ErrorAnalysis = (): JSX.Element => {
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
+
   const handleChangeTab = (key: any) => {
     setSubTabIndex(key)
   }

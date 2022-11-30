@@ -131,10 +131,17 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
         </>
       )
     }
-    if (model_type === 'cityscapes_segment' || model_type === 'portrait_segment' || model_type === 'pose_detection') {
-      return null
+    if (model_type === 'cityscapes_segment' || model_type === 'pose_detection') {
+      return (
+        <>
+          {
+            TabItem('错误分析', 'error_analysis')
+          }
+        </>
+      )
     }
   }
+
   return (
     <div styleName='VerticalTabHandle'>
       <div className='VerticalTabHandle_block'>

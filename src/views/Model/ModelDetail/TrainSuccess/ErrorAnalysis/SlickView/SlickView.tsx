@@ -70,7 +70,11 @@ const SlickView = (props: any): JSX.Element => {
   }
   return (
     <div styleName='SlickView'>
-      <ImageSlider needCache={true} page={page} fetchData={fetchData} total={bboxList.length} dataList={fictitiousList} renderView={renderView} renderDotView={renderDotView} />
+      <ImageSlider
+        needCache={true} page={page} fetchData={fetchData}
+        total={bboxList.length} dataList={fictitiousList}
+        renderView={renderView} renderDotView={renderDotView}
+      />
     </div>
   )
 }

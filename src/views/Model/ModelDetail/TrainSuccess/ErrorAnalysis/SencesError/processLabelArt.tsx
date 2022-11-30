@@ -3,10 +3,11 @@ import { isEmpty } from 'lodash'
 import { chineseObj, colorObj } from '@src/constants/analysis_types'
 
 export function processEchartsData (data: any): any {
-  let dataList: any[] = []
   if (isEmpty(data)) {
-    return dataList
+    return []
   }
+
+  let dataList: any[] = []
 
   const handleSwitchName = (val: any) => {
     return val.map((item: any) => {
@@ -30,7 +31,7 @@ export function processEchartsData (data: any): any {
   }
 
   //   let dataList: any = []
-  const labeldata = handleSwitchName(Object.keys(data))
+  const labelData = handleSwitchName(Object.keys(data))
 
   const color = handleSwitchColor(Object.keys(data))
   const value = Object.values(data)
@@ -38,7 +39,7 @@ export function processEchartsData (data: any): any {
     return {
       sign: i,
       value: (keepTwoDecimal(o?.score) as number * 100).toFixed(0),
-      label: <p className='sences_title'>{labeldata[i]}</p>,
+      label: <p className='sences_title'>{labelData[i]}</p>,
 
       color: color[i],
       data: o

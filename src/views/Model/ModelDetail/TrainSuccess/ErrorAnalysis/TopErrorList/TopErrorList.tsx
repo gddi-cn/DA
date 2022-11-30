@@ -1,11 +1,12 @@
-import { ReactCusScrollBar, ModelOpreationTitle } from '@src/UIComponents'
+import { ModelOpreationTitle, ReactCusScrollBar } from '@src/UIComponents'
 import { isEmpty } from 'lodash'
 import './TopErrorList.module.less'
+import forecastExample from '@views/Model/ModelDetail/TrainSuccess/Transversion/ForecastExample'
 
 const TopErrorList = (props:any): JSX.Element => {
   const { dataList = [], selectError, titleText } = props
 
-  const getColorBar = (data:any) => {
+  const getColorBar = (data: any) => {
     const getColor = () => {
       if (isEmpty(dataList)) {
         return 'transparent'
@@ -13,10 +14,13 @@ const TopErrorList = (props:any): JSX.Element => {
 
       const { value } = dataList[0]
 
-      const apha = data.value / value
+      if (data.value === 0 || value === 0 || data.value === '0' || value === '0') {
+        return 0.05
+      } 
 
-      return apha
+      return data.value / value
     }
+
     return (
       <div className='getColorBar' style={{ backgroundColor: `rgba(8,80,130,${getColor()})` }}></div>
     )
@@ -35,7 +39,7 @@ const TopErrorList = (props:any): JSX.Element => {
               <ModelOpreationTitle text={titleText || `TOP${dataList.length} 识别错误的标签`}></ModelOpreationTitle>
               <div className='list'>
                 {
-                  dataList.map((o:any, i:any) => {
+                  dataList.map((o: any, i: any) => {
                     return (
                       <div key={i} className='error_item' onClick={() => selectError(o?.data)} >
                         {getColorBar(o)}

@@ -2,7 +2,7 @@ import http from '@src/utils/http'
 import { APIResponse } from '@src/shared/types/api'
 import { ApplyModel, License } from '@src/shared/types/license'
 import { LicenseStatus, LicenseType } from '@src/shared/enum/license'
-import { CreateModelData, CreateModelResponse } from '@src/shared/types/model'
+import { CreateModelData, CreateModelResponse, ModelFalseAnalysis } from '@src/shared/types/model'
 
 const modelAPI = {
   fetchLicenseList: async (
@@ -96,6 +96,21 @@ const modelAPI = {
       }
     }
   },
+  
+  errorAnalysis: async (id: string, versionId: string): Promise<APIResponse<ModelFalseAnalysis>> => {
+    try {
+      const { data } = await http.get(`/v2/models/${id}/versions/${versionId}/falseanalysdis`)
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  }
 }
 
 export default modelAPI

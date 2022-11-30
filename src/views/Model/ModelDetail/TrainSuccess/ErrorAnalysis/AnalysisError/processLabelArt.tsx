@@ -2,9 +2,9 @@ import { isEmpty, isObject } from 'lodash'
 
 // 先获取最大得cnt作为背景色基准
 
-export const processMatrixData = (data:any) => {
-  console.log(data, 32)
-  const list:any[] = []
+export const processMatrixData = (data: any) => {
+  const list: any[] = []
+
   if (isEmpty(data)) {
     return list
   }
