@@ -8,6 +8,7 @@ import { useDeferredValue, useEffect, useRef, useState } from 'react'
 import { getTableData } from './utils'
 import './ModelContrast.module.less'
 import { isEmpty } from 'lodash'
+import { ModelCompare } from '@src/shared/types/model'
 
 const tranFormData = (rawData: any[]) => {
   const dataset_list:any[] = []
@@ -54,7 +55,7 @@ const ModelContrast = (): JSX.Element => {
     dataset_list: [], modelVersions: []
   })
 
-  const raw_data = useRef<any[]>([])
+  const raw_data = useRef<ModelCompare[]>([])
 
   // const [loading, setloading] = useState(false)
 

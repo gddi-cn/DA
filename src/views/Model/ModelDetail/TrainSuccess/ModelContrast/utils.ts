@@ -1,74 +1,61 @@
 import { isEmpty, isNil } from 'lodash'
+import { ModelCompare, ModelCompareVersion, ModelCompareTableData } from '@src/shared/types/model'
 
-const getPrecisionSteps = (precisionSteps:any, key:number, index:any) => {
+const getPrecisionSteps = (precisionSteps: ModelCompareVersion['precision_steps'], key = 0, index: number) => {
   try {
     if (isNil(precisionSteps) || isEmpty(precisionSteps)) {
       return '-'
     }
-    return precisionSteps[key][index]
+    let arr = precisionSteps[key]
+    if (arr.length < index + 1) return  '-'
+    return arr[index]
   } catch (e) {
     console.error(e)
     return '-'
   }
 }
 
-export const getTableData = (data: any, filer:any) => {
+// TODO BUG FIX
+export const getTableData = (data: ModelCompare[], filer: any): Array<ModelCompareTableData> => {
   if (isNil(data) || isEmpty(data)) {
     return []
   }
 
   const {
-    config_type,
-    dataset_version,
-    version_s,
-    version_m = [],
-    thres_s,
-    thres_m = []
+    dataset_version, // 基准选择(版本 id)
+    config_type, // 模型对比维度 version || threshold（分类没有阈值）
+    version_m = [], // 维度为版本时的版本参数
+    thres_s, // 维度为版本时的阈值参数
+    version_s, // 维度为阈值时的版本参数
+    thres_m = [] // 维度为阈值是的阈值参数
   } = filer
 
-  let version_of_dataset: any = {}
+  if (!dataset_version) return []
 
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].dataset_id === dataset_version) {
-      version_of_dataset = data[i]
-    }
-  }
+  let version_of_dataset: ModelCompare | undefined
 
-  if (isEmpty(version_of_dataset)) {
-    return []
-  }
+  data.map(m => m.dataset_id === dataset_version && (version_of_dataset = m))
 
-  const listByFilter:any[] = []
+  if (!version_of_dataset) return []
+
+  const listByFilter: ModelCompareTableData[] = []
 
   const { versions } = version_of_dataset
   
-  if (config_type === 'version') {
-    for (let i = 0; i < versions.length; i++) {
-      const { tag } = versions[i]
-      if (isEmpty(version_m)) {
-        const { precision_steps } = versions[i]
+  if (config_type === 'version') { // 模型对比维度为模型版本
+    (versions || []).forEach(({ tag, precision_steps }) => {
+      if (isEmpty(version_m) || (version_m as Array<ModelCompareVersion['tag']>).includes(tag)) {
         listByFilter.push({
           tag,
           threshold: thres_s,
           fScore: getPrecisionSteps(precision_steps, thres_s, 2),
           recall: getPrecisionSteps(precision_steps, thres_s, 1),
           accuracy: getPrecisionSteps(precision_steps, thres_s, 0),
-          dataset_name: version_of_dataset.name
-        })
-      } else {}
-      if ((version_m as Array<any>).includes(tag)) {
-        const { precision_steps } = versions[i]
-        listByFilter.push({
-          tag,
-          threshold: thres_s,
-          fScore: getPrecisionSteps(precision_steps, thres_s, 2),
-          recall: getPrecisionSteps(precision_steps, thres_s, 1),
-          accuracy: getPrecisionSteps(precision_steps, thres_s, 0),
-          dataset_name: version_of_dataset.name
+          dataset_name: version_of_dataset!.name
         })
       }
-    }
-  } else {
+    })
+  } else { // 模型对比维度为阈值
     for (let i = 0; i < versions.length; i++) {
       const { tag } = versions[i]
       if (version_s === tag) {
