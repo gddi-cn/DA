@@ -52,7 +52,7 @@ export const nameItemMapping = [
   { name: '目标尺寸', item: AnalyzeItem.AREA },
   { name: '类别均衡度', item: AnalyzeItem.LONG_TAIL_ACTION },
   { name: '动作持续时间', item: AnalyzeItem.ACTION_DURATION },
-  { name: '动作幅度', item: AnalyzeItem.DISTINCT_DEGREE },
+  { name: '动作幅度', item: AnalyzeItem.DISTINCTION_DEGREE },
   { name: '关键点遮挡', item: AnalyzeItem.KEY_POINTS_VISIBILITY },
 ]
 
@@ -269,7 +269,7 @@ export const tipMapping: Map<AnalyzeItem, DataAnalyzeTip> = new Map([
     },
   ],
   [
-    AnalyzeItem.DISTINCT_DEGREE,
+    AnalyzeItem.DISTINCTION_DEGREE,
     {
       name: '动作幅度',
       description: '动作持续时间内关键点位移幅度',
@@ -436,7 +436,7 @@ export const imgMapping: Map<AnalyzeItem, AnalyzeImage> = new Map([
     },
   ],
   [
-    AnalyzeItem.DISTINCT_DEGREE,
+    AnalyzeItem.DISTINCTION_DEGREE,
     {
       input: distinction0,
       inputTip: '动作幅度小',
