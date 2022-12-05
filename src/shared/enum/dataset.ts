@@ -59,3 +59,15 @@ export enum AnalyzeItem {
   KEY_POINTS_VISIBILITY = 'keypoints_visibility_action',
   LONG_TAIL_ACTION = 'long_tail_action',
 }
+
+export enum DatasetCreateType {
+  UPLOAD_UNREMARKED = 1,
+  UPLOAD_REMARKED,
+  IMPORT_THIRD_PARTY,
+}
+
+export enum UnmarkedDatasetCreateStep {
+  META = 1,
+  REQUIREMENT,
+  PROGRESSING,
+}

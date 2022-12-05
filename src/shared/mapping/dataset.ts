@@ -1,4 +1,4 @@
-import { AnalyzeItem, DatasetDownloadStatus, DatasetScene } from '@src/shared/enum/dataset'
+import { AnalyzeItem, DatasetCreateType, DatasetDownloadStatus, DatasetScene } from '@src/shared/enum/dataset'
 import { AnalyzeImage, DataAnalyzeTip } from '@src/shared/types/dataset'
 import fewShot0 from '@views/DataSet/DatasetAnalysis/analysisImg/few_shot_0.png'
 import fewShot1 from '@views/DataSet/DatasetAnalysis/analysisImg/few_shot_1.png'
@@ -28,6 +28,10 @@ import distinction0 from '@views/DataSet/DatasetAnalysis/analysisImg/distinction
 import distinction1 from '@views/DataSet/DatasetAnalysis/analysisImg/distinction1.gif'
 import keyPoints0 from '@views/DataSet/DatasetAnalysis/analysisImg/key_points0.gif'
 import keyPoints1 from '@views/DataSet/DatasetAnalysis/analysisImg/key_points1.gif'
+
+import unremarked from '@src/asset/images/dataset/unremarked.png'
+import remarked from '@src/asset/images/dataset/remarked.png'
+import thirdParty from '@src/asset/images/dataset/thirdParty.png'
 
 export const datasetDownloadStatusNameMapping: Map<DatasetDownloadStatus, string> = new Map([
   [DatasetDownloadStatus.FAILED, /*      */'重新申请'],
@@ -468,4 +472,16 @@ export const sceneNameMapping: Map<DatasetScene, string> = new Map([
   [DatasetScene.CarPoseDetection, '单目3D 检测'],
   [DatasetScene.KeyPointsBasedAction, '动作识别'],
   [DatasetScene.KeypointsDetection, '关键点检测']
+])
+
+export const datasetCreateTypeLogoMapping: Map<DatasetCreateType, any> = new Map([
+  [DatasetCreateType.UPLOAD_UNREMARKED, unremarked],
+  [DatasetCreateType.UPLOAD_REMARKED, remarked],
+  [DatasetCreateType.IMPORT_THIRD_PARTY, thirdParty],
+])
+
+export const datasetCreateTypeNameMapping: Map<DatasetCreateType, string> = new Map([
+  [DatasetCreateType.UPLOAD_UNREMARKED, '上传未标注数据'],
+  [DatasetCreateType.UPLOAD_REMARKED, '上传已标注数据'],
+  [DatasetCreateType.IMPORT_THIRD_PARTY, '第三方导入'],
 ])

@@ -30,12 +30,16 @@ export const APP_MODEL_TRAIN_CONFIG = '/app/train_config'
 
 export const APP_MODEL_TRAIN_DETAIL = '/app/model_train_detail'
 
+// 曼浮流程
+export const APP_UNREMARKED_CREATE = '/app/create_unremarked'
+
 // 上传流程
 export const APP_LOCAL_FILE = '/app/local_file'
 export const APP_LOCAL_FILE_STEP_1 = '/app/local_file/AfterUploaded'
 export const APP_LOCAL_FILE_STEP_2 = '/app/local_file/DatasetBaseInfoForm'
 export const APP_LOCAL_FILE_STEP_3 = '/app/local_file/SelectDatasetFile'
 export const APP_LOCAL_FILE_STEP_4 = '/app/local_file/SelectTrainType'
+
 // 第三方流程
 export const APP_THIRDPARTY = '/app/thirdparty'
 export const APP_THIRDPARTY_SelectTrainType = '/app/thirdparty/SelectTrainType'
