@@ -75,7 +75,6 @@ const DataSetIndex = (): JSX.Element => {
         message.warning('请选择数据集')
         return
       }
-      console.log(selectData)
       const { train_set, val_set } = selectData
       if (train_set?.class_count !== val_set?.class_count) {
         notification.error({
@@ -86,18 +85,20 @@ const DataSetIndex = (): JSX.Element => {
         });
         return
       }
-      // const search = Qs.stringify({ id: selectData?.id, version_id: selectData?.latest_version?.id })
+
       const name = moment().format('MM-DD') + '/' + selectData.name
-      dispatch(modifyActiveTask({ id: reactKey, params: { name: name } }))
+
+      dispatch(modifyActiveTask({ id: reactKey, params: { name } }))
+
       socketPushMsgForProject(
         activePipeLine, {
           active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_ANALYSE,
           APP_DATASET_ANALYSE: { id: selectData?.id }
         }
       )
+
       navigate({
         pathname: APP_DATASET_ANALYSE,
-        // search: search
       })
     }
     return (
