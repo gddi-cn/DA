@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
   return (
     <FooterBar rightContent={(
       <PrimaryBtn width={132} onClick={handleClick} disabled={disabled}>
-        去训练
+        训练模型
       </PrimaryBtn>
     )}/>
   )
