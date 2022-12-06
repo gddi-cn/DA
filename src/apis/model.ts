@@ -66,10 +66,18 @@ const modelAPI = {
 
   downloadModel: async(modelId: string, version_id: string): Promise<APIResponse<Blob>> => {
     try {
-      const data = await http.get(
+      const res: { data: { url: string, size: number, hash: string }} = await http.get(
         `/v3/models/${modelId}/versions/${version_id}/download`,
-        { responseType: 'blob' }
       )
+
+      if (!res.data?.url) return {
+        success: false
+      }
+
+      const data = await http.get(res.data.url, {
+        responseType: 'blob'
+      })
+
       return {
         success: true,
         data,

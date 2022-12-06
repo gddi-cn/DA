@@ -42,8 +42,8 @@ const Download: React.FC<DownloadProps> = (
         const dataList: Array<Blob> = resList.map(x => x.data).filter(Boolean) as Array<Blob>
         if (!success || dataList.length !== 2) return
 
-        downloadBlob(dataList[0], 'license')
-        downloadBlob(dataList[1], 'model.gdd')
+        downloadBlob(dataList[0], 'model.gdd')
+        downloadBlob(dataList[1], 'license')
       })
   }
 
