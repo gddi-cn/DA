@@ -8,12 +8,12 @@ import './Preview.module.less'
 
 type Props = {
     classInfo: any,
-    datasetInfo: Data,
+    datasetInfo: Data | null,
     currentId: any
 }
 const Preview = (props: Props): JSX.Element => {
   const { classInfo, datasetInfo, currentId } = props
-  const { scene, id } = datasetInfo
+  const { scene, id } = datasetInfo || {} as Data
   const [viewType, setViewType] = useState<string>('grid')
 
   const View = useMemo(

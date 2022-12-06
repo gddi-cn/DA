@@ -43,7 +43,7 @@ const Score: React.FC<{ score?: number, explain?: string }> = (
         strokeColor={strokeColor}
         trailColor={trailColor}
         strokeWidth={12}
-        format={percent => `${percent} %`}
+        format={percent => `${percent?.toFixed(0)} %`}
       />
     </Tooltip>
   )

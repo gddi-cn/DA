@@ -17,7 +17,7 @@ type Props = {
   whichSet: string,
   setClassInfo: Dispatch<SetStateAction<string>>,
   classInfo: any,
-  datasetInfo: Data,
+  datasetInfo: Data | null,
   initFetchDatasetInfo: () => Promise<void>,
   // version:any,
   // setVersion: Dispatch<SetStateAction<string>>,
@@ -57,7 +57,7 @@ const DatasetInfo = (props: Props): JSX.Element => {
       <div className='DatasetInfo_wrap'>
         {
           useMemo(() => (
-            <DatasetInfoHeader datasetInfo={datasetInfo} initFetchDatasetInfo={initFetchDatasetInfo} />
+            <DatasetInfoHeader datasetInfo={datasetInfo || {} as Data} initFetchDatasetInfo={initFetchDatasetInfo} />
           ), [datasetInfo, initFetchDatasetInfo])
         }
         {
@@ -65,7 +65,7 @@ const DatasetInfo = (props: Props): JSX.Element => {
             <BaseInfo
               // version={version}
               currentSet={currentSet}
-              datasetInfo={datasetInfo}
+              datasetInfo={datasetInfo || {} as Data}
               whichSet={whichSet}
               setClassInfo={setClassInfo}
               classInfo={classInfo}

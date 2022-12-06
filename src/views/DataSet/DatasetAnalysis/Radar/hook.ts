@@ -1,9 +1,9 @@
 import React from 'react'
 import { EChartsType, init as initChart } from 'echarts'
 import { getOptions } from './getOptions'
-import { AnalyzeData  } from '@src/shared/types/dataset'
+import { AnalyzeData } from '@src/shared/types/dataset'
 import { nameItemMapping } from '@src/shared/mapping/dataset'
-import { AnalyzeItem } from '@src/shared/enum/dataset'
+import { AnalyzeItem, DatasetScene } from '@src/shared/enum/dataset'
 import { RadarProps } from '@views/DataSet/DatasetAnalysis/Radar/Radar'
 
 const useInitChart = (

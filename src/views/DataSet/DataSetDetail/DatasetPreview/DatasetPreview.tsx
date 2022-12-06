@@ -9,7 +9,7 @@ import './DatasetPreview.module.less'
 type Props={
   setWhichSet: Dispatch<SetStateAction<any>>,
   classInfo:any,
-  datasetInfo: Data,
+  datasetInfo: Data | null,
   currentId:any
 }
 const DatasetPreview = (props: Props): JSX.Element => {

@@ -59,14 +59,14 @@ const Details: React.FC<DetailProps> = (
         </Typography.Title>
       </div>
       <div className="ana-details-img">
-        <div className="input">
+        <div className="input" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <img src={img?.input} alt="good-example"/>
           <Typography.Paragraph className='tip-great'>
             {img?.inputTip ? '示例：' + img.inputTip : ''}
           </Typography.Paragraph>
         </div>
         <div className="padding" />
-        <div className="output">
+        <div className="output" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <img src={img?.output} alt="bad-example"/>
           <Typography.Paragraph className='tip-bad'>
             {img?.outputTip ? '示例：' + img.outputTip : ''}
