@@ -18,5 +18,6 @@ export const useHeader = () => {
     falseType,
     sceneTip: selectedItem?.sceneTip,
     labelTip: selectedItem?.labelTip,
+    handleClick,
   }
 }

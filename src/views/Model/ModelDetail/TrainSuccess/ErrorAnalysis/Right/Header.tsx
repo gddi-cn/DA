@@ -6,6 +6,9 @@ import { ModelFalseAnalysisItem } from '@src/shared/types/model'
 import { ModelFalseType } from '@src/shared/enum/model'
 import { MiniBtn } from '@src/components/Button'
 
+import { ReactComponent as Grid } from './icon/grid.svg'
+import { ReactComponent as Slick } from './icon/slick.svg'
+
 const Container = styled.div`
   display: flex;
   overflow: hidden;
@@ -40,8 +43,24 @@ const Label = styled.p`
 
 const ToolBox = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   column-gap: 16px;
+`
+
+const IconBtn = styled.div`
+  cursor: pointer;
+  path {
+    stroke: #000;
+  }
+  &[selected] {
+    cursor: default;
+    svg {
+      fill: #fff;
+      path {
+        stroke: #62b0e5;
+      }
+    }
+  }
 `
 
 const LabelTip: React.FC<ModelFalseAnalysisItem['labelTip']> = (
@@ -58,11 +77,24 @@ const LabelTip: React.FC<ModelFalseAnalysisItem['labelTip']> = (
   )
 }
 
+const GridBtn: React.FC = () => {
+  return (
+    <></>
+  )
+}
+
+const SlickBtn: React.FC = () => {
+  return (
+    <></>
+  )
+}
+
 const Header: React.FC = () => {
   const {
     falseType,
     sceneTip,
-    labelTip
+    labelTip,
+    handleClick,
   } = useHeader()
 
   return (
@@ -81,6 +113,12 @@ const Header: React.FC = () => {
       </Title>
       <ToolBox>
         <MiniBtn>补充数据</MiniBtn>
+        <IconBtn onClick={() => handleClick('grid')}>
+          <Grid />
+        </IconBtn>
+        <IconBtn onClick={() => handleClick('slick')}>
+          <Slick />
+        </IconBtn>
       </ToolBox>
     </Container>
   )
