@@ -1,5 +1,5 @@
 import { ApplicationScene } from '@src/shared/enum/application'
-import { ModelTrainMode } from '@src/shared/enum/model'
+import { ModelFalseItem, ModelTrainMode } from '@src/shared/enum/model'
 
 // 创建模型参数
 export interface CreateModelData {
@@ -122,7 +122,7 @@ export type DetectionLabelFalse = Record<string, Record<string,
 
 // 目标检测场景错误分析
 //  - key: 错误场景
-export type DetectionSceneFalse = Record<string, {
+export type DetectionSceneFalse = Record<ModelFalseItem, {
   // 分数,
   score: number,
   // 目标检测错误分析图片 meta 数据
@@ -144,7 +144,7 @@ export type ClassifyLabelFalse = Record<string, Record<string,
 
 // 图片分类场景错误分析
 //  - key: 错误场景
-export type ClassifySceneFalse = Record<string, {
+export type ClassifySceneFalse = Record<ModelFalseItem, {
   // 分数,
   score: number,
   // 图片分类错误分析图片 meta 数据
@@ -166,7 +166,7 @@ export type SegmentLabelFalse = Record<number, Record<number,
 
 // 通用分割场景错误分析
 //  - key: 错误场景
-export type SegmentSceneFalse = Record<string, {
+export type SegmentSceneFalse = Record<ModelFalseItem, {
   // 分数
   score: number,
   // 通用分割错误分析图片 meta 数据
@@ -188,7 +188,7 @@ export type PoseLabelFalse = Record<number, Record<number,
 
 // 姿态检测场景错误分析
 //  - key: 错误场景
-export type PoseSceneFalse = Record<string, {
+export type PoseSceneFalse = Record<ModelFalseItem, {
   // 分数
   score: number,
   // 姿态检测错误分析图片 meta 数据
@@ -210,7 +210,7 @@ export type CarPoseLabelFalse = Record<number, Record<number,
 
 // 单目 3D 场景错误分析
 //  - key: 错误场景
-export type CarPoseSceneFalse = Record<string, {
+export type CarPoseSceneFalse = Record<ModelFalseItem, {
   // 分数
   score: number,
   // 单目 3D 错误分析图片 meta 数据
@@ -219,12 +219,53 @@ export type CarPoseSceneFalse = Record<string, {
   advice: string
 }>
 
+// 目标检测错误分析
+export interface DetectionFalseAnalysis {
+  confusion_matrix: DetectionLabelFalse,
+  scene_false: DetectionSceneFalse,
+}
+
+// 通用分割错误分析
+export interface SegmentFalseAnalysis {
+  confusion_matrix: SegmentLabelFalse,
+  scene_false: SegmentSceneFalse,
+}
+
+// 姿态检测错误分析
+export interface PoseFalseAnalysis {
+  confusion_matrix: PoseLabelFalse,
+  scene_false: PoseSceneFalse,
+}
+
+// 单目 3D 错误分析
+export interface CarPoseFalseAnalysis {
+  confusion_matrix: CarPoseLabelFalse,
+  scene_false: CarPoseSceneFalse,
+}
+
+// 图片分类错误分析
+export interface ClassifyFalseAnalysis {
+  confusion_matrix: ClassifyLabelFalse,
+  scene_false: ClassifySceneFalse,
+}
+
 // 模型错误分析
-export interface ModelFalseAnalysis {
-  // 标签错误
-  confusion_matrix: DetectionLabelFalse | SegmentLabelFalse | PoseLabelFalse | CarPoseLabelFalse | ClassifyLabelFalse;
-  // 场景错误
-  scene_false: DetectionSceneFalse | SegmentSceneFalse | PoseSceneFalse | CarPoseSceneFalse | ClassifySceneFalse;
+export type ModelFalseAnalysis =
+  DetectionFalseAnalysis | SegmentFalseAnalysis | PoseFalseAnalysis | CarPoseFalseAnalysis | ClassifyFalseAnalysis
+
+export interface ModelFalseAnalysisItem {
+  uid: string,
+  score: number,
+  sceneTip: {
+    label: string,
+    advice: string,
+  },
+  labelTip: {
+    correctLabel: string,
+    wrongLabel: string,
+    wrongNum: number,
+  }
+  dataList: Array<any>,
 }
 
 // ============================================  错误分析数据类型  ================================================

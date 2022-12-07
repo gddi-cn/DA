@@ -39,7 +39,6 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
     )
   }
   const handleClick = (primaryKey: ModelDetailType.TabIndex) => {
-    console.log(primaryKey)
     setTabIndex(primaryKey)
   }
 
@@ -61,7 +60,6 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
 
   const GselectView = useMemo(
     () => {
-      console.log(currentVersion, 'currentVersion')
       const handleChange = (value: any, option: any) => {
         console.log(option)
         try {

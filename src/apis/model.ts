@@ -104,10 +104,10 @@ const modelAPI = {
       }
     }
   },
-  
+
   errorAnalysis: async (id: string, versionId: string): Promise<APIResponse<ModelFalseAnalysis>> => {
     try {
-      const { data } = await http.get(`/v2/models/${id}/versions/${versionId}/falseanalysdis`)
+      const { data } = await http.get(`/v2/models/${id}/versions/${versionId}/falseanalysis`)
       return {
         success: true,
         data,

@@ -12,7 +12,6 @@ const ModelInfomations = (): JSX.Element => {
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
-  console.log(versionInfo)
 
   if (!versionInfo?.iter) {
     return <></>

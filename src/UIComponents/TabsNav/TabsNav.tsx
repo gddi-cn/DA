@@ -76,28 +76,15 @@ function TabsNav<T> (props: Props<T>): JSX.Element {
 
   const [activeStyle, setActiveStyle] = useState<any>({})
 
-  //   useLayoutEffect(() => {
-  //     const cls = document.getElementsByClassName(activeClassName || 'TaskItem_active')
-
-  //     const div = cls[0] as HTMLDivElement
-
-  //     console.log(cls)
-
-  //     if (div) {
-  //       const style = {
-  //         width: div.offsetWidth, height: div.offsetHeight, top: div.offsetTop, left: div.offsetLeft
-  //       }
-  //       console.log(style, 'style')
-  //       setActiveStyle(style)
-  //     }
-  //   }, [setActiveStyle, dataList, activeClassName])
-
   const taskActiveMark = useMemo(() => {
     if (isEmpty(dataList)) {
       return null
     }
     return (
-      <div className="hori-selector" style={activeStyle}><div className="left"></div><div className="right"></div></div>
+      <div className="hori-selector" style={activeStyle}>
+        <div className="left"></div>
+        <div className="right"></div>
+      </div>
     )
   }, [activeStyle, dataList])
 

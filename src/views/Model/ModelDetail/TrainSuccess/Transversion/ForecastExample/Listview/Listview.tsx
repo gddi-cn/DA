@@ -79,7 +79,6 @@ const ListItem = (props:any) => {
 
 const Listview = (props: any): JSX.Element => {
   const { dataList, versionInfo } = props
-  console.log(dataList)
   const { model_type } = versionInfo
   return (
     <div styleName='Listview'>

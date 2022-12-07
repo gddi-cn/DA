@@ -28,8 +28,6 @@ const UploadFiles = (props:any): JSX.Element => {
     setthres(v || '')
   };
 
-  console.log(deferThres)
-
   const view = useMemo(() => {
     if (model_type === 'monocular_3d_detection') {
       return (

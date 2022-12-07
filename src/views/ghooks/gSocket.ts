@@ -150,7 +150,7 @@ export class Ws {
         //   const { action, data } = JSON.parse(text);
           const data = JSON.parse(text)
           // console.log(data, 'event_data')
-          this.eventCenter.emit(data.action, data)
+          this.eventCenter?.emit(data.action, data)
         })
       } catch (error) {
         console.log(error, 'error')

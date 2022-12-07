@@ -36,6 +36,8 @@ export const datasetDownloadStatusNameMapping: Map<DatasetDownloadStatus, string
   [DatasetDownloadStatus.DOWNLOADING, /* */'处理中']
 ])
 
+
+
 export const nameItemMapping = [
   { name: '图片尺寸', item: AnalyzeItem.ImageSize },
   { name: '图片尺寸', item: AnalyzeItem.FineSize },

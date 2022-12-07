@@ -81,8 +81,6 @@ const ModelList = () => {
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Change:', e.target.value);
-
     setModelName(e.target.value)
   };
   return (
