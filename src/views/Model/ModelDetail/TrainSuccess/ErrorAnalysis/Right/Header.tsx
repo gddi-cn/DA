@@ -43,22 +43,28 @@ const Label = styled.p`
 
 const ToolBox = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   column-gap: 16px;
 `
 
 const IconBtn = styled.div`
   cursor: pointer;
-  path {
-    stroke: #000;
+  line-height: 0;
+
+  svg * {
+    stroke: #000000;
   }
+  
+  svg {
+    rect {
+      fill: #fff;
+    }
+  }
+  
   &[selected] {
     cursor: default;
-    svg {
-      fill: #fff;
-      path {
-        stroke: #62b0e5;
-      }
+    svg * {
+      stroke: #62B0E5;
     }
   }
 `
@@ -77,24 +83,15 @@ const LabelTip: React.FC<ModelFalseAnalysisItem['labelTip']> = (
   )
 }
 
-const GridBtn: React.FC = () => {
-  return (
-    <></>
-  )
-}
-
-const SlickBtn: React.FC = () => {
-  return (
-    <></>
-  )
-}
-
 const Header: React.FC = () => {
   const {
     falseType,
+    gridRef,
+    slickRef,
     sceneTip,
     labelTip,
     handleClick,
+    handleAddData,
   } = useHeader()
 
   return (
@@ -112,11 +109,11 @@ const Header: React.FC = () => {
         }
       </Title>
       <ToolBox>
-        <MiniBtn>补充数据</MiniBtn>
-        <IconBtn onClick={() => handleClick('grid')}>
+        <MiniBtn onClick={handleAddData}>补充数据</MiniBtn>
+        <IconBtn onClick={() => handleClick('grid')} ref={gridRef}>
           <Grid />
         </IconBtn>
-        <IconBtn onClick={() => handleClick('slick')}>
+        <IconBtn onClick={() => handleClick('slick')} ref={slickRef}>
           <Slick />
         </IconBtn>
       </ToolBox>

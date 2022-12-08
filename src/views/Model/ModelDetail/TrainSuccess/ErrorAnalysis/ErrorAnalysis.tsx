@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Header from './Header'
 import Left from './Left'
 import Right from './Right'
+import NoData from './NoData'
 
 import { useErrorAnalysis } from './hook'
 
@@ -30,16 +31,24 @@ const RightContainer = styled.div`
 `
 
 const ErrorAnalysis: React.FC = () => {
-  useErrorAnalysis()
+  const { empty } = useErrorAnalysis()
 
   return (
     <Container>
       <Header />
       <Content>
-        <Left />
-        <RightContainer>
-          <Right />
-        </RightContainer>
+        {
+          empty ? (
+            <NoData />
+          ) : (
+            <>
+              <Left />
+              <RightContainer>
+                <Right />
+              </RightContainer>
+            </>
+          )
+        }
       </Content>
     </Container>
   )

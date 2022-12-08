@@ -2,13 +2,20 @@ import { useSelector } from 'react-redux'
 import React from 'react'
 import { useAtom } from 'jotai'
 
-import { modelTypeAtom, falseAnalysisAtom, selectedItemKeyAtom, falseTypeAtom, falseListAtom } from './store'
+import {
+  modelTypeAtom,
+  falseAnalysisAtom,
+  selectedItemKeyAtom,
+  falseTypeAtom,
+  falseListAtom, displayTypeAtom
+} from './store'
 import { DatasetScene } from '@src/shared/enum/dataset'
 import modelAPI from '@src/apis/model'
 export const useErrorAnalysis = () => {
   const [, setType] = useAtom(modelTypeAtom)
   const [, setFalseAnalysis] = useAtom(falseAnalysisAtom)
   const [, setSelectedItemKey] = useAtom(selectedItemKeyAtom)
+  const [, setDisplayType] = useAtom(displayTypeAtom)
   const [falseType] = useAtom(falseTypeAtom)
   const [falseList] = useAtom(falseListAtom)
 
@@ -51,9 +58,13 @@ export const useErrorAnalysis = () => {
         setType(null)
         setFalseAnalysis(null)
         setSelectedItemKey(null)
+        setDisplayType('grid')
       }
     },
     []
   )
 
+  return {
+    empty: !falseList?.length
+  }
 }

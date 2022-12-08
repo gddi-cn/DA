@@ -24,7 +24,7 @@ const DatasetPreview = (props: Props): JSX.Element => {
     <div styleName='DatasetPreview'>
       <TabsHeader handleChangeTab={handleChangeTab}/>
       <TabContent>
-        <Preview classInfo={classInfo} datasetInfo={datasetInfo} currentId={currentId}/>
+        <Preview classInfo={classInfo} datasetInfo={datasetInfo} currentId={currentId} />
       </TabContent>
     </div>
   )

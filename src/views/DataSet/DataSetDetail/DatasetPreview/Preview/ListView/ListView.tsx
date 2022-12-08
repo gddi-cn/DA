@@ -18,6 +18,7 @@ type Props = {
   currentId: any,
   id: string
 }
+
 const ListView = (props: Props): JSX.Element => {
   const { currentId, scenes, classInfo, id } = props
 

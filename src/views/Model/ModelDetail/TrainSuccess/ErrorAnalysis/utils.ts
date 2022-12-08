@@ -23,17 +23,17 @@ const formatCityscapesSegment = (
           wrongLabel: '',
           wrongNum: 0
         },
-        dataList: []
+        data: value.results,
       }))
   }
 
   return Object.entries(falseAnalysis.confusion_matrix)
     .map(([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum }] =
+      const [{ wrongLabel, wrongNum, data }] =
         Object
           .entries(value)
           .map(([wrongLabel, res]) => ({
-            wrongLabel,  wrongNum: res.cnt
+            wrongLabel,  wrongNum: res.cnt, data: res.results
           }))
 
       return {
@@ -48,7 +48,7 @@ const formatCityscapesSegment = (
           wrongLabel,
           wrongNum,
         },
-        dataList: []
+        data,
       }
     })
 }
