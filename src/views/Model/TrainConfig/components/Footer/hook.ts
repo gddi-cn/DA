@@ -1,7 +1,9 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 
-import { cardNumAtom, configConcurrentAtom, configFpsAtom, selectedChipAtom } from '@views/Model/TrainConfig/store'
+import {
+  cardNumAtom, configConcurrentAtom, configFpsAtom, configTypeAtom, selectedChipAtom
+} from '@views/Model/TrainConfig/store'
 import { APP_DATASET_ANALYSE, APP_MODEL_TRAIN_DETAIL } from '@router'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,12 +14,14 @@ import projectAPI from '@src/apis/project'
 import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { checkoutTask, getTaskActiveList } from '@reducer/tasksSilce'
+import { ChipConfigType } from '@src/shared/enum/chip'
 
 export const useFooter = () => {
   const [selectedChip] = useAtom(selectedChipAtom)
   const [fps] = useAtom(configFpsAtom)
   const [channel] = useAtom(configConcurrentAtom)
   const [gpu_count] = useAtom(cardNumAtom)
+  const [configType] = useAtom(configTypeAtom)
 
   const [loading, setLoading] = React.useState<boolean>(false)
 
@@ -41,6 +45,8 @@ export const useFooter = () => {
   const handleTrain = async () =>{
     if (!fps || !selectedChip || !channel || !gpu_count || loading || !activeTaskInfo) return
 
+    const mode = configType === ChipConfigType.RECOMMEND ? ModelTrainMode.SPEED : ModelTrainMode.CUSTOM
+
     const { APP_DATA_SET_INDEX } = activePipeLine
 
     if (!APP_DATA_SET_INDEX) return
@@ -56,7 +62,7 @@ export const useFooter = () => {
       dataset_id: APP_DATA_SET_INDEX.id,
       describe: '--',
       gpu_count,
-      model_args: { fps, ddr: 50, io: 50, mode: ModelTrainMode.SPEED, channel },
+      model_args: { fps, ddr: 50, io: 50, mode, channel },
       name: pro_name,
       platform: [brand, name, chip_type],
       application,
