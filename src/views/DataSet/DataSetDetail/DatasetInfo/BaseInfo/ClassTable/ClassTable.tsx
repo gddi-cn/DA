@@ -1,12 +1,11 @@
-// import type { PaginationProps } from 'antd';
-import { Pagination } from 'antd';
+import { Pagination } from 'antd'
 
-import { useMemo } from 'react';
-import { isEmpty } from 'lodash';
-import { ReactCusScrollBar } from '@src/UIComponents'
 import type { Dispatch, SetStateAction } from 'react'
-// import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
+import { useMemo } from 'react'
+import { isEmpty } from 'lodash'
+import { ReactCusScrollBar } from '@src/UIComponents'
 import './ClassTable.module.less'
+import { DatasetScene } from '@src/shared/enum/dataset'
 
 type Props = {
   // version: any,
@@ -16,12 +15,14 @@ type Props = {
   currentSet:any,
 
   statistic:any
+  scene?: DatasetScene
 }
 
 type ItemProps<T> = {
   data: T, currentSet: any,
   setClassInfo: Dispatch<SetStateAction<any>>,
   classInfo: any,
+  scene?: DatasetScene
 }
 
 type DataItem = {
@@ -33,7 +34,10 @@ type DataItem = {
   // class_id:number
 }
 function BodyItem<T extends DataItem> (props: ItemProps<T>) {
-  const { data, currentSet, classInfo, setClassInfo } = props
+  const { data, currentSet, classInfo, setClassInfo, scene } = props
+
+
+  const isKeyPoint = scene === DatasetScene.KeyPointsBasedAction
 
   const getPercent = () => {
     if (data?.annotation_count) {
@@ -53,10 +57,14 @@ function BodyItem<T extends DataItem> (props: ItemProps<T>) {
   }
 
   return (
-    <div className={getCls()} onClick={handleClick}>
-      <div className='body_item'>
-        <img alt='gddi_img' src={data?.cover} className='label_cover' />
-      </div>
+    <div className={[getCls(), isKeyPoint ? 'col_3' : ''].join(' ')} onClick={handleClick}>
+      {
+        isKeyPoint ? null : (
+          <div className='body_item'>
+            <img alt='gddi_img' src={data?.cover} className='label_cover' />
+          </div>
+        )
+      }
       <div className='body_item'>{data?.name}</div>
       <div className='body_item'>{data?.annotation_count}</div>
       <div className='body_item'>{getPercent()}</div>
@@ -65,12 +73,18 @@ function BodyItem<T extends DataItem> (props: ItemProps<T>) {
 }
 
 const ClassTable = (props: Props): JSX.Element => {
-  const { currentSet, classInfo, setClassInfo, statistic } = props
+  const { currentSet, classInfo, setClassInfo, statistic, scene } = props
+
+  const isKeyPoint = scene === DatasetScene.KeyPointsBasedAction
 
   const Header = () => {
     return (
-      <div className='header_wrap'>
-        <div>标签封面</div>
+      <div className={['header_wrap', isKeyPoint ? 'col_3' : ''].join(' ')}>
+        {
+          isKeyPoint ? null : (
+            <div>标签封面</div>
+          )
+        }
         <div>标签名</div>
         <div>标注数</div>
         <div>占比</div>
@@ -90,7 +104,12 @@ const ClassTable = (props: Props): JSX.Element => {
           <div className='body_wrap'>
             {
               (statistic as Array<any>)?.map((o, i) => {
-                return <BodyItem key={i} data={o} currentSet={currentSet} classInfo={classInfo} setClassInfo={setClassInfo} />
+                return (
+                  <BodyItem
+                    key={i} data={o} currentSet={currentSet} scene={scene}
+                    classInfo={classInfo} setClassInfo={setClassInfo}
+                  />
+                )
               })
             }
           </div>

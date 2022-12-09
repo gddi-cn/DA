@@ -10,6 +10,7 @@ import api from '@api'
 import { isNil } from 'lodash';
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import './BaseInfo.module.less'
+import { DatasetScene } from '@src/shared/enum/dataset'
 
 type Props={
     // version:any,
@@ -70,6 +71,7 @@ const BaseInfo = (props: Props): JSX.Element => {
         currentSet={currentSet}
 
         statistic={statistic}
+        scene={datasetInfo?.scene as DatasetScene}
       />
     </div>
   ), [setClassInfo, classInfo, currentSet, statistic])

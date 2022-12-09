@@ -7,12 +7,15 @@
     :global {
         .header_wrap {
             display: grid;
-            grid-template-columns: repeat(4, calc(100% / 4));
+            grid-template-columns: repeat(4, 1fr);
             grid-gap: 0;
             height: 48px;
             color: #061926;
             font-weight: 600;
             font-size: 14px;
+            &.col_3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
 
             &>div {
                 display: flex;
@@ -35,7 +38,10 @@
 
             .body_item_wrap {
                 display: grid;
-                grid-template-columns: repeat(4, calc(100% / 4));
+                grid-template-columns: repeat(4, 1fr);
+                &.col_3 {
+                    grid-template-columns: repeat(3, 1fr);
+                }
                 grid-gap: 0;
                 height: 48px;
                 cursor: pointer;
