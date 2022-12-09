@@ -1,7 +1,22 @@
-import { ModelFalseAnalysis, ModelFalseAnalysisItem, SegmentFalseAnalysis } from '@src/shared/types/model'
+import {
+  ModelFalseAnalysis,
+  ModelFalseAnalysisItem,
+  SegmentFalseAnalysis, SegmentFalseItem
+} from '@src/shared/types/model'
 import { ModelFalseItem, ModelFalseType } from '@src/shared/enum/model'
 import { modelFalseItemNameMapping } from '@src/shared/mapping/model'
 import { DatasetScene } from '@src/shared/enum/dataset'
+import { isEmpty } from 'lodash'
+
+const formatCityscapesSegmentData = (rawData?: SegmentFalseItem): Array<Album.ImgMeta> => {
+  if (!rawData) return []
+
+  return Object
+    .entries(rawData)
+    .map(([rawSrc, src]) => ({
+      rawSrc, src
+    }))
+}
 
 const formatCityscapesSegment = (
   falseAnalysis: SegmentFalseAnalysis,
@@ -9,6 +24,9 @@ const formatCityscapesSegment = (
 ): Array<ModelFalseAnalysisItem> =>
 {
   if (scene === ModelFalseType.SCENE) {
+    if (isEmpty(falseAnalysis.scene_false))
+      return []
+
     return Object
       .entries(falseAnalysis.scene_false)
       .map(([analysisItem, value], idx) => ({
@@ -23,14 +41,17 @@ const formatCityscapesSegment = (
           wrongLabel: '',
           wrongNum: 0
         },
-        data: value.results,
+        dataList: formatCityscapesSegmentData(value.results),
       }))
   }
 
+  if (isEmpty(falseAnalysis.confusion_matrix))
+    return []
+
   return Object.entries(falseAnalysis.confusion_matrix)
     .map(([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum, data }] =
-        Object
+      const [{ wrongLabel, wrongNum, data }] = isEmpty(value) ? [{ wrongLabel: '', wrongNum: 0, data: undefined }]
+        : Object
           .entries(value)
           .map(([wrongLabel, res]) => ({
             wrongLabel,  wrongNum: res.cnt, data: res.results
@@ -48,7 +69,7 @@ const formatCityscapesSegment = (
           wrongLabel,
           wrongNum,
         },
-        data,
+        dataList: formatCityscapesSegmentData(data),
       }
     })
 }

@@ -15,7 +15,7 @@ import { SuspenseFn } from './utils'
 // const Login = lazy(() => import('@src/views/Authorization/Login'));
 const Login = lazy(() => import('@src/views/Login'));
 const NotFound = lazy(() => import('@src/views/NotFound'));
-const Test = lazy(() => import('@src/views/test'));
+const Test = lazy(() => import('@src/views/Test'));
 
 const routes = [
   {

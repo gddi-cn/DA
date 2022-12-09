@@ -1,12 +1,27 @@
 import React from 'react'
+import styled from 'styled-components'
 
-const Album: React.FC<Album.Props> = (
-  {
-    type
-  }
-) => {
+import { useAlbum } from './hook'
+import Grid from './Grid'
+import Slick from './Slick'
+
+const Container = styled.div`
+  height: 100%;
+`
+
+const Album: React.FC<Album.Props> = (props) => {
+  const { displayType } = useAlbum(props)
+
   return (
-    <>{type}</>
+    <Container>
+      {
+        displayType === 'grid' ? (
+          <Grid />
+        ) : (
+          <Slick />
+        )
+      }
+    </Container>
   )
 }
 

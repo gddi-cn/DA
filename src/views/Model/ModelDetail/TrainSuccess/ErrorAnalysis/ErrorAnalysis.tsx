@@ -9,9 +9,11 @@ import NoData from './NoData'
 import { useErrorAnalysis } from './hook'
 
 const Container = styled.div`
+  max-height: calc(100vh - 170px);
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `
 
 const Content = styled.div`
@@ -19,7 +21,7 @@ const Content = styled.div`
   background-color: #fff;
   overflow: hidden;
   border-radius: 0 12px 12px 12px;
-  padding: 16px;
+  padding: 16px 0 16px 16px;
   display: flex;
   column-gap: 20px;
 `

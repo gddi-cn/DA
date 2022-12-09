@@ -59,6 +59,7 @@ export const useAlbum = () => {
   const [selectedItem] = useAtom(selectedItemAtom)
 
   return {
-    displayType
+    displayType,
+    dataList: selectedItem?.dataList || []
   }
 }

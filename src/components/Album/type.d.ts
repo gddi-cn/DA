@@ -1,11 +1,11 @@
 declare namespace Album {
 
   interface ImgMeta {
-    rawSrc: string
-    thumbnail: string
+    rawSrc?: string
+    src: string
   }
   interface Props {
-    type: 'grid' | 'slick',
-    // imgList:
+    type: 'grid' | 'slick'
+    imgList: Array<ImgMeta>
   }
 }

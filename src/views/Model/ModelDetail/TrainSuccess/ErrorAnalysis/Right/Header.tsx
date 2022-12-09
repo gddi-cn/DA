@@ -12,6 +12,7 @@ import { ReactComponent as Slick } from './icon/slick.svg'
 const Container = styled.div`
   display: flex;
   overflow: hidden;
+  padding-right: 16px;
 `
 
 const Title = styled.div`

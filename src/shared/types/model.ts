@@ -265,7 +265,7 @@ export interface ModelFalseAnalysisItem {
     wrongLabel: string,
     wrongNum: number,
   }
-  data: DetectionFalseItem | SegmentFalseItem | PoseFalseItem | CarPoseFalseItem | ClassifyFalseItem,
+  dataList: Array<Album.ImgMeta>
 }
 
 // ============================================  错误分析数据类型  ================================================
