@@ -81,8 +81,8 @@ export interface ModelCompareTableData {
 
 // 目标检测错误分析图片 meta 数据
 //  - key：图片url
-//  - value: Array<[标签， 数字， 数字，数字， 数字]>
-export type DetectionFalseItem = Record<string, Array<[string, number, number, number, number]>>
+//  - value: Array<[标签， top_left_x， top_left_y，right_bottom_x， right_bottom_y, prob]>
+export type DetectionFalseItem = Record<string, Array<[string, number, number, number, number, number]>>
 
 // 通用分割错误分析图片
 // - key: 原图链接
@@ -107,6 +107,8 @@ export type CarPoseFalseItem = Record<string, Array<{
 }>>
 
 // 图片分类错误分析图片 meta 数据
+// key: 图片 url
+// value: [分类标签, 置信度]
 export type ClassifyFalseItem = Record<string, [string, number]>
 
 // 目标检测标签错误分析

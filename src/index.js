@@ -1,4 +1,3 @@
-
 import ReactDOM from 'react-dom/client';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
@@ -13,6 +12,8 @@ import { cusTheme } from '@src/utils'
 import 'antd/dist/antd.variable.min.css'
 
 import './asset/style/appCustom.less'
+
+import 'swiper/css/bundle'
 
 // 自定义主题
 cusTheme()

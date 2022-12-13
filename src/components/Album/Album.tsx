@@ -7,6 +7,8 @@ import Slick from './Slick'
 
 const Container = styled.div`
   height: 100%;
+  width: 100%;
+  overflow: hidden;
 `
 
 const Album: React.FC<Album.Props> = (props) => {

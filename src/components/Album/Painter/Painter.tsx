@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Spin as AntSpin } from 'antd'
 
 import { usePainter } from './hook'
 
@@ -10,22 +11,37 @@ const Container = styled.div`
   height: 100%;
   width: 100%;
   overflow: hidden;
+  cursor: zoom-in;
+  position: relative;
 `
 
-const RawImg = styled.img`
+const Canvas = styled.canvas`
   display: block;
-  height: 100%;
   width: 100%;
+  height: 100%;
   object-fit: contain;
 `
+
+const Spin = styled(AntSpin)`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const Painter: React.FC<Album.ImgMeta> = (props) => {
-  const { src, rawSrc, open, onClick, onClose } = usePainter(props)
+  const { rawCanvasRef, resultCanvasRef, open, onClick, onClose, resLoading } = usePainter(props)
   return (
     <Container onClick={onClick}>
-      <RawImg src={rawSrc} alt={'raw'} />
+      <Canvas ref={rawCanvasRef} />
       <FullScreenModal open={open} onClose={onClose}>
         <ZoomArea>
-          <RawImg src={src} alt={'result'} />
+          <Canvas ref={resultCanvasRef} />
+          <Spin spinning={resLoading} />
         </ZoomArea>
       </FullScreenModal>
     </Container>
