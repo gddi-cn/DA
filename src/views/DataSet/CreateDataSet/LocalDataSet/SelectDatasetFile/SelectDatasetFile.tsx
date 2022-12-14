@@ -26,7 +26,8 @@ enum DatasetType {
   CLASSIFY = 'classify', // 图片分类
   CITYSCAPES_SEGMENT = 'cityscapes_segment', // 通用分割
   POSE_DETECTION = 'pose_detection', // 姿态检测
-  CAR_POSE_DETECTION = 'car_pose_detection' // 单目 3D
+  CAR_POSE_DETECTION = 'car_pose_detection', // 单目 3D
+  KEYPOINTS_BASED_ACTION = 'keypoints_based_action' // 动作识别
 }
 
 const typeURLMapping: Map<DatasetType, string> = new Map([
@@ -35,6 +36,7 @@ const typeURLMapping: Map<DatasetType, string> = new Map([
   [DatasetType.CITYSCAPES_SEGMENT, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/segmentation_example/segmentation_example.zip'],
   [DatasetType.POSE_DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/pose_example/pose_example.zip'],
   [DatasetType.CAR_POSE_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/detection_3d_example.zip'],
+  [DatasetType.KEYPOINTS_BASED_ACTION, 'https://s3.local.cdn.desauto.net/public/example/action_detection_example.zip']
 ])
 
 const SelectDatasetFile = (): JSX.Element => {
@@ -87,6 +89,9 @@ const SelectDatasetFile = (): JSX.Element => {
   }, [activePipeLine])
 
   useEffect(() => {
+    console.log('datasetType====================================datasetType')
+    console.log(datasetType)
+    console.log('datasetType====================================datasetType')
     setExampleUrl(datasetType ? typeURLMapping.get(datasetType as DatasetType) || '' : '')
   }, [datasetType])
 
