@@ -7,9 +7,6 @@ import './ListItem.module.less'
 
 const ListItem = (props: any) => {
   const { data, model_type } = props
-  console.log('data====================================data')
-  console.log(data)
-  console.log('data====================================data')
   const [visible, setvisible] = useState(false)
   const datainfo = useGetDataInfo(data.value, model_type)
 

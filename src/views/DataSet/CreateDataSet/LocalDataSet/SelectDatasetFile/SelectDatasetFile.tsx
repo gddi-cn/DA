@@ -89,9 +89,6 @@ const SelectDatasetFile = (): JSX.Element => {
   }, [activePipeLine])
 
   useEffect(() => {
-    console.log('datasetType====================================datasetType')
-    console.log(datasetType)
-    console.log('datasetType====================================datasetType')
     setExampleUrl(datasetType ? typeURLMapping.get(datasetType as DatasetType) || '' : '')
   }, [datasetType])
 
