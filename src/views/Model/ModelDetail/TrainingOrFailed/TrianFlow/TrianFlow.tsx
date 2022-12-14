@@ -22,6 +22,8 @@ import './TrianFlow.module.less'
 import { message } from 'antd'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
+import Pending from './Pending'
+
 // const IconMap: any = {
 //   数据准备: 'https://s3.local.cdn.desauto.net/public/video/8740e037eeba8acf4b009b3e65627c6f.mp4',
 //   数据评估: 'https://s3.local.cdn.desauto.net/public/video/2fc77123ede372d895ef28b3b8aea97f.mp4',
@@ -180,6 +182,10 @@ const TrianFlow = (): JSX.Element => {
     const {
       progress, status
     } = trainInfo
+
+    if (status === 6) {
+      return <Pending />
+    }
 
     if (status === 3) {
       return (
