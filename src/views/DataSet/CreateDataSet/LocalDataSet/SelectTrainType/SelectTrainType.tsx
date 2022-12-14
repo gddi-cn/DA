@@ -23,7 +23,7 @@ const MODEL_TYPES_ICON: any = {
   // face_detection: '人脸检测',
   // face_recognition: '人脸识别',
   cityscapes_segment: <Tongyongfenge />,
-  portrait_segment: <Xiaoxiangfenge />,
+  // portrait_segment: <Xiaoxiangfenge />,
   pose_detection: <Zitaijiance />,
   car_pose_detection: <Danmu3d />,
   keypoints_based_action: <Dongzuoshibie />,
