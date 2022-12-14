@@ -95,9 +95,14 @@ const DatasetBaseInfoForm = (): JSX.Element => {
       APP_LOCAL_FILE_STEP_2: all_values
     })
   }
+
   return (
     <div styleName='DatasetBaseInfoForm'>
-      <Form form={form} name="control-hooks" className='form_wrap' onValuesChange={handleBaseInfoChange}>
+      <Form
+        form={form} name="control-hooks"
+        className='form_wrap' onValuesChange={handleBaseInfoChange}
+        labelCol={{ span: 5 }}
+      >
         <Form.Item
           name="name"
           label="数据名称"
@@ -121,7 +126,7 @@ const DatasetBaseInfoForm = (): JSX.Element => {
 
         <Form.Item
           name="cover"
-          label="上传数据集封面"
+          label="数据集封面"
         >
           <UploadFile hasPreview={true} tips="支持.jpg .jpeg .png 等图片文件，文件不得大于2MB" maxSize={maxSize} regExp={regExp}>
 
