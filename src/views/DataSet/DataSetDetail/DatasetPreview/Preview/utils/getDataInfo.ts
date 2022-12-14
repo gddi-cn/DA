@@ -28,7 +28,13 @@ export const processData = (data: any, scenes: any) => {
 
   // }
 
-  if ((scenes as string).includes('segment') || scenes === 'pose_detection' || scenes === 'car_pose_detection' || scenes === 'keypoints_based_action') {
+  if (
+    (scenes as string).includes('segment') ||
+    scenes === 'pose_detection' ||
+    scenes === 'car_pose_detection' ||
+    scenes === 'keypoints_based_action' ||
+    scenes === 'keypoint_detection'
+  ) {
     const first = annotations[0]
     if (first) {
       const { position } = first
