@@ -47,7 +47,7 @@ export enum AnalyzeItem {
   RAW_LONG_TAIL_ACTION = 'long_tail',
   AREA = 'area_action',
   ACTION_DURATION = 'action_duration_action',
-  DISTINCTION_DEGREE = 'distinction_degree_action',
+  DISTINCTION_DEGREE = 'distinct_degree_action',
   KEY_POINTS_VISIBILITY = 'keypoints_visibility_action',
   LONG_TAIL_ACTION = 'long_tail_action',
 }
