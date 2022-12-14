@@ -465,6 +465,7 @@ export const sceneNameMapping: Map<DatasetScene, string> = new Map([
   [DatasetScene.Classify, '图片分类'],
   [DatasetScene.CityscapesSegment, '通用分割'],
   [DatasetScene.PoseDetection, '姿态检测'],
-  [DatasetScene.CarPoseDetection, '3D 检测'],
-  [DatasetScene.KeyPointsBasedAction, '动作识别']
+  [DatasetScene.CarPoseDetection, '单目3D 检测'],
+  [DatasetScene.KeyPointsBasedAction, '动作识别'],
+  [DatasetScene.KeypointsDetection, '关键点检测']
 ])

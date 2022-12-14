@@ -1,56 +1,47 @@
 import { FooterBar, GButton } from '@src/UIComponents'
-import { useMemo, useState, useEffect } from 'react'
-import { ReactComponent as Mubiaojiance } from './icon/mubiaojiance.svg'
-import { ReactComponent as Tupianfenlei } from './icon/tupianfenlei.svg'
-import { ReactComponent as Tongyongfenge } from './icon/tongyongfenge.svg'
-import { ReactComponent as Xiaoxiangfenge } from './icon/xiaoxiangfenge.svg'
-import { ReactComponent as Zitaijiance } from './icon/zitaijiance.svg'
-import { ReactComponent as Danmu3d } from './icon/danmu3d.svg'
-import { ReactComponent as Dongzuoshibie } from './icon/dongzuoshibie.svg'
+import { useMemo, useEffect } from 'react'
 import { isEmpty } from 'lodash'
 import { MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_CREATE_TYPE, APP_LOCAL_FILE_STEP_2 } from '@router'
 import { message } from 'antd'
+import { useAtom } from 'jotai'
 import { socketPushMsgForProject } from '@ghooks'
 import { useSelector } from 'react-redux'
-import { RootState } from '@reducer/index'
+import { RootState } from '@reducer'
 import './SelectTrainType.module.less'
 
-const MODEL_TYPES_ICON: any = {
-  detection: <Mubiaojiance />,
-  classify: <Tupianfenlei />,
-  // face_detection: '人脸检测',
-  // face_recognition: '人脸识别',
-  cityscapes_segment: <Tongyongfenge />,
-  // portrait_segment: <Xiaoxiangfenge />,
-  pose_detection: <Zitaijiance />,
-  car_pose_detection: <Danmu3d />,
-  keypoints_based_action: <Dongzuoshibie />,
-}
+import TrainTypeItem from './TrainTypeItem'
+import { activeTypeAtom } from './store'
+import { DatasetScene } from '@src/shared/enum/dataset'
+import styled from 'styled-components'
 
-type arrItem = {
-    icon: React.ReactNode,
-    sences: string,
-    value: string
-}
-const arr: arrItem[] = []
+const Container = styled.div`
+  height: calc(100vh - 186px);
+  display: flex;
+  flex-direction: column;
+`
 
-for (const [k, v] of Object.entries(MODEL_TYPES)) {
-  arr.push({
-    icon: MODEL_TYPES_ICON[k],
-    sences: v,
-    value: k
-  })
-}
+const Content = styled.div`
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+`
+const List = styled.div`
+  margin-top: 20px;
+  display: grid;
+  grid-template: auto / repeat(3, 1fr);
+  gap: 20px;
+`
 
 const SelectTrainType = (): JSX.Element => {
-  // const { setCurrentStep, createInfo, setCreateInfo } = props
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
   const navigate = useNavigate()
-  const [activeType, setActiveType] = useState('')
+  const [activeType, setActiveType] = useAtom(activeTypeAtom)
 
   useEffect(() => {
     if (activePipeLine.APP_LOCAL_FILE_STEP_1) {
@@ -92,40 +83,20 @@ const SelectTrainType = (): JSX.Element => {
     )
   }, [activeType, navigate, activePipeLine])
 
-  const handleClick = (data: arrItem) => {
-    console.log(data)
-    setActiveType(data.value)
-
-    socketPushMsgForProject(activePipeLine, {
-
-      APP_LOCAL_FILE_STEP_1: { activeType: data.value }
-    })
-  }
-
-  const getCls = (o: arrItem) => {
-    const { value } = o
-    if (activeType === value) {
-      return 'SelectTrainType_list_item btn-16 SelectTrainType_list_item_active'
-    }
-    return 'SelectTrainType_list_item btn-16'
-  }
   return (
-    <div styleName='SelectTrainType'>
-      <div className='SelectTrainType_list_wrap'>
-        <div className='SelectTrainType_list'>
+    <Container>
+      <Content>
+        <List>
           {
-            arr.map((o, i) => {
-              return (
-                <div key={i} onClick={() => handleClick(o)} className={getCls(o)}>
-                  {o.icon}
-                </div>
-              )
-            })
+            Object.keys(MODEL_TYPES)
+              .map(scene => (
+                <TrainTypeItem scene={scene as DatasetScene} key={scene} />
+              ))
           }
-        </div>
-      </div>
+        </List>
+      </Content>
       <FooterBar rightContent={rightContent} />
-    </div>
+    </Container>
   )
 }
 

@@ -15,7 +15,6 @@ const getPrecisionSteps = (precisionSteps: ModelCompareVersion['precision_steps'
   }
 }
 
-// TODO BUG FIX
 export const getTableData = (data: ModelCompare[], filer: any): Array<ModelCompareTableData> => {
   if (isNil(data) || isEmpty(data)) {
     return []
@@ -41,7 +40,7 @@ export const getTableData = (data: ModelCompare[], filer: any): Array<ModelCompa
   const listByFilter: ModelCompareTableData[] = []
 
   const { versions } = version_of_dataset
-  
+
   if (config_type === 'version') { // 模型对比维度为模型版本
     (versions || []).forEach(({ tag, precision_steps }) => {
       if (isEmpty(version_m) || (version_m as Array<ModelCompareVersion['tag']>).includes(tag)) {

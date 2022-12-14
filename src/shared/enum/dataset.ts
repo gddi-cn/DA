@@ -11,12 +11,20 @@ export enum DatasetDownloadStatus {
 }
 
 export enum DatasetScene {
+  // 目标检测
   Detection = 'detection',
+  // 图片分类
   Classify = 'classify',
+  // 通用分割
   CityscapesSegment = 'cityscapes_segment',
+  // 姿态检测
   PoseDetection = 'pose_detection',
+  // 单目 3D
   CarPoseDetection = 'car_pose_detection',
-  KeyPointsBasedAction = 'keypoints_based_action'
+  // 动作识别
+  KeyPointsBasedAction = 'keypoints_based_action',
+  // 关键点检测
+  KeypointsDetection = 'keypoint_detection',
 }
 
 export enum ScoreClass {
