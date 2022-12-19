@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Form, Input, message, Upload } from 'antd'
+import { Form, Input, message, Upload } from 'antd'
 import { useRegister } from '@views/Deployment/BySDK/DeviceLicense/components/Apply/hook'
 import RemoteSearch from '@src/components/RemoteSearch'
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'

@@ -21,7 +21,9 @@ const Content = styled.div`
   column-gap: 20px;
   row-gap: 40px;
   padding-top: 48px;
+  overflow-y: auto;
 `
+
 const CreateTypeSelector: React.FC = () => {
   return (
     <Container>

@@ -15,6 +15,31 @@ const datasetAPI = {
         success: false,
       }
     }
+  },
+
+  createUnRemarked: async (
+    dataset: Unremarked.Form.Base,
+    workOrder: Unremarked.Form.Requirement,
+    projectId: string,
+  ): Promise<APIResponse<string>> => {
+    try {
+      const { cover: coverList } = dataset
+      const { demandDescribe, examples, scene } = workOrder
+
+      // const { data } = await http.post('/v3/unmarkedDataset', {
+      //   dataset,
+      //   workOrder: { ...workOrder, projectId }
+      
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      console.error(e)
+      return {
+        success: false
+      }
+    }
   }
 }
 
