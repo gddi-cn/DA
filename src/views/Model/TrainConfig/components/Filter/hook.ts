@@ -60,7 +60,7 @@ export const useChipNameSearch = () => {
     setLocalName(e.target.value)
   }
 
-  const debouncedSetName = _.debounce(setName, 200)
+  const debouncedSetName = React.useMemo(() => _.debounce(setName, 200), [])
 
   React.useEffect(
     () => {
