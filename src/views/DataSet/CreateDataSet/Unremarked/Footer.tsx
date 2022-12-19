@@ -12,7 +12,7 @@ const Right = styled.div`
 `
 
 const Footer: React.FC = () => {
-  const { handlePre, handleNext, handleCancel, nextLabel } = useFooter()
+  const { handlePre, handleNext, handleCancel, nextLabel, loading } = useFooter()
 
   return (
     <FooterBar
@@ -22,7 +22,13 @@ const Footer: React.FC = () => {
       rightContent={(
         <Right>
           <SecondaryBtn width={132} onClick={handlePre}>上一步</SecondaryBtn>
-          <PrimaryBtn width={132} onClick={handleNext}>{nextLabel}</PrimaryBtn>
+          <PrimaryBtn
+            loading={loading}
+            width={132}
+            onClick={handleNext}
+          >
+            {nextLabel}
+          </PrimaryBtn>
         </Right>
       )}
     />

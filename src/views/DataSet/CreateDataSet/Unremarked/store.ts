@@ -11,3 +11,5 @@ export const taskIdAtom = atom<string | null>(null)
 
 export const baseFormDataAtom = atom<Unremarked.Form.Base | undefined>(undefined)
 
+export const createLoadingAtom = atom<boolean>(false)
+

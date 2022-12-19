@@ -7,7 +7,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { stepAtom, baseFormAtom, requirementAtom, taskIdAtom, baseFormDataAtom } from './store'
+import { stepAtom, baseFormAtom, requirementAtom, taskIdAtom, baseFormDataAtom, createLoadingAtom } from './store'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { RcFile } from "antd/es/upload"
 
@@ -136,6 +136,7 @@ export const useFooter = () => {
   const navigate = useNavigate()
 
   const [taskId] = useAtom(taskIdAtom)
+  const [loading, setLoading] = useAtom(createLoadingAtom)
   const [step, setStep] = useAtom(stepAtom)
   const [baseForm] = useAtom(baseFormAtom)
   const [requirementForm] = useAtom(requirementAtom)
@@ -156,8 +157,12 @@ export const useFooter = () => {
 
     const workOrderData = await requirementForm.validateFields()
 
+    setLoading(true)
 
-    const {} = await datasetAPI.createUnRemarked(baseFormData, workOrderData, taskId)
+    const { success, data } =
+      await datasetAPI.createUnRemarked(baseFormData, workOrderData, taskId)
+
+    setLoading(false)
   }
 
   const handlePre = () => {
@@ -187,6 +192,7 @@ export const useFooter = () => {
     handleCancel,
     handleNext,
     nextLabel,
+    loading
   }
 }
 
