@@ -5,12 +5,16 @@ import { UploadFile } from 'antd'
 const s3API = {
   uploadFile: async (file: UploadFile): Promise<APIResponse<string>> => {
     try {
-      const { name: filename, size } = file
+      const rawFile = file.originFileObj
+
+      if (!rawFile) return { success: false }
+
+      const { name: filename, size } = rawFile
 
       const { data: { file_url, header: headers, method, url } } =
         await http.get('/v2/file/upload', { params: { filename,  size } })
 
-      await http[method as 'get' | 'post' | 'put' | 'delete'](url, file, { headers })
+      await http[method.toLowerCase() as 'get' | 'post' | 'put' | 'delete'](url, rawFile, { headers })
 
       return {
         success: true,

@@ -44,6 +44,8 @@ function* fetchTaskActiveList (action:any):any {
       const list:any[] = items || []
       yield put(saveTaskActiveList(list))
 
+      console.log({ list })
+
       if (!isEmpty(list)) {
         if (!isNil(action?.payload)) {
           return
@@ -51,7 +53,6 @@ function* fetchTaskActiveList (action:any):any {
         const activeTaskInfo: TaskSlice.taskListItem = yield select(
           (state: RootState) => state.tasksSilce.activeTaskInfo
         )
-        console.log(activeTaskInfo, 4747)
 
         if (isEmpty(activeTaskInfo)) {
           // 没有就第一个

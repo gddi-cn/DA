@@ -300,8 +300,6 @@ const SelectDatasetFile = (): JSX.Element => {
         const creteDatares = await api.post('/v3/datasets', createInfo);
         console.log(creteDatares, 'creteDatares')
         if (creteDatares.code === 0) {
-          console.log('90909090')
-
           message.success('创建数据集成功')
           setLoading(false)
           navigate({

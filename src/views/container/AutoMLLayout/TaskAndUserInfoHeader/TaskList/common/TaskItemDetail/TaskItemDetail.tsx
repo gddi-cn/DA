@@ -36,6 +36,7 @@ const TaskItemDetail = (props: Props): JSX.Element => {
     }
     fetchData()
   }, [data?.id, needSync])
+
   const getStatus = () => {
     if (!data?.additional) {
       return null
