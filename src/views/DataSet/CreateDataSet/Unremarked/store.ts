@@ -5,7 +5,7 @@ export const baseFormAtom = atom<FormInstance<Unremarked.Form.Base> | undefined>
 
 export const requirementAtom = atom<FormInstance<Unremarked.Form.Requirement> | undefined>(undefined)
 
-export const stepAtom = atom<'base' | 'requirement'>('base')
+export const stepAtom = atom<Unremarked.Step>('base')
 
 export const taskIdAtom = atom<string | null>(null)
 

@@ -139,6 +139,7 @@ const TaskItemDetail = (props: Props): JSX.Element => {
       return '未知'
     }
   }
+
   return (
     <div styleName='TaskItemDetail'>
       <div className={`TaskItemDetail_inner ${getModelTypeCls('_info_wrap')}`}>

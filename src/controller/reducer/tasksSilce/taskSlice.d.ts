@@ -106,6 +106,10 @@ declare namespace TaskSlice {
         name?: string,
         updated?: number,
         created?: number,
+        worker_order?: {
+            id: string,
+            status: number,
+        }
     }
 
     interface TaskState {

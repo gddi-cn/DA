@@ -17,7 +17,7 @@ import {
   APP_AfterDeployed,
   APP_SDK_Documents,
   APP_DEVICE_INDEX,
-  APP_IncreaseData, APP_UNREMARKED_CREATE
+  APP_IncreaseData, APP_UNREMARKED_CREATE, APP_ORDER_PROCESS
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -45,7 +45,9 @@ const ModelIndex = lazy(() => import('@src/views/Model/ModelIndex'));
 // const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/SelectCreateType'));
 const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/CreateTypeSelector'));
 
+// 曼浮
 const CreateUnremarked = lazy(() => import('@src/views/DataSet/CreateDataSet/Unremarked'))
+const OrderDetail = lazy(() => import('@src/views/Order'))
 
 const DatasetAnalysis = lazy(() => import('@src/views/DataSet/DatasetAnalysis'));
 
@@ -103,7 +105,10 @@ export default {
           path: APP_UNREMARKED_CREATE,
           element: SuspenseFn(CreateUnremarked)
         },
-
+        {
+          path: APP_ORDER_PROCESS,
+          element: SuspenseFn(OrderDetail)
+        },
         // 本地文件上传
 
         localfile,

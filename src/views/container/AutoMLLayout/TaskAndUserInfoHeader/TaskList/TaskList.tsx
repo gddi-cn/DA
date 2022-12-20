@@ -47,19 +47,6 @@ const TaskList = (): JSX.Element => {
       {
         Add_tbn
       }
-      {/* <TabsNav
-        dataList={taskList || []}
-        renderItem={
-          (data) => (
-            <TaskItem
-
-              data={data}
-            />
-          )
-        }
-        getActiveNode={getActiveNode}
-      /> */}
-
     </div>
   )
 }

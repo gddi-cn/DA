@@ -1,3 +1,12 @@
+export const formatUnixDate = (time: number): string => Intl.DateTimeFormat(
+  'zh-CN',
+  {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  })
+  .format(new Date(time * 1000))
+
 export const formatUnixTime = (time: number): string => Intl.DateTimeFormat(
   'zh-CN',
   {

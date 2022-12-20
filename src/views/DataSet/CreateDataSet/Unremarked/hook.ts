@@ -1,15 +1,18 @@
-import datasetAPI from "@src/apis/dataset"
-import { RootState } from "@src/controller/reducer"
-import { APP_DATASET_CREATE_TYPE, APP_DATA_SET_INDEX } from "@src/router"
-import { Form } from "antd"
+import {Form, message} from "antd"
 import { useAtom } from "jotai"
 import React from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
+import datasetAPI from "@src/apis/dataset"
+import { RootState } from "@src/controller/reducer"
+import {APP_DATASET_CREATE_TYPE, APP_DATA_SET_INDEX, APP_ORDER_PROCESS} from "@src/router"
+
 import { stepAtom, baseFormAtom, requirementAtom, taskIdAtom, baseFormDataAtom, createLoadingAtom } from './store'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { RcFile } from "antd/es/upload"
+import {socketPushMsgForProject} from "@ghooks";
+import {SNAPSHOT_KEY_OF_ROUTER} from "@src/constants";
 
 const getBase64 = (file: RcFile): Promise<string> =>
 
@@ -27,7 +30,7 @@ const getBase64 = (file: RcFile): Promise<string> =>
 
 export const useUnremarked = () => {
   const [, setTaskId] = useAtom(taskIdAtom)
-  const [, setStep] = useAtom(stepAtom)
+  const [currentStep, setStep] = useAtom(stepAtom)
   const [baseForm] = useAtom(baseFormAtom)
   const [requirementForm] = useAtom(requirementAtom)
 
@@ -51,6 +54,10 @@ export const useUnremarked = () => {
     },
     []
   )
+
+  return {
+    currentStep,
+  }
 }
 
 export const useBaseForm = () => {
@@ -142,7 +149,9 @@ export const useFooter = () => {
   const [requirementForm] = useAtom(requirementAtom)
   const [baseFormData, setBaseFormData] = useAtom(baseFormDataAtom)
 
-
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine || {}
+  })
 
   const handleBase = async () => {
     if (!baseForm) return
@@ -159,10 +168,20 @@ export const useFooter = () => {
 
     setLoading(true)
 
-    const { success, data } =
+    const { success } =
       await datasetAPI.createUnRemarked(baseFormData, workOrderData, taskId)
 
     setLoading(false)
+
+    if (!success) return
+
+    message.success('提交成功')
+
+    navigate({ pathname: APP_ORDER_PROCESS })
+
+    socketPushMsgForProject(activePipeLine, {
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_ORDER_PROCESS
+    })
   }
 
   const handlePre = () => {

@@ -32,6 +32,8 @@ export const APP_MODEL_TRAIN_DETAIL = '/app/model_train_detail'
 
 // 曼浮流程
 export const APP_UNREMARKED_CREATE = '/app/create_unremarked'
+// 标注状态
+export const APP_ORDER_PROCESS = '/app/order_process'
 
 // 上传流程
 export const APP_LOCAL_FILE = '/app/local_file'

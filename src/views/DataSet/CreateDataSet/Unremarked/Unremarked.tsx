@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import TaskStep from '@views/container/TaskStepLayout/TaskStep'
 import Footer from './Footer'
+import Step from './Step'
 import BaseForm from './BaseForm'
 import Requirement from './Requirement'
 
@@ -18,20 +19,26 @@ const Container = styled.div`
 const Content = styled.div`
   flex: 1;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  column-gap: 20px;
-  row-gap: 40px;
-  padding-top: 48px;
+  flex-direction: column;
+  align-items: center;
+`
+
+const StepContainer = styled.div`
+  width: 588px;
+  margin-top: 18px;
+  margin-bottom: 40px;
 `
 
 const Unremarked: React.FC = () => {
-  useUnremarked()
+  const { currentStep } = useUnremarked()
 
   return (
     <Container>
       <TaskStep />
       <Content>
+        <StepContainer>
+          <Step currentStep={currentStep} />
+        </StepContainer>
         <BaseForm />
         <Requirement />
       </Content>
