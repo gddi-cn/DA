@@ -36,8 +36,8 @@ const Meta: React.FC = () => {
       <Text>
         需求详情：
         {
-          !demandDocUrl ? (
-            <Link href={'https://www.baidu.com'} target={'_blank'} rel={'noreferrer'}>
+          demandDocUrl ? (
+            <Link href={demandDocUrl} target={'_blank'} rel={'noreferrer'}>
               查看文档
             </Link>
           ) : '-'

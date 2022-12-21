@@ -16,6 +16,21 @@ const orderAPI = {
         success: false
       }
     }
+  },
+
+  getProgress: async(id: Order.Detail['id']): Promise<APIResponse<Order.Progress>> => {
+    try {
+      const { data } = await http.get(`/v3/workOrders/${id}/progress`)
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false
+      }
+    }
   }
 }
 

@@ -4,11 +4,13 @@ import styled from "styled-components";
 import { useOrder } from './hook'
 
 import TaskStep from '@views/container/TaskStepLayout/TaskStep'
-import Step from '@views/DataSet/CreateDataSet/Unremarked/Step'
+import CreateStep from '@views/DataSet/CreateDataSet/Unremarked/Step'
 
 import Meta from './Meta'
-import Progress from './Progress'
+import Step from './Step'
 import Detail from './Detail'
+
+import Footer from './Footer'
 
 const Container = styled.div`
   width: 100%;
@@ -22,6 +24,13 @@ const StepWrap = styled.div`
   width: 588px;
   margin-top: 18px;
   margin-bottom: 40px;
+`
+
+const ContentWrap = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `
 
 const Content = styled.div`
@@ -84,24 +93,27 @@ const Order: React.FC = () => {
     <Container>
       <TaskStep />
       <StepWrap>
-        <Step currentStep={'process'} />
+        <CreateStep currentStep={'process'} />
       </StepWrap>
-      <Content>
-        <Left>
-          <LeftTop>
-            <Meta />
-          </LeftTop>
-          <LeftBottom>
-            <Progress />
-          </LeftBottom>
-        </Left>
-        <Right>
-          <Corner>
-            Powered by 曼孚
-          </Corner>
-          <Detail />
-        </Right>
-      </Content>
+      <ContentWrap>
+        <Content>
+          <Left>
+            <LeftTop>
+              <Meta />
+            </LeftTop>
+            <LeftBottom>
+              <Step />
+            </LeftBottom>
+          </Left>
+          <Right>
+            <Corner>
+              Powered by 曼孚
+            </Corner>
+            <Detail />
+          </Right>
+        </Content>
+      </ContentWrap>
+      <Footer />
     </Container>
   )
 }

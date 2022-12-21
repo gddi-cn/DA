@@ -11,7 +11,7 @@ export const useMeta = () => {
   return {
     name: name || '-',
     totalImage: status && (status >= OrderStatus.IN_PROGRESS)
-      ? totalImage ?? '-' : '-',
+      ? (totalImage || totalImage === 0 ? `${totalImage} 张` : '-') : '-',
     createdAt: created ? formatUnixDate(created) : '-',
     demandDocUrl,
   }
