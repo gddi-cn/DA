@@ -44,8 +44,6 @@ function* fetchTaskActiveList (action:any):any {
       const list:any[] = items || []
       yield put(saveTaskActiveList(list))
 
-      console.log({ list })
-
       if (!isEmpty(list)) {
         if (!isNil(action?.payload)) {
           return

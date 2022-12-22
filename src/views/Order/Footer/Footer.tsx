@@ -6,22 +6,17 @@ import {PrimaryBtn, SecondaryBtn} from "@src/components/Button";
 
 const Footer: React.FC = () => {
   const {
-    showCancel, showDelete, showFinish,
-    handleCancel, handleDelete, handleFinish
+    showFooter,
+    showDelete, showFinish,
+    handleDelete, handleFinish,
+    deleteLoading,
   } = useFooter()
 
-  return (
+  return showFooter ? (
     <FooterBar
-      leftContent={
-        showCancel ? (
-          <SecondaryBtn width={132} onClick={handleCancel}>
-            取消
-          </SecondaryBtn>
-        ) : null
-      }
       rightContent={
         showDelete ? (
-          <SecondaryBtn error onClick={handleDelete}>
+          <SecondaryBtn loading={deleteLoading} color={'error'} onClick={handleDelete}>
             删除任务
           </SecondaryBtn>
         ) : (
@@ -33,7 +28,7 @@ const Footer: React.FC = () => {
         )
       }
     />
-  )
+  ) : null
 }
 
 export default Footer

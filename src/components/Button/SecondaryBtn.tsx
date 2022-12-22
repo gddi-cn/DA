@@ -7,7 +7,7 @@ interface ISecondaryBtn {
   fw?: number,
   br?: number,
   lh?: number,
-  error?: boolean
+  color?: 'default' | 'error'
 }
 
 const defaultColor = '#061926'
@@ -15,7 +15,7 @@ const errorColor = '#FF4D4F'
 
 const SecondaryBtn = styled(Button)<ButtonProps & ISecondaryBtn>`
   background-color: transparent;
-  border-color: ${p => p.error ? errorColor : defaultColor};
+  border-color: ${p => p.color && p.color === 'error' ? errorColor : defaultColor};
   border-radius: ${props => props.br || 4}px;
   font-size: ${props => props.fz || 14}px;
   line-height: ${props => props.lh || 20}px;
@@ -24,11 +24,11 @@ const SecondaryBtn = styled(Button)<ButtonProps & ISecondaryBtn>`
   font-family: 'PingFang SC',serif;
   text-align: center;
   width: ${props => props.width ? props.width + 'px' : undefined};
-  color: ${p => p.error ? errorColor : defaultColor};
+  color: ${p => p.color && p.color === 'error' ? errorColor : defaultColor};
   &:hover, &:focus {
     background-color: transparent;
-    border-color: ${p => p.error ? errorColor : defaultColor};
-    color: ${p => p.error ? errorColor : defaultColor};
+    border-color: ${p => p.color && p.color === 'error' ? errorColor : defaultColor};
+    color: ${p => p.color && p.color === 'error' ? errorColor : defaultColor};
   }
 `
 

@@ -5,8 +5,6 @@ import {useSelector} from "react-redux";
 import { orderDetailAtom } from './store'
 import {RootState} from "@reducer";
 import orderAPI from "@src/apis/order";
-import produce from "immer";
-import {OrderStatus} from "@src/shared/enum/order";
 
 export const useOrder = () => {
   const [, setOrderDetail] = useAtom(orderDetailAtom)
@@ -24,10 +22,6 @@ export const useOrder = () => {
         .detail(id)
         .then(({ success, data }) => {
           if (!success || !data) return setOrderDetail(null)
-
-          // setOrderDetail(produce(data, draft => {
-          //   draft.status = OrderStatus.IN_PROGRESS
-          // }))
 
           setOrderDetail(data)
         })

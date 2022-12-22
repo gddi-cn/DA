@@ -1,8 +1,8 @@
 import * as ALL_PATHS from '@router/pathNames'
 
-type TYPE_OF_ALL_PATHS = typeof ALL_PATHS
+export type TYPE_OF_ALL_PATHS = typeof ALL_PATHS
 
-type KEYS_OF_ALL_PATHS = keyof TYPE_OF_ALL_PATHS
+export type KEYS_OF_ALL_PATHS = keyof TYPE_OF_ALL_PATHS
 
 type SKOR = {
   [index in KEYS_OF_ALL_PATHS]: any
