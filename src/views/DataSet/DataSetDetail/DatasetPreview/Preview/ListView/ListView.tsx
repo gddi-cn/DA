@@ -22,7 +22,7 @@ type Props = {
 const ListView = (props: Props): JSX.Element => {
   const { currentId, scenes, classInfo, id } = props
 
-  const { name } = classInfo
+  const { name } = classInfo || {}
   const [show, setShow] = useState(false)
 
   const params = useRef({

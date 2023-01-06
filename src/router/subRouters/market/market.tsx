@@ -17,7 +17,9 @@ import {
   APP_AfterDeployed,
   APP_SDK_Documents,
   APP_DEVICE_INDEX,
-  APP_IncreaseData, APP_UNREMARKED_CREATE, APP_ORDER_PROCESS
+  APP_IncreaseData,
+  APP_UNREMARKED_CREATE,
+  APP_ORDER_PROCESS, APP_EXPERIENCE
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -56,7 +58,8 @@ const ModelTrainConfig = lazy(() => import('@src/views/Model/TrainConfig'));
 
 const ModelDetail = lazy(() => import('@src/views/Model/ModelDetail'));
 
-const SelectDeployType = lazy(() => import('@src/views/Deployment/SelectDeployType'));
+// const SelectDeployType = lazy(() => import('@src/views/Deployment/SelectDeployType'));
+const DeployTypeSelector = lazy(() => import('@src/views/Deployment/TypeSelector'));
 
 const SelectModule = lazy(() => import('@src/views/Deployment/ByPlatform/SelectModule'));
 
@@ -71,6 +74,9 @@ const AfterDeployed = lazy(() => import('@src/views/Deployment/ByPlatform/AfterD
 const Documents = lazy(() => import('@src/views/Deployment/BySDK/Documents'));
 
 const DeviceIndex = lazy(() => import('@src/views/Device/DeviceIndex'));
+
+// 体验
+const Experience = lazy(() => import('@src/views/Experience'))
 
 export default {
   path: '/app',
@@ -108,6 +114,10 @@ export default {
         {
           path: APP_ORDER_PROCESS,
           element: SuspenseFn(OrderDetail)
+        },
+        {
+          path: APP_EXPERIENCE,
+          element: SuspenseFn(Experience)
         },
         // 本地文件上传
 
@@ -155,7 +165,7 @@ export default {
 
             {
               path: APP_SELECT_DEPLOY_TYPE,
-              element: SuspenseFn(SelectDeployType),
+              element: SuspenseFn(DeployTypeSelector),
 
             },
 

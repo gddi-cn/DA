@@ -7,7 +7,7 @@ interface ISecondaryBtn {
   fw?: number,
   br?: number,
   lh?: number,
-  color?: 'default' | 'error'
+  color?: 'default' | 'error',
 }
 
 const defaultColor = '#061926'

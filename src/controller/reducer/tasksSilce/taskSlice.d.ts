@@ -62,7 +62,7 @@ declare namespace TaskSlice {
 
     interface Model_Info {
         id?: string,
-        model_iter_id?: string
+        version_id?: string
     }
 
     interface Model {

@@ -58,7 +58,7 @@ const RenderView = (props: RenderViewProps) => {
 
 const SlickView = (props: Props): JSX.Element => {
   const { currentId, scenes, classInfo, id } = props
-  const { name } = classInfo
+  const { name } = classInfo || {}
   const [dataList, setDataList] = useState<Array<any>>([])
   const [total, setTotal] = useState<number>(0)
 
