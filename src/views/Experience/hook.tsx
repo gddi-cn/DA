@@ -47,6 +47,7 @@ export const useRefreshDetail = () => {
   const [modelVersionId] = useAtom(modelVersionIdAtom)
   const [loading, setLoading] = useAtom(loadingAtom)
   const [, setDetail] = useAtom(detailAtom)
+  const [, setLeftTime] = useAtom(leftTimeAtom)
 
   return async () => {
     if (loading) return
@@ -54,15 +55,25 @@ export const useRefreshDetail = () => {
 
     setLoading(true)
     const { success, data } = await experienceAPI.detail(modelVersionId)
+    setLoading(false)
 
-    if (!success) {
+    if (!success || !data) {
       setDetail(null)
       return
     }
 
-    setDetail(data || null)
+    setDetail(data)
+    const { expire, state } = data || {}
 
-    setLoading(false)
+    if (state !== ExperienceState.READY) return
+
+    const now = (Date.now() / 1e3) | 0
+
+    if (now >= (expire || 0)) {
+      return
+    }
+
+    setLeftTime((expire || 0) - now)
   }
 }
 
@@ -144,11 +155,36 @@ export const useCreate = () => {
 }
 
 export const usePending = () => {
+  const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
+
   const [detail] = useAtom(detailAtom)
   const { state, current } = detail || {}
 
+  const show = state === ExperienceState.PENDING
+  const refreshDetail = useRefreshDetail()
+
+  React.useEffect(
+    () => {
+      if (!show) return
+
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+
+      timerRef.current = setInterval(
+        refreshDetail,
+        2e3,
+      )
+
+      return () => {
+        timerRef.current && clearInterval(timerRef.current)
+      }
+    },
+    [show]
+  )
+
   return {
-    show: state === ExperienceState.PENDING,
+    show,
     left: current || 0,
   }
 }
@@ -256,5 +292,38 @@ export const useExpire = () => {
     handleCreate,
     loading: creating,
     disabled: loading,
+  }
+}
+
+export const useSetup = () => {
+  const [detail] = useAtom(detailAtom)
+  const { state } = detail || {}
+  const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const show = state === ExperienceState.SETUP
+
+  const refreshDetail = useRefreshDetail()
+
+  React.useEffect(
+    () => {
+      if (!show) return
+
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+
+      timerRef.current = setInterval(
+        refreshDetail,
+        2e3,
+      )
+      return () => {
+        timerRef.current && clearInterval(timerRef.current)
+      }
+    },
+    [show]
+  )
+
+  return {
+    show,
   }
 }

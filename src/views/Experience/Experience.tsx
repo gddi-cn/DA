@@ -5,6 +5,7 @@ import TaskStep from '@views/container/TaskStepLayout/TaskStep'
 import Footer from './Footer'
 import Create from './Create'
 import Pending from './Pending'
+import SetUp from './Setup'
 import Ready from './Ready'
 import Expire from './Expire'
 
@@ -48,6 +49,7 @@ const Experience: React.FC = () => {
             <div>
               <Create />
               <Pending />
+              <SetUp />
               <Ready />
               <Expire />
             </div>
