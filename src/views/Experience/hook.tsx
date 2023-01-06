@@ -17,7 +17,7 @@ import {
   modelVersionIdAtom
 } from '@views/Experience/store'
 import experienceAPI from '@src/apis/experience'
-import { ExperienceState } from '@src/shared/enum/experienceState'
+import { ExperienceState } from '@src/shared/enum/experience'
 import { Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 

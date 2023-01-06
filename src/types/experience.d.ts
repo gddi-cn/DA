@@ -4,7 +4,7 @@ declare namespace Experience {
     device_name: string
     expire: number
     id: string
-    state: import('@src/shared/enum/experienceState').ExperienceState
+    state: import('@src/shared/enum/experience').ExperienceState
     url: string
     current: number
   }

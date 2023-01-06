@@ -481,7 +481,7 @@ export const datasetCreateTypeLogoMapping: Map<DatasetCreateType, any> = new Map
 ])
 
 export const datasetCreateTypeNameMapping: Map<DatasetCreateType, string> = new Map([
-  [DatasetCreateType.UPLOAD_UNREMARKED, '上传未标注数据'],
+  [DatasetCreateType.UPLOAD_UNREMARKED, '数据标注服务'],
   [DatasetCreateType.UPLOAD_REMARKED, '上传已标注数据'],
   [DatasetCreateType.IMPORT_THIRD_PARTY, '第三方导入'],
 ])
