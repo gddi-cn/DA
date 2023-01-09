@@ -74,3 +74,4 @@ export const APP_SDK_Documents = '/app/sdk_documents'
 export const APP_DEVICE_INDEX = '/app/DeviceIndex'
 
 export const APP_EXPERIENCE = '/app/experience'
+export const APP_PLATFORM = '/app/platform'

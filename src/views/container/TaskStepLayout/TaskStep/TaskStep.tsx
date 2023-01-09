@@ -36,7 +36,9 @@ import {
   APP_THIRDPARTY_STEP_3,
   APP_THIRDPARTY_STEP_4,
   APP_THIRDPARTY_SelectTrainType,
-  APP_DATASET_CREATE_TYPE
+  APP_DATASET_CREATE_TYPE,
+  APP_EXPERIENCE,
+  APP_PLATFORM,
 } from '@router'
 
 import { socketPushMsgForProject } from '@ghooks'
@@ -76,7 +78,9 @@ const PUBLISH_ACTIVE = [
   APP_AfterDeployed,
   APP_ForecastModule,
   APP_SelectModule,
-  APP_SetModuleConfig
+  APP_SetModuleConfig,
+  APP_EXPERIENCE,
+  APP_PLATFORM,
 ]
 
 const TaskStep = (): JSX.Element => {

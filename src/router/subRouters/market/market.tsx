@@ -19,7 +19,8 @@ import {
   APP_DEVICE_INDEX,
   APP_IncreaseData,
   APP_UNREMARKED_CREATE,
-  APP_ORDER_PROCESS, APP_EXPERIENCE
+  APP_ORDER_PROCESS,
+  APP_EXPERIENCE, APP_PLATFORM
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -75,8 +76,11 @@ const Documents = lazy(() => import('@src/views/Deployment/BySDK/Documents'));
 
 const DeviceIndex = lazy(() => import('@src/views/Device/DeviceIndex'));
 
+// 部署
 // 体验
 const Experience = lazy(() => import('@src/views/Experience'))
+// 平台
+const Platform = lazy(() => import('@src/views/Platform'))
 
 export default {
   path: '/app',
@@ -118,6 +122,10 @@ export default {
         {
           path: APP_EXPERIENCE,
           element: SuspenseFn(Experience)
+        },
+        {
+          path: APP_PLATFORM,
+          element: SuspenseFn(Platform)
         },
         // 本地文件上传
 

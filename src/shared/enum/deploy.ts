@@ -1,4 +1,5 @@
 export enum DeployType {
-  SDK = 1,
-  EXPERIENCE,
+  EXPERIENCE = 1,
+  PLATFORM,
+  SDK,
 }

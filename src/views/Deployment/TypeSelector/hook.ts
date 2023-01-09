@@ -3,15 +3,16 @@ import { useAtom } from 'jotai'
 
 import { DeployType } from '@src/shared/enum/deploy'
 import { deployTypeDescMapping, deployTypeLogoMapping, deployTypeNameMapping } from '@src/shared/mapping/deploy'
-import { selectedTypeAtom } from './store'
-import { APP_EXPERIENCE, APP_SDK_Documents } from '@router'
+import { disabledTrialAtom, selectedTypeAtom } from './store'
+import { APP_EXPERIENCE, APP_PLATFORM, APP_SDK_Documents } from '@router'
 import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
 import { useNavigate } from 'react-router-dom'
+import experienceAPI from '@src/apis/experience'
 
-export const useItemCard = (deployType: DeployType) => {
+export const useItemCard = (deployType: DeployType, disabled: boolean) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null)
 
   const [selectedType, setSelectedType] = useAtom(selectedTypeAtom)
@@ -34,6 +35,7 @@ export const useItemCard = (deployType: DeployType) => {
   const selected = selectedType === deployType
 
   const handleClick = () => {
+    if (disabled) return
     if (selected) return setSelectedType(null)
     setSelectedType(deployType)
   }
@@ -51,6 +53,20 @@ export const useItemCard = (deployType: DeployType) => {
       }
     },
     [selected]
+  )
+
+  React.useEffect(
+    () => {
+      const $c = containerRef.current
+      if (!$c) return
+
+      if (disabled) {
+        $c.setAttribute('disabled', '')
+      } else {
+        $c.removeAttribute('disabled')
+      }
+    },
+    [disabled]
   )
 
   React.useEffect(
@@ -99,6 +115,19 @@ export const useFooter = () => {
     )
   }
 
+  const toPlatform = () => {
+    socketPushMsgForProject(
+      activePipeLine, {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_PLATFORM,
+      }
+    )
+    navigate(
+      {
+        pathname: APP_PLATFORM,
+      }
+    )
+  }
+
   const handleClick = () => {
     if (!selectedType) return
 
@@ -109,6 +138,9 @@ export const useFooter = () => {
       case DeployType.EXPERIENCE:
         toExperience()
         break
+      case DeployType.PLATFORM:
+        toPlatform()
+        break
       default:
         break
     }
@@ -117,5 +149,34 @@ export const useFooter = () => {
   return {
     disabled: selectedType === null,
     handleClick,
+  }
+}
+
+export const useTypeSelector = () => {
+  const modelVersionId = useSelector((state: RootState) => state.tasksSilce.activeTaskInfo?.model?.version_id)
+  const [disabledTrial, setDisabledTrial] = useAtom(disabledTrialAtom)
+
+  React.useEffect(
+    () => {
+      if (!modelVersionId) {
+        setDisabledTrial(true)
+        return
+      }
+
+      experienceAPI.check(modelVersionId)
+        .then(({ success, data }) => {
+          if (!success || !data) {
+            setDisabledTrial(true)
+            return
+          }
+
+          setDisabledTrial(!Boolean(data.supported))
+        })
+    },
+    [modelVersionId]
+  )
+
+  return {
+    disabledTrial,
   }
 }

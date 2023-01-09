@@ -45,6 +45,21 @@ export const experienceAPI = {
       }
     }
   },
+
+  check: async (id: string): Promise<APIResponse<{ supported: boolean }>> => {
+    try {
+      const { data } = await http.get(`/v3/trialapps/${id}/check`)
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
 }
 
 export default experienceAPI

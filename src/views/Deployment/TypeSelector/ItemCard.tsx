@@ -18,11 +18,23 @@ const Card = styled.div`
   cursor: pointer;
   transition:
           box-shadow 0.2s ease-in-out;
-  &:hover {
+  &:hover:not([disabled]) {
     box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)
   }
   &[selected] {
     outline: 2px solid #62b0e5;
+  }
+  &[disabled] {
+    cursor: not-allowed;
+    img {
+      filter: grayscale(80%)!important;
+    }
+    * {
+      color: #8C8C8C!important;
+    }
+  }
+  * {
+    use-select: none;
   }
 `
 const Img = styled.img`
@@ -51,12 +63,13 @@ const Desc = styled.p`
   padding: 0 20px;
 `
 
-const ItemCard: React.FC<{ type: DeployType }> = (
+const ItemCard: React.FC<{ type: DeployType, disabled?: boolean }> = (
   {
     type,
+    disabled = false
   }
 ) => {
-  const { logo, title, description, handleClick, containerRef } = useItemCard(type)
+  const { logo, title, description, handleClick, containerRef } = useItemCard(type, disabled)
   return (
     <Card ref={containerRef} onClick={handleClick}>
       <Img src={logo} />

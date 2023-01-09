@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import ItemCard from './ItemCard'
 import { DeployType } from '@src/shared/enum/deploy'
+import { useTypeSelector } from './hook'
 
 const Container = styled.div`
   display: flex;
@@ -19,11 +20,14 @@ const Content = styled.div`
 `
 
 const Production: React.FC = () => {
+  const { disabledTrial } = useTypeSelector()
+
   return (
     <Container>
       <Content>
+        <ItemCard type={DeployType.EXPERIENCE} disabled={disabledTrial} />
+        <ItemCard type={DeployType.PLATFORM} />
         <ItemCard type={DeployType.SDK} />
-        <ItemCard type={DeployType.EXPERIENCE} />
       </Content>
     </Container>
   )
