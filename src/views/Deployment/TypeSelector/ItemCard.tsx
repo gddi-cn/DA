@@ -34,12 +34,13 @@ const Card = styled.div`
     }
   }
   * {
-    use-select: none;
+    user-select: none;
   }
 `
 const Img = styled.img`
   width: 100%;
   object-fit: contain;
+  height: 305px;
 `
 
 const Title = styled.h5`
@@ -50,6 +51,7 @@ const Title = styled.h5`
   line-height: 20px;
   color: #3693D1; 
   margin-bottom: 0;
+  text-align: center;
 `
 
 const Desc = styled.p`

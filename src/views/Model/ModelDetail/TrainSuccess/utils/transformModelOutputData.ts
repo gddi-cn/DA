@@ -23,7 +23,7 @@ export const transformModelOutputData = (
   if (modelType === 'classify') {
     const first = data[0]
     if (isArray(first)) {
-      dataSet = (data as any)?.map((dso: any) => {
+      dataSet = ((data as any) || []).map((dso: any) => {
         const [label, , , , , acc] = dso
 
         const color = randomColor({
@@ -131,7 +131,7 @@ export const transformModelOutputData = (
   }
 
   // 默认
-  dataSet = (data as any)?.map((dso: any) => {
+  dataSet = ((data as any) || []).map((dso: any) => {
     const [label, x, y, x1, y1, acc] = dso
     // console.warn(colorMap)
     const color = randomColor({

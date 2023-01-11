@@ -7,3 +7,8 @@ export enum ApplicationScene {
   // 所有类型
   ALL = '-',
 }
+
+export enum ApplicationTemplateType {
+  PUBLIC = 'public',
+  PRIVATE = 'private'
+}

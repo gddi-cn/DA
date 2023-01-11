@@ -1,5 +1,5 @@
 import { DeviceGroup } from '@src/shared/types/deviceGroup'
-import { APIResponse } from '@src/shared/types/api'
+import { APIListResponse, APIResponse } from '@src/shared/types/api'
 import { DeviceRegisterResult } from '@src/shared/types/device'
 import http from '@src/utils/http'
 import { DeviceType } from '@src/shared/enum/device'
@@ -16,6 +16,21 @@ const deviceAPI = {
         formData,
         { params: { group: groupId  }}
       )
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
+  chipTypeList: async (params: Device.Chip.ListParams): Promise<APIListResponse<Device.Chip.Instance>> => {
+    try {
+      const { data } = await http.get('/v3/device/types', { params })
       return {
         success: true,
         data,

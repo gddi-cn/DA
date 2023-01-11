@@ -1,8 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Footer from './Footer'
 import TaskStep from '@views/container/TaskStepLayout/TaskStep'
+import Step from './Step'
+import Footer from './Footer'
+
+import SelectApp from './SelectApp'
+import SecondLayout from './SecondLayout'
+import Notify from './Notify'
+
+import { usePlatform } from './hook'
 
 const Container = styled.div`
   display: flex;
@@ -20,14 +27,40 @@ const Content = styled.div`
   padding-top: 60px;
 `
 
+const Wrap = styled.div`
+  flex: 1;
+  overflow: hidden;
+  padding-bottom: 20px;
+`
+
 const Platform: React.FC = () => {
+  const { showSelectApp, showConfig, showSelectDevice, showContent } = usePlatform()
+
   return (
     <Container>
       <TaskStep />
-      <Content>
-        123
-      </Content>
-      <Footer />
+      {
+        showContent ? (
+          <>
+            <Content>
+              <Step />
+              <Wrap>
+                {
+                  showSelectApp ? <SelectApp /> : null
+                }
+                {
+                  showConfig || showSelectDevice ? (
+                    <SecondLayout />
+                  ) : null
+                }
+              </Wrap>
+            </Content>
+            <Footer />
+          </>
+        ) : (
+          <Notify />
+        )
+      }
     </Container>
   )
 }
