@@ -12,12 +12,15 @@ import {
   createAppOpenAtom,
   currentStepAtom,
   deviceTypeListAtom,
+  expireAtom,
   fetchingAppListAtom,
-  fetchingDeviceTypeListAtom,
+  fetchingDeviceTypeListAtom, limitAtom,
   modelVersionIdAtom,
   selectDeviceTypeAtom,
   selectedAppAtom,
-  selectedDeviceGroupAtom, selectedDeviceIdListAtom
+  selectedDeviceGroupAtom,
+  selectedDeviceIdListAtom,
+  syncTypeAtom
 } from './store'
 import { Platform } from '@views/Platform/enum'
 import appAPI from '@src/apis/app'
@@ -106,6 +109,10 @@ export const usePlatform = () => {
   const [, setFetchingDeviceTypeList] = useAtom(fetchingDeviceTypeListAtom)
   const [, setSelectedApp] = useAtom(selectedAppAtom)
   const [, setSelectedDeviceGroup] = useAtom(selectedDeviceGroupAtom)
+  const [, setExpire] = useAtom(expireAtom)
+  const [, setLimit] = useAtom(limitAtom)
+  const [, setSyncType] = useAtom(syncTypeAtom)
+  const [, setSelectedDeviceList] = useAtom(selectedDeviceIdListAtom)
 
   const modelVersionId =
     useSelector((state: RootState) => state.tasksSilce.activeTaskInfo?.model?.version_id)
@@ -113,6 +120,7 @@ export const usePlatform = () => {
   const showSelectApp = currentStep === Platform.Step.SELECT_APP
   const showConfig = currentStep === Platform.Step.CONFIG
   const showSelectDevice = currentStep === Platform.Step.SELECT_DEVICE
+  const showSync = currentStep === Platform.Step.SYNC
   const showContent = currentStep !== Platform.Step.NOTIFY
 
   const resetStore = () => {
@@ -126,6 +134,10 @@ export const usePlatform = () => {
     setCreateAppOpen(false)
     setSelectedApp(undefined)
     setSelectedDeviceGroup(null)
+    setExpire(-1)
+    setLimit(-1)
+    setSyncType('sync')
+    setSelectedDeviceList([])
     setFetchingDeviceTypeList(false)
     setFetchingAppList(false)
   }
@@ -148,6 +160,7 @@ export const usePlatform = () => {
     showSelectApp,
     showConfig,
     showSelectDevice,
+    showSync,
     showContent,
   }
 }
@@ -158,6 +171,8 @@ export const useStep = () => {
   const configRef = React.useRef<HTMLDivElement | null>(null)
   const secondArrowRef = React.useRef<HTMLDivElement | null>(null)
   const selectDeviceRef = React.useRef<HTMLDivElement | null>(null)
+  const thirdArrowRef = React.useRef<HTMLDivElement | null>(null)
+  const syncRef = React.useRef<HTMLDivElement | null>(null)
 
   const [currentStep] = useAtom(currentStepAtom)
 
@@ -170,6 +185,8 @@ export const useStep = () => {
           setInactive(configRef)
           setInactive(secondArrowRef)
           setInactive(selectDeviceRef)
+          setInactive(thirdArrowRef)
+          setInactive(syncRef)
           break
         case Platform.Step.CONFIG:
           setActive(selectAppRef)
@@ -177,6 +194,8 @@ export const useStep = () => {
           setActive(configRef)
           setInactive(secondArrowRef)
           setInactive(selectDeviceRef)
+          setInactive(thirdArrowRef)
+          setInactive(syncRef)
           break
         case Platform.Step.SELECT_DEVICE:
           setActive(selectAppRef)
@@ -184,6 +203,17 @@ export const useStep = () => {
           setActive(configRef)
           setActive(secondArrowRef)
           setActive(selectDeviceRef)
+          setInactive(thirdArrowRef)
+          setInactive(syncRef)
+          break
+        case Platform.Step.SYNC:
+          setActive(selectAppRef)
+          setActive(firstArrowRef)
+          setActive(configRef)
+          setActive(secondArrowRef)
+          setActive(selectDeviceRef)
+          setActive(thirdArrowRef)
+          setActive(syncRef)
           break
         default:
           break
@@ -198,25 +228,32 @@ export const useStep = () => {
     configRef,
     secondArrowRef,
     selectDeviceRef,
+    thirdArrowRef,
+    syncRef,
   }
 }
 
 export const useFooter = () => {
   const [currentStep, setCurrentStep] = useAtom(currentStepAtom)
+  const [syncType] = useAtom(syncTypeAtom)
+  const [expire_seconds] = useAtom(expireAtom)
+  const [limit] = useAtom(limitAtom)
   const [selectedApp] = useAtom(selectedAppAtom)
   const [selectedDeviceIdList] = useAtom(selectedDeviceIdListAtom)
   const [deploying, setDeploying] = React.useState<boolean>(false)
 
   const navigate = useNavigate()
 
-  const nextLabel = currentStep === Platform.Step.SELECT_DEVICE ? '下发部署' : '下一步'
+  const nextLabel = currentStep === Platform.Step.SYNC
+    ? (syncType === 'sync' ? '下发部署' : '导出')
+    : '下一步'
 
   const disabledNext =
     (currentStep === Platform.Step.SELECT_APP && !selectedApp)
   || (currentStep === Platform.Step.SELECT_DEVICE && !selectedDeviceIdList.length)
 
   const loading =
-    (currentStep === Platform.Step.SELECT_DEVICE && deploying)
+    (currentStep === Platform.Step.SYNC && deploying)
 
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
@@ -237,13 +274,41 @@ export const useFooter = () => {
     if (!selectedDeviceIdList?.length) return
     if (!selectedApp?.id) return
 
+    let success = false
+
     setDeploying(true)
-    const { success } = await appAPI.sync(selectedApp.id, { device_ids: selectedDeviceIdList })
+    if (syncType === 'sync') {
+      const res = await appAPI.sync(
+        selectedApp.id,
+        {
+          device_ids: selectedDeviceIdList,
+          expire_seconds,
+          limit,
+        }
+      )
+
+      success = res.success
+    }
+    if (syncType === 'export') {
+      const res = await appAPI.export(
+        selectedApp.id,
+        {
+          device_ids: selectedDeviceIdList,
+          expire_seconds,
+          limit,
+        },
+        (selectedApp.name || 'app') +'.gem'
+      )
+
+      success = res.success
+    }
     setDeploying(false)
 
     if (!success) return
 
-    setCurrentStep(Platform.Step.NOTIFY)
+    if (syncType === 'sync') {
+      setCurrentStep(Platform.Step.NOTIFY)
+    }
   }
 
   const handlePre = () => {
@@ -254,7 +319,7 @@ export const useFooter = () => {
   }
 
   const handleNext = () => {
-    if (currentStep >= Platform.Step.SELECT_DEVICE)
+    if (currentStep >= Platform.Step.SYNC)
       return handleDeploy()
 
     setCurrentStep(currentStep + 1)
