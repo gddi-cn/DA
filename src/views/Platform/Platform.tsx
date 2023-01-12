@@ -7,6 +7,7 @@ import Footer from './Footer'
 
 import SelectApp from './SelectApp'
 import SecondLayout from './SecondLayout'
+import Sync from './Sync'
 import Notify from './Notify'
 
 import { usePlatform } from './hook'
@@ -34,7 +35,7 @@ const Wrap = styled.div`
 `
 
 const Platform: React.FC = () => {
-  const { showSelectApp, showConfig, showSelectDevice, showContent } = usePlatform()
+  const { showSelectApp, showConfig, showSelectDevice, showContent, showSync } = usePlatform()
 
   return (
     <Container>
@@ -52,6 +53,9 @@ const Platform: React.FC = () => {
                   showConfig || showSelectDevice ? (
                     <SecondLayout />
                   ) : null
+                }
+                {
+                  showSync ? <Sync /> : null
                 }
               </Wrap>
             </Content>

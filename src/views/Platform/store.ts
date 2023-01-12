@@ -37,3 +37,9 @@ export const groupDevicePageAtom = atom<number>(1)
 export const groupDevicePageSizeAtom = atom<number>(10)
 
 export const selectedDeviceIdListAtom = atom<Array<GroupDevice['id']>>([])
+
+export const expireAtom = atom<number>(-1)
+
+export const limitAtom = atom<number>(-1)
+
+export const syncTypeAtom = atom<'export' | 'sync'>('sync')

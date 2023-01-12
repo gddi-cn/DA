@@ -97,7 +97,6 @@ export const useSelectDevice = () => {
         setPage(1)
         setPageSize(10)
         setTotal(0)
-        setSelectedDeviceIdList([])
         setLoading(false)
       }
     },

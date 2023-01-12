@@ -3,6 +3,7 @@ export namespace Platform {
     SELECT_APP = 1,
     CONFIG,
     SELECT_DEVICE,
+    SYNC,
     NOTIFY,
   }
 }
