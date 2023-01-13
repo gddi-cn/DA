@@ -75,3 +75,6 @@ export const APP_DEVICE_INDEX = '/app/DeviceIndex'
 
 export const APP_EXPERIENCE = '/app/experience'
 export const APP_PLATFORM = '/app/platform'
+
+// 个人中心
+export const APP_SPACE = '/app/space'

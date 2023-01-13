@@ -1,0 +1,32 @@
+import { useAtom } from 'jotai'
+import { authUserInfoAtom } from '@src/store/user'
+import { useNavigate } from 'react-router-dom'
+import { APP_LOGIN, APP_SPACE } from '@router'
+
+export const useAuthUser = () => {
+  const [authUser] = useAtom(authUserInfoAtom)
+  const navigate = useNavigate()
+
+  const { avatar, username, mobile: _m } = authUser || {}
+
+  const mobile = _m || '请至账户中心填写联系方式'
+
+  const toSpace = () => {
+    navigate({ pathname: APP_SPACE })
+  }
+
+  const logout = () => {
+    localStorage.removeItem('token')
+    navigate({
+      pathname: APP_LOGIN
+    })
+  }
+
+  return {
+    avatar,
+    username,
+    mobile,
+    toSpace,
+    logout,
+  }
+}

@@ -20,7 +20,8 @@ import {
   APP_IncreaseData,
   APP_UNREMARKED_CREATE,
   APP_ORDER_PROCESS,
-  APP_EXPERIENCE, APP_PLATFORM
+  APP_EXPERIENCE,
+  APP_PLATFORM, APP_SPACE
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -82,6 +83,8 @@ const Experience = lazy(() => import('@src/views/Experience'))
 // 平台
 const Platform = lazy(() => import('@src/views/Platform'))
 
+const Space = lazy(() => import('@src/views/Space'))
+
 export default {
   path: '/app',
   strict: true,
@@ -91,10 +94,14 @@ export default {
     {
       element: SuspenseFn(NoScoketLayout),
       children: [
+        // {
+        //   path: APP_DEVICE_INDEX,
+        //   element: SuspenseFn(DeviceIndex),
+        // },
         {
-          path: APP_DEVICE_INDEX,
-          element: SuspenseFn(DeviceIndex),
-        }
+          path: APP_SPACE,
+          element: SuspenseFn(Space),
+        },
       ]
 
     },

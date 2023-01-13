@@ -1,27 +1,31 @@
-
-// import { Redirect } from 'react-router-dom';
+import React from 'react'
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { APP_LOGIN } from '@router'
 import { getUserInfo } from '@reducer/globalSlice'
 
 import Qs from 'qs'
-// import { useSocketSyncUpdate } from '@src/views/ghooks'
-// import { Spin } from 'antd';
 
 import './app.module.less'
-// import api from '../api'
+import { RootState } from '@reducer'
+import { isEmpty } from 'lodash'
+import { useAtom } from 'jotai'
+import { authUserInfoAtom } from '@src/store/user'
 // 可以在这里做登录拦截或者其他
 
 const App = () => {
   const _location = useLocation()
   const disPatch = useDispatch()
+  const [, setUserInfo] = useAtom(authUserInfoAtom)
 
   const isLogin = !!localStorage.getItem('token');
 
   const { pathname, search } = _location
+
+  const userInfo: User.Instance | null =
+    useSelector((state: RootState) => state.globalSlice.userInfo) as User.Instance || null
 
   // const [loading] = useSocketSyncUpdate()
   // useSocketSyncUpdate()
@@ -52,19 +56,13 @@ const App = () => {
     return <Navigate to='/404' />
   }
 
-  // const getView = () => {
-  //   if (loading) {
-  //     return (
-  //       <div className='transition_div'>
-  //         <Spin tip='数据加载中' />
-  //       </div>
-  //     )
-  //   } else {
-  //     return (
-  //       <Outlet />
-  //     )
-  //   }
-  // }
+  React.useEffect(
+    () => {
+      setUserInfo(isEmpty(userInfo) ? null : userInfo)
+    },
+    [userInfo]
+  )
+
   return (
     <div styleName='app'>
 

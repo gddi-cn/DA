@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { APP_GUIDE_PAGE } from '@router'
 import './TaskAndUserInfoHeader.module.less'
 
+import AuthUser from '@src/components/AuthUser'
+
 const TaskAndUserInfoHeader = (): JSX.Element => {
   const naviagte = useNavigate()
 
@@ -26,9 +28,7 @@ const TaskAndUserInfoHeader = (): JSX.Element => {
       <div className='user_wrap '>
         <FindModels />
       </div>
-      <div className='user_wrap '>
-        <UserCenter/>
-      </div>
+      <AuthUser />
     </div>
   )
 }

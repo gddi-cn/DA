@@ -32,6 +32,7 @@ const Wrap = styled.div`
   flex: 1;
   overflow: hidden;
   padding-bottom: 20px;
+  max-height: 970px;
 `
 
 const Platform: React.FC = () => {
