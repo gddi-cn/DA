@@ -74,6 +74,7 @@ const VerticalTabHandle = (props: ModelDetailType.VerticalTabHandleProps): JSX.E
             }
 
             dispatch(setCurrentVersion(data))
+            // dispatch(setAc)
           }
         } catch (e) {
           console.error(e)

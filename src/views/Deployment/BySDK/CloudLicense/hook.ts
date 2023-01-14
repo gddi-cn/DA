@@ -10,13 +10,16 @@ type ModelInfo = {
 }
 
 import { idAtom, versionIdAtom } from './store'
+import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
 
 export const useInit = () => {
   const [, setId] = useAtom(idAtom)
   const [, setVersionId] = useAtom(versionIdAtom)
 
-  const { id, version_id } =
+  const { id } =
     useSelector((state: RootState) => (state.tasksSilce.activeTaskInfo.model) as ModelInfo) || ({} as ModelInfo)
+
+  const [version_id] = useAtom(currentVersionIdAtom)
 
   React.useEffect(
     () => {

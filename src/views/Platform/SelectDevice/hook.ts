@@ -6,6 +6,8 @@ import {
   groupDevicePageAtom,
   groupDevicePageSizeAtom,
   groupDeviceTotalAtom,
+  modelVersionIdAtom,
+  selectedAppAtom,
   selectedDeviceGroupAtom, selectedDeviceIdListAtom
 } from '../store'
 import deviceGroupAPI from '@src/apis/deviceGroups'
@@ -20,11 +22,13 @@ const useRefreshDeviceList = () => {
   const [loading, setLoading] = useAtom(fetchingGroupDeviceAtom)
   const [page] = useAtom(groupDevicePageAtom)
   const [page_size] = useAtom(groupDevicePageSizeAtom)
+  const [selectedApp] = useAtom(selectedAppAtom)
 
   const groupId = selectedGroup?.value
 
   return async () => {
     if (loading) return
+    if (!selectedApp?.id) return
 
     if (!groupId) {
       setGroupDeviceList([])
@@ -40,7 +44,8 @@ const useRefreshDeviceList = () => {
         {
           page,
           page_size,
-          type: DeviceType.EDGE
+          type: DeviceType.EDGE,
+          app_id: selectedApp.id + '',
         }
       )
     setLoading(false)

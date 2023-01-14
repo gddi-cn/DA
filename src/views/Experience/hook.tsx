@@ -20,6 +20,7 @@ import experienceAPI from '@src/apis/experience'
 import { ExperienceState } from '@src/shared/enum/experience'
 import { Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
 
 export const useFooter = () => {
   const navigate = useNavigate()
@@ -84,8 +85,8 @@ export const useExperience = () => {
   const [, setCancelLoading] = useAtom(cancelLoadingAtom)
   const [, setLeftTime] = useAtom(leftTimeAtom)
 
-  const mId =
-    useSelector((state: RootState) => state.tasksSilce.activeTaskInfo?.model?.version_id)
+  const [mId] =
+    useAtom(currentVersionIdAtom)
 
   const refreshDetail = useRefreshDetail()
 

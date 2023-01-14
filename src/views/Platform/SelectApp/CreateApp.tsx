@@ -41,7 +41,6 @@ const CreateApp: React.FC = () => {
     options,
     handleCreate,
     loading,
-    handleDeviceChange,
     templateList,
     advanceTemplateList,
     handleCoverChange,
@@ -90,7 +89,6 @@ const CreateApp: React.FC = () => {
                 <Select
                   options={options}
                   placeholder={'请选择设备类型'}
-                  onChange={handleDeviceChange}
                 />
               </Form.Item>
               <Form.Item

@@ -86,7 +86,23 @@ const appAPI = {
         success: false,
       }
     }
-  }
+  },
+
+  delete: async (
+    appId: App.Instance['id']
+  ): Promise<APIResponse<void>> => {
+    try {
+      await http.delete(`/v3/apps/${appId}`)
+      return {
+        success: true,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false
+      }
+    }
+  },
 }
 
 export default appAPI

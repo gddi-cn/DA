@@ -28,6 +28,7 @@ import deviceAPI from '@src/apis/device'
 import { DeviceType } from '@src/shared/enum/device'
 import http from '@src/utils/http'
 import { ModuleDefinitions, Pipeline } from 'gddi-app-canvas'
+import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
 
 const setActive = (ref: React.MutableRefObject<HTMLDivElement | null>) =>
   ref.current?.setAttribute('active', '')
@@ -114,8 +115,8 @@ export const usePlatform = () => {
   const [, setSyncType] = useAtom(syncTypeAtom)
   const [, setSelectedDeviceList] = useAtom(selectedDeviceIdListAtom)
 
-  const modelVersionId =
-    useSelector((state: RootState) => state.tasksSilce.activeTaskInfo?.model?.version_id)
+  const [modelVersionId] =
+    useAtom(currentVersionIdAtom)
 
   const showSelectApp = currentStep === Platform.Step.SELECT_APP
   const showConfig = currentStep === Platform.Step.CONFIG

@@ -47,6 +47,7 @@ const ModelDetail = (): JSX.Element => {
     }
     return ''
   })
+
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
   })
@@ -100,6 +101,7 @@ const ModelDetail = (): JSX.Element => {
       dispatch(initModelDetialSlice())
     }
   }, [dispatch])
+
   useEffect(() => {
     getModelBaseInfo()
   }, [getModelBaseInfo])
@@ -122,6 +124,7 @@ const ModelDetail = (): JSX.Element => {
       currentVersion?.id, dispatch, model_id
     ]
   )
+
   useEffect(() => {
     initVersionData()
   }, [initVersionData])
