@@ -5,7 +5,7 @@ import { ReactComponent as Bushu } from './icon/bushu.svg'
 import { ReactComponent as Moxing } from './icon/moxing.svg'
 import { ReactComponent as Shuju } from './icon/shuju.svg'
 import { ReactComponent as Arrow } from './icon/arrow.svg'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import TaskNameBar from '../TaskNameBar'
 import ModelIterrator from '../ModelIterrator'
@@ -46,6 +46,7 @@ import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
 import './TaskStep.module.less'
 import { isNil } from 'lodash'
+import ModelVersionSelector from '@src/components/ModelVersionSelector'
 
 const DATASET_ACTIVE = [
   APP_DATA_SET_INDEX,
@@ -83,8 +84,9 @@ const PUBLISH_ACTIVE = [
   APP_PLATFORM,
 ]
 
-const TaskStep = (): JSX.Element => {
+const TaskStep: React.FC = () => {
   const { pathname } = useLocation()
+  const showModelSelector = [APP_SELECT_DEPLOY_TYPE, APP_EXPERIENCE, APP_PLATFORM, APP_SDK_Documents].includes(pathname)
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine
   })
@@ -237,6 +239,11 @@ const TaskStep = (): JSX.Element => {
       </div>
       <div className='right_wrap'>
         <ModelIterrator />
+        {
+          showModelSelector ? (
+            <ModelVersionSelector />
+          ) : null
+        }
       </div>
     </div>
   )

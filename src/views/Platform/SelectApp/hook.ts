@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAtom } from 'jotai'
-import { Form } from 'antd'
+import { Form, MenuProps, message, Modal } from 'antd'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
 
@@ -8,8 +8,9 @@ import {
   appListAtom,
   createAppOpenAtom,
   currentStepAtom,
-  deviceTypeListAtom,
-  modelVersionIdAtom, selectDeviceTypeAtom,
+  deviceTypeListAtom, fetchingAppListAtom,
+  modelVersionIdAtom,
+  selectDeviceTypeAtom,
   selectedAppAtom
 } from '../store'
 import appAPI from '@src/apis/app'
@@ -18,18 +19,6 @@ import { getBase64 } from '@src/utils'
 import s3API from '@src/apis/s3'
 import { Platform } from '@views/Platform/enum'
 import { useRefreshAppList, useRefreshDeviceTypeList } from '@views/Platform/hook'
-
-export const useNoAppList = () => {
-  const [, setOpen] = useAtom(createAppOpenAtom)
-
-  const handleClick = () => {
-    setOpen(true)
-  }
-
-  return {
-    handleClick,
-  }
-}
 
 export const useCreateApp = () => {
   const [form] = Form.useForm<App.CreateForm>()
@@ -55,10 +44,10 @@ export const useCreateApp = () => {
     setOpen(false)
   }
 
-  const handleDeviceChange = async (deviceChipId?: Device.Chip.Instance['key']) => {
+  const fetchTemplateList = async () => {
     form.setFieldValue('app_template_id', undefined)
 
-    if (!deviceChipId || fetchingTemplate) return
+    if (fetchingTemplate) return
 
     setFetchingTemplate(true)
 
@@ -66,7 +55,7 @@ export const useCreateApp = () => {
       page: 1,
       page_size: 999,
       device_type: DeviceType.EDGE,
-      device_type_id: deviceChipId,
+      // device_type_id: deviceChipId,
     })
 
     setFetchingTemplate(false)
@@ -147,6 +136,8 @@ export const useCreateApp = () => {
       if (!open) {
         setTemplateList([])
         setAdvanceTemplateList([])
+      } else {
+        fetchTemplateList()
       }
     },
     [open]
@@ -159,7 +150,6 @@ export const useCreateApp = () => {
     options,
     handleCancel,
     handleCreate,
-    handleDeviceChange,
     templateList,
     advanceTemplateList,
     handleCoverChange,
@@ -173,6 +163,7 @@ export const useSelectApp = () => {
   const [appList] = useAtom(appListAtom)
   const [modelVersionId] = useAtom(modelVersionIdAtom)
   const [selectDeviceType] = useAtom(selectDeviceTypeAtom)
+  const [loading] = useAtom(fetchingAppListAtom)
 
   const showList = appList.length > 0
 
@@ -189,6 +180,7 @@ export const useSelectApp = () => {
 
   return {
     showList,
+    loading,
   }
 }
 
@@ -235,8 +227,45 @@ export const useAppItem = (instance: App.Instance) => {
   const [selectedApp, setSelectedApp] = useAtom(selectedAppAtom)
   const selected = selectedApp?.id === instance.id
 
+  const [deleting, setDeleting] = React.useState<boolean>(false)
+
+  const refresh = useRefreshAppList()
+
+
   const handleClick = () => {
     setSelectedApp(selected ? undefined : instance)
+  }
+
+  const handleDelete = async (e: any) => {
+    e?.domEvent?.stopPropagation()
+    e?.domEvent?.preventDefault()
+
+    const { id } = instance || {}
+    if (!id) return
+
+    if (deleting) return
+
+    Modal.confirm({
+      title: '删除应用',
+      content: '确定要删除该应用吗？',
+      okText: '删除',
+      cancelText: '取消',
+      onOk: async () => {
+        setDeleting(true)
+        const { success } = await appAPI.delete(id) 
+        setDeleting(false)
+
+        if (success) {
+          message.success('删除成功')
+        }
+
+        if (selected) {
+          setSelectedApp(undefined)
+        }
+
+        await refresh()
+      }
+    })
   }
 
   React.useEffect(
@@ -256,5 +285,6 @@ export const useAppItem = (instance: App.Instance) => {
   return {
     containerRef,
     handleClick,
+    handleDelete,
   }
 }

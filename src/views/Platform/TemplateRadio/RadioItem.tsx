@@ -15,7 +15,7 @@ const Container = styled.div`
   position: relative;
   background: #EDF8FF;
   border-radius: 4px;
-  height: 210px;
+  height: 250px;
   overflow: hidden;
   padding: 20px 10px;
   cursor: pointer;

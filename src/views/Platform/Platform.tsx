@@ -17,6 +17,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: calc(100vh - 50px);
+  background-color: #F6F9FB;
 `
 
 const Content = styled.div`

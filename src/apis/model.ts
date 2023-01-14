@@ -118,7 +118,22 @@ const modelAPI = {
         success: false,
       }
     }
-  }
+  },
+
+  versionList: async (id: string): Promise<APIResponse<{ versions: Array<Model.Version> }>> => {
+    try {
+      const { data } = await http.get(`/v2/models/${id}/versions`)
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
 }
 
 export default modelAPI

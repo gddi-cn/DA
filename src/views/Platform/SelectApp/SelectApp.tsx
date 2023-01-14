@@ -30,9 +30,10 @@ import { useSelectApp } from './hook'
 import AppList from './AppList'
 import NoData from './NoData'
 import CreateApp from './CreateApp'
+import { Spin } from 'antd'
 
 const SelectApp: React.FC = () => {
-  const { showList } = useSelectApp()
+  const { showList, loading } = useSelectApp()
 
   return (
     <>
@@ -40,13 +41,15 @@ const SelectApp: React.FC = () => {
         <Left>
           <Sidebar />
         </Left>
-        <ScrollWrap>
-          <Scrollbar autoHide>
-            {
-              showList ? <AppList /> : <NoData />
-            }
-          </Scrollbar>
-        </ScrollWrap>
+          <ScrollWrap>
+            <Scrollbar autoHide>
+              <Spin spinning={loading}>
+              {
+                showList ? <AppList /> : <NoData />
+              }
+              </Spin>
+            </Scrollbar>
+          </ScrollWrap>
         <Right />
       </Container>
       <CreateApp />

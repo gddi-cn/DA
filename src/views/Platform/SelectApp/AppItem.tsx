@@ -5,6 +5,8 @@ import defaultCover from '@src/asset/images/platform/defaultCover.png'
 import { formatUnixDate } from '@src/utils/tools'
 
 import { useAppItem } from './hook'
+import { DeleteOutlined, EllipsisOutlined } from '@ant-design/icons'
+import { Button, Dropdown, MenuProps } from 'antd'
 
 const Card = styled.div`
   background: #fff;
@@ -15,6 +17,7 @@ const Card = styled.div`
   flex-direction: column;
   overflow: hidden;
   cursor: pointer;
+  position: relative;
   transition:
           box-shadow ease-in-out .2s;
   &:not([selected]) {
@@ -46,6 +49,9 @@ const Name = styled.p`
   line-height: 20px;
   color: #2582C1;
   margin: 0 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const Time = styled.p`
@@ -56,8 +62,27 @@ const Time = styled.p`
   color: #2582C1;
 `
 
+const OptionsWrap = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0 10px;
+`
+
 const AppItem: React.FC<App.Instance> = (props) => {
-  const { containerRef, handleClick } = useAppItem(props)
+  const { containerRef, handleClick, handleDelete } = useAppItem(props)
+
+  const items: MenuProps['items'] = [
+    {
+      key: 'delete',
+      label: '删除',
+      icon: <DeleteOutlined />,
+      style: {
+        color: '#FF6177'
+      },
+      onClick: handleDelete
+    }
+  ]
 
   return (
     <Card ref={containerRef} onClick={handleClick}>
@@ -66,6 +91,18 @@ const AppItem: React.FC<App.Instance> = (props) => {
         <Name>{props.name}</Name>
         <Time>{ props.create_time ? formatUnixDate(props.create_time) : '-' }</Time>
       </Meta>
+      <OptionsWrap>
+        <Dropdown menu={{ items }} trigger={['click']}>
+          <a
+            onClick={e => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
+          >
+            <EllipsisOutlined />
+          </a>
+        </Dropdown>
+      </OptionsWrap>
     </Card>
   )
 }
