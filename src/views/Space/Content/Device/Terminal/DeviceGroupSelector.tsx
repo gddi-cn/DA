@@ -54,7 +54,7 @@ const DeviceGroupSelector: React.FC = () => {
       style={{ width: 220, borderRadius: 4 }}
       value={selectedDeviceGroup || undefined}
       showSearch
-      fetchOptions={deviceGroupAPI.fetchDeviceGroupByName}
+      fetchOptions={deviceGroupAPI.fetchTerminalDeviceGroupByName}
       onChange={handleChange}
       onFirstLoad={onFirstLoad}
       getExtendOptions={getExtendOptions}

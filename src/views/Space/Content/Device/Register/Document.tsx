@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import sdk from '@src/asset/images/space/sdk.png'
 import { useDocument } from './hook'
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 
 const CommentWrap = styled.div`
   margin-top: 10px;
@@ -97,7 +97,9 @@ const Document: React.FC = () => {
           docList.map((doc, idx) => (
             <Row key={idx}>
               <RowItem>{doc.name}</RowItem>
-              <RowItem>{doc.adapted_chip}</RowItem>
+              <Tooltip title={doc.adapted_chip}>
+                <RowItem>{doc.adapted_chip}</RowItem>
+              </Tooltip>
               <Button type='link' download href={doc.src} target='_blank' size='small'>查看</Button>
             </Row>
           ))

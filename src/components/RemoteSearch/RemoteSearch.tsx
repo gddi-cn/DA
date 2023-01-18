@@ -9,6 +9,7 @@ export interface DebounceSelectProps<ValueType = any>
   debounceTimeout?: number;
   onFirstLoad?: (options: ValueType[]) => void
   getExtendOptions?: (refresh: () => void) => React.ReactNode;
+  getRefresh?: (refresh: () => void) => void
 }
 
 function RemoteSelect<ValueType extends { key?: string | number; label: React.ReactNode; value: string | number } = any>(
@@ -17,6 +18,7 @@ function RemoteSelect<ValueType extends { key?: string | number; label: React.Re
     debounceTimeout = 400,
     onFirstLoad,
     getExtendOptions,
+    getRefresh,
     ...props
   }: DebounceSelectProps
 ) {
@@ -57,6 +59,15 @@ function RemoteSelect<ValueType extends { key?: string | number; label: React.Re
       setCanSet(false)
     }
   }, [])
+
+  useEffect(
+    () => {
+      if (getRefresh) {
+        getRefresh(() => debounceFetcher(''))
+      }
+    },
+    []
+  )
 
   return (
     <Select<ValueType>

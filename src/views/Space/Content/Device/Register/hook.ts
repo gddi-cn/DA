@@ -87,8 +87,6 @@ export const useDocument = () => {
     const { success,data } = await sdkAPI.documentList({})
     setLoading(false)
 
-    console.log({ data })
-
     if (!success || !data) {
       setDocList([])
       return

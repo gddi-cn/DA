@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { useConfig } from '../hook'
-import GddiFlow from '@views/Deployment/ByPlatform/SetModuleConfig/GddiFlow'
+import GddiFlow from './GddiFlow'
 
 const Container = styled.div`
   height: 100%;

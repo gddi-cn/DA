@@ -17,7 +17,7 @@ import { DeviceRegisterResult } from '@src/shared/types/device'
 import { deviceRegisterResultNameMapping } from '@src/shared/mapping/device'
 import Document from './Document'
 
-const getExtendOptions = (refresh: () => void) => {
+const getExtendOptions = (refresh: () => void, type: DeviceType) => {
   const [name, setName] = React.useState<string>('')
   const [loading, setLoading] = React.useState<boolean>(false)
 
@@ -183,9 +183,13 @@ const Register: React.FC<{ type: DeviceType.TERMINAL | DeviceType.EDGE }> = (
                         <RemoteSearch<DeviceGroupOptions>
                           style={{ width: 436 }}
                           showSearch
-                          fetchOptions={deviceGroupAPI.fetchDeviceGroupByName}
+                          fetchOptions={
+                            type === DeviceType.EDGE
+                              ? deviceGroupAPI.fetchEdgeDeviceGroupByName
+                              : deviceGroupAPI.fetchTerminalDeviceGroupByName
+                          }
                           placeholder={'请选择分组'}
-                          getExtendOptions={getExtendOptions}
+                          getExtendOptions={(r) => getExtendOptions(r, type)}
                         />
                       </Form.Item>
                       <Form.Item

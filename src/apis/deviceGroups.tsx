@@ -50,6 +50,36 @@ const deviceGroupAPI = {
     }
   },
 
+  fetchEdgeDeviceGroupByName: async (name: string): Promise<Array<DeviceGroupOptions>> => {
+    try {
+      const { data, success } = await deviceGroupAPI.list({
+        page: 1,
+        page_size: 10,
+        name,
+        type: DeviceType.EDGE
+      })
+      return success && data?.items ? data.items.map(d => ({ key: d.id, value: d.id, label: getDeviceLabel(d) })) : []
+    } catch (e) {
+      console.error(e)
+        return []
+    }
+  },
+  
+  fetchTerminalDeviceGroupByName: async (name: string): Promise<Array<DeviceGroupOptions>> => {
+    try {
+      const { data, success } = await deviceGroupAPI.list({
+        page: 1,
+        page_size: 10,
+        name,
+        type: DeviceType.TERMINAL
+      })
+      return success && data?.items ? data.items.map(d => ({ key: d.id, value: d.id, label: getDeviceLabel(d) })) : []
+    } catch (e) {
+      console.error(e)
+        return []
+    }
+  },
+
   fetchDeviceGroupByName: async (name: string): Promise<Array<DeviceGroupOptions>> => {
     try {
       const { data, success } = await deviceGroupAPI.list({ page: 1, page_size: 10, name })

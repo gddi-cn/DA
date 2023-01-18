@@ -78,7 +78,7 @@ const DeviceRegister: React.FC = () => {
             <RemoteSearch<DeviceGroupOptions>
               style={{ width: 436 }}
               showSearch
-              fetchOptions={deviceGroupAPI.fetchDeviceGroupByName}
+              fetchOptions={deviceGroupAPI.fetchTerminalDeviceGroupByName}
               placeholder={'请选择分组'}
               getExtendOptions={getExtendOptions}
             />

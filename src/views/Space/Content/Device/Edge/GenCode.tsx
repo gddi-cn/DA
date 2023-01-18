@@ -23,7 +23,7 @@ const getExtendOptions = (refresh: () => void) => {
 
     setLoading(true)
 
-    const { success } = await deviceGroupAPI.create(name, DeviceType.TERMINAL)
+    const { success } = await deviceGroupAPI.create(name, DeviceType.EDGE)
 
     setLoading(false)
 
@@ -138,7 +138,7 @@ const GenCode: React.FC = () => {
                     style={{ width: 436, borderRadius: 4, marginTop: 20 }}
                     value={selectedDeviceGroup || undefined}
                     showSearch
-                    fetchOptions={deviceGroupAPI.fetchDeviceGroupByName}
+                    fetchOptions={deviceGroupAPI.fetchEdgeDeviceGroupByName}
                     onChange={handleChange}
                     onFirstLoad={onFirstLoad}
                     getExtendOptions={getExtendOptions}

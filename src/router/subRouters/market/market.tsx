@@ -63,16 +63,6 @@ const ModelDetail = lazy(() => import('@src/views/Model/ModelDetail'));
 // const SelectDeployType = lazy(() => import('@src/views/Deployment/SelectDeployType'));
 const DeployTypeSelector = lazy(() => import('@src/views/Deployment/TypeSelector'));
 
-const SelectModule = lazy(() => import('@src/views/Deployment/ByPlatform/SelectModule'));
-
-const SetModuleConfig = lazy(() => import('@src/views/Deployment/ByPlatform/SetModuleConfig'));
-
-const ForecastModule = lazy(() => import('@src/views/Deployment/ByPlatform/ForecastModule'));
-
-const SelectDevice = lazy(() => import('@src/views/Deployment/ByPlatform/SelectDevice'));
-
-const AfterDeployed = lazy(() => import('@src/views/Deployment/ByPlatform/AfterDeployed'));
-
 const Documents = lazy(() => import('@src/views/Deployment/BySDK/Documents'));
 
 const DeviceIndex = lazy(() => import('@src/views/Device/DeviceIndex'));
@@ -181,36 +171,6 @@ export default {
             {
               path: APP_SELECT_DEPLOY_TYPE,
               element: SuspenseFn(DeployTypeSelector),
-
-            },
-
-            {
-              path: APP_SelectModule,
-              element: SuspenseFn(SelectModule),
-
-            },
-
-            {
-              path: APP_SetModuleConfig,
-              element: SuspenseFn(SetModuleConfig),
-
-            },
-
-            {
-              path: APP_ForecastModule,
-              element: SuspenseFn(ForecastModule),
-
-            },
-
-            {
-              path: APP_SelectDevice,
-              element: SuspenseFn(SelectDevice),
-
-            },
-
-            {
-              path: APP_AfterDeployed,
-              element: SuspenseFn(AfterDeployed),
 
             },
 

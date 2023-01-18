@@ -186,7 +186,7 @@ export const useMoveDevice = () => {
   const handleMove = () => {
     if (loading) return
     if (!selectedDeviceIdList.length) return
-    if (!sourceGroupId || !targetGroupId) return
+    if ((sourceGroupId !== 0 && !sourceGroupId) || (targetGroupId !== 0 && !targetGroupId)) return
 
     setLoading(true)
     Promise.all(
@@ -249,7 +249,7 @@ export const useCopyDevice = () => {
   const handleCopy = () => {
     if (loading) return
     if (!selectedDeviceIdList.length) return
-    if (!sourceGroupId || !targetGroupId) return
+    if ((sourceGroupId !== 0 && !sourceGroupId) || (targetGroupId !== 0 && !targetGroupId)) return
 
     setLoading(true)
     Promise.all(

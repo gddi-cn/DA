@@ -117,7 +117,7 @@ const MoveDevice: React.FC = () => {
                 style={{ width: '100%', borderRadius: 4 }}
                 value={targetGroupOptions || undefined}
                 showSearch
-                fetchOptions={deviceGroupAPI.fetchDeviceGroupByName}
+                fetchOptions={deviceGroupAPI.fetchTerminalDeviceGroupByName}
                 onChange={handleChange}
                 onFirstLoad={onFirstLoad}
                 getExtendOptions={getExtendOptions}

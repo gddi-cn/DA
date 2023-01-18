@@ -8,7 +8,7 @@ import {
   terminalNameAtom,
   terminalPageAtom,
   terminalPageSizeAtom,
-  terminalTotalAtom
+  terminalTotalAtom,
 } from '@views/Space/Content/Device/store'
 import deviceGroupAPI from '@src/apis/deviceGroups'
 import React from 'react'
@@ -186,7 +186,7 @@ export const useMoveDevice = () => {
   const handleMove = () => {
     if (loading) return
     if (!selectedDeviceIdList.length) return
-    if (!sourceGroupId || !targetGroupId) return
+    if ((sourceGroupId !== 0 && !sourceGroupId) || (targetGroupId !== 0 && !targetGroupId)) return
 
     setLoading(true)
     Promise.all(
@@ -199,6 +199,7 @@ export const useMoveDevice = () => {
       if (success) {
         message.success('移动成功')
       }
+
 
       refresh()
     })
@@ -249,7 +250,7 @@ export const useCopyDevice = () => {
   const handleCopy = () => {
     if (loading) return
     if (!selectedDeviceIdList.length) return
-    if (!sourceGroupId || !targetGroupId) return
+    if ((sourceGroupId !== 0 && !sourceGroupId) || (targetGroupId !== 0 && !targetGroupId)) return
 
     setLoading(true)
     Promise.all(

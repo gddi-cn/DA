@@ -1,107 +1,85 @@
-import { GIconInput } from '@src/UIComponents'
-import { useDeferredValue, useState } from 'react'
+import React from 'react'
+import styled from 'styled-components'
+import { Button, Tooltip } from 'antd'
 
-import './SDKDocuments.module.less'
+import { useDocument } from './hook'
 
-// const CusRadio = (props:any) => {
-//   const { value, setChipType } = props
+import Container from '../components/Container'
+import NoData from './NoData'
 
-//   const handleSelect = (v:string) => {
-//     setChipType(v)
-//   }
+const ContentWrap = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
-//   const getActiveCls = (v:string) => {
-//     if (v === value) {
-//       return 'item_active'
-//     }
+const DocListWrap = styled.div`
+  margin-top: 16px;
+  width: 900px;
+  max-width: 100%;
+`
 
-//     return ''
-//   }
-//   return (
-//     <div className='CusRdio'>
-//       <div className={`x86_wrap ${getActiveCls('x86')} `} onClick={() => handleSelect('x86')}>X86</div>
-//       <div className={`arm_wrap ${getActiveCls('arm')} `} onClick={() => handleSelect('arm')}>ARM</div>
-//     </div>
-//   )
-// }
+const ListHeader = styled.div`
+  padding: 12px 10px;
+  display: grid;
+  grid-template: 1fr/2fr 2fr 1fr;
+`
 
-const SDK_DOCS = [
-  {
-    name: '华为海思',
-    src: 'https://s3.local.cdn.desauto.net/public/docs/Huawei_hisi.pdf'
-  },
-  {
-    name: '华为昇腾',
-    src: 'https://s3.local.cdn.desauto.net/public/docs/Huawei_ascend.pdf'
-  },
-  {
-    name: '寒武纪',
-    src: 'https://s3.local.cdn.desauto.net/public/docs/Cambricon.pdf'
-  },
+const Row = styled.div`
+  padding: 12px 10px;
+  display: grid;
+  grid-template: 1fr/2fr 2fr 1fr;
+  border-top: 1px solid rgba(98, 176, 229, 0.5);
+`
 
-  {
-    name: '算能SE5',
-    src: 'https://s3.local.cdn.desauto.net/public/docs/SOPHGO_se5.pdf'
-  },
-  {
-    name: '英伟达',
-    src: 'https://s3.local.cdn.desauto.net/public/docs/Nvidia.pdf'
-  },
-  {
-    name: '英特尔',
-    src: 'https://s3.local.cdn.desauto.net/public/docs/Intel.pdf'
-  },
+const HeaderItem = styled.p`
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #061926;
+`
 
-  {
-    name: '瑞芯微',
-    src: 'https://s3.local.cdn.desauto.net/public/docs/Rockchip.pdf'
-  },
-  {
-    name: '星宸',
-    src: 'https://s3.local.cdn.desauto.net/public/docs/Sigmastar.pdf'
-  },
-]
+const RowItem = styled.span`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #606266;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
 
-const SDKDocuments = (): JSX.Element => {
-  // const [chipType, setChipType] = useState('x86')
-
-  const [pdfList, setPdfList] = useState(SDK_DOCS)
-
-  const deferList = useDeferredValue(pdfList)
-
-  const handleSearch = (v: React.ChangeEvent<HTMLInputElement>) => {
-    const value = v.target.value
-    if (value) {
-      const list = SDK_DOCS.filter((o) => o.name.includes(value))
-      setPdfList(list)
-    } else {
-      setPdfList(SDK_DOCS)
-    }
-  }
+const SDKDocuments: React.FC = () => {
+  const { docList, noData } = useDocument()
 
   return (
-    <div styleName='SDKDocuments'>
-      <div className='search_header'>
-        <div className='header_title'>选择芯片下载SDK压缩包</div>
-        <div className='params_select_wrap'>
-          <div className='SDKDocuments_input'><GIconInput placeholder='搜索芯片名称' onChange={handleSearch}></GIconInput></div>
-          {/* <CusRadio value={chipType} setChipType={setChipType}></CusRadio> */}
-        </div>
-      </div>
-      <div className='body_list'>
+    <Container>
+      <ContentWrap>
         {
-          deferList.map((data, index) => {
-            return (
-              <div className='list_item' key={index}>
-                <div className='file_name'>{data.name}</div>
-                <a className='down_load' href={data.src} target='_blank' rel="noreferrer">下载</a>
-              </div>
-            )
-          })
+          noData ? (
+            <NoData />
+          ) : (
+            <DocListWrap>
+              <ListHeader>
+                <HeaderItem>芯片品牌</HeaderItem>
+                <HeaderItem>适配芯片</HeaderItem>
+                <HeaderItem style={{ textAlign: 'center' }}>操作</HeaderItem>
+              </ListHeader>
+              {
+                docList.map((doc, idx) => (
+                  <Row key={idx}>
+                    <RowItem>{doc.name}</RowItem>
+                    <Tooltip placement='topLeft' title={doc.adapted_chip}>
+                      <RowItem>{doc.adapted_chip}</RowItem>
+                    </Tooltip>
+                    <Button type='link' download href={doc.src} target='_blank' size='small'>查看</Button>
+                  </Row>
+                ))
+              }
+            </DocListWrap>
+          )
         }
-
-      </div>
-    </div>
+      </ContentWrap>
+    </Container>
   )
 }
 

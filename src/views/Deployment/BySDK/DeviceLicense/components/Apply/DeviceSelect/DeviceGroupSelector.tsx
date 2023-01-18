@@ -18,7 +18,7 @@ const DeviceGroupSelector: React.FC = () => {
       style={{ width: 180 }}
       value={selectedDeviceGroup || undefined}
       showSearch
-      fetchOptions={deviceGroupAPI.fetchDeviceGroupByName}
+      fetchOptions={deviceGroupAPI.fetchTerminalDeviceGroupByName}
       onChange={(o) => setSelectedDeviceGroup(o)}
       onFirstLoad={onFirstLoad}
     />

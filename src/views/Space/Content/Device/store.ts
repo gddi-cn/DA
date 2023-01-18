@@ -40,4 +40,3 @@ export const selectedEdgeDeviceIdListAtom = atom<Array<GroupDevice['id']>>([])
 export const stepAtom = atom<'device' | 'reg_res'>('device')
 
 export const registerResultAtom = atom<Array<DeviceRegisterResult>>([])
-
