@@ -43,7 +43,10 @@ const BaseForm: React.FC = () => {
         ]}
         tooltip='最多 20 个字符'
       >
-        <Input autoFocus autoComplete='off' />
+        <Input
+          autoFocus autoComplete='off'
+          onBlur={e => form.setFieldValue('name', form.getFieldValue('name')?.trim())}
+        />
       </Form.Item>
       <Form.Item
         name='summary'
@@ -53,7 +56,10 @@ const BaseForm: React.FC = () => {
         ]}
         tooltip='最多 100 个字符'
       >
-        <Input.TextArea autoComplete='off' rows={4} />
+        <Input.TextArea
+          autoComplete='off' rows={4}
+          onBlur={e => form.setFieldValue('summary', form.getFieldValue('summary')?.trim())}
+        />
       </Form.Item>
       <Form.Item
         name={'cover'}

@@ -45,12 +45,12 @@ const DatasetBaseInfoForm = (): JSX.Element => {
   const navigate = useNavigate()
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    if (activePipeLine.APP_LOCAL_FILE_STEP_2) {
-      const FROM_DATA = activePipeLine.APP_LOCAL_FILE_STEP_2
-      form.setFieldsValue(FROM_DATA)
-    }
-  }, [activePipeLine, form])
+  // useEffect(() => {
+  //   if (activePipeLine.APP_LOCAL_FILE_STEP_2) {
+  //     const FROM_DATA = activePipeLine.APP_LOCAL_FILE_STEP_2
+  //     form.setFieldsValue(FROM_DATA)
+  //   }
+  // }, [activePipeLine, form])
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
@@ -108,10 +108,11 @@ const DatasetBaseInfoForm = (): JSX.Element => {
           label="数据名称"
           rules={
             [
-              { required: true }
+              { required: true },
             ]
           }
         >
+          {/* <Input autoComplete='off' /> */}
 
           <AmazingWrap cusTips='最多20个字符' Component={<Input />}/>
         </Form.Item>

@@ -51,7 +51,6 @@ const DeviceGroupSelector: React.FC = () => {
 
   return (
     <RemoteSearch<DeviceGroupOptions>
-      allowClear
       style={{ width: 220, borderRadius: 4 }}
       value={selectedDeviceGroup || undefined}
       showSearch

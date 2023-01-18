@@ -15,7 +15,7 @@ const PreviewImg = styled.img`
   display: block;
   width: 100%;
   height: 100%;
-  object-fix: contain;
+  object-fit: contain;
 `
 
 const maxSize = 2 * 1024 * 1024
@@ -39,18 +39,27 @@ const Requirement: React.FC = () => {
         label=' 需求'
         tooltip='请用一句话描述您的模型/算法需求，如：识别进入区域的人员是否佩戴安全帽'
         rules={[
-          { required: true, message: '请输入数据名称' }
+          { required: true, message: '请填写需求' }
         ]}
       >
-        <Input autoFocus autoComplete='off' />
+        <Input
+          autoFocus autoComplete='off'
+          onBlur={e => form.setFieldValue('demandDescribe', form.getFieldValue('demandDescribe')?.trim())}
+        />
       </Form.Item>
       <Form.Item
         name='scene'
         label='场景'
         required
         tooltip='请描述此数据集应用的场景，比如：工地、办公区、社区'
+        rules={[
+          { required: true, message: '请输入场景' }
+        ]}
       >
-        <Input autoComplete='off' />
+        <Input
+          autoComplete='off'
+          onBlur={e => form.setFieldValue('scene', form.getFieldValue('scene')?.trim())}
+        />
       </Form.Item>
       <Form.Item
         name='examples'

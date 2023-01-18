@@ -13,6 +13,7 @@ import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { RcFile } from "antd/es/upload"
 import {socketPushMsgForProject} from "@ghooks";
 import {SNAPSHOT_KEY_OF_ROUTER} from "@src/constants";
+import { useRefreshTask } from "@src/hooks/task"
 
 const getBase64 = (file: RcFile): Promise<string> =>
 
@@ -149,6 +150,8 @@ export const useFooter = () => {
   const [requirementForm] = useAtom(requirementAtom)
   const [baseFormData, setBaseFormData] = useAtom(baseFormDataAtom)
 
+  const refreshTask = useRefreshTask()
+
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
@@ -170,6 +173,10 @@ export const useFooter = () => {
 
     const { success } =
       await datasetAPI.createUnRemarked(baseFormData, workOrderData, taskId)
+
+      if (success) {
+        await refreshTask()
+      }
 
     setLoading(false)
 
