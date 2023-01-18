@@ -1,8 +1,9 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 import { authUserInfoAtom } from '@src/store/user'
-import { fetchingUsageAtom, usageAtom } from '../store'
+import { fetchingUsageAtom, usageAtom, currentPageAtom } from '../store'
 import userAPI from '@src/apis/user'
+import { Space } from '../enums'
 
 const useGreeting = () => {
   const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
@@ -46,7 +47,7 @@ export const useLeftContent = () => {
 
   return {
     greeting,
-    username: userInfo?.username || '-'
+    username: userInfo?.nick_name || '-'
   }
 }
 
@@ -71,9 +72,16 @@ export const useRefreshUsage = () => {
 }
 
 export const useUsage = () => {
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
+
   const [loading] = useAtom(fetchingUsageAtom)
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom) 
 
   const refresh = useRefreshUsage()
+
+  const handleClick = () => {
+    setCurrentPage(Space.Page.USAGE)
+  }
 
   React.useEffect(
     () => {
@@ -82,8 +90,25 @@ export const useUsage = () => {
     []
   )
 
+  React.useEffect(
+    () => {
+      const $c = containerRef.current
+      if (!$c) return
+
+
+      if (currentPage === Space.Page.USAGE) {
+        $c.setAttribute('selected', '')
+      } else {
+        $c.removeAttribute('selected')
+      }
+    },
+    [currentPage]
+  )
+
   return {
+    containerRef,
     loading,
+    handleClick,
   }
 }
 
@@ -105,4 +130,94 @@ export const useTrainTime = () => {
     tip,
     progress
   }
+}
+
+
+export const useStorage = () => {
+  const [usage] = useAtom(usageAtom)
+
+  const { storage_limited, storage_usage } = usage || { storage_limited: 1, storage_usage: 0 }
+
+  const noLimit = storage_limited === 0
+
+  const progress = noLimit ? 0 : ((storage_usage / storage_limited) * 10000 | 0) / 100
+
+  const used = (storage_usage / 2**30).toFixed(1)
+  const limited = noLimit ? '无限制' : (storage_limited / 2**30).toFixed(1)
+
+  const tip = `${used} / ${limited} GB`
+
+  return {
+    progress,
+    tip,
+  }
+}
+
+export const useAuthModel = () => {
+  const [usage] = useAtom(usageAtom)
+
+  const { authorization_usage: usaged } = usage || { authorization_usage: 0 }
+
+  return {
+    usaged,
+  }
+}
+
+export const useAccount = () => {
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
+
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom) 
+
+  const handleClick = () => {
+    setCurrentPage(Space.Page.ACCOUNT)
+  }
+
+  React.useEffect(
+    () => {
+      const $c = containerRef.current
+      if (!$c) return
+
+      if (currentPage === Space.Page.ACCOUNT) {
+        $c.setAttribute('selected', '')
+      } else {
+        $c.removeAttribute('selected')
+      }
+    },
+    [currentPage]
+  )
+
+  return {
+    handleClick,
+    containerRef,
+  }
+}
+
+export const useDevice = () => {
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
+
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom) 
+
+  const handleClick = () => {
+    setCurrentPage(Space.Page.DEVICE)
+  }
+
+  React.useEffect(
+    () => {
+      const $c = containerRef.current
+      if (!$c) return
+
+      if (currentPage === Space.Page.DEVICE) {
+        $c.setAttribute('selected', '')
+      } else {
+        $c.removeAttribute('selected')
+      }
+    },
+    [currentPage]
+  )
+
+  return {
+    handleClick,
+    containerRef,
+  }
+
 }

@@ -18,14 +18,16 @@ const HoverBtn = styled(Button)<ButtonProps & IHoverBtn>`
   text-align: center;
   outline: none;
   border-radius: ${props => props.br || 4}px;
-  font-size: ${props => props.fz || 14}px;
-  line-height: ${props => props.lh || 20}px;
+  font-size: ${props => props.fz ? props.fz + 'px' : undefined};
+  line-height: ${props => props.lh ? props.lh + 'px' : undefined};
   font-weight: ${props => props.fw || 600};
   font-style: normal;
   font-family: 'PingFang SC',serif;
   width: ${props => props.width ? props.width : undefined};
   color: ${props => props.color || '#000'};
   box-shadow: none;
+  padding-top: 10px;
+  padding-bottom: 32px;
   &:hover {
     color: ${props => props.color || '#000'};
     background-color: ${props => props.bg || '#EDF8FF'};

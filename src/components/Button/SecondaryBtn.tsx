@@ -19,7 +19,7 @@ const SecondaryBtn = styled(Button)<ButtonProps & ISecondaryBtn>`
   border-radius: ${props => props.br || 4}px;
   font-size: ${props => props.fz || 14}px;
   line-height: ${props => props.lh || 20}px;
-  font-weight: ${props => props.fw || 600};
+  font-weight: ${props => props.fw || 500};
   font-style: normal;
   font-family: 'PingFang SC',serif;
   text-align: center;

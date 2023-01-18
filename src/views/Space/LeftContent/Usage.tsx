@@ -6,6 +6,8 @@ import watermark from '@src/asset/images/platform/watermark.png'
 import { useUsage } from './hook'
 
 import TrainTime from './TrainTime'
+import Storage from './Storage'
+import AuthModel from './AuthModel'
 
 const Container = styled.div`
   margin-top: 20px;
@@ -13,6 +15,15 @@ const Container = styled.div`
   border-radius: 4px;
   padding: 20px 10px;
   position: relative;
+  outline: 0px solid #EDF8FF;
+  transition: all ease-in-out 0.2s;
+  &:hover:not([selected]) {
+    cursor: pointer;
+    outline: 1px solid #EDF8FF;
+  }
+  &[selected] {
+    outline: 1px solid #48A2DF;
+  }
 `
 
 const Watermark = styled.img`
@@ -36,18 +47,21 @@ const DataDisplay = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  column-gap: 10px;
+  row-gap: 16px;
 `
 
 const Usage: React.FC = () => {
-  const { loading } = useUsage()
+  const { loading, containerRef, handleClick } = useUsage()
+
   return (
     <Spin spinning={loading}>
-      <Container>
+      <Container ref={containerRef} onClick={handleClick}>
         <Watermark src={watermark} alt={'watermark'} />
         <Title>使用情况</Title>
         <DataDisplay>
           <TrainTime />
+          <Storage />
+          <AuthModel />
         </DataDisplay>
       </Container>
     </Spin>

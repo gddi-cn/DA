@@ -30,7 +30,7 @@ const useRefreshDeviceList = () => {
     if (loading) return
     if (!selectedApp?.id) return
 
-    if (!groupId) {
+    if (!groupId && groupId !== 0) {
       setGroupDeviceList([])
       setGroupDeviceTotal(0)
       setSelectedDeviceIdList([])

@@ -29,3 +29,18 @@ export const downloadBlob = (blob: Blob, fileName: string) => {
   aElement.click();
   URL.revokeObjectURL(href);
 }
+
+export const formatSize = (value?: number): string => {
+  if (!value) return '0 B'
+
+  const uint = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EP']
+
+  let idx = 0
+
+  while (value > 1024 && idx < uint.length - 1) {
+    value = ((value / 102.4) | 0) / 10
+    idx += 1
+  }
+
+  return `${value} ${uint[idx]}`
+}

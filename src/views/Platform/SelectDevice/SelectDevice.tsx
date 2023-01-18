@@ -59,8 +59,13 @@ const SelectDevice: React.FC = () => {
         dataSource={deviceList}
         columns={columns as any}
         rowSelection={{
+          onChange: handleSelectedChange as any,
           columnWidth: 0.5,
-          onChange: handleSelectedChange as any
+          getCheckboxProps(value) {
+            return {
+              disabled: !(value as any).match,
+            }
+          }
         }}
         pagination={{
           current: page,

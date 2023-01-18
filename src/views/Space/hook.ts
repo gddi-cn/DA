@@ -3,6 +3,7 @@ import { useAtom } from 'jotai'
 import { currentPageAtom, fetchingUsageAtom, usageAtom } from './store'
 
 import { Space } from './enums'
+
 const useResetStore = () => {
   const [, setCurrentPage] = useAtom(currentPageAtom)
   const [, setUsage] = useAtom(usageAtom)

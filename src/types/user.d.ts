@@ -6,6 +6,26 @@ declare namespace User {
     path: string
   }
 
+  interface ChangePwdForm {
+    // 新密码
+    np: string
+    // 旧密码
+    op: string
+    // 确定新密码
+    cp: string
+  }
+
+  interface UpdatePwdData {
+    new_password: string
+    old_password: string
+  }
+
+  interface UpdateData {
+    avatar?: string
+    email?: string
+    nick_name?: string
+  }
+
   interface Role {
     id: number
     menus: Array<Menu>
@@ -58,5 +78,24 @@ declare namespace User {
     train_limited: number
     // 训练时长用量(Min)
     train_usage: number
+  }
+
+  namespace Consume {
+    interface Instance {
+      amount: number
+      consume_type: import('@src/shared/enum/user').User.Consume.Type
+      created: number
+      id: string
+      updated: number
+    }
+
+    interface ListParams {
+      consume_type?: import('@src/shared/enum/user').User.Consume.Type
+      page: number
+      page_size: number
+      sort?: 'asc' | 'desc'
+      begin?: number
+      end?: number
+    }
   }
 }

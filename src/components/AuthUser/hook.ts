@@ -7,7 +7,7 @@ export const useAuthUser = () => {
   const [authUser] = useAtom(authUserInfoAtom)
   const navigate = useNavigate()
 
-  const { avatar, username, mobile: _m } = authUser || {}
+  const { avatar, nick_name, mobile: _m } = authUser || {}
 
   const mobile = _m || '请至账户中心填写联系方式'
 
@@ -24,7 +24,7 @@ export const useAuthUser = () => {
 
   return {
     avatar,
-    username,
+    username: nick_name || '-',
     mobile,
     toSpace,
     logout,

@@ -22,6 +22,8 @@ export interface GroupDevice {
   expire: number,
   // ID
   id: number,
+  // 匹配
+  match: boolean;
   // 模型授权状态
   modelAuth: GroupDeviceModelAuthStatus,
   // 名称

@@ -5,12 +5,14 @@ import { useSpace } from './hook'
 import Scrollbar from '@src/components/Scrollbar'
 
 import LeftContent from './LeftContent'
+import MainContent from './Content'
 
 const Container = styled.div`
   height: calc(100vh - 50px);
   background-color: #F6F9FB;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `
 
 const Title = styled.div`
@@ -24,8 +26,17 @@ const Title = styled.div`
   padding: 10px 0;
 `
 
+const ContentWrap = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+`
+
 const Content = styled.div`
   flex: 1;
+  max-width: 1920px;
+  height: 100%;
   display: flex;
   column-gap: 56px;
   padding: 20px 40px;
@@ -39,7 +50,6 @@ const Left = styled.div`
   border-radius: 8px;
   overflow: hidden;
   padding: 16px 0;
-  max-height: 843px;
 `
 
 
@@ -55,14 +65,18 @@ const Space: React.FC = () => {
   return (
     <Container>
       <Title>个人中心</Title>
-      <Content>
-        <Left>
-          <Scrollbar autoHide>
-            <LeftContent />
-          </Scrollbar>
-        </Left>
-        <Right>right</Right>
-      </Content>
+      <ContentWrap>
+        <Content>
+          <Left>
+            <Scrollbar autoHide>
+              <LeftContent />
+            </Scrollbar>
+          </Left>
+          <Right>
+            <MainContent />
+          </Right>
+        </Content>
+      </ContentWrap>
     </Container>
   )
 }

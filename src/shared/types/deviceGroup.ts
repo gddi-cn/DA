@@ -9,6 +9,7 @@ export type DeviceGroup = {
   id: number;
   // 名称
   name: string;
+  online_device_count: number;
   // 设备类型
   type: DeviceType;
   // 更新时间
@@ -19,7 +20,7 @@ export type DeviceGroup = {
 export type DeviceGroupOptions = {
   key: DeviceGroup['id'];
   value: DeviceGroup['id'];
-  label: DeviceGroup['name'];
+  label: React.ReactNode;
 }
 
 export interface DeviceGroupListParams extends APIListParams {

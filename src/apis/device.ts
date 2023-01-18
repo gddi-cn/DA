@@ -14,7 +14,7 @@ const deviceAPI = {
       const { data } = await http.post(
         '/v3/device/offline_register',
         formData,
-        { params: { group: groupId  }}
+        { params: { group: groupId, device_type  }}
       )
       return {
         success: true,
@@ -42,6 +42,21 @@ const deviceAPI = {
       }
     }
   },
+
+  genAuthCode: async (groupId: number): Promise<APIResponse<string>> => {
+    try {
+      const { data } = await http.get('/v3/device/auth_code', { params: { group: groupId } })
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  }
 }
 
 export default deviceAPI

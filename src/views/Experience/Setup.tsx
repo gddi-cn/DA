@@ -25,6 +25,7 @@ const Title = styled.p`
   color: #061926;
   margin: 40px 0 0;
 `
+
 const SetUp: React.FC = () => {
   const { show } = useSetup()
 
