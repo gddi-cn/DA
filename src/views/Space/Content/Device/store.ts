@@ -3,7 +3,7 @@ import { DeviceRegisterResult, GroupDevice } from '@src/shared/types/device'
 import { DeviceType } from '@src/shared/enum/device'
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
 
-export const deviceCurrentTabAtom = atom<DeviceType.TERMINAL | DeviceType.EDGE>(DeviceType.TERMINAL)
+export const deviceCurrentTabAtom = atom<DeviceType.TERMINAL | DeviceType.EDGE>(DeviceType.EDGE)
 
 export const selectedEdgeGroupAtom = atom<DeviceGroupOptions | null>(null)
 

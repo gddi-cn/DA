@@ -48,9 +48,9 @@ const Footer = styled.div`
 `
 
 const DeleteGroup: React.FC = () => {
-  const { open, loading, handleOpen, handleClose, handleDeleteGroup } = useDeleteGroup()
+  const { open, loading, handleOpen, handleClose, handleDeleteGroup, show } = useDeleteGroup()
 
-  return (
+  return show ? (
     <>
       <SecondaryBtn color='error' width={132} onClick={handleOpen}>
         删除分组
@@ -72,7 +72,7 @@ const DeleteGroup: React.FC = () => {
         </Container>
       </Dialog>
     </>
-  )
+  ) : null
 }
 
 export default DeleteGroup

@@ -26,15 +26,15 @@ const Content = styled.div`
 
 const navList =  [
   {
+    label: '应用设备',
+    primaryKey: DeviceType.EDGE,
+    icon: <></>
+  },
+  {
     label: 'SDK 设备',
     primaryKey: DeviceType.TERMINAL,
     icon: <></>,
   },
-  {
-    label: '应用设备',
-    primaryKey: DeviceType.EDGE,
-    icon: <></>
-  }
 ]
 
 const Device: React.FC = () => {
@@ -45,7 +45,7 @@ const Device: React.FC = () => {
       <TabsHeader
         dataList={navList}
         handleChangeTab={handleTabChange}
-        defualtActiveKey={DeviceType.TERMINAL}
+        defualtActiveKey={DeviceType.EDGE}
       />
       <Content ref={contentRef}>
         { showTerminal? <Terminal /> : null }

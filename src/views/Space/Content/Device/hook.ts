@@ -43,7 +43,7 @@ const useResetStore = () => {
   return () => {
     setTLoading(true)
     setELoading(true)
-    setTab(DeviceType.TERMINAL)
+    setTab(DeviceType.EDGE)
     setDeviceGroupId(null)
     setEdgeDeviceGroup(null)
     setTList([])

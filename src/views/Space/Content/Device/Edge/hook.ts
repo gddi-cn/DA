@@ -300,7 +300,7 @@ export const useUnregister = () => {
 
   const handleUnregister = () => {
     if (loading) return
-    if (!groupId) return
+    if (groupId !== 0 && !groupId) return
     if (!selectedDeviceIdList.length) return
 
     setLoading(true)
@@ -331,8 +331,6 @@ export const useDeleteGroup = () => {
   const [open, setOpen] = React.useState<boolean>(false)
   const [loading, setLoading] = React.useState<boolean>(false)
   const [groupOptions, setGroupOptions] = useAtom(selectedEdgeGroupAtom)
-
-  const refresh = useRefreshEdgeDevice()
 
   const groupId = groupOptions?.value
 
@@ -366,6 +364,7 @@ export const useDeleteGroup = () => {
     handleOpen,
     handleClose,
     handleDeleteGroup,
+    show: groupId && groupId !== 0,
   }
 }
 

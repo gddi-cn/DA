@@ -54,7 +54,7 @@ const deviceGroupAPI = {
     try {
       const { data, success } = await deviceGroupAPI.list({
         page: 1,
-        page_size: 10,
+        page_size: 999,
         name,
         type: DeviceType.EDGE
       })
@@ -69,7 +69,7 @@ const deviceGroupAPI = {
     try {
       const { data, success } = await deviceGroupAPI.list({
         page: 1,
-        page_size: 10,
+        page_size: 999,
         name,
         type: DeviceType.TERMINAL
       })
@@ -82,7 +82,7 @@ const deviceGroupAPI = {
 
   fetchDeviceGroupByName: async (name: string): Promise<Array<DeviceGroupOptions>> => {
     try {
-      const { data, success } = await deviceGroupAPI.list({ page: 1, page_size: 10, name })
+      const { data, success } = await deviceGroupAPI.list({ page: 1, page_size: 999, name })
       return success && data?.items ? data.items.map(d => ({ key: d.id, value: d.id, label: getDeviceLabel(d) })) : []
     } catch (e) {
       console.error(e)
