@@ -15,6 +15,8 @@ const AvatarWrap = styled.div`
 
 const Avatar = styled(AntAvatar)<{ bg?: React.CSSProperties['color'], cursor?: React.CSSProperties['cursor'] }>`
   background-color: ${props => props.bg || '#fff'};
+  /* outline: 0.3px solid #86c2eb; */
+  filter: drop-shadow(0 0 1px rgba(38, 114, 165, .5));
   cursor: ${props => props.cursor || 'normal'};
 `
 

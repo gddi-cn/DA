@@ -1,11 +1,17 @@
 import React from 'react'
 
 import { useVersionSelector } from './hook'
-import { Select } from 'antd'
+import { Select as AntSelect } from 'antd'
 import styled from 'styled-components'
 
 const Label = styled.label`
   
+`
+
+const Select = styled(AntSelect)`
+  .ant-select-selector {
+    border-radius: 4px!important;
+  }
 `
 
 const ModelVersionSelector: React.FC = () => {
@@ -16,7 +22,7 @@ const ModelVersionSelector: React.FC = () => {
       模型版本：
       <Select
         options={optionsList}
-        onChange={handleChange}
+        onChange={handleChange as any}
         value={currentVersionId}
         style={{ width: 80 }}
       />

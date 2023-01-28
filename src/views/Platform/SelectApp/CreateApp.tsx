@@ -8,6 +8,12 @@ import { useCreateApp } from './hook'
 import TemplateRadio from '../TemplateRadio'
 import Scrollbar from '@src/components/Scrollbar'
 
+const Uploader = styled(Upload.Dragger)`
+  .ant-upload {
+    background-color: #fff;
+  }
+`
+
 const ScrollWrap = styled.div`
   height: calc(80vh - 120px);
   overflow: hidden;
@@ -136,7 +142,7 @@ const CreateApp: React.FC = () => {
                   return e && e.fileList
                 }}
               >
-                <Upload.Dragger
+                <Uploader
                   onChange={handleCoverChange}
                   accept='image/jpg, image/jpeg, image/png'
                   multiple={false} beforeUpload={() => false}
@@ -159,7 +165,7 @@ const CreateApp: React.FC = () => {
                       <PreviewImg src={previewSrc} alt={previewTitle} />
                     )
                   }
-                </Upload.Dragger>
+                </Uploader>
               </Form.Item>
             </Form>
           </Container>

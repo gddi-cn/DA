@@ -9,10 +9,27 @@ const Container = styled.div`
   background-color: #fff;
   overflow: hidden;
   height: 100%;
+  padding: 20px;
 `
 
 const Table = styled(AntTable)`
   height: 100%;
+  .ant-table-cell {
+    background: #fff;
+  }
+  .ant-table-thead>tr>th {
+    border-bottom: 1px solid rgba(98, 176, 229, 0.5);
+  }
+  .ant-table-tbody>tr>td {
+    border-bottom: 1px solid rgba(98, 176, 229, 0.5);
+  }
+  .ant-table-tbody>tr {
+    &:last-of-type {
+      > td {
+        border-bottom: none;
+      }
+    }
+  }
   .ant-spin-nested-loading {
     height: 100%;
 

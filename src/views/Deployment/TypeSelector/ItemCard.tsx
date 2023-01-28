@@ -43,16 +43,6 @@ const Img = styled.img`
   height: 305px;
 `
 
-const Title = styled.h5`
-  margin-top: 10px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 20px;
-  color: #3693D1; 
-  margin-bottom: 0;
-  text-align: center;
-`
 
 const Desc = styled.p`
   margin-top: 20px;
@@ -75,7 +65,7 @@ const ItemCard: React.FC<{ type: DeployType, disabled?: boolean }> = (
   return (
     <Card ref={containerRef} onClick={handleClick}>
       <Img src={logo} />
-      <Title>{title}</Title>
+      {title}
       <Desc>{description}</Desc>
     </Card>
   )

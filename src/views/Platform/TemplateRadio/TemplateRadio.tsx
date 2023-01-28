@@ -38,7 +38,7 @@ const Collapse = styled(AntCollapse)`
       margin-bottom: 12px;
       color: #48A2DF;
       font-weight: 400;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 22px;
     }
   }
@@ -65,7 +65,8 @@ const TemplateRadio: React.FC<TemplateRadioProps> = (
 
   const handleClick = (id: App.Template.Instance['id']) => {
     if (value === id) {
-      onChange && onChange(undefined)
+      // onChange && onChange(undefined)
+      return
     } else {
       onChange && onChange(id)
     }

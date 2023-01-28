@@ -20,7 +20,7 @@ const HoverBtn = styled(Button)<ButtonProps & IHoverBtn>`
   border-radius: ${props => props.br || 4}px;
   font-size: ${props => props.fz ? props.fz + 'px' : undefined};
   line-height: ${props => props.lh ? props.lh + 'px' : undefined};
-  font-weight: ${props => props.fw || 600};
+  font-weight: ${props => props.fw || 400};
   font-style: normal;
   font-family: 'PingFang SC',serif;
   width: ${props => props.width ? props.width : undefined};
@@ -28,13 +28,16 @@ const HoverBtn = styled(Button)<ButtonProps & IHoverBtn>`
   box-shadow: none;
   padding-top: 10px;
   padding-bottom: 32px;
+  transition: all ease-in-out .2s;
   &:hover {
     color: ${props => props.color || '#000'};
+    font-weight: 600;
     background-color: ${props => props.bg || '#EDF8FF'};
     border: none;
   }
   &:focus {
     color: ${props => props.color || '#000'};
+    font-weight: 600;
     border: none;
   }
   &[disabled] {

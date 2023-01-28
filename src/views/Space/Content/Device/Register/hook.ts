@@ -62,6 +62,16 @@ export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
     )
   }
 
+  React.useEffect(
+    () => {
+      if (open) return
+
+      setRes([])
+      setStep('device')
+    },
+    [open]
+  )
+
   return {
     resList,
     open,

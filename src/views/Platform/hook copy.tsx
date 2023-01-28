@@ -30,6 +30,17 @@ import http from '@src/utils/http'
 import { ModuleDefinitions, Pipeline } from 'gddi-app-canvas'
 import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
 
+import { ReactComponent as TemplateActiveIcon } from '@src/asset/icons/platform/template_active.svg'
+import { ReactComponent as NextIcon } from '@src/asset/icons/platform/next.svg'
+import { ReactComponent as NextActiveIcon } from '@src/asset/icons/platform/next_active.svg'
+import { ReactComponent as ConfigIcon } from '@src/asset/icons/platform/config.svg'
+import { ReactComponent as ConfigActiveIcon } from '@src/asset/icons/platform/config_active.svg'
+import { ReactComponent as DeviceIcon } from '@src/asset/icons/platform/device.svg'
+import { ReactComponent as DeviceActiveIcon } from '@src/asset/icons/platform/device_active.svg'
+import { ReactComponent as SyncIcon } from '@src/asset/icons/platform/sync.svg'
+import { ReactComponent as SyncActiveIcon } from '@src/asset/icons/platform/sync_active.svg'
+
+
 const setActive = (ref: React.MutableRefObject<HTMLDivElement | null>) =>
   ref.current?.setAttribute('active', '')
 
@@ -167,70 +178,25 @@ export const usePlatform = () => {
 }
 
 export const useStep = () => {
-  const selectAppRef = React.useRef<HTMLDivElement | null>(null)
-  const firstArrowRef = React.useRef<HTMLDivElement | null>(null)
-  const configRef = React.useRef<HTMLDivElement | null>(null)
-  const secondArrowRef = React.useRef<HTMLDivElement | null>(null)
-  const selectDeviceRef = React.useRef<HTMLDivElement | null>(null)
-  const thirdArrowRef = React.useRef<HTMLDivElement | null>(null)
-  const syncRef = React.useRef<HTMLDivElement | null>(null)
-
   const [currentStep] = useAtom(currentStepAtom)
 
-  React.useEffect(
-    () => {
-      switch (currentStep) {
-        case Platform.Step.SELECT_APP:
-          setActive(selectAppRef)
-          setInactive(firstArrowRef)
-          setInactive(configRef)
-          setInactive(secondArrowRef)
-          setInactive(selectDeviceRef)
-          setInactive(thirdArrowRef)
-          setInactive(syncRef)
-          break
-        case Platform.Step.CONFIG:
-          setActive(selectAppRef)
-          setActive(firstArrowRef)
-          setActive(configRef)
-          setInactive(secondArrowRef)
-          setInactive(selectDeviceRef)
-          setInactive(thirdArrowRef)
-          setInactive(syncRef)
-          break
-        case Platform.Step.SELECT_DEVICE:
-          setActive(selectAppRef)
-          setActive(firstArrowRef)
-          setActive(configRef)
-          setActive(secondArrowRef)
-          setActive(selectDeviceRef)
-          setInactive(thirdArrowRef)
-          setInactive(syncRef)
-          break
-        case Platform.Step.SYNC:
-          setActive(selectAppRef)
-          setActive(firstArrowRef)
-          setActive(configRef)
-          setActive(secondArrowRef)
-          setActive(selectDeviceRef)
-          setActive(thirdArrowRef)
-          setActive(syncRef)
-          break
-        default:
-          break
-      }
-    },
-    [currentStep]
-  )
+  const templateIcon = <TemplateActiveIcon />
+  const configIcon = currentStep >= Platform.Step.CONFIG ? <ConfigActiveIcon /> : <ConfigIcon />
+  const deviceIcon = currentStep >= Platform.Step.SELECT_DEVICE ? <DeviceActiveIcon /> : <DeviceIcon />
+  const syncIcon = currentStep >= Platform.Step.SYNC ? <SyncActiveIcon /> : <SyncIcon />
+  const firstNextIcon = currentStep >= Platform.Step.CONFIG ? <NextActiveIcon /> : <NextIcon />
+  const secondNextIcon = currentStep >= Platform.Step.SELECT_DEVICE ? <NextActiveIcon /> : <NextIcon />
+  const thirdNextIcon = currentStep >= Platform.Step.SYNC ? <NextActiveIcon /> : <NextIcon />
+  
 
   return {
-    selectAppRef,
-    firstArrowRef,
-    configRef,
-    secondArrowRef,
-    selectDeviceRef,
-    thirdArrowRef,
-    syncRef,
+    templateIcon,
+    configIcon,
+    deviceIcon,
+    syncIcon,
+    firstNextIcon,
+    secondNextIcon,
+    thirdNextIcon,
   }
 }
 

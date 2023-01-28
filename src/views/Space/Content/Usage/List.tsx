@@ -104,7 +104,9 @@ const List: React.FC = () => {
                       <Item key={item.id}>
                         <span>{item.created}</span>
                         <span>{item.type}</span>
-                        <span>{item.value}</span>
+                        <span style={{ color: '#FF6177', fontWeight: 700 }}>
+                          {item.value}
+                        </span>
                       </Item>
                     ))
                   }
@@ -119,6 +121,7 @@ const List: React.FC = () => {
                 total={total}
                 showTotal={(t) => `共 ${t} 条记录`}
                 size={'small'}
+                showSizeChanger
               />
             </Footer>
           </>

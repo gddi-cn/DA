@@ -19,12 +19,15 @@ const Card = styled.div`
   cursor: pointer;
   position: relative;
   transition:
-          box-shadow ease-in-out .2s;
+          box-shadow ease-in-out .3s;
   &:not([selected]) {
-    box-shadow: 0 2px 4px rgba(177, 191, 202, 0.36);
+    /* box-shadow: 0 2px 4px rgba(177, 191, 202, 0.36); */
+    /* box-shadow: 0 0 4px #48a2df; */
   }
   &:hover:not([selected]) {
-    box-shadow: 1px 4px 6px rgba(177, 191, 202, 0.36);
+    /* box-shadow: 1px 4px 6px rgba(177, 191, 202, 0.36); */
+    box-shadow: 0 0 4px #48a2df;
+    /* filter: drop-shadow(0 0 4px 0 #48a2df) */
   }
   &[selected] {
     outline: 2px solid #62b0e5;

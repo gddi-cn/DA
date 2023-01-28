@@ -55,6 +55,11 @@ const getExtendOptions = (refresh: () => void, type: DeviceType) => {
   )
 }
 
+const Uploader = styled(Upload.Dragger)`
+  .ant-upload {
+    background-color: #fff;
+  }
+`
 
 const ScrollbarWrap = styled.div`
   height: 800px;
@@ -76,6 +81,7 @@ const Content = styled.div`
 
 const Item = styled.div`
   display: flex;
+  width: 100%;
   margin-bottom: 24px;
   align-items: center;
 `
@@ -213,7 +219,7 @@ const Register: React.FC<{ type: DeviceType.TERMINAL | DeviceType.EDGE }> = (
                           return e && e.fileList
                         }}
                       >
-                        <Upload.Dragger accept={'.gxt'} multiple beforeUpload={() => false}>
+                        <Uploader accept={'.gxt'} multiple beforeUpload={() => false}>
                           <p className="ant-upload-drag-icon">
                             <UploadIcon />
                           </p>
@@ -223,7 +229,7 @@ const Register: React.FC<{ type: DeviceType.TERMINAL | DeviceType.EDGE }> = (
                           <p className="ant-upload-hint">
                             仅支持 gxt 文件
                           </p>
-                        </Upload.Dragger>
+                        </Uploader>
                       </Form.Item>
                     </Form>
                   ) : null

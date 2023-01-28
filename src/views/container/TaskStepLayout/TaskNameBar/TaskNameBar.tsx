@@ -7,6 +7,13 @@ import { isNil } from 'lodash'
 import { modifyActiveTask } from '@reducer/tasksSilce'
 
 import './TaskNameBar.module.less'
+import styled from 'styled-components'
+
+const EditICon = styled(EditOutlined)`
+  path {
+    fill: #62B0E5;
+  }
+`
 
 const TaskNameBar = (): JSX.Element => {
   const task_name = useSelector((state: RootState) => {
@@ -59,7 +66,7 @@ const TaskNameBar = (): JSX.Element => {
   return (
     <div styleName='TaskNameBar'>
       <div className='edit_icon_wrap' >
-        <EditOutlined onClick={handleModifyTaskName} />
+        <EditICon onClick={handleModifyTaskName} />
         <Modal destroyOnClose title="修改训练基础信息" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false} confirmLoading={loading}>
 
           <Input maxLength={20} onChange={handleOnchange} defaultValue={task_name} />
