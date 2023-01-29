@@ -29,7 +29,7 @@ const Card = styled.div`
     img {
       filter: grayscale(80%)!important;
     }
-    * {
+    *:not(div) {
       color: #8C8C8C!important;
     }
   }

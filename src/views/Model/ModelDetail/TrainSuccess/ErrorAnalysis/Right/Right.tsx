@@ -16,7 +16,7 @@ const Container = styled.div`
 const AlbumContainer = styled.div<{ px?: number }>`
   flex: 1;
   overflow: hidden;
-  padding: 24px ${props => props.px || 0}px 0
+  padding: 24px ${props => props.px || 0}px 0;
 `
 
 const Right: React.FC = () => {
