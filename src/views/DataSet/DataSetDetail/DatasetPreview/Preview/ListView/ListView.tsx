@@ -6,6 +6,8 @@ import { isNil } from 'lodash'
 import ListItem from './ListItem'
 import api from '@api'
 import './ListView.module.less'
+import { useAtom } from 'jotai';
+import { keypointOrderAtom } from '../../../store';
 
 export type FectData = {
   isInit?: boolean,

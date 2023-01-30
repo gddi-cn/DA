@@ -121,9 +121,9 @@ export type KeyPointFalseItem = Record<
   Array<{
     box: [number, number, number, number, number];
     keypoint: Array<number>;
-    label: string
+    label: string;
   }>
->
+>;
 
 // 图片分类错误分析图片 meta 数据
 // key: 图片 url
@@ -288,22 +288,22 @@ export type KeyPointLabelFalse = Record<
   Record<
     string,
     {
-      cnt: number,
-      results: KeyPointFalseItem
+      cnt: number;
+      results: KeyPointFalseItem;
     }
   >
->
+>;
 
 // 关键点检测 场景错误分析
 //  - key: 错误标签
 export type KeyPointSceneFalse = Record<
   string,
   {
-    advice: string,
-    results: KeyPointFalseItem,
-    score: number,
+    advice: string;
+    results: KeyPointFalseItem;
+    score: number;
   }
->
+>;
 
 // 目标检测错误分析
 export interface DetectionFalseAnalysis {

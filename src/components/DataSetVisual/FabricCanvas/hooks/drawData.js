@@ -36,8 +36,9 @@ export default function (ctx, data) {
     type, label, points,
     rectData,
     stroke,
-    fill
-
+    fill,
+    line: lineData,
+    circle,
   } = data;
   // const color = randomColor({
   //   seed: label,
@@ -83,6 +84,32 @@ export default function (ctx, data) {
     // 初始化rect
 
     ctx.add(rect);
+  }
+
+  if (type === 'line') {
+    const line = new fabric.Line(lineData, {
+      stroke,
+      strokeWidth:1,
+      opacity: 1,
+      hasControls: false,
+      hasBorders: false,
+      selectable: false,
+      objectCaching: false,
+      transparentCorners: false,
+    })
+    ctx.add(line)
+  }
+
+  if (type === 'circle') {
+    const c = new fabric.Circle({
+      ...circle,
+      hasControls: false,
+      hasBorders: false,
+      selectable: false,
+      objectCaching: false,
+      transparentCorners: false,
+    })
+    ctx.add(c)
   }
 
   // 目前多边形和这折线还没有用的上，搞不好以后也用不上

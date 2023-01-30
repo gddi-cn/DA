@@ -6,6 +6,7 @@ import {
 import { DatasetScene } from "@src/shared/enum/dataset";
 import { ModelFalseType } from "@src/shared/enum/model";
 import { formatFalseAnalysis } from "./utils";
+import { keypointOrderAtom } from "@src/views/DataSet/DataSetDetail/store";
 
 export const modelTypeAtom = atom<DatasetScene | null>(null);
 
@@ -17,10 +18,11 @@ export const falseListAtom = atom<Array<ModelFalseAnalysisItem>>((get) => {
   const scene = get(modelTypeAtom);
   const falseType = get(falseTypeAtom);
   const falseAnalysis = get(falseAnalysisAtom);
+  const orderList = get(keypointOrderAtom)
 
   if (!falseAnalysis || !scene) return [] as Array<ModelFalseAnalysisItem>;
 
-  return formatFalseAnalysis(scene, falseAnalysis, falseType);
+  return formatFalseAnalysis(scene, falseAnalysis, falseType, orderList);
 });
 
 export const selectedItemKeyAtom = atom<string | null>(null);

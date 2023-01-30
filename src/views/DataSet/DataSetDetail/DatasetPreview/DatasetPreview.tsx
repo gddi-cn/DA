@@ -1,33 +1,36 @@
-import TabsHeader from './TabsHeader'
+import TabsHeader from "./TabsHeader";
 // import { useState } from 'react'
-import TabContent from './TabContent'
-import Preview from './Preview'
-import type { SetStateAction, Dispatch } from 'react'
-import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
-import './DatasetPreview.module.less'
+import TabContent from "./TabContent";
+import Preview from "./Preview";
+import type { SetStateAction, Dispatch } from "react";
+import type { Data } from "@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard";
+import "./DatasetPreview.module.less";
 
-type Props={
-  setWhichSet: Dispatch<SetStateAction<any>>,
-  classInfo:any,
-  datasetInfo: Data | null,
-  currentId:any
-}
+type Props = {
+  setWhichSet: Dispatch<SetStateAction<any>>;
+  classInfo: any;
+  datasetInfo: Data | null;
+  currentId: any;
+};
 const DatasetPreview = (props: Props): JSX.Element => {
-  const { setWhichSet, classInfo, datasetInfo, currentId } = props
+  const { setWhichSet, classInfo, datasetInfo, currentId } = props;
 
-  const handleChangeTab = (key:string) => {
-    console.log(key)
-    setWhichSet(key)
-  }
+  const handleChangeTab = (key: string) => {
+    setWhichSet(key);
+  };
 
   return (
-    <div styleName='DatasetPreview'>
-      <TabsHeader handleChangeTab={handleChangeTab}/>
+    <div styleName="DatasetPreview">
+      <TabsHeader handleChangeTab={handleChangeTab} />
       <TabContent>
-        <Preview classInfo={classInfo} datasetInfo={datasetInfo} currentId={currentId} />
+        <Preview
+          classInfo={classInfo}
+          datasetInfo={datasetInfo}
+          currentId={currentId}
+        />
       </TabContent>
     </div>
-  )
-}
+  );
+};
 
-export default DatasetPreview
+export default DatasetPreview;

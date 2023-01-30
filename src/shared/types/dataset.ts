@@ -1,5 +1,23 @@
 import { AnalyzeItem, DatasetDownloadStatus } from '@src/shared/enum/dataset'
 
+interface KeyPoint {
+    joint_weight: number
+    name: string
+    sigmas: number
+    swap: string
+    type: string
+  }
+
+  interface Skeleton {
+    start: string
+    end: string
+  }
+
+  interface Meta {
+    keypoint: Array<KeyPoint>
+    skeleton: Array<Skeleton>
+  }
+
 export interface Dataset {
   cover: string,
   created: number,
@@ -13,6 +31,7 @@ export interface Dataset {
   status: number,
   summary: string,
   is_public:boolean,
+  meta: Meta,
   reason:string,
   train_set: {
     annotation_count: number

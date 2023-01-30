@@ -21,6 +21,7 @@ const sceneImgMapping: Map<DatasetScene, any> = new Map([
   [DatasetScene.PoseDetection, /*        */poseDetection],
   [DatasetScene.CarPoseDetection, /*     */carPose],
   [DatasetScene.KeypointsDetection, /*   */keypointsDetection],
+  [DatasetScene.ImageRetrieval, /*       */classify],
 ])
 
 const Container = styled.div<{ scene: DatasetScene }>`

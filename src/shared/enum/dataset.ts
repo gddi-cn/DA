@@ -25,6 +25,8 @@ export enum DatasetScene {
   KeyPointsBasedAction = 'keypoints_based_action',
   // 关键点检测
   KeypointsDetection = 'keypoint_detection',
+  // 图像检索
+  ImageRetrieval = 'image_retrieval'
 }
 
 export enum ScoreClass {

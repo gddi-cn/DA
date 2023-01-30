@@ -4,6 +4,21 @@ import http from '@src/utils/http'
 import { APIResponse } from '@src/shared/types/api'
 
 const datasetAPI = {
+  detail: async (id: Dataset['id']): Promise<APIResponse<Dataset>> => {
+    try {
+      const { data } = await http.get(`/v3/datasets/${id}`)
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
   applyDownload: async (id: Dataset['id']): Promise<APIResponse<void>> => {
     try {
       await http.post(`/v3/datasets/${id}/download`)

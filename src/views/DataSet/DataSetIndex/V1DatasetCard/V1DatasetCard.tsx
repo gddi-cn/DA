@@ -23,6 +23,7 @@ export type Data = {
   status: number,
   summary: string,
   is_public:boolean,
+  meta: Dataset.Meta,
   reason:string,
   train_set: {
     annotation_count: number

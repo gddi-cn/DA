@@ -125,15 +125,15 @@ const VerticalTabHandle = (
       return <>{TabItem("错误分析", "error_analysis")}</>;
     }
 
-    // if (model_type === 'keypoint_detection') {
-    //   return (
-    //     <>
-    //       {
-    //         TabItem('错误分析', 'error_analysis')
-    //       }
-    //     </>
-    //   )
-    // }
+    if (model_type === 'keypoint_detection') {
+      return (
+        <>
+          {
+            TabItem('错误分析', 'error_analysis')
+          }
+        </>
+      )
+    }
   };
 
   return (

@@ -15,9 +15,6 @@ interface Props {
 const getSrcPosition = (rawMap: RawVideoMapTypeItem[], progress: number): number => {
   const index = rawMap.findIndex((o) => {
     const { weight: [start, end] } = o;
-    console.log(start, 'start')
-    console.log(end, 'end')
-    console.log(progress, 'progress')
     return progress >= start && progress < end
   })
 

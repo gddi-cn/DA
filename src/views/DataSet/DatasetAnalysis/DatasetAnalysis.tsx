@@ -16,7 +16,7 @@ import './DatasetAnalysis.module.less'
 import Details from '@views/DataSet/DatasetAnalysis/Details'
 import { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import { AnalyzeData } from '@src/shared/types/dataset'
-import { AnalyzeItem, DatasetScene } from '@src/shared/enum/dataset'
+import { AnalyzeItem } from '@src/shared/enum/dataset'
 
 const ErrorHelper: React.FC<{msg: string}> = (
   {

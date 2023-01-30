@@ -18,6 +18,7 @@ import { ModelFalseItem, ModelFalseType } from "@src/shared/enum/model";
 import { modelFalseItemNameMapping } from "@src/shared/mapping/model";
 import { DatasetScene } from "@src/shared/enum/dataset";
 import _, { isEmpty } from "lodash";
+import randomColor from "randomcolor";
 
 // 单目连线规则
 const carPoseLinePointArr: Array<[number, number]> = [
@@ -133,6 +134,32 @@ const carPosePoints2Line = (
   return lines;
 };
 
+const keypointPoint2Line = (
+  points: Array<Painter.Point>,
+  color: Painter.Color,
+  orderList?: Array<[number, number]>
+): Array<Painter.Line> => {
+  if (!orderList) return []
+
+  const lineList: Array<Painter.Line> = []
+
+  orderList.forEach(([s_idx, e_idx]) => {
+    const start = points[s_idx]
+    const end = points[e_idx]
+
+    if (!start?.visible || !end?.visible) return
+
+    lineList.push({
+      start,
+      end,
+      color,
+      show: true,
+    })
+  })
+
+  return lineList
+}
+
 const posePoints2Line = (points: Array<Painter.Point>): Array<Painter.Line> => {
   if (points?.length !== 17) return [];
 
@@ -230,7 +257,8 @@ const formatCarPoseData = (
 };
 
 const formatKeyPotintData = (
-  rawData?: KeyPointFalseItem
+  rawData?: KeyPointFalseItem,
+  orderList?: Array<[number, number]>
 ): Array<Painter.ImgMeta> => {
   if (!rawData || isEmpty(rawData)) return [];
 
@@ -240,9 +268,16 @@ const formatKeyPotintData = (
 
     meta.forEach(({ box, label, keypoint }) => {
       const [sx, sy, w, h, prob] = box;
-      // const lineList = carPosePoints2Line(array2PointList(keypoint));
+      const pointList = array2PointList(keypoint)
 
-      // lines.push(...lineList);
+      const color =
+        randomColor({
+          seed: label + '_line',
+          format: 'rgbArray',
+          luminosity: 'bright'
+        }) as any
+
+      lines.push(...keypointPoint2Line(pointList, color, orderList))
 
       bBoxes.push({
         label,
@@ -473,7 +508,8 @@ const formatCarPoseDetection = (
 
 const formatKeyPointDetection = (
   falseAnalysis: KeyPointFalseAnalysis,
-  scene: ModelFalseType
+  scene: ModelFalseType,
+  orderList?: Array<[number, number]>
 ): Array<ModelFalseAnalysisItem> => {
   if (scene === ModelFalseType.SCENE) {
     if (isEmpty(falseAnalysis.scene_false)) return [];
@@ -493,7 +529,7 @@ const formatKeyPointDetection = (
           wrongLabel: "",
           wrongNum: 0,
         },
-        dataList: formatKeyPotintData(value.results),
+        dataList: formatKeyPotintData(value.results, orderList),
       })
     );
   }
@@ -521,7 +557,7 @@ const formatKeyPointDetection = (
           wrongLabel,
           wrongNum,
         },
-        dataList: formatKeyPotintData(data),
+        dataList: formatKeyPotintData(data, orderList),
       };
     }
   );
@@ -529,7 +565,7 @@ const formatKeyPointDetection = (
 
 const formatCityscapesSegment = (
   falseAnalysis: SegmentFalseAnalysis,
-  scene: ModelFalseType
+  scene: ModelFalseType,
 ): Array<ModelFalseAnalysisItem> => {
   if (scene === ModelFalseType.SCENE) {
     if (isEmpty(falseAnalysis.scene_false)) return [];
@@ -644,7 +680,8 @@ const formatPoseDetection = (
 export const formatFalseAnalysis = (
   scene: DatasetScene,
   falseAnalysis: ModelFalseAnalysis,
-  falseType: ModelFalseType
+  falseType: ModelFalseType,
+  orderList?: Array<[number, number]>
 ): Array<ModelFalseAnalysisItem> => {
   switch (scene) {
     case DatasetScene.Detection:
@@ -660,11 +697,11 @@ export const formatFalseAnalysis = (
         falseType
       );
     case DatasetScene.KeypointsDetection:
-      // return formatKeyPointDetection(
-      //   falseAnalysis as KeyPointFalseAnalysis,
-      //   falseType
-      // )
-      return [];
+      return formatKeyPointDetection(
+        falseAnalysis as KeyPointFalseAnalysis,
+        falseType,
+        orderList,
+      )
     case DatasetScene.CityscapesSegment:
       return formatCityscapesSegment(
         falseAnalysis as SegmentFalseAnalysis,

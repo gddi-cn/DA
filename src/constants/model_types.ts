@@ -13,7 +13,7 @@ export const MODEL_TYPES = {
   // monocular_3d_detection: '单目3D检测'
   // [WARNING] 仅在测试环境开放
   keypoint_detection: '关键点检测',
-
+  image_retrieval: '图像检索',
 }
 
 export const THIRD_PARTY_MODEL_TYPES = {
