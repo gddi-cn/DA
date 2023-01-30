@@ -8,6 +8,7 @@ import keypointsBased from './icon/keypoints_based_action.png'
 import keypointsDetection from './icon/keypoints_detection.png'
 import carPose from './icon/car_pose_detection.png'
 import poseDetection from './icon/pose_detection.png'
+import imageRetrieval from './icon/imageRetrieval.png'
 import { sceneNameMapping } from '@src/shared/mapping/dataset'
 
 import { DatasetScene } from '@src/shared/enum/dataset'
@@ -21,7 +22,7 @@ const sceneImgMapping: Map<DatasetScene, any> = new Map([
   [DatasetScene.PoseDetection, /*        */poseDetection],
   [DatasetScene.CarPoseDetection, /*     */carPose],
   [DatasetScene.KeypointsDetection, /*   */keypointsDetection],
-  [DatasetScene.ImageRetrieval, /*       */classify],
+  [DatasetScene.ImageRetrieval, /*       */imageRetrieval],
 ])
 
 const Container = styled.div<{ scene: DatasetScene }>`
