@@ -1,3 +1,4 @@
+import { DatasetScene } from '@src/shared/enum/dataset';
 import { isEmpty, isArray } from 'lodash';
 
 const randomColor = require('randomcolor');
@@ -128,6 +129,13 @@ export const transformModelOutputData = (
     return {
       dataSet
     }
+  }
+
+  if (
+    modelType === DatasetScene.ImageRetrieval ||
+    modelType === DatasetScene.KeypointsDetection
+  ) {
+    return []
   }
 
   // 默认

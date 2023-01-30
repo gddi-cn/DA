@@ -37,15 +37,16 @@ const ListItem = (props: Props): JSX.Element => {
         onClick={() => setvisible(true)}
       >
         <UIDatasetVisual
-          url={thumbnailUrl}
+          url={thumbnailUrl || url}
           zoom={false}
           canvasData={dataSet || []}
           drawCanvasData={
             scenes === "detection" ||
             scenes === "monocular_3d_detection" ||
-            scenes === DatasetScene.KeypointsDetection
+            scenes === DatasetScene.KeypointsDetection ||
+            scenes === DatasetScene.ImageRetrieval
           }
-          hasHtmlTips={scenes === "classify"}
+          hasHtmlTips={scenes === "classify" || scenes === DatasetScene.ImageRetrieval}
         />
       </div>
     );
@@ -82,7 +83,7 @@ const ListItem = (props: Props): JSX.Element => {
             scenes === "monocular_3d_detection" ||
             scenes === DatasetScene.KeypointsDetection
           }
-          hasHtmlTips={scenes === "classify"}
+          hasHtmlTips={scenes === "classify" || scenes === DatasetScene.ImageRetrieval}
         />
       </Modal>
     );

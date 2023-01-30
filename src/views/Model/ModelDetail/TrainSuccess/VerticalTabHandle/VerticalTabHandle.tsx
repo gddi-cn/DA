@@ -9,6 +9,7 @@ import "./VerticalTabHandle.module.less";
 
 // import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useMemo } from "react";
+import { DatasetScene } from "@src/shared/enum/dataset";
 
 const { Option } = Select;
 
@@ -125,7 +126,17 @@ const VerticalTabHandle = (
       return <>{TabItem("错误分析", "error_analysis")}</>;
     }
 
-    if (model_type === 'keypoint_detection') {
+    if (model_type === DatasetScene.KeypointsDetection) {
+      return (
+        <>
+          {
+            TabItem('错误分析', 'error_analysis')
+          }
+        </>
+      )
+    }
+
+    if (model_type === DatasetScene.ImageRetrieval) {
       return (
         <>
           {

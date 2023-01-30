@@ -5,6 +5,8 @@ import {
   ClassifyFalseItem,
   DetectionFalseAnalysis,
   DetectionFalseItem,
+  ImageRetrievalFalseAnalysis,
+  ImageRetrievalFalseItem,
   KeyPointFalseAnalysis,
   KeyPointFalseItem,
   ModelFalseAnalysis,
@@ -223,6 +225,22 @@ const formatClassifyData = (
     };
   });
 };
+
+const formatImageRetrievalData = (
+  rawData?: ImageRetrievalFalseItem
+): Array<Painter.ImgMeta> => {
+  if (!rawData || isEmpty(rawData)) return []
+
+  return Object.entries(rawData).map(([src, { label, score }]) => {
+    return {
+      src,
+      classLabel: {
+        label,
+        prob: score,
+      }
+    }
+  })
+}
 
 const formatCarPoseData = (
   rawData?: CarPoseFalseItem
@@ -448,6 +466,62 @@ const formatClassify = (
     }
   );
 };
+
+const formatImageRetrieval = (
+  falseAnalysis: ImageRetrievalFalseAnalysis,
+  scene: ModelFalseType,
+): Array<ModelFalseAnalysisItem> => {
+  if (scene === ModelFalseType.SCENE) {
+    if (isEmpty(falseAnalysis.scene_false)) return []
+
+    return Object.entries(falseAnalysis.scene_false).map(
+      ([analysisItem, value], idx) => ({
+        uid: `${scene}_${analysisItem}_${idx}`,
+        score: value.score || 0,
+        sceneTip: {
+          label:
+            modelFalseItemNameMapping.get(analysisItem as ModelFalseItem) ||
+            analysisItem,
+          advice: value.advice,
+        },
+        labelTip: {
+          correctLabel: "",
+          wrongLabel: "",
+          wrongNum: 0,
+        },
+        dataList: formatImageRetrievalData(value.results),
+      })
+    )
+  }
+
+  if (isEmpty(falseAnalysis.confusion_matrix)) return []
+
+  return Object.entries(falseAnalysis.confusion_matrix).map(
+    ([correctLabel, value], idx) => {
+      const [{ wrongLabel, wrongNum, data }] = isEmpty(value)
+        ? [{ wrongLabel: "", wrongNum: 0, data: undefined }]
+        : Object.entries(value).map(([wrongLabel, res]) => ({
+            wrongLabel,
+            wrongNum: res.cnt,
+            data: res.results,
+          }));
+      return {
+        uid: `${scene}_${correctLabel}_${wrongLabel}_${idx}`,
+        score: 100 - wrongNum,
+        sceneTip: {
+          label: "",
+          advice: "",
+        },
+        labelTip: {
+          correctLabel,
+          wrongLabel,
+          wrongNum,
+        },
+        dataList: formatImageRetrievalData(data),
+      };
+    }
+  )
+}
 
 const formatCarPoseDetection = (
   falseAnalysis: CarPoseFalseAnalysis,
@@ -691,6 +765,8 @@ export const formatFalseAnalysis = (
       );
     case DatasetScene.Classify:
       return formatClassify(falseAnalysis as ClassifyFalseAnalysis, falseType);
+    case DatasetScene.ImageRetrieval:
+      return formatImageRetrieval(falseAnalysis as ImageRetrievalFalseAnalysis, falseType);
     case DatasetScene.CarPoseDetection:
       return formatCarPoseDetection(
         falseAnalysis as CarPoseFalseAnalysis,

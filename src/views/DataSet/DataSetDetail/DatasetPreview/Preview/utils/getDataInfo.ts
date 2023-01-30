@@ -300,7 +300,7 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
     }
   }
 
-  if (scenes === "classify") {
+  if (scenes === "classify" || scenes === DatasetScene.ImageRetrieval) {
     dataSet = annotations?.map((dso: any) => {
       const label = dso.class;
       const color = randomColor({
@@ -315,7 +315,7 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
         stroke: color,
 
         // labelText: label + (persent === undefined ? '' : '-' + persent)
-        label: label,
+        label
       };
     });
 
@@ -327,13 +327,10 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
         luminosity: "bright",
         alpha: 1,
       });
-      // console.warn(colorMap)
       return {
         fill: transformColor(color, 0.35),
         stroke: color,
-
-        // labelText: label + (persent === undefined ? '' : '-' + persent)
-        label: label,
+        label
       };
     });
   }
@@ -343,7 +340,8 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
       scenes !== "classify" &&
       scenes !== "detection" &&
       scenes !== "monocular_3d_detection" &&
-      scenes !== DatasetScene.KeypointsDetection
+      scenes !== DatasetScene.KeypointsDetection &&
+      scenes !== DatasetScene.ImageRetrieval
     ) {
       return position;
     } else {
@@ -356,7 +354,8 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
       scenes !== "classify" &&
       scenes !== "detection" &&
       scenes !== "monocular_3d_detection" &&
-      scenes !== DatasetScene.KeypointsDetection
+      scenes !== DatasetScene.KeypointsDetection &&
+      scenes !== DatasetScene.ImageRetrieval
     ) {
       return position;
     } else {

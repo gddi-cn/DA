@@ -18,7 +18,7 @@ export type FectData = {
 type RenderViewProps = {
   data: any;
   scenes: string;
-  orderList?: Array<[number, number]>
+  orderList?: Array<[number, number]>;
 };
 type Props = {
   scenes: string;
@@ -34,10 +34,7 @@ const RenderView = (props: RenderViewProps) => {
     return null;
   }
 
-  const {
-    url,
-    rawImgDataSet,
-  } = datainfo;
+  const { url, rawImgDataSet } = datainfo;
 
   if (scenes === "keypoints_based_action") {
     return <FlvMp4 src={url as any} />;
@@ -52,9 +49,10 @@ const RenderView = (props: RenderViewProps) => {
       drawCanvasData={
         scenes === "detection" ||
         scenes === "monocular_3d_detection" ||
-        scenes === DatasetScene.KeypointsDetection
+        scenes === DatasetScene.KeypointsDetection ||
+        scenes === DatasetScene.ImageRetrieval
       }
-      hasHtmlTips={scenes === "classify"}
+      hasHtmlTips={scenes === "classify" || scenes === DatasetScene.ImageRetrieval}
     />
   );
 };
@@ -64,7 +62,7 @@ const SlickView = (props: Props): JSX.Element => {
   const { name } = classInfo || {};
   const [dataList, setDataList] = useState<Array<any>>([]);
   const [total, setTotal] = useState<number>(0);
-  const [orderList] = useAtom(keypointOrderAtom)
+  const [orderList] = useAtom(keypointOrderAtom);
 
   const params = useRef({
     page_size: 10,

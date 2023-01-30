@@ -130,6 +130,11 @@ export type KeyPointFalseItem = Record<
 // value: [分类标签, 置信度]
 export type ClassifyFalseItem = Record<string, [string, number]>;
 
+// 图片检索错误分析图片 meta 数据
+// key: 图片 url
+// value: { label: 标签名称, score: 分数 } 
+export type ImageRetrievalFalseItem = Record<string, { label: string, score: number }>
+
 // 目标检测标签错误分析
 //  - key1: 正确标签
 //  - key2: 错误标签
@@ -305,6 +310,31 @@ export type KeyPointSceneFalse = Record<
   }
 >;
 
+// 图片检索 标签错误分析
+//  - key1: 正确标签
+//  - key2: 错误标签
+export type ImageRetrievalLabelFalse = Record<
+  string,
+  Record<
+    string,
+    {
+      results: ImageRetrievalFalseItem,
+      cnt: number,
+    }
+  >
+>
+
+// 图片检索 场景错误分析
+// - key: 错误标签
+export type ImageRetrievalSceneFalse = Record<
+  string,
+  {
+    advice: string,
+    results: ImageRetrievalFalseItem,
+    score: number,
+  }
+>
+
 // 目标检测错误分析
 export interface DetectionFalseAnalysis {
   confusion_matrix: DetectionLabelFalse;
@@ -341,6 +371,11 @@ export interface ClassifyFalseAnalysis {
   scene_false: ClassifySceneFalse;
 }
 
+export interface ImageRetrievalFalseAnalysis {
+  confusion_matrix: ImageRetrievalLabelFalse
+  scene_false: ImageRetrievalSceneFalse
+}
+
 // 模型错误分析
 export type ModelFalseAnalysis =
   | DetectionFalseAnalysis
@@ -348,7 +383,8 @@ export type ModelFalseAnalysis =
   | PoseFalseAnalysis
   | CarPoseFalseAnalysis
   | KeyPointFalseAnalysis
-  | ClassifyFalseAnalysis;
+  | ClassifyFalseAnalysis
+  | ImageRetrievalFalseAnalysis
 
 export interface ModelFalseAnalysisItem {
   uid: string;
