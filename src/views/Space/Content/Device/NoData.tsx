@@ -38,7 +38,7 @@ const NoData: React.FC = () => {
     <Container>
       <Img src={noDevice} alt={'no device'} />
       <Title>无已注册设备</Title>
-      <Tip>您还没有注册设备，请先点击下方按钮进行注册</Tip>
+      <Tip>您还没有注册设备，请先点击上方按钮进行注册</Tip>
     </Container>
   )
 }

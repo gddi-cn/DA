@@ -9,6 +9,7 @@ import {
   terminalPageAtom,
   terminalPageSizeAtom,
   terminalTotalAtom,
+  terminalGroupRemoteSearchRefAtom,
 } from '@views/Space/Content/Device/store'
 import deviceGroupAPI from '@src/apis/deviceGroups'
 import React from 'react'
@@ -16,12 +17,13 @@ import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
 import { DeviceType } from '@src/shared/enum/device'
 import { GroupDevice } from '@src/shared/types/device'
 import { message } from 'antd'
+import { RemoteSearchRef } from '@src/components/RemoteSearch/RemoteSearch'
 
-const useRefreshTerminalDevice = () => {
+export const useRefreshTerminalDevice = () => {
   const [group] = useAtom(selectedTerminalGroupAtom)
   const [name] = useAtom(terminalNameAtom)
   const [, setList] = useAtom(terminalDeviceListAtom)
-  const [page] = useAtom(terminalPageAtom)
+  const [page, setPage] = useAtom(terminalPageAtom)
   const [page_size] = useAtom(terminalPageSizeAtom)
   const [, setTTotal] = useAtom(terminalTotalAtom)
   const [loading, setLoading] = useAtom(fetchingTerminalAtom)
@@ -29,7 +31,7 @@ const useRefreshTerminalDevice = () => {
 
   const groupId = group?.value
 
-  return async () => {
+  return async (firstPage?: boolean) => {
     if (groupId !== 0 && !groupId)
       return
 
@@ -37,9 +39,10 @@ const useRefreshTerminalDevice = () => {
       return
 
     setLoading(true)
+    firstPage && setPage(1)
     const { success, data } = await deviceGroupAPI.fetchGroupDeviceList(groupId, {
       name,
-      page,
+      page: firstPage ? 1 : page,
       page_size,
       type: DeviceType.TERMINAL,
     })
@@ -78,8 +81,12 @@ export const useTerminal = () => {
   }
 
   React.useEffect(() => {
+    refresh(true)
+  }, [groupId, name, page_size])
+
+  React.useEffect(() => {
     refresh()
-  }, [groupId, name, page, page_size])
+  }, [page])
 
   return {
     page,
@@ -118,6 +125,9 @@ export const useNameFilter = () => {
 
 export const useDeviceGroupSelector = () => {
   const [selectedDeviceGroup, setSelectedDeviceGroup] = useAtom(selectedTerminalGroupAtom)
+  const [, setTerminalGroupSelectorRef] = useAtom(terminalGroupRemoteSearchRefAtom)
+
+  const terminalGroupSelectorRef = React.useRef<RemoteSearchRef>(null)
 
   const onFirstLoad = React.useCallback((o: any[]) => {
     const [defaultGroup] = o.filter(x => x.value === 0)
@@ -128,10 +138,18 @@ export const useDeviceGroupSelector = () => {
     setSelectedDeviceGroup(value || null)
   }
 
+  React.useEffect(() => {
+    setTerminalGroupSelectorRef(terminalGroupSelectorRef)
+    return () => {
+      setTerminalGroupSelectorRef(undefined)
+    }
+  }, [])
+
   return {
     selectedDeviceGroup,
     onFirstLoad,
     handleChange,
+    terminalGroupSelectorRef,
   }
 }
 
@@ -332,6 +350,7 @@ export const useDeleteGroup = () => {
   const [open, setOpen] = React.useState<boolean>(false)
   const [loading, setLoading] = React.useState<boolean>(false)
   const [groupOptions, setGroupOptions] = useAtom(selectedTerminalGroupAtom)
+  const [terminalGroupSelectorRef] = useAtom(terminalGroupRemoteSearchRefAtom)
 
   const groupId = groupOptions?.value
 
@@ -351,6 +370,8 @@ export const useDeleteGroup = () => {
     setLoading(true)
     const { success } = await deviceGroupAPI.delete(groupId)
     setLoading(false)
+
+    terminalGroupSelectorRef?.current?.refresh && terminalGroupSelectorRef.current.refresh()
 
     if (success) {
       message.success('删除成功')

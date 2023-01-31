@@ -47,10 +47,11 @@ const getExtendOptions = (refresh: () => void) => {
 }
 
 const DeviceGroupSelector: React.FC = () => {
-  const { selectedDeviceGroup, onFirstLoad, handleChange } = useDeviceGroupSelector()
+  const { selectedDeviceGroup, onFirstLoad, handleChange, edgeGroupSelectorRef } = useDeviceGroupSelector()
 
   return (
     <RemoteSearch<DeviceGroupOptions>
+      ref={edgeGroupSelectorRef}
       style={{ width: 220, borderRadius: 4 }}
       value={selectedDeviceGroup || undefined}
       showSearch

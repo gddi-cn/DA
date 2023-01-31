@@ -8,7 +8,7 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   column-gap: 20px;
-  align-items: center;
+  align-items: flex-start;
 `
 
 const Label = styled.p`
@@ -34,7 +34,7 @@ const UserName: React.FC = () => {
 
   return (
     <Container>
-      <Label>账户</Label>
+      <Label>用户名</Label>
       <Content>{userInfo?.username || '-'}</Content>
     </Container>
   )

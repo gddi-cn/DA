@@ -2,6 +2,7 @@ import { atom } from 'jotai'
 import { DeviceRegisterResult, GroupDevice } from '@src/shared/types/device'
 import { DeviceType } from '@src/shared/enum/device'
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
+import { RemoteSearchRef } from '@src/components/RemoteSearch/RemoteSearch'
 
 export const deviceCurrentTabAtom = atom<DeviceType.TERMINAL | DeviceType.EDGE>(DeviceType.EDGE)
 
@@ -40,3 +41,12 @@ export const selectedEdgeDeviceIdListAtom = atom<Array<GroupDevice['id']>>([])
 export const stepAtom = atom<'device' | 'reg_res'>('device')
 
 export const registerResultAtom = atom<Array<DeviceRegisterResult>>([])
+
+
+// edge
+export const edgeGroupRemoteSearchRefAtom
+  = atom<React.RefObject<RemoteSearchRef> | undefined>(undefined)
+
+// terminal
+export const terminalGroupRemoteSearchRefAtom =
+  atom<React.RefObject<RemoteSearchRef> | undefined>(undefined)

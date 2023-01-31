@@ -58,12 +58,12 @@ const NickName: React.FC = () => {
 
   return (
     <Container>
-      <Label>用户名</Label>
+      <Label>昵称</Label>
       <Content>
         {
           editing ? (
             <EditWrap>
-              <Input autoFocus placeholder='请输入用户命' value={inputValue} onChange={handleNameChange} />
+              <Input autoFocus placeholder='请输入昵称' value={inputValue} onChange={handleNameChange} />
               <PrimaryBtn loading={loading} onClick={handleUpdate}>确定</PrimaryBtn>
               <SecondaryBtn onClick={handleCancel}>取消</SecondaryBtn>
             </EditWrap>

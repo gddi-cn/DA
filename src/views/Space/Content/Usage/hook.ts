@@ -8,17 +8,24 @@ import { consumeTypeNameMapping } from '@src/shared/mapping/user'
 
 const useRefreshConsume = () => {
   const [consume_type] = useAtom(consumeTypeAtom)
-  const [page] = useAtom(pageAtom)
+  const [page, setPage] = useAtom(pageAtom)
   const [page_size] = useAtom(pageSizeAtom)
   const [loading, setLoading] = useAtom(fetchingAtom)
   const [, setTotal] = useAtom(totalAtom)
   const [, setUsageList] = useAtom(usageListAtom)
 
-  return async () => {
+  return async (firstPage?: boolean) => {
     if (loading) return
 
     setLoading(true)
-    const { success, data } = await userAPI.consumes({ page, page_size, consume_type })
+    firstPage && setPage(1)
+
+    const { success, data } = await userAPI.consumes({
+      page: firstPage ? 1 : page,
+      page_size,
+      consume_type,
+    })
+
     setLoading(false)
 
     if (!success || !data) {
@@ -61,9 +68,16 @@ export const useUsage = () => {
 
   React.useEffect(
     () => {
+      refresh(true)
+    },
+    [consume_type, page_size]
+  )
+
+  React.useEffect(
+    () => {
       refresh()
     },
-    [consume_type, page, page_size]
+    [page]
   )
 
   React.useEffect(() => resetStore, [])

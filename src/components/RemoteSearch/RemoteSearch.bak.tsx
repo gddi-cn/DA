@@ -3,41 +3,30 @@ import { Divider, Select, Spin } from 'antd'
 import { SelectProps } from 'antd/es/select';
 import debounce from 'lodash/debounce';
 
-
-export interface RemoteSearchProps<ValueType = any>
+export interface DebounceSelectProps<ValueType = any>
   extends Omit<SelectProps<ValueType>, 'options' | 'children'> {
   fetchOptions: (search: string) => Promise<ValueType[]>;
   debounceTimeout?: number;
   onFirstLoad?: (options: ValueType[]) => void
   getExtendOptions?: (refresh: () => void) => React.ReactNode;
+  getRefresh?: (refresh: () => void) => void
 }
 
-export interface RemoteSearchRef {
-  refresh(): void
-}
-
-interface ValueType {
-  key?: string | number
-  label: React.ReactNode
-  value: string| number
-}
-
-function RemoteSearchInner<T extends ValueType = any> (
+function RemoteSelect<ValueType extends { key?: string | number; label: React.ReactNode; value: string | number } = any>(
   {
     fetchOptions,
     debounceTimeout = 400,
     onFirstLoad,
     getExtendOptions,
+    getRefresh,
     ...props
-  }: RemoteSearchProps<T>,
-  ref: React.ForwardedRef<RemoteSearchRef>,
+  }: DebounceSelectProps
 ) {
   const initRef = React.useRef<boolean>(false)
   const [fetching, setFetching] = React.useState(false)
   const [options, setOptions] = React.useState<ValueType[]>([])
   const [canSet, setCanSet] = useState<boolean>(true)
   const fetchRef = React.useRef(0)
-
   
   const debounceFetcher = React.useMemo(() => {
     const loadOptions = (value: string) => {
@@ -61,21 +50,6 @@ function RemoteSearchInner<T extends ValueType = any> (
     return debounce(loadOptions, debounceTimeout)
   }, [fetchOptions, debounceTimeout, canSet, onFirstLoad])
 
-  const refresh = () => {
-    fetchOptions('').then(newOptions => {
-      canSet && setOptions(newOptions);
-      canSet && setFetching(false)
-
-      initRef.current || (onFirstLoad && onFirstLoad(newOptions))
-
-      initRef.current = true
-    })
-  }
-
-  React.useImperativeHandle(ref, () => ({
-    refresh,
-  }))
-
   useEffect(() => {
     debounceFetcher('')
   }, [debounceFetcher])
@@ -86,8 +60,17 @@ function RemoteSearchInner<T extends ValueType = any> (
     }
   }, [])
 
+  useEffect(
+    () => {
+      if (getRefresh) {
+        getRefresh(() => debounceFetcher(''))
+      }
+    },
+    []
+  )
+
   return (
-    <Select<T>
+    <Select<ValueType>
       labelInValue
       filterOption={false}
       onSearch={debounceFetcher}
@@ -113,9 +96,4 @@ function RemoteSearchInner<T extends ValueType = any> (
   );
 }
 
-const RemoteSearch = React.forwardRef(RemoteSearchInner) as <T>(
-  props: RemoteSearchProps<T> & { ref?: React.ForwardedRef<RemoteSearchRef> }
-) => ReturnType<typeof RemoteSearchInner>
-
-export default RemoteSearch
-
+export default RemoteSelect

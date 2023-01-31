@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useTerminalList } from './hook'
 import NoData from '../NoData'
 
-import columns from '../columns'
+import columns from './columns'
 
 const Table = styled(AntTable)`
   .ant-table-cell {

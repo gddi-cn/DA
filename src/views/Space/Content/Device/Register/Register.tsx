@@ -27,7 +27,7 @@ const getExtendOptions = (refresh: () => void, type: DeviceType) => {
 
     setLoading(true)
 
-    const { success } = await deviceGroupAPI.create(name, DeviceType.TERMINAL)
+    const { success } = await deviceGroupAPI.create(name, type)
 
     setLoading(false)
 

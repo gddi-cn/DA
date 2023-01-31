@@ -73,7 +73,7 @@ const deviceGroupAPI = {
         name,
         type: DeviceType.TERMINAL
       })
-      return success && data?.items ? data.items.map(d => ({ key: d.id, value: d.id, label: getDeviceLabel(d) })) : []
+      return success && data?.items ? data.items.map(d => ({ key: d.id, value: d.id, label: d.name })) : []
     } catch (e) {
       console.error(e)
         return []

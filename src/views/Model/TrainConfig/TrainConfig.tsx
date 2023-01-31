@@ -8,6 +8,8 @@ import Config from './components/Config'
 import ChipList from './components/ChipList'
 import Footer from './components/Footer'
 
+import { useTrainConfig } from './hook'
+
 const Container = styled.div`
   height: calc(100vh - 100px);
   background-color: #F7F8FA;
@@ -49,6 +51,7 @@ const Right = styled.div`
 `
 
 const TrainConfig: React.FC = () => {
+  useTrainConfig()
   return (
     <Container>
       <Content>

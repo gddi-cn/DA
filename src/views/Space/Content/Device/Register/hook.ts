@@ -6,6 +6,8 @@ import deviceAPI from '@src/apis/device'
 import { stepAtom, registerResultAtom } from '../store'
 import { DeviceType } from '@src/shared/enum/device'
 import sdkAPI from '@src/apis/sdk'
+import { useRefreshTerminalDevice } from '../Terminal/hook'
+import { useRefreshEdgeDevice } from '../Edge/hook'
 
 export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
   const [open, setOpen] = React.useState<boolean>(false)
@@ -15,6 +17,9 @@ export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
   const [loading, setLoading] = React.useState<boolean>(false)
 
   const title = step === 'device' ? '注册设备' : '注册结果'
+
+  const refreshTerminal = useRefreshTerminalDevice()
+  const refreshEdge = useRefreshEdgeDevice()
 
   const handleBack = () => {
     setStep('device')
@@ -41,6 +46,14 @@ export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
     setLoading(true)
     const { success, data } = await deviceAPI.offlineRegister(group.value, formData, type)
     setLoading(false)
+
+    if (type === DeviceType.TERMINAL) {
+      refreshTerminal(true)
+    }
+
+    if (type === DeviceType.EDGE) {
+      refreshEdge(true)
+    }
 
     if (!success) return
 

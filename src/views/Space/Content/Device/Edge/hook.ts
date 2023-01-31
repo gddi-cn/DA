@@ -10,6 +10,7 @@ import { message } from "antd";
 
 import {
   edgeDeviceListAtom,
+  edgeGroupRemoteSearchRefAtom,
   edgeNameAtom,
   edgePageAtom,
   edgePageSizeAtom,
@@ -19,12 +20,13 @@ import {
   selectedEdgeGroupAtom,
 } from "@views/Space/Content/Device/store";
 import deviceAPI from "@src/apis/device";
+import { RemoteSearchRef } from "@src/components/RemoteSearch/RemoteSearch";
 
-const useRefreshEdgeDevice = () => {
+export const useRefreshEdgeDevice = () => {
   const [group] = useAtom(selectedEdgeGroupAtom);
   const [name] = useAtom(edgeNameAtom);
   const [, setList] = useAtom(edgeDeviceListAtom);
-  const [page] = useAtom(edgePageAtom);
+  const [page, setPage] = useAtom(edgePageAtom);
   const [page_size] = useAtom(edgePageSizeAtom);
   const [, setETotal] = useAtom(edgeTotalAtom);
   const [loading, setLoading] = useAtom(fetchingEdgeAtom);
@@ -32,12 +34,13 @@ const useRefreshEdgeDevice = () => {
 
   const groupId = group?.value;
 
-  return async () => {
+  return async (firstPage?: boolean) => {
     if (groupId !== 0 && !groupId) return;
 
     if (loading) return;
 
     setLoading(true);
+    firstPage && setPage(1)
     const { success, data } = await deviceGroupAPI.fetchGroupDeviceList(
       groupId,
       {
@@ -82,8 +85,12 @@ export const useEdge = () => {
   };
 
   React.useEffect(() => {
+    refresh(true);
+  }, [groupId, name, page_size]);
+
+  React.useEffect(() => {
     refresh();
-  }, [groupId, name, page, page_size]);
+  }, [page]);
 
   return {
     page,
@@ -97,8 +104,9 @@ export const useEdge = () => {
 };
 
 export const useNameFilter = () => {
-  const [, setName] = useAtom(edgeNameAtom);
+  const [name, setName] = useAtom(edgeNameAtom);
   const [localName, setLocalName] = React.useState<string>("");
+  const [, setPage] = useAtom(edgePageAtom)
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setLocalName(e.target.value);
@@ -109,6 +117,10 @@ export const useNameFilter = () => {
   React.useEffect(() => {
     debouncedSetName(localName);
   }, [localName]);
+
+  React.useEffect(() => {
+    setPage(1)
+  }, [name])
 
   return {
     name: localName,
@@ -121,6 +133,10 @@ export const useDeviceGroupSelector = () => {
     selectedEdgeGroupAtom
   );
 
+  const [, setEdgeGroupSelectorRef] = useAtom(edgeGroupRemoteSearchRefAtom)
+  const edgeGroupSelectorRef = React.useRef<RemoteSearchRef>(null)
+
+
   const onFirstLoad = React.useCallback((o: any[]) => {
     const [defaultGroup] = o.filter((x) => x.value === 0);
     setSelectedDeviceGroup(defaultGroup || null);
@@ -130,10 +146,21 @@ export const useDeviceGroupSelector = () => {
     setSelectedDeviceGroup(value || null);
   };
 
+  React.useEffect(
+    () => {
+      setEdgeGroupSelectorRef(edgeGroupSelectorRef)
+      return () => {
+        setEdgeGroupSelectorRef(undefined)
+      }
+    },
+    []
+  )
+
   return {
     selectedDeviceGroup,
     onFirstLoad,
     handleChange,
+    edgeGroupSelectorRef,
   };
 };
 
@@ -344,6 +371,7 @@ export const useDeleteGroup = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [groupOptions, setGroupOptions] = useAtom(selectedEdgeGroupAtom);
+  const [edgeGroupSelectorRef] = useAtom(edgeGroupRemoteSearchRefAtom)
 
   const groupId = groupOptions?.value;
 
@@ -363,6 +391,8 @@ export const useDeleteGroup = () => {
     setLoading(true);
     const { success } = await deviceGroupAPI.delete(groupId);
     setLoading(false);
+
+    edgeGroupSelectorRef?.current?.refresh && edgeGroupSelectorRef?.current?.refresh()
 
     if (success) {
       message.success("删除成功");
