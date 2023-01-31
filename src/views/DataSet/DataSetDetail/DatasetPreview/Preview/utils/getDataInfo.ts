@@ -3,8 +3,7 @@ import { isEmpty, isNil } from "lodash";
 import { useEffect, useState } from "react";
 import randomColor from "randomcolor";
 import { DatasetScene } from "@src/shared/enum/dataset";
-import _ from 'lodash'
-import datasetAPI from "@src/apis/dataset";
+import _ from "lodash";
 import { useAtom } from "jotai";
 import { keypointOrderAtom } from "../../../store";
 
@@ -22,7 +21,11 @@ const transformColor = (color: string, alpha: number) => {
 //         width: 0,
 //           height: 0
 
-export const processData = (data: any, scenes: any, orderList?: Array<[number, number]>) => {
+export const processData = (
+  data: any,
+  scenes: any,
+  orderList?: Array<[number, number]>
+) => {
   let iamwantyou: any = {};
   let dataSet: any = [];
   let rawImgDataSet: any = [];
@@ -90,67 +93,68 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
 
       position.forEach((p: any) => {
         const { bbox, keypoints } = p;
-        const pointList = _.chunk(keypoints, 3) as Array<[number, number, number]>
+        const pointList = _.chunk(keypoints, 3) as Array<
+          [number, number, number]
+        >;
 
         pointList.forEach((point) => {
-          const [x, y, v] = point as [number, number, number]
-          if (v < 0) return
+          const [x, y, v] = point as [number, number, number];
+          if (v < 0) return;
 
           rawImgDataSet.push({
-            type: 'circle',
+            type: "circle",
             circle: {
               fill: line_color,
               radius: 4,
               top: y * height - 4,
               left: x * width - 4,
-            }
-          })
+            },
+          });
 
           dataSet.push({
-            type: 'circle',
+            type: "circle",
             circle: {
               fill: line_color,
               radius: 4,
               top: y * th - 4,
               left: x * tw - 4,
-            }
-          })
-        })
+            },
+          });
+        });
+        (orderList || []).forEach(([s_idx, e_idx]) => {
+          const s_point = pointList[s_idx];
+          const e_point = pointList[e_idx];
 
-        ;(orderList || []).forEach(([s_idx, e_idx])=> {
-          const s_point = pointList[s_idx]
-          const e_point = pointList[e_idx]
+          if (s_point?.length !== 3 || e_point?.length !== 3) return;
 
-          if (s_point?.length !== 3 || e_point?.length !== 3) return
-
-          if (s_point[2] < 0 || e_point[2] < 0) return
+          if (s_point[2] < 0 || e_point[2] < 0) return;
 
           const r_line = [
             s_point[0] * width,
             s_point[1] * height,
             e_point[0] * width,
-            e_point[1] * height
-          ]
+            e_point[1] * height,
+          ];
 
           const line = [
             s_point[0] * tw,
             s_point[1] * th,
             e_point[0] * tw,
-            e_point[1] * th 
-          ]
+            e_point[1] * th,
+          ];
 
           rawImgDataSet.push({
-            type: 'line',
+            type: "line",
             stroke: line_color,
             line: r_line,
-          })
+          });
 
           dataSet.push({
-            type: 'line',
+            type: "line",
             stroke: line_color,
             line,
-          })
-        })
+          });
+        });
 
         const [x1, y1, x2, y2] = bbox;
 
@@ -161,16 +165,16 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
             x1 * width,
             y1 * height,
             (x2 - x1) * width,
-            (y2 - y1)* height,
+            (y2 - y1) * height,
           ],
-          label: '',
+          label: "",
           type: "CustomRect",
         });
 
         dataSet.push({
           stroke: box_color,
           rectData: [x1 * tw, y1 * th, (x2 - x1) * tw, (y2 - y1) * th],
-          label: '',
+          label: "",
           type: "CustomRect",
         });
       });
@@ -315,7 +319,7 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
         stroke: color,
 
         // labelText: label + (persent === undefined ? '' : '-' + persent)
-        label
+        label,
       };
     });
 
@@ -330,7 +334,7 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
       return {
         fill: transformColor(color, 0.35),
         stroke: color,
-        label
+        label,
       };
     });
   }
@@ -377,7 +381,7 @@ export const processData = (data: any, scenes: any, orderList?: Array<[number, n
 
 export const useGetDataInfo = (data: any, scenes: any) => {
   const [dataInfo, setDataInfo] = useState<any>({});
-  const [orderList] = useAtom(keypointOrderAtom)
+  const [orderList] = useAtom(keypointOrderAtom);
 
   useEffect(() => {
     try {

@@ -127,23 +127,16 @@ const VerticalTabHandle = (
     }
 
     if (model_type === DatasetScene.KeypointsDetection) {
-      return (
-        <>
-          {
-            TabItem('错误分析', 'error_analysis')
-          }
-        </>
-      )
+      return <>{TabItem("错误分析", "error_analysis")}</>;
     }
 
     if (model_type === DatasetScene.ImageRetrieval) {
       return (
         <>
-          {
-            TabItem('错误分析', 'error_analysis')
-          }
+          {TabItem("错误分析", "error_analysis")}
+          {TabItem("检索图库", "image_retrieval")}
         </>
-      )
+      );
     }
   };
 

@@ -132,8 +132,11 @@ export type ClassifyFalseItem = Record<string, [string, number]>;
 
 // 图片检索错误分析图片 meta 数据
 // key: 图片 url
-// value: { label: 标签名称, score: 分数 } 
-export type ImageRetrievalFalseItem = Record<string, { label: string, score: number }>
+// value: { label: 标签名称, score: 分数 }
+export type ImageRetrievalFalseItem = Record<
+  string,
+  { label: string; score: number }
+>;
 
 // 目标检测标签错误分析
 //  - key1: 正确标签
@@ -318,22 +321,22 @@ export type ImageRetrievalLabelFalse = Record<
   Record<
     string,
     {
-      results: ImageRetrievalFalseItem,
-      cnt: number,
+      results: ImageRetrievalFalseItem;
+      cnt: number;
     }
   >
->
+>;
 
 // 图片检索 场景错误分析
 // - key: 错误标签
 export type ImageRetrievalSceneFalse = Record<
   string,
   {
-    advice: string,
-    results: ImageRetrievalFalseItem,
-    score: number,
+    advice: string;
+    results: ImageRetrievalFalseItem;
+    score: number;
   }
->
+>;
 
 // 目标检测错误分析
 export interface DetectionFalseAnalysis {
@@ -371,9 +374,15 @@ export interface ClassifyFalseAnalysis {
   scene_false: ClassifySceneFalse;
 }
 
+export interface ImageRetrievalBaseData {
+  cnt: number;
+  results: Array<string>;
+}
+
 export interface ImageRetrievalFalseAnalysis {
-  confusion_matrix: ImageRetrievalLabelFalse
-  scene_false: ImageRetrievalSceneFalse
+  base_data_matrix: Record<string, ImageRetrievalBaseData>;
+  confusion_matrix: ImageRetrievalLabelFalse;
+  scene_false: ImageRetrievalSceneFalse;
 }
 
 // 模型错误分析
@@ -384,7 +393,7 @@ export type ModelFalseAnalysis =
   | CarPoseFalseAnalysis
   | KeyPointFalseAnalysis
   | ClassifyFalseAnalysis
-  | ImageRetrievalFalseAnalysis
+  | ImageRetrievalFalseAnalysis;
 
 export interface ModelFalseAnalysisItem {
   uid: string;

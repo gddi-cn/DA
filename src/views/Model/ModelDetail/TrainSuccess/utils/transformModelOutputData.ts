@@ -1,74 +1,105 @@
-import { DatasetScene } from '@src/shared/enum/dataset';
-import { isEmpty, isArray } from 'lodash';
+import { DatasetScene } from "@src/shared/enum/dataset";
+import { isEmpty, isArray } from "lodash";
 
-const randomColor = require('randomcolor');
+const randomColor = require("randomcolor");
 
 const transformColor = (color: string, alpha: number) => {
-  return color.trim().replace(/\s{0,}\d{0,}\.{0,}\d{0,}\)$/, alpha + ')')
-}
+  return color.trim().replace(/\s{0,}\d{0,}\.{0,}\d{0,}\)$/, alpha + ")");
+};
 
-export const transformModelOutputData = (
-  {
-    data, modelType
-  }: {
-      data:any,
-      modelType:string
-  }
-) :any => {
-  let dataSet: any = []
+export const transformModelOutputData = ({
+  data,
+  modelType,
+}: {
+  data: any;
+  modelType: string;
+}): any => {
+  let dataSet: any = [];
 
   if (!data) {
-    return dataSet
+    return dataSet;
   }
 
-  if (modelType === 'classify') {
-    const first = data[0]
+  if (modelType === DatasetScene.ImageRetrieval) {
+    let label = "",
+      score: string | number = "0";
+
+    if (Array.isArray(data)) {
+      const d = (data as Array<{ label: string; score: number }>)[0];
+      if (!d) return;
+      label = d.label || "";
+      score = d.score;
+    } else {
+      const d = data as { label: string; score: number };
+      label = d.label || "";
+      score = d.score;
+    }
+
+    const text = `${label}: ${score}`;
+    const color = randomColor({
+      luminosity: "bright",
+      format: "rgba",
+      alpha: 1,
+      seed: label,
+    });
+
+    dataSet.push({
+      fill: transformColor(color, 0.25),
+      stroke: color,
+      label: text,
+    });
+
+    return { dataSet };
+  }
+
+  if (modelType === "classify") {
+    const first = data[0];
     if (isArray(first)) {
       dataSet = ((data as any) || []).map((dso: any) => {
-        const [label, , , , , acc] = dso
+        const [label, , , , , acc] = dso;
 
         const color = randomColor({
-          luminosity: 'bright',
-          format: 'rgba',
+          luminosity: "bright",
+          format: "rgba",
           alpha: 1, // e.g. 'rgba(9, 1, 107, 0.5)',
-          seed: label
-        })
+          seed: label,
+        });
         // console.warn(colorMap)
         return {
           fill: transformColor(color, 0.25), // 迷一样
           stroke: color,
 
-          label: label + ':' + acc
-        }
+          label: label + ":" + acc,
+        };
       });
     } else {
       dataSet = ([data] as any)?.map((dso: any) => {
-        const [label = '-', acc = '-'] = dso
+        const [label = "-", acc = "-"] = dso;
 
         const color = randomColor({
-          luminosity: 'bright',
-          format: 'rgba',
+          luminosity: "bright",
+          format: "rgba",
           alpha: 1, // e.g. 'rgba(9, 1, 107, 0.5)',
-          seed: label
-        })
+          seed: label,
+        });
         // console.warn(colorMap)
         return {
           fill: transformColor(color, 0.25), // 迷一样
           stroke: color,
 
-          label: label + ':' + acc
-        }
+          label: label + ":" + acc,
+        };
       });
     }
 
     return {
-      dataSet
-    }
+      dataSet,
+    };
   }
 
-  if (modelType === 'monocular_3d_detection') {
+  if (modelType === "monocular_3d_detection") {
     for (let s = 0; s < data.length; s++) {
-      const { positions, label, score } = data[s]
+      const { positions, label, score } = data[s];
       // const absolutionPoints = positions?.map((o: any) => {
       //   const [p1, p2] = o
 
@@ -77,18 +108,19 @@ export const transformModelOutputData = (
       //   }
       // })
       if (isEmpty(positions)) {
-        continue
+        continue;
       }
 
       const absolutionPoints = positions?.map((o: any) => {
-        const [p1, p2] = o
+        const [p1, p2] = o;
 
         return {
-          x: p1, y: p2
-        }
-      })
+          x: p1,
+          y: p2,
+        };
+      });
       // 绝对坐标的8个点
-      const [tp1, tp2, tp3, tp4, tp5, tp6, tp7, tp8] = absolutionPoints
+      const [tp1, tp2, tp3, tp4, tp5, tp6, tp7, tp8] = absolutionPoints;
 
       // 算法那边定的面的顺序
       const tsurfaces = [
@@ -98,14 +130,14 @@ export const transformModelOutputData = (
         [tp8, tp5, tp1, tp4], // end
         [tp8, tp5, tp6, tp7], // top
         [tp6, tp5, tp1, tp2], // left
-      ]
+      ];
 
       const color = randomColor({
         seed: label,
-        format: 'rgba',
-        luminosity: 'bright',
-        alpha: 1
-      })
+        format: "rgba",
+        luminosity: "bright",
+        alpha: 1,
+      });
       for (let i = 0; i < tsurfaces.length; i++) {
         const nData: any = {
           fill: transformColor(color, 0.15), // 迷一样
@@ -114,50 +146,48 @@ export const transformModelOutputData = (
           points: tsurfaces[i],
           // labelText: label + (persent === undefined ? '' : '-' + persent)
 
-          type: 'CustomPolygon'
-        }
+          type: "CustomPolygon",
+        };
         if (i === 3) {
-          nData.label = label + '：' + score
+          nData.label = label + "：" + score;
         }
 
-        dataSet.push(
-          nData
-        )
+        dataSet.push(nData);
       }
     }
 
     return {
-      dataSet
-    }
+      dataSet,
+    };
   }
 
   if (
     modelType === DatasetScene.ImageRetrieval ||
     modelType === DatasetScene.KeypointsDetection
   ) {
-    return []
+    return [];
   }
 
   // 默认
   dataSet = ((data as any) || []).map((dso: any) => {
-    const [label, x, y, x1, y1, acc] = dso
+    const [label, x, y, x1, y1, acc] = dso;
     // console.warn(colorMap)
     const color = randomColor({
-      luminosity: 'bright',
-      format: 'rgba',
+      luminosity: "bright",
+      format: "rgba",
       alpha: 1, // e.g. 'rgba(9, 1, 107, 0.5)',
-      seed: label
-    })
+      seed: label,
+    });
     return {
       fill: transformColor(color, 0.25), // 迷一样
       stroke: color,
       rectData: [x, y, x1 - x, y1 - y],
-      label: label + ' : ' + acc,
-      type: 'CustomRect'
-    }
+      label: label + " : " + acc,
+      type: "CustomRect",
+    };
   });
 
   return {
-    dataSet
-  }
-}
+    dataSet,
+  };
+};
