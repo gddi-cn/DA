@@ -8,6 +8,7 @@ import { modifyActiveTask } from '@reducer/tasksSilce'
 
 import './TaskNameBar.module.less'
 import styled from 'styled-components'
+import { socketPushMsgForProject } from '@src/views/ghooks'
 
 const EditICon = styled(EditOutlined)`
   path {
@@ -26,6 +27,10 @@ const TaskNameBar = (): JSX.Element => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [loading, setLoading] = useState(false)
   const taskName = useRef<undefined|string|null>(undefined)
+  
+  const activePipeLine = useSelector((state: RootState) => {
+    return state.tasksSilce.activePipeLine
+  })
 
   const handleModifyTaskName = () => {
     setIsModalVisible(true)
@@ -43,6 +48,9 @@ const TaskNameBar = (): JSX.Element => {
       //
       try {
         dispatch(modifyActiveTask({ id: reactKey, params: { name: taskName.current } }))
+        activePipeLine && socketPushMsgForProject(activePipeLine, {
+          taskNameChanged: 1,
+        })
         resolve(true)
       } catch (e) {
         reject(e)

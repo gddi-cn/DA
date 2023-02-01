@@ -21,6 +21,9 @@ const AutoMLLayout = (): JSX.Element => {
   const taskList = useSelector((state: RootState) => {
     return state.tasksSilce.taskList
   })
+
+  const activeTaskId = useSelector((state: RootState) => state.tasksSilce.activeTaskInfo?.id)
+
   useEffect(() => {
     if (isEmpty(taskList)) {
       // dispatch(saveActivePipeLine({ active_page: SNAPSHOT_KEY_OF_ROUTER.APP_GUIDE_PAGE }))

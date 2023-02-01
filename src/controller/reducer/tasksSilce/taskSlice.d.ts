@@ -74,6 +74,7 @@ declare namespace TaskSlice {
 
     interface PipeLine extends Partial<PIPELINE> {
         active_page?: Keys,
+        taskNameChanged?: 0 | 1
     }
 
     interface Additional {

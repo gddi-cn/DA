@@ -86,9 +86,11 @@ const DataSetIndex = (): JSX.Element => {
         return
       }
 
-      const name = moment().format('MM-DD') + '/' + selectData.name
+      if (!activePipeLine.taskNameChanged) {
+        const name = moment().format('MM-DD') + '/' + selectData.name
 
-      dispatch(modifyActiveTask({ id: reactKey, params: { name } }))
+        dispatch(modifyActiveTask({ id: reactKey, params: { name } }))
+      }
 
       socketPushMsgForProject(
         activePipeLine, {
