@@ -22,6 +22,10 @@ export const useFooter = () => {
     return state.tasksSilce.activePipeLine || {}
   })
 
+  const taskId = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo?.id
+  })
+
   const disabled = !dataset
   const handleClick = () => {
     if (disabled) return
@@ -34,8 +38,8 @@ export const useFooter = () => {
       description: '训练数据与测试数据标签不一致，请不全数据后再开始训练'
     })
 
-    dispatch(modifyActiveTask({
-      id: dataset.id,
+    taskId && dispatch(modifyActiveTask({
+      id: taskId,
       params: { name: moment().format('MM-DD') + '/' + dataset.name } }
     ))
 
