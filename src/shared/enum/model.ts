@@ -37,3 +37,13 @@ export enum ModelFalseItem {
   // 大姿态比例
   POSE_DIVERSITY = 'pose_diversity'
 }
+
+export namespace Model {
+  export enum TrainStatus {
+    NOT_START = 0,
+    TRAINING = 1,
+    SUCCESS = 2,
+    FAILED = 3,
+    WAITING = 6,
+  }
+}

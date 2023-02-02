@@ -3,9 +3,9 @@ declare namespace Project {
     additional: {
       cover: string
       eta: number
-      model_type: string
+      model_type: import('@shared/enum/dataset').DatasetScene
       platform: string
-      status: number
+      status: import('@shared/enum/model').Model.TrainStatus
     }
     created: number
     dataset: {
