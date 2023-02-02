@@ -71,7 +71,8 @@ function Operation (props: Props): JSX.Element {
 
       socketPushMsgForProject(activePipeLine, {
         active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL,
-        APP_DATASET_DETAIL: { id: data?.id }
+        APP_DATASET_DETAIL: { id: data?.id },
+        APP_DATA_SET_INDEX: data,
       })
     }, [activePipeLine, data, navigate]
   )
