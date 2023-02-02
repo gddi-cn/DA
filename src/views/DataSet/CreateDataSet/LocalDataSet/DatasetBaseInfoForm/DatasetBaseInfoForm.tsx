@@ -45,12 +45,12 @@ const DatasetBaseInfoForm = (): JSX.Element => {
   const navigate = useNavigate()
   const [form] = Form.useForm();
 
-  // useEffect(() => {
-  //   if (activePipeLine.APP_LOCAL_FILE_STEP_2) {
-  //     const FROM_DATA = activePipeLine.APP_LOCAL_FILE_STEP_2
-  //     form.setFieldsValue(FROM_DATA)
-  //   }
-  // }, [activePipeLine, form])
+  useEffect(() => {
+    if (activePipeLine.APP_LOCAL_FILE_STEP_2) {
+      const FROM_DATA = activePipeLine.APP_LOCAL_FILE_STEP_2
+      form.setFieldsValue(FROM_DATA)
+    }
+  }, [])
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
@@ -66,7 +66,8 @@ const DatasetBaseInfoForm = (): JSX.Element => {
     }
 
     const goNext = async () => {
-      const data = await form.validateFields()
+      // const data = await form.validateFields()
+      await form.validateFields()
 
       // 发送socket
       navigate({

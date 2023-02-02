@@ -99,6 +99,8 @@ export default class S3Uploader {
 
   filename: any = ''
 
+  fileSize: number = 0
+
   debounced: any
 
   constructor (config: InitConfig) {
@@ -156,6 +158,7 @@ export default class S3Uploader {
     this.fileHash = await this.fileMd5(Body)
     console.log(this.fileHash, 'this.fileHash')
     this.filename = Body.name
+    this.fileSize = Body.size
 
     // 添加KEY，，然后还给张宇key加个后缀。后面谁维护谁找张宇，别问。
     this.saveParams = { ...params, Key: this.fileHash + new Date().valueOf() + '.' + path.extname(this.filename).substr(1) }
@@ -435,6 +438,7 @@ export default class S3Uploader {
         ...data,
         key: this.serviceParams.Key,
         filename: this.filename,
+        size: this.fileSize,
         bucket: this.serviceParams.Bucket,
         hash: this.fileHash
       });

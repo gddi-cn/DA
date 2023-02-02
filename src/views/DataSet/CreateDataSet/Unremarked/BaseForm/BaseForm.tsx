@@ -58,7 +58,7 @@ const BaseForm: React.FC = () => {
       >
         <Input.TextArea
           autoComplete='off' rows={4}
-          onBlur={e => form.setFieldValue('summary', form.getFieldValue('summary')?.trim())}
+          onBlur={_ => form.setFieldValue('summary', form.getFieldValue('summary')?.trim())}
         />
       </Form.Item>
       <Form.Item

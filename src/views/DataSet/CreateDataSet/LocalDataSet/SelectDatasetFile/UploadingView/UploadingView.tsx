@@ -7,9 +7,10 @@ type Props = {
   percent: any,
   timeRef: any,
   handleCnasel: any
+  checking?: boolean
 }
 const UploadingView = (props: Props): JSX.Element => {
-  const { fileInfo, percent, timeRef, handleCnasel } = props
+  const { fileInfo, percent, timeRef, handleCnasel, checking, } = props
   const {
     pre,
     next,
@@ -21,6 +22,10 @@ const UploadingView = (props: Props): JSX.Element => {
   const getText = () => {
     if (percent === 0) {
       return '文件校验中'
+    }
+
+    if (percent >= 100 && checking) {
+      return '文件合并中'
     }
 
     return ` 已上传：${percent}%`
@@ -43,7 +48,13 @@ const UploadingView = (props: Props): JSX.Element => {
           </div>
 
         </div>
-        <div className='upload-info-right'>{`${bytesToSize(rate) || 0}/s`}</div>
+        <div className='upload-info-right'>
+          {
+            checking
+            ? ''
+            : `${bytesToSize(rate) || 0}/s`
+          }
+        </div>
 
       </div>
 

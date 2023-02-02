@@ -1,6 +1,6 @@
 
 import { FooterBar, UploadFile, GButton, GSelect } from '@src/UIComponents'
-import { useState, useRef, useMemo, useCallback, useEffect } from 'react'
+import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react'
 import { Select, message } from 'antd';
 import api from '@api'
 import { S3Uploader } from '@src/components'
@@ -42,6 +42,28 @@ const typeURLMapping: Map<DatasetType, string> = new Map([
 ])
 
 const SelectDatasetFile = (): JSX.Element => {
+  const uploadCurrent = useRef<any>(null)
+  const timeRef = useRef<any>({
+    pre: 0,
+    next: 0,
+    preLoad: 0,
+    nextLoad: 0
+  });
+
+
+  const [loading, setLoading] = useState(false)
+  const [percent, setLocalPercent] = useState<any>(0)
+  const [isUploading, setIsUploading] = useState(false)
+  const [checking, setChecking] = useState<boolean>(false)
+  const [exampleUrl, setExampleUrl] = useState('')
+  const [proportion, setProportion] = useState<any>(0.2)
+  const [fileInfo, setFileInfo] = useState({
+    filename: '',
+    size: 0
+  })
+
+  const navigate = useNavigate()
+
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
@@ -55,44 +77,7 @@ const SelectDatasetFile = (): JSX.Element => {
   // const activeTaskInfo = useSelector((state: RootState) => {
   //   return state.tasksSilce.activeTaskInfo || {}
   // })
-  const navigate = useNavigate()
 
-  const [loading, setLoading] = useState(false)
-  const [percent, setLocalPercent] = useState<any>(0)
-  const [isUploading, setIsUploading] = useState(false)
-  const [s3info, setS3info] = useState<any>({})
-
-  const [exampleUrl, setExampleUrl] = useState('')
-  const [fileInfo, setFileInfo] = useState({
-    filename: '',
-    size: 0
-  })
-  const uploadCurrent = useRef<any>(null)
-  const timeRef = useRef<any>({
-    pre: 0,
-    next: 0,
-    preLoad: 0,
-    nextLoad: 0
-  });
-
-  const [proportion, setProportion] = useState<any>(0.2)
-
-  useEffect(() => {
-    console.log(activePipeLine, 'activePipeLineactivePipeLine')
-    if (activePipeLine?.APP_LOCAL_FILE_STEP_3?.proportion) {
-      const { proportion } = activePipeLine.APP_LOCAL_FILE_STEP_3
-      setProportion(proportion)
-    } else {
-      // 默认带上
-      socketPushMsgForProject(activePipeLine, {
-        APP_LOCAL_FILE_STEP_3: { proportion: 0.2 }
-      })
-    }
-  }, [activePipeLine])
-
-  useEffect(() => {
-    setExampleUrl(datasetType ? typeURLMapping.get(datasetType as DatasetType) || '' : '')
-  }, [datasetType])
 
   const handleCnasel = useDebounceFn(
     async () => {
@@ -115,89 +100,138 @@ const SelectDatasetFile = (): JSX.Element => {
     }
   )
 
+  const goNext = async (s3info: any) => {
+    if (isEmpty(s3info)) {
+      return
+    }
+
+    const { APP_LOCAL_FILE_STEP_1, APP_LOCAL_FILE_STEP_2 } = activePipeLine
+
+    const { bucket, filename, key, hash, size } = s3info
+
+    const createInfo = {
+      scene: APP_LOCAL_FILE_STEP_1?.activeType,
+      name: APP_LOCAL_FILE_STEP_2?.name,
+      summary: APP_LOCAL_FILE_STEP_2?.summary,
+      cover: APP_LOCAL_FILE_STEP_2?.cover,
+      key,
+      filename,
+      source: 1,
+      bucket,
+      val_share: proportion,
+      hash,
+      size,
+    }
+
+    try {
+      setLoading(true)
+      const creteDatares = await api.post('/v3/datasets', createInfo);
+      if (creteDatares.code === 0) {
+        message.success('创建数据集成功')
+        setLoading(false)
+        navigate({
+          pathname: APP_LOCAL_FILE_STEP_4
+        })
+        // 创建成功就清理
+        socketPushMsgForProject(activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_4,
+        })
+      } else {
+        setLoading(false)
+      }
+    } catch (e) {
+      console.log(e)
+      setLoading(false)
+    }
+  }
+
   const handleOnuploadBigData = async (file:File|undefined) => {
-    if (file) {
-      setIsUploading(true)
-      console.log(file)
-      setFileInfo({ filename: file.name, size: file.size })
-      const defaultInitConfig = {
-        accessKeyId: 'HCIYFRUYM897VE1PUG47',
-        secretAccessKey: 'krjFd3Tdhx2XcX0psfVJWfr0jkrfNKpEj40AsLDD',
-        // bucket: 'test',
-        endpoint: 's3.local.cdn.desauto.net',
-        region: 'ceph',
-        sslEnabled: false,
-        s3ForcePathStyle: true
+    if (!file) return
+
+    setIsUploading(true)
+    setFileInfo({ filename: file.name, size: file.size })
+
+    const defaultInitConfig = {
+      accessKeyId: 'HCIYFRUYM897VE1PUG47',
+      secretAccessKey: 'krjFd3Tdhx2XcX0psfVJWfr0jkrfNKpEj40AsLDD',
+      // bucket: 'test',
+      endpoint: 's3.local.cdn.desauto.net',
+      region: 'ceph',
+      sslEnabled: false,
+      s3ForcePathStyle: true
+    }
+
+    try {
+      const tokenRes = await api.get('/v2/storage/s3/token');
+
+      if (tokenRes.code !== 0) {
+        return
       }
 
-      try {
-        const tokenRes = await api.get('/v2/storage/s3/token');
-
-        if (tokenRes.code !== 0) {
-          return
+      const {
+        data: {
+          s3_server: s3Server,
+          additional
         }
-        const {
-          data: {
-            s3_server: s3Server,
-            additional
+      } = tokenRes
+
+      const myupload = uploadCurrent.current = new S3Uploader(s3Server || defaultInitConfig)
+
+      const createParams: any = {
+        Body: file,
+        Bucket: additional?.allowed_bucket[0],
+        ACL: 'public-read',
+        processCallback: (obj: any) => {
+          const pre = timeRef.current.next
+          const preLoad = timeRef.current.nextLoad
+          timeRef.current = {
+            pre: pre,
+            next: new Date().valueOf() / 1000,
+            preLoad: preLoad,
+            nextLoad: obj.loaded
           }
-        } = tokenRes
-        const myupload = uploadCurrent.current = new S3Uploader(s3Server || defaultInitConfig)
-        // const hash = myupload.current.fileMd5(fileCurrent.current)
-        const createParams: any = {
-          Body: file,
-          Bucket: additional?.allowed_bucket[0],
-          // Key: hash,
-          ACL: 'public-read',
-          processCallback: (obj: any) => {
-            const pre = timeRef.current.next
-            const preLoad = timeRef.current.nextLoad
-            console.log(obj.loaded, 'obj.loaded')
-            timeRef.current = {
-              pre: pre,
-              next: new Date().valueOf() / 1000,
-              preLoad: preLoad,
-              nextLoad: obj.loaded
-            }
-            setLocalPercent(obj.percent || 0)
-            // disPatch(setPercent(obj.percent || 0))
-          },
-          // 成功或者失败的
-          callback: async (err: any, data: any) => {
-            if (err) {
-              console.log(err)
-            }
-            if (data) {
-              // 先创建数据集、成了就扔进去
-              setS3info(data)
-            }
-          },
+          obj.percent >= 100 && setChecking(true)
+          setLocalPercent(obj.percent || 0)
+        },
+        // 成功或者失败的
+        callback: async (err: any, data: any) => {
+          if (err) {
+            console.log(err)
+          }
+          if (data) {
+            goNext(data)
+          }
+        },
 
-        }
-
-        const createRes = await myupload.create(createParams)
-
-        const { hasUploadParts } = createRes
-        if (hasUploadParts) {
-          myupload.continueOrRetry()
-        } else {
-          myupload.send()
-        }
-      } catch (e) {
-        console.log(e)
       }
+
+      const createRes = await myupload.create(createParams)
+
+      const { hasUploadParts } = createRes
+      if (hasUploadParts) {
+        myupload.continueOrRetry()
+      } else {
+        myupload.send()
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
   const uploadview = useMemo(() => {
     return (
-      <UploadingView fileInfo={fileInfo} percent={percent} timeRef={timeRef} handleCnasel={handleCnasel.run}></UploadingView>
+      <UploadingView
+        fileInfo={fileInfo}
+        percent={percent}
+        timeRef={timeRef}
+        handleCnasel={handleCnasel.run}
+        checking={checking}
+      />
     )
   }, [fileInfo, percent, handleCnasel])
 
   const handleProportionChange = useCallback(
     (value: string) => {
-      console.log(value)
       if (activePipeLine.APP_LOCAL_FILE_STEP_3) {
         const obj = Object.assign({ ...activePipeLine.APP_LOCAL_FILE_STEP_3 }, {
           proportion: value
@@ -273,57 +307,28 @@ const SelectDatasetFile = (): JSX.Element => {
       })
     }
 
-    const goNext = async () => {
-      if (isEmpty(s3info)) {
-        return
-      }
-
-      console.log(s3info, 225)
-      const { APP_LOCAL_FILE_STEP_1, APP_LOCAL_FILE_STEP_2 } = activePipeLine
-
-      const { bucket, filename, key, hash } = s3info
-      const createInfo = {
-        scene: APP_LOCAL_FILE_STEP_1?.activeType,
-        name: APP_LOCAL_FILE_STEP_2?.name,
-        summary: APP_LOCAL_FILE_STEP_2?.summary,
-        cover: APP_LOCAL_FILE_STEP_2?.cover,
-        key,
-        filename,
-        source: 1,
-        bucket,
-        val_share: proportion,
-        hash,
-        size: fileInfo.size
-      }
-      try {
-        setLoading(true)
-        const creteDatares = await api.post('/v3/datasets', createInfo);
-        console.log(creteDatares, 'creteDatares')
-        if (creteDatares.code === 0) {
-          message.success('创建数据集成功')
-          setLoading(false)
-          navigate({
-            pathname: APP_LOCAL_FILE_STEP_4
-          })
-          // 创建成功就清理
-          socketPushMsgForProject(activePipeLine, {
-            active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_4,
-          })
-        } else {
-          setLoading(false)
-        }
-      } catch (e) {
-        console.log(e)
-        setLoading(false)
-      }
-    }
     return (
       <div className='footer_btn_wrap'>
         <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
-        <GButton disabled={loading} className={percent >= 100 ? 'yes_sir' : 'not_allow'} style={{ width: 132 }} type='primary' onClick={goNext}>下一步</GButton>
       </div>
     )
-  }, [loading, percent, handleCnasel, navigate, activePipeLine, s3info, proportion, fileInfo.size])
+  }, [handleCnasel ])
+
+  useEffect(() => {
+    if (activePipeLine?.APP_LOCAL_FILE_STEP_3?.proportion) {
+      const { proportion } = activePipeLine.APP_LOCAL_FILE_STEP_3
+      setProportion(proportion)
+    } else {
+      // 默认带上
+      socketPushMsgForProject(activePipeLine, {
+        APP_LOCAL_FILE_STEP_3: { proportion: 0.2 }
+      })
+    }
+  }, [activePipeLine])
+
+  useEffect(() => {
+    setExampleUrl(datasetType ? typeURLMapping.get(datasetType as DatasetType) || '' : '')
+  }, [datasetType])
 
   return (
     <div styleName='SelectDatasetFile' id='SelectDatasetFile'>
