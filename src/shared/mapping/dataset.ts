@@ -1,4 +1,4 @@
-import { AnalyzeItem, DatasetCreateType, DatasetDownloadStatus, DatasetScene } from '@src/shared/enum/dataset'
+import { AnalyzeItem, DatasetCreateType, DatasetDownloadStatus, DatasetImportStatus, DatasetScene } from '@src/shared/enum/dataset'
 import { AnalyzeImage, DataAnalyzeTip } from '@src/shared/types/dataset'
 import fewShot0 from '@views/DataSet/DatasetAnalysis/analysisImg/few_shot_0.png'
 import fewShot1 from '@views/DataSet/DatasetAnalysis/analysisImg/few_shot_1.png'
@@ -485,4 +485,14 @@ export const datasetCreateTypeNameMapping: Map<DatasetCreateType, string> = new 
   [DatasetCreateType.UPLOAD_UNREMARKED, '数据标注服务'],
   [DatasetCreateType.UPLOAD_REMARKED, '上传已标注数据'],
   [DatasetCreateType.IMPORT_THIRD_PARTY, '第三方导入'],
+])
+
+export const datasetImportStatusNameMapping: Map<DatasetImportStatus, string> = new Map([
+  [DatasetImportStatus.MERGING, /*        */'合并中'],
+  [DatasetImportStatus.COMPRESSING, /*    */'压缩中'],
+  [DatasetImportStatus.VERIFYING, /*      */'验证中'],
+  [DatasetImportStatus.VERIFY_FAILED, /*  */'验证失败'],
+  [DatasetImportStatus.VERIFY_SUCCESS, /* */'已验证'],
+  [DatasetImportStatus.IMPORTING, /*      */'导入中'],
+  [DatasetImportStatus.IMPORT_FAILED, /*  */'导入失败'],
 ])

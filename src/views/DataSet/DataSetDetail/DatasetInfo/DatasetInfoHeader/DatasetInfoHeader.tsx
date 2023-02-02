@@ -1,11 +1,5 @@
-// import { ReactComponent as DownArrow } from './icon/chevron-down_minor.svg'
-
-// import { Select } from 'antd'
-// import api from '@api'
-
+import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-// import { useEffect, useState } from 'react'
-// import type { SetStateAction, Dispatch } from 'react'
 import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import EditDataset from '../../../DataSetIndex/V1DatasetCard/EditDataset'
 import { SmallButton } from '@src/UIComponents'
@@ -16,106 +10,68 @@ import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { socketPushMsgForProject } from '@ghooks'
 
 import Download from './Download'
+import ImportHistory from './ImportHistory'
 
-import './DatasetInfoHeader.module.less'
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+`
 
-// const { Option } = Select;
+const Left = styled.div`
+  flex: 1;
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+`
+
+const Right = styled.div`
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+`
+
+const Name = styled.p`
+  margin: 0 4px 0 0;
+`
+
 type Props={
     datasetInfo: Data,
     initFetchDatasetInfo:()=>void,
-    // setVersion: Dispatch<SetStateAction<any>>
 }
 const DatasetInfoHeader = (props:Props): JSX.Element => {
   const navigate = useNavigate()
   const { datasetInfo, initFetchDatasetInfo } = props
 
-  // const location = useLocation()
-  // const { search } = location
-  // const { id, version_id } = Qs.parse(search.substring(1))
-  // const [versionList, setVersionList] = useState<any[]>([])
-
-  // const [value, setValue] = useState<string>('')
-
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
 
-  // useEffect(() => {
-  //   const initFetch = async () => {
-  //     try {
-  //       const { APP_DATASET_DETAIL } = activePipeLine
-  //       if (APP_DATASET_DETAIL?.id) {
-  //         const { id, version_id } = APP_DATASET_DETAIL
-  //         const path = `/v2/datasets/${id}/versions`
-  //         const res = await api.get(path)
-  //         if (res.code === 0) {
-  //           const list = res.data || [];
-  //           const target = (list as Array<any>).find((o) => o.id === version_id)
-
-  //           if (target) {
-  //             setValue(target.tag)
-  //             setVersion(target)
-  //           } else {
-  //             const target = list[0]
-  //             if (target) {
-  //               setValue(target.tag)
-  //               setVersion(target)
-  //             }
-  //           }
-  //           setVersionList(list)
-  //         }
-  //       }
-  //     } catch (e) {
-  //       console.error(e)
-  //     }
-  //   }
-  //   initFetch()
-  // }, [activePipeLine, setVersion])
-
-  // const handleChange = (value: any, option: any) => {
-  //   const data = option['data-value']
-
-  //   // 内部
-  //   setValue(data.id)
-  //   // 外部用
-  //   setVersion(data)
-  // }
-
   const handleGotoADDData = () => {
-    // if (activePipeLine?.APP_MODEL_TRAIN_DETAIL?.id) {
-    //   return null
-    // }
     navigate({
       pathname: APP_IncreaseData
     })
     socketPushMsgForProject(activePipeLine, {
       active_page: SNAPSHOT_KEY_OF_ROUTER.APP_IncreaseData,
-      // APP_DATASET_DETAIL: {}
     })
   }
 
   return (
-    <div styleName='DatasetInfoHeader' id='DatasetInfoHeader'>
-
-      <div className='dataset_name'>
-        {datasetInfo?.name}
-      </div>
-      <div className='point'>·</div>
-      {/* <div className='tag_wrap' id='area'>
-        <Select value={value} onChange={handleChange} style={{ width: 'auto' }} bordered={false} suffixIcon={<DownArrow />} getPopupContainer={() => document.getElementById('area') as any} >
-
-          {
-            versionList.map((o: any) => {
-              return <Option key={o.id || Math.random()} value={o.id} data-value={o}>{o.tag}</Option>
-            })
-          }
-        </Select>
-
-      </div> */}
-      <EditDataset data={datasetInfo} type='nomal' eleId='root' callback={initFetchDatasetInfo} />
-      <SmallButton type='nomal' className='add_data_wrap' onClick={handleGotoADDData}>添加数据</SmallButton>
-      <Download {...datasetInfo} refresh={initFetchDatasetInfo} />
-    </div>
+    <Container>
+      <Left>
+        <Name>
+          {datasetInfo?.name}
+        </Name>
+        <EditDataset data={datasetInfo} type='nomal' eleId='root' callback={initFetchDatasetInfo} />
+        <SmallButton type='nomal' className='add_data_wrap' onClick={handleGotoADDData}>添加数据</SmallButton>
+        <Download {...datasetInfo} refresh={initFetchDatasetInfo} />
+      </Left>
+      <Right>
+        <ImportHistory {...datasetInfo} />
+      </Right>
+    </Container>
   )
 }
 

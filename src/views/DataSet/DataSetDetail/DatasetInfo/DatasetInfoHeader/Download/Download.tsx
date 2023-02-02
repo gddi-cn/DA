@@ -7,7 +7,6 @@ import { Dataset } from '@src/shared/types/dataset'
 import datasetAPI from '@src/apis/dataset'
 
 const Container = styled.div`
-  margin-left: 8px;
 `
 
 const Download: React.FC<Dataset & { refresh: () => void }> = (

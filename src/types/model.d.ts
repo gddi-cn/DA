@@ -7,4 +7,5 @@ declare namespace Model {
     test_accuracy: number
     train_accuracy: number
   }
+
 }

@@ -16,4 +16,20 @@ declare namespace Dataset {
     keypoint: Array<KeyPoint>
     skeleton: Array<Skeleton>
   }
+
+  namespace Import {
+    namespace History {
+      interface ListParams {
+        source?: import('@src/shared/enum/dataset').DatasetImportSource
+        status?: import('@src/shared/enum/dataset').DatasetImportStatus
+      }
+      interface Instance {
+        created: number
+        filename: string
+        size: number
+        source: import('@src/shared/enum/dataset').DatasetImportSource
+        status: import('@src/shared/enum/dataset').DatasetImportStatus
+      }
+    }
+  }
 }

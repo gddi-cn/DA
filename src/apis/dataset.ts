@@ -1,10 +1,10 @@
-import { Dataset } from '@src/shared/types/dataset'
+import { Dataset as IDataset } from '@src/shared/types/dataset'
 import s3API from '@src/apis/s3'
 import http from '@src/utils/http'
 import { APIResponse } from '@src/shared/types/api'
 
 const datasetAPI = {
-  detail: async (id: Dataset['id']): Promise<APIResponse<Dataset>> => {
+  detail: async (id: IDataset['id']): Promise<APIResponse<IDataset>> => {
     try {
       const { data } = await http.get(`/v3/datasets/${id}`)
       return {
@@ -19,7 +19,7 @@ const datasetAPI = {
     }
   },
 
-  applyDownload: async (id: Dataset['id']): Promise<APIResponse<void>> => {
+  applyDownload: async (id: IDataset['id']): Promise<APIResponse<void>> => {
     try {
       await http.post(`/v3/datasets/${id}/download`)
       return {
@@ -95,6 +95,24 @@ const datasetAPI = {
         },
       })
       
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      console.error(e)
+      return {
+        success: false
+      }
+    }
+  },
+
+  importHistory: async (
+    id: string,
+    params: Dataset.Import.History.ListParams
+  ): Promise<APIResponse<Array<Dataset.Import.History.Instance>>> => {
+    try {
+      const { data } = await http.get(`/v3/datasets/${id}/import`, { params })
       return {
         success: true,
         data,

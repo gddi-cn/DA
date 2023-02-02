@@ -73,3 +73,13 @@ export enum UnmarkedDatasetCreateStep {
   REQUIREMENT,
   PROGRESSING,
 }
+
+export enum DatasetImportStatus {
+  MERGING = 1,
+  COMPRESSING,
+  VERIFYING,
+  VERIFY_FAILED,
+  VERIFY_SUCCESS,
+  IMPORTING,
+  IMPORT_FAILED,
+}
