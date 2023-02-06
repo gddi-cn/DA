@@ -20,7 +20,6 @@ const Button = styled(AntdButton)`
   line-height: 20px;
   font-weight: 600;
   font-style: normal;
-  font-family: 'PingFang SC',serif;
   text-align: center;
   padding: 5px 20px;
   color: #fff;

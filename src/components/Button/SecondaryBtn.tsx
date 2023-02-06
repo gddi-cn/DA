@@ -21,7 +21,6 @@ const SecondaryBtn = styled(Button)<ButtonProps & ISecondaryBtn>`
   line-height: ${props => props.lh || 20}px;
   font-weight: ${props => props.fw || 500};
   font-style: normal;
-  font-family: 'PingFang SC',serif;
   text-align: center;
   width: ${props => props.width ? props.width + 'px' : undefined};
   color: ${p => p.color && p.color === 'error' ? errorColor : defaultColor};

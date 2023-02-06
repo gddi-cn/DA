@@ -10,7 +10,6 @@ const MiniBtn = styled(Button)`
   font-size: 14px;
   font-weight: 400;
   font-style: normal;
-  font-family: 'PingFang SC',serif;
   text-align: center;
   padding: 0 8px;
   color: #061926;

@@ -22,7 +22,6 @@ const HoverBtn = styled(Button)<ButtonProps & IHoverBtn>`
   line-height: ${(props) => (props.lh ? props.lh + "px" : undefined)};
   font-weight: ${(props) => props.fw || 400};
   font-style: normal;
-  font-family: "PingFang SC", serif;
   width: ${(props) => (props.width ? props.width : undefined)};
   color: ${(props) => props.color || "#000"};
   box-shadow: none;

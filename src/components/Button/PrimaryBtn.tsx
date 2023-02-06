@@ -19,7 +19,6 @@ const PrimaryBtn = styled(Button)<ButtonProps & IPrimaryBtn>`
   line-height: ${props => props.lh || 20}px;
   font-weight: ${props => props.fw || 500};
   font-style: normal;
-  font-family: 'PingFang SC',serif;
   width: ${props => props.width ? props.width + 'px' : undefined};
   color: #fff;
   &:hover, &:focus {

@@ -13,7 +13,6 @@ const Button = styled(AntButton)`
   font-size: 14px;
   line-height: 20px;
   font-style: normal;
-  font-family: 'PingFang SC',serif;
   text-align: center;
   padding: 5px 20px;
   color: #061926;
