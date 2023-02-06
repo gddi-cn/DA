@@ -1,22 +1,44 @@
 
 import { Popover } from 'antd'
-import { hiddenActiveTask, checkoutTask, saveActivePipeLine, saveActivePipeLineLoading } from '@reducer/tasksSilce'
+import {
+  hiddenActiveTask,
+  checkoutTask,
+  saveActivePipeLine,
+  saveActivePipeLineLoading
+} from '@reducer/tasksSilce'
+
 import { useDispatch, useSelector } from 'react-redux'
-// import { useDebounceFn } from 'ahooks'
 import { CloseOutlined } from '@ant-design/icons'
 import { RootState } from '@reducer/index'
 import TaskItemDetail from '../TaskItemDetail'
 import { useNavigate } from 'react-router-dom'
 
-// import type { Dispatch, SetStateAction } from 'react'
 import './TaskItem.module.less'
 import { useMemo } from 'react'
 import { isNil } from 'lodash'
 
+import detection from '@src/asset/images/taskItem/detection.png'
+import classify from '@src/asset/images/taskItem/classify.png'
+import cityscapes from '@src/asset/images/taskItem/cityscapes.png'
+import pose from '@src/asset/images/taskItem/pose.png'
+import car_pose from '@src/asset/images/taskItem/car_pose.png'
+import keypoints_base_action from '@src/asset/images/taskItem/keypoint_base_action.png'
+import keypoints_detection from '@src/asset/images/taskItem/keypoints_detection.png'
+import image_retrieval from '@src/asset/images/taskItem/image_retrieval.png'
+
+import { DatasetScene } from '@src/shared/enum/dataset'
+import styled from 'styled-components'
+
 type Props = {
   data: TaskSlice.taskListItem,
-
 }
+
+const Img = styled.img`
+  display: block;
+  height: 20px;
+  width: 20px;
+  object-fix: cover;
+`
 
 const TaskItem = (props: Props): JSX.Element => {
   const activeTaskInfo = useSelector((state: RootState) => {
@@ -34,8 +56,38 @@ const TaskItem = (props: Props): JSX.Element => {
   const { data } = props
 
   const {
-    name, id
+    name, id, additional,
   } = data
+
+
+  const icon = useMemo(
+    () => {
+      const type = additional?.model_type
+      if (!type) return undefined
+
+      switch(type) {
+        case DatasetScene.Detection:
+          return detection
+        case DatasetScene.Classify:
+          return classify
+        case DatasetScene.CityscapesSegment:
+          return cityscapes
+        case DatasetScene.PoseDetection:
+          return pose
+        case DatasetScene.CarPoseDetection:
+          return car_pose
+        case DatasetScene.KeyPointsBasedAction:
+          return keypoints_base_action
+        case DatasetScene.KeypointsDetection:
+          return keypoints_detection
+        case DatasetScene.ImageRetrieval:
+          return image_retrieval
+        default:
+          return undefined
+      }
+    },
+    [additional]
+  )
 
   // 隐藏选项、如果没有了就回到首页
   const handleOnClick = (e:any) => {
@@ -116,11 +168,20 @@ const TaskItem = (props: Props): JSX.Element => {
       <Popover content={Content} mouseEnterDelay={0.4} title={null} placement='bottomLeft' destroyTooltipOnHide>
         <div className={getCls()} onClick={handleCheckoutTask} >
           {/* {getActiveDiv()} */}
-          <div className="hori-selector" style={{ display: getActiveDiv() }}><div className="left"></div><div className="right"></div></div>
+          <div className="hori-selector" style={{ display: getActiveDiv() }}>
+            <div className="left"></div>
+            <div className="right"></div>
+          </div>
           <div className='border_wrap'>
+            <div className="task_icon">
+              {
+                icon ? (
+                  <Img src={icon} />
+                ) : null
+              }
+            </div>
             <div className='task_name'>
               {name || id}
-
             </div>
             <CloseOutlined onClick={handleOnClick} className='opration_wrap' />
           </div>

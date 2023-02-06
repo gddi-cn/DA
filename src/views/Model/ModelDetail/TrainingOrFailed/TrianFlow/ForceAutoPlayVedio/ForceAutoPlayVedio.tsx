@@ -59,16 +59,13 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
       flvplayer.play()
 
       flvplayer.on(flvjs.Events.METADATA_ARRIVED, (args: any) => {
-        console.log('METADATA_ARRIVED', args);
         currentVideoDuration.current = args.duration
       });
 
-      flvplayer.on(flvjs.Events.MEDIA_INFO, (args: any) => {
-        console.log(args, 25);
+      flvplayer.on(flvjs.Events.MEDIA_INFO, (_) => {
       });
 
-      flvplayer.on(flvjs.Events.ERROR, (args: any) => {
-        console.log(args, 'Events.ERROR');
+      flvplayer.on(flvjs.Events.ERROR, (_) => {
         if (flvplayer) {
           flvplayer.pause();
           flvplayer.unload();
