@@ -20,13 +20,13 @@ const useRefreshDeviceList = () => {
   const [, setGroupDeviceTotal] = useAtom(groupDeviceTotalAtom)
   const [, setSelectedDeviceIdList] = useAtom(selectedDeviceIdListAtom)
   const [loading, setLoading] = useAtom(fetchingGroupDeviceAtom)
-  const [page] = useAtom(groupDevicePageAtom)
+  const [page, setPage] = useAtom(groupDevicePageAtom)
   const [page_size] = useAtom(groupDevicePageSizeAtom)
   const [selectedApp] = useAtom(selectedAppAtom)
 
   const groupId = selectedGroup?.value
 
-  return async () => {
+  return async (firstPage?: boolean) => {
     if (loading) return
     if (!selectedApp?.id) return
 
@@ -38,6 +38,7 @@ const useRefreshDeviceList = () => {
     }
 
     setLoading(true)
+    firstPage && setPage(1)
     const { success, data } = await deviceGroupAPI
       .fetchGroupDeviceList(
         groupId,
@@ -88,9 +89,16 @@ export const useSelectDevice = () => {
 
   React.useEffect(
     () => {
+      refreshDeviceList(true)
+    },
+    [groupId, pageSize]
+  )
+
+  React.useEffect(
+    () => {
       refreshDeviceList()
     },
-    [groupId]
+    [page]
   )
 
   React.useEffect(
