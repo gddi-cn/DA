@@ -28,7 +28,8 @@ enum DatasetType {
   POSE_DETECTION = 'pose_detection', // 姿态检测
   CAR_POSE_DETECTION = 'car_pose_detection', // 单目 3D
   KEYPOINTS_BASED_ACTION = 'keypoints_based_action', // 动作识别
-  KEYPOINT_DETECTION = 'keypoint_detection' // 关键点检测
+  KEYPOINT_DETECTION = 'keypoint_detection', // 关键点检测
+  IMAGE_RETRIEVAL = 'image_retrieval',
 }
 
 const typeURLMapping: Map<DatasetType, string> = new Map([
@@ -38,7 +39,8 @@ const typeURLMapping: Map<DatasetType, string> = new Map([
   [DatasetType.POSE_DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/pose_example/pose_example.zip'],
   [DatasetType.CAR_POSE_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/detection_3d_example.zip'],
   [DatasetType.KEYPOINTS_BASED_ACTION, 'https://s3.local.cdn.desauto.net/public/example/action_detection_example.zip'],
-  [DatasetType.KEYPOINT_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/keypoint_detection_example.zip']
+  [DatasetType.KEYPOINT_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/keypoint_detection_example.zip'],
+  [DatasetType.IMAGE_RETRIEVAL, 'https://s3.local.cdn.desauto.net/public/example/image_retrieval.zip']
 ])
 
 const SelectDatasetFile = (): JSX.Element => {
