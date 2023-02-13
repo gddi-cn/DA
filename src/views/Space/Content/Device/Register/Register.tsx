@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Form, Input, message, Upload } from 'antd'
+import { Form, Input, message, Upload, Select } from 'antd'
 import { CheckCircleFilled, CloseCircleOutlined } from '@ant-design/icons'
 
 import { DeviceType } from '@src/shared/enum/device'
@@ -161,7 +161,7 @@ const Register: React.FC<{ type: DeviceType.TERMINAL | DeviceType.EDGE }> = (
     open, handleOpen, handleClose,
     handleBack, handleSubmit,
     loading, step, form, title,
-    resList,
+    resList, options,
   } = useRegister(type)
 
   return (
@@ -198,6 +198,24 @@ const Register: React.FC<{ type: DeviceType.TERMINAL | DeviceType.EDGE }> = (
                           getExtendOptions={(r) => getExtendOptions(r, type)}
                         />
                       </Form.Item>
+                      {
+                        type === DeviceType.EDGE ? (
+
+                          <Form.Item
+                            name={'device_type_id'}
+                            label={'设备类型'}
+                            required
+                            rules={[
+                              { required: true, message: '请选择设备类型' }
+                            ]}
+                          >
+                            <Select
+                              options={options}
+                              placeholder={'请选择设备类型'}
+                            />
+                          </Form.Item>
+                        ) : null
+                      }
                       <Form.Item
                         name={'gtx'}
                         label={'上传 .gxt 文件'}

@@ -9,12 +9,13 @@ const deviceAPI = {
     groupId: DeviceGroup['id'],
     formData: FormData,
     device_type?: DeviceType,
+    device_type_id?: Device.Chip.Instance['key'],
   ): Promise<APIResponse<Array<DeviceRegisterResult>>> => {
     try {
       const { data } = await http.post(
         '/v3/device/offline_register',
         formData,
-        { params: { group: groupId, device_type  }}
+        { params: { group: groupId, device_type, device_type_id  }}
       )
       return {
         success: true,

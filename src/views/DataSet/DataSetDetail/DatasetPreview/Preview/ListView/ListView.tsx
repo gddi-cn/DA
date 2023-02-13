@@ -1,5 +1,6 @@
+import React from 'react'
 import { ReactCusScrollBar } from "@src/UIComponents";
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { isNil } from "lodash";
@@ -20,6 +21,7 @@ type Props = {
 };
 
 const ListView = (props: Props): JSX.Element => {
+  const [loading, setLoading] = React.useState<boolean>(false)
   const { currentId, scenes, classInfo, id } = props;
 
   const { name } = classInfo || {};
@@ -42,61 +44,53 @@ const ListView = (props: Props): JSX.Element => {
     setShow(true);
   }, []);
 
-  const fetchData = useCallback(
-    async (funcInfo?: FectData) => {
-      if (!currentId) {
-        return;
-      }
-      if (!name) {
-        return;
-      }
-      try {
-        let _datasetList = [...datasetList.current];
-        if (funcInfo?.isInit || lastId.current !== currentId) {
-          // 初始化
+  const fetchData = async (funcInfo?: FectData) => {
+    if (!currentId || loading || !name) {
+      return;
+    }
 
-          const scrollRef = document.getElementById("scrollableDiv")
-            ?.firstChild as any;
-          if (scrollRef) {
-            scrollRef?.scrollTo({
-              top: 0,
-              // behavior: 'smooth'
-            });
-          }
-          _datasetList = [];
-          params.current.page = 1;
-        }
-        lastId.current = currentId;
-        const res = await api.get(
-          `/v3/datasets/${id}/sub-datasets/${currentId}/images`,
-          { params: { ...params.current, class: name } }
-        );
-        if (res.code === 0) {
-          const { items, total } = res.data;
+    try {
+      let _datasetList = funcInfo?.isInit ? [] : [...datasetList.current];
 
-          if (!isNil(items)) {
-            datasetList.current = [..._datasetList.concat(items)];
-          }
-          setDataListLen(datasetList.current.length);
-          setDatasetTotal(total);
-          funcInfo?.callback && funcInfo.callback();
-        } else {
+      if (funcInfo?.isInit || lastId.current !== currentId) {
+        const scrollRef = document.getElementById("scrollableDiv")
+          ?.firstChild as any;
+        if (scrollRef) {
+          scrollRef?.scrollTo({
+            top: 0,
+            // behavior: 'smooth'
+          });
         }
-      } catch (e) {}
-    },
-    [currentId, id, name]
-  );
+        _datasetList = [];
+        params.current.page = 1;
+      }
+      lastId.current = currentId;
+
+      setLoading(true)
+      const res = await api.get(
+        `/v3/datasets/${id}/sub-datasets/${currentId}/images`,
+        { params: { ...params.current, class: name } }
+      );
+      setLoading(false)
+
+      if (res.code !== 0 || !res.data) return 
+
+      const { items, total } = res.data;
+
+      if (!isNil(items)) {
+        datasetList.current = [..._datasetList.concat(items)];
+      }
+
+      setDataListLen(datasetList.current.length);
+      setDatasetTotal(total);
+
+      funcInfo?.callback && funcInfo.callback();
+    } catch (e) {}
+  }
 
   useEffect(() => {
     fetchData({ isInit: true });
-    // const fn = () => {
-    //   fetchData({ isInit: true })
-    // }
-    // window.addEventListener('resize', fn)
-    // return () => {
-    //   window.removeEventListener('resize', fn)
-    // }
-  }, [fetchData]);
+  }, [currentId, id, name]);
 
   const fetchMoreData = () => {
     params.current.page++;
@@ -107,16 +101,18 @@ const ListView = (props: Props): JSX.Element => {
     if (dataListLen === 0 || datasetTotal === 0) {
       return null;
     }
-    return datasetList.current.map((o) => {
+    return datasetList.current.map((o, idx) => {
       return (
-        <ListItem key={o.hash + "-" + currentId} data={o} scenes={scenes} />
+        <ListItem key={o.hash + "-" + currentId + "_" + idx} data={o} scenes={scenes} />
       );
     });
   }, [dataListLen, datasetTotal, scenes, currentId]);
 
   return (
     <div styleName="ListView">
-      <ReactCusScrollBar id="scrollableDiv">
+      <ReactCusScrollBar
+        id="scrollableDiv"
+      >
         {show ? (
           <InfiniteScroll
             dataLength={datasetList.current.length}
