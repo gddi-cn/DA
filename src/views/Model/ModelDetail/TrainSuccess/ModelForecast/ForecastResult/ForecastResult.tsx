@@ -140,7 +140,17 @@ const ForecastResult = (props: any): JSX.Element => {
   };
 
   const renderDotView = (data: any, activeIndex: any, index: any) => {
+    const { url } = data;
+    const isVideo = /\.mp4$/.test(url);
     const active = activeIndex === index;
+
+    const getView = () => {
+      if (isVideo) {
+        return <video controls={false} preload={'auto'} src={data?.url} />
+      }
+      return <img className="img_dot_btn" src={data?.url} />
+    }
+
     return (
       <div className="ForecastResult_renderDotView">
         {active ? (
@@ -153,7 +163,9 @@ const ForecastResult = (props: any): JSX.Element => {
           </div>
         ) : null}
 
-        <img className="img_dot_btn" src={data?.url} />
+        {
+          getView()
+        }
       </div>
     );
   };
@@ -214,7 +226,9 @@ const ForecastResult = (props: any): JSX.Element => {
           allowClear
         />
       </div>
-      <div className="ForecastResult_content">{silckView()}</div>
+      <div className="ForecastResult_content">
+        {silckView()}
+      </div>
     </div>
   );
 };

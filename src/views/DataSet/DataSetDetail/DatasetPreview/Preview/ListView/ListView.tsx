@@ -1,6 +1,6 @@
 import React from 'react'
 import { ReactCusScrollBar } from "@src/UIComponents";
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { isNil } from "lodash";
@@ -110,7 +110,9 @@ const ListView = (props: Props): JSX.Element => {
 
   return (
     <div styleName="ListView">
-      <ReactCusScrollBar id="scrollableDiv">
+      <ReactCusScrollBar
+        id="scrollableDiv"
+      >
         {show ? (
           <InfiniteScroll
             dataLength={datasetList.current.length}
