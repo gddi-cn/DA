@@ -17,6 +17,7 @@ import {
   terminalPageSizeAtom,
   terminalTotalAtom,
   selectedEdgeGroupAtom,
+  deviceTypeListAtom,
 } from './store'
 
 import { DeviceType } from '@src/shared/enum/device'
@@ -39,6 +40,7 @@ const useResetStore = () => {
   const [, setELoading] = useAtom(fetchingEdgeAtom)
   const [, setSelectedTDevice] = useAtom(selectedTerminalDeviceIdListAtom)
   const [, setSelectedEDevice] = useAtom(selectedEdgeDeviceIdListAtom)
+  const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
 
   return () => {
     setTLoading(true)
@@ -58,6 +60,7 @@ const useResetStore = () => {
     setETotal(0)
     setSelectedTDevice([])
     setSelectedEDevice([])
+    setDeviceTypeList([])
     setELoading(false)
     setTLoading(false)
   }

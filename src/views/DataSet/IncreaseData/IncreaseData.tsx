@@ -1,4 +1,4 @@
-
+import React from 'react'
 import { FooterBar, UploadFile, GButton } from '@src/UIComponents'
 import { useState, useRef, useMemo } from 'react'
 import { message } from 'antd';
@@ -18,17 +18,42 @@ import { isEmpty } from 'lodash';
 
 const regExp = /\.(zip|tar|gz)$/
 
+enum DatasetType {
+  DETECTION = 'detection', // 目标检测
+  CLASSIFY = 'classify', // 图片分类
+  CITYSCAPES_SEGMENT = 'cityscapes_segment', // 通用分割
+  POSE_DETECTION = 'pose_detection', // 姿态检测
+  CAR_POSE_DETECTION = 'car_pose_detection', // 单目 3D
+  KEYPOINTS_BASED_ACTION = 'keypoints_based_action', // 动作识别
+  KEYPOINT_DETECTION = 'keypoint_detection', // 关键点检测
+  IMAGE_RETRIEVAL = 'image_retrieval', // 图像检索
+}
+
+const typeURLMapping: Map<DatasetType, string> = new Map([
+  [DatasetType.DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/detection_example/detection_example.zip'],
+  [DatasetType.CLASSIFY, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/classify_example/classify_example.zip'],
+  [DatasetType.CITYSCAPES_SEGMENT, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/segmentation_example/segmentation_example.zip'],
+  [DatasetType.POSE_DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/pose_example/pose_example.zip'],
+  [DatasetType.CAR_POSE_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/detection_3d_example.zip'],
+  [DatasetType.KEYPOINTS_BASED_ACTION, 'https://s3.local.cdn.desauto.net/public/example/action_detection_example.zip'],
+  [DatasetType.KEYPOINT_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/keypoint_detection_example.zip'],
+  [DatasetType.IMAGE_RETRIEVAL, 'https://s3.local.cdn.desauto.net/public/example/image_retrieval.zip']
+])
+
 const IncreaseData = (): JSX.Element => {
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
-  // const activeTaskInfo = useSelector((state: RootState) => {
-  //   return state.tasksSilce.activeTaskInfo || {}
-  // })
+
+  const datasetType = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo?.additional?.model_type
+  })
+
   const navigate = useNavigate()
   const [percent, setLocalPercent] = useState<any>(0)
   const [isUploading, setIsUploading] = useState(false)
   const [s3info, setS3info] = useState<any>({})
+  const [exampleUrl, setExampleUrl] = useState('')
   const [fileInfo, setFileInfo] = useState({
     filename: '',
     size: 0
@@ -40,6 +65,7 @@ const IncreaseData = (): JSX.Element => {
     preLoad: 0,
     nextLoad: 0
   });
+
 
   const handleCnasel = useDebounceFn(
     async () => {
@@ -162,8 +188,6 @@ const IncreaseData = (): JSX.Element => {
         return
       }
 
-      console.log(s3info, 225)
-
       const { bucket, filename, key, hash } = s3info
       const createInfo = {
 
@@ -184,8 +208,6 @@ const IncreaseData = (): JSX.Element => {
         const creteDatares = await api.post(`/v3/datasets/${dataset_id}/import`, createInfo);
         console.log(creteDatares, 'creteDatares')
         if (creteDatares.code === 0) {
-          console.log('90909090')
-
           message.success('增加数据成功')
           navigate({
             pathname: APP_DATASET_DETAIL
@@ -199,6 +221,7 @@ const IncreaseData = (): JSX.Element => {
         console.log(e)
       }
     }
+
     return (
       <div className='footer_btn_wrap'>
         <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
@@ -207,6 +230,10 @@ const IncreaseData = (): JSX.Element => {
     )
   }, [percent, handleCnasel, navigate, activePipeLine, s3info, fileInfo.size])
 
+  React.useEffect(() => {
+    setExampleUrl(datasetType ? typeURLMapping.get(datasetType as DatasetType) || '' : '')
+  }, [datasetType])
+
   return (
     <div styleName='IncreaseData' id='IncreaseData'>
       <div className='IncreaseData_wrap'>
@@ -214,7 +241,9 @@ const IncreaseData = (): JSX.Element => {
         <div>
           <div className='tips_wrap'>
             <p>文件格式：</p>
-            <p>1.请按照右边引导示例文件构建压缩包，并严格按照示例文件夹名称命名。</p>
+            <p>1.请按照引导示例文件构建压缩包，并严格按照示例文件夹名称命名。
+              <a href={exampleUrl} target='_blank' rel='noreferrer'>下载示例</a>
+            </p>
             <p>2.压缩包支持zip、tar、gz格式。</p>
 
           </div>

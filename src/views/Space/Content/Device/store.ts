@@ -42,6 +42,8 @@ export const stepAtom = atom<'device' | 'reg_res'>('device')
 
 export const registerResultAtom = atom<Array<DeviceRegisterResult>>([])
 
+export const deviceTypeListAtom = atom<Device.Chip.Instance[]>([])
+
 
 // edge
 export const edgeGroupRemoteSearchRefAtom

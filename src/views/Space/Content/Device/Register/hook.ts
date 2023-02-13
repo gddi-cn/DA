@@ -3,18 +3,52 @@ import { useAtom } from 'jotai'
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
 import { Form, UploadFile } from 'antd'
 import deviceAPI from '@src/apis/device'
-import { stepAtom, registerResultAtom } from '../store'
+import { stepAtom, registerResultAtom, deviceTypeListAtom } from '../store'
 import { DeviceType } from '@src/shared/enum/device'
 import sdkAPI from '@src/apis/sdk'
 import { useRefreshTerminalDevice } from '../Terminal/hook'
 import { useRefreshEdgeDevice } from '../Edge/hook'
 
+export const useRefreshDeviceTypeList = () => {
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
+
+  return async () => {
+    if (loading) return
+
+    setLoading(true)
+
+    const { success, data } = await deviceAPI.chipTypeList({
+      page: 1,
+      page_size: 999,
+      type: DeviceType.EDGE,
+    })
+
+    setLoading(false)
+
+    if (!success || !data?.items) {
+      setDeviceTypeList([])
+      return
+    }
+
+    setDeviceTypeList(data.items || [])
+  }
+}
+
 export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
   const [open, setOpen] = React.useState<boolean>(false)
-  const [form] = Form.useForm<{ group: DeviceGroupOptions, gtx: UploadFile[] }>()
+  const [form] = Form.useForm<{
+    group: DeviceGroupOptions,
+    gtx: UploadFile[],
+    device_type_id?: Device.Chip.Instance['key']
+  }>()
   const [step, setStep] = useAtom(stepAtom)
   const [resList, setRes] = useAtom(registerResultAtom)
   const [loading, setLoading] = React.useState<boolean>(false)
+  const [deviceTypeList] = useAtom(deviceTypeListAtom)
+
+  const refreshDeviceTypeList = useRefreshDeviceTypeList()
+  const options = deviceTypeList.map(t => ({ key: t.key, label: t.name, value: t.key }))
 
   const title = step === 'device' ? '注册设备' : '注册结果'
 
@@ -30,13 +64,14 @@ export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
   }
 
   const handleOpen = () => {
+    refreshDeviceTypeList()
     setOpen(true)
   }
 
   const handleSubmit = async () => {
     if (loading) return
 
-    const { gtx, group } = await form.validateFields()
+    const { gtx, group, device_type_id } = await form.validateFields()
     const formData = new FormData()
 
     gtx.forEach(file => {
@@ -44,7 +79,12 @@ export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
     })
 
     setLoading(true)
-    const { success, data } = await deviceAPI.offlineRegister(group.value, formData, type)
+    const { success, data } = await deviceAPI.offlineRegister(
+      group.value,
+      formData,
+      type,
+      device_type_id,
+    )
     setLoading(false)
 
     if (type === DeviceType.TERMINAL) {
@@ -63,16 +103,6 @@ export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
       setStep('reg_res')
     })
 
-    React.useEffect(
-      () => {
-        if (step !== 'reg_res') {
-          setRes([])
-        } 
-
-        return () => setRes([])
-      },
-      [step]
-    )
   }
 
   React.useEffect(
@@ -81,6 +111,7 @@ export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
 
       setRes([])
       setStep('device')
+      form.resetFields()
     },
     [open]
   )
@@ -96,6 +127,7 @@ export const useRegister = (type: DeviceType.TERMINAL | DeviceType.EDGE) => {
     handleSubmit,
     handleBack,
     loading,
+    options,
   }
 }
 
