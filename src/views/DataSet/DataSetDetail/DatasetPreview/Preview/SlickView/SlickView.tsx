@@ -93,6 +93,7 @@ const SlickView = (props: Props): JSX.Element => {
         if (!name) {
           return;
         }
+        setDataList([])
         const res = await api.get(
           `/v3/datasets/${id}/sub-datasets/${currentId}/images`,
           { params: { ...params.current, page: page.current, class: name } }
@@ -100,7 +101,7 @@ const SlickView = (props: Props): JSX.Element => {
         if (res.code === 0) {
           const { items, total } = res.data;
           setDataList(items || []);
-          setTotal(total);
+          setTotal(total || 0);
 
           funcInfo?.callback && funcInfo.callback();
         } else {
