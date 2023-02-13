@@ -32,6 +32,17 @@ if (build.code) {
     |    恭喜您推送镜像成功，具体地址请查看，https://registry.gddi.com/harbor/projects/39/repositories/market_web_06      |
     -----------------------------------------------------------------------------------------------------------
     `);
+
+    const remark = _describetion.split('__')
+      .map((d, idx)=> ({
+        tag: 'text',
+        text: `\t${idx + 1}. ${d}\n`
+      }))
+      .unshift({
+        tag: 'text',
+        text: '备注：\n'
+      })
+
     // https://open.feishu.cn/open-apis/bot/v2/hook/a2b0d2ae-f050-4d2f-8af8-a912756f4fd9
     const data = JSON.stringify({
       msg_type: 'post',
@@ -52,16 +63,7 @@ if (build.code) {
                 },
 
               ],
-              [
-                {
-                  tag: 'text',
-                  text: '备注:\n'
-                },
-                {
-                  tag: 'text',
-                  text: `${_describetion}`
-                }
-              ]
+              remark,
             ]
           }
         }
