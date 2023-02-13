@@ -17,6 +17,9 @@ export const useFooter = () => {
   const navigate = useNavigate()
   const [dataset] = useAtom(currentDatasetAtom)
 
+  const model = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo.model
+  })
 
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
@@ -26,7 +29,8 @@ export const useFooter = () => {
     return state.tasksSilce.activeTaskInfo?.id
   })
 
-  const disabled = !dataset
+  const disabled = !dataset || Boolean(model)
+
   const handleClick = () => {
     if (disabled) return
 
