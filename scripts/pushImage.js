@@ -33,8 +33,6 @@ if (build.code) {
     -----------------------------------------------------------------------------------------------------------
     `);
 
-    console.log({ _describetion })
-
     const remark = _describetion.split('__')
       .map((d, idx)=> ({
         tag: 'text',
@@ -43,10 +41,8 @@ if (build.code) {
 
     remark.unshift({
       tag: 'text',
-      text: '备注：\n'
+      text: '\n备注：\n'
     })
-
-    console.log({ remark })
 
     // https://open.feishu.cn/open-apis/bot/v2/hook/a2b0d2ae-f050-4d2f-8af8-a912756f4fd9
     const data = JSON.stringify({
