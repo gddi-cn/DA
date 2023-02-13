@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { ReactComponent as AccountIcon } from '@src/asset/icons/space/account.svg'
+import { ReactComponent as AccountActiveIcon } from '@src/asset/icons/space/account_active.svg'
 
 import { useAccount } from './hook'
 
@@ -47,10 +48,12 @@ const Title = styled.p`
 `
 
 const Account: React.FC = () => {
-  const { handleClick, containerRef } = useAccount()
+  const { handleClick, containerRef, active } = useAccount()
   return (
     <Container ref={containerRef} onClick={handleClick}>
-      <AccountIcon />
+      {
+        active ? <AccountActiveIcon /> : <AccountIcon />
+      }
       <Title>个人账户</Title>
     </Container>
   )

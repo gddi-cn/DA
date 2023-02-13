@@ -346,7 +346,8 @@ export const useFooter = () => {
 export const useConfig = () => {
   const [selectedApp] = useAtom(selectedAppAtom)
   const [defaultValue, setDefaultValue] = React.useState<Pipeline>({} as Pipeline)
-  const [moduleDefinitions, setModuleDefinitions] = React.useState<ModuleDefinitions>({} as ModuleDefinitions)
+  const [moduleDefinitions, setModuleDefinitions] =
+    React.useState<ModuleDefinitions>({} as ModuleDefinitions)
 
   const { config_url, id, adapter_device } = selectedApp || {}
 

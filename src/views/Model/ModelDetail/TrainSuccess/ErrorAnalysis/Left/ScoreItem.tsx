@@ -83,7 +83,8 @@ const ScoreItem: React.FC<ScoreProps> = (props) => {
 
   return (
     <Container>
-      <ScoreBar onClick={handleClick} ref={scoreBarRef} width={width} backgroundColor={backgroundColor} />
+      <ScoreBar
+        onClick={handleClick} ref={scoreBarRef} width={width} backgroundColor={backgroundColor} />
       {
         falseType === ModelFalseType.SCENE ? (
           <Label>{sceneLabel}</Label>

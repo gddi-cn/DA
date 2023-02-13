@@ -14,5 +14,11 @@ declare namespace Device {
       page_size: number
       sort?: 'asc' | 'desc'
     }
+    
+    interface Option {
+      key: Instance['key']
+      value: Instance['key']
+      label: Instance['name']
+    }
   }
 }

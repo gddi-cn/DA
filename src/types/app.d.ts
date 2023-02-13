@@ -17,6 +17,8 @@ declare namespace App {
     //
     name: string
     type: import('@src/shared/enum/device').DeviceType
+    template_name: string
+    input:import('@src.shared/enum/applicaiton').AppTemplateInput
     update_time: number
   }
 
@@ -44,6 +46,8 @@ declare namespace App {
     page: number
     page_size: number
     sort?: 'asc' | 'desc'
+    label?: string
+    input?: import ('@src/shared/enum/application').AppTemplateInput
   }
 
   namespace Template {
@@ -53,6 +57,8 @@ declare namespace App {
       cover: string
       description: string
       id: number
+      input: string
+      labels: Array<string>
       name: string
       sample: string
     }
@@ -60,6 +66,9 @@ declare namespace App {
     interface ListParams {
       public_type?: import('@src/shared/enum/application').ApplicationTemplateType
       device_type?: import('@src/shared/enum/device').DeviceType
+      name?: string
+      label?: string
+      input?: import('@src/shared/enum/applicaiton').AppTemplateInput
       device_type_id?: Device.Chip.Instance['key']
       page_size: number
       page: number

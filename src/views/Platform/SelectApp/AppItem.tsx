@@ -6,7 +6,7 @@ import { formatUnixDate } from '@src/utils/tools'
 
 import { useAppItem } from './hook'
 import { DeleteOutlined, EllipsisOutlined } from '@ant-design/icons'
-import { Button, Dropdown, MenuProps } from 'antd'
+import { Dropdown, MenuProps } from 'antd'
 
 const Card = styled.div`
   background: #fff;

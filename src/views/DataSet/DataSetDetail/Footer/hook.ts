@@ -17,7 +17,6 @@ export const useFooter = () => {
   const navigate = useNavigate()
   const [dataset] = useAtom(currentDatasetAtom)
 
-
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })

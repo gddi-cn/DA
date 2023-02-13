@@ -12,3 +12,8 @@ export enum ApplicationTemplateType {
   PUBLIC = 'public',
   PRIVATE = 'private'
 }
+
+export enum AppTemplateInput {
+  IMAGE = 'image',
+  VIDEO_STREAM = 'video_stream',
+}

@@ -169,6 +169,8 @@ export const useAccount = () => {
 
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
 
+  const active = currentPage === Space.Page.ACCOUNT
+
   const handleClick = () => {
     setCurrentPage(Space.Page.ACCOUNT);
   };
@@ -177,7 +179,7 @@ export const useAccount = () => {
     const $c = containerRef.current;
     if (!$c) return;
 
-    if (currentPage === Space.Page.ACCOUNT) {
+    if (active) {
       $c.setAttribute("selected", "");
     } else {
       $c.removeAttribute("selected");
@@ -185,6 +187,7 @@ export const useAccount = () => {
   }, [currentPage]);
 
   return {
+    active,
     handleClick,
     containerRef,
   };
@@ -195,6 +198,8 @@ export const useDevice = () => {
 
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
 
+  const active = currentPage === Space.Page.DEVICE
+
   const handleClick = () => {
     setCurrentPage(Space.Page.DEVICE);
   };
@@ -203,7 +208,7 @@ export const useDevice = () => {
     const $c = containerRef.current;
     if (!$c) return;
 
-    if (currentPage === Space.Page.DEVICE) {
+    if (active) {
       $c.setAttribute("selected", "");
     } else {
       $c.removeAttribute("selected");
@@ -211,7 +216,68 @@ export const useDevice = () => {
   }, [currentPage]);
 
   return {
+    active,
     handleClick,
     containerRef,
   };
 };
+
+export const useApp = () => {
+  
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+
+  const active = currentPage === Space.Page.APP
+
+  const handleClick = () => {
+    setCurrentPage(Space.Page.APP);
+  };
+
+  React.useEffect(() => {
+    const $c = containerRef.current;
+    if (!$c) return;
+
+    if (active) {
+      $c.setAttribute("selected", "");
+    } else {
+      $c.removeAttribute("selected");
+    }
+  }, [currentPage]);
+
+  return {
+    active,
+    handleClick,
+    containerRef,
+  };
+}
+
+export const useDeploy = () => {
+  
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+
+  const active = currentPage === Space.Page.DEPLOY
+
+  const handleClick = () => {
+    setCurrentPage(Space.Page.DEPLOY);
+  };
+
+  React.useEffect(() => {
+    const $c = containerRef.current;
+    if (!$c) return;
+
+    if (active) {
+      $c.setAttribute("selected", "");
+    } else {
+      $c.removeAttribute("selected");
+    }
+  }, [currentPage]);
+
+  return {
+    active,
+    handleClick,
+    containerRef,
+  };
+}

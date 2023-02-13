@@ -34,6 +34,24 @@ const appAPI = {
     }
   },
 
+  templateLabelList: async ():
+    Promise<APIResponse<Array<string>>> => {
+    try {
+      const { data } = await http.get('/v3/apptemplate/labels')
+
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+    
+  },
+
   create: async (data: App.CreateData): Promise<APIResponse<App.Instance>> => {
     try {
       const { data: _data } = await http.post('/v3/apps', data)
@@ -103,6 +121,23 @@ const appAPI = {
       }
     }
   },
+
+  detail: async (id: App.Instance['id']): Promise<APIResponse<App.Instance>> => {
+    try {
+      const { data } = await http.get(`/v3/apps/${id}`)
+
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      console.error(e)
+
+      return {
+        success: false
+      }
+    }
+  }
 }
 
 export default appAPI

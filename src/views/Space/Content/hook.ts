@@ -11,9 +11,15 @@ export const useContent = () => {
 
   const showDevice = currentPage === Space.Page.DEVICE
 
+  const showApp = currentPage === Space.Page.APP
+
+  const showDeploy = currentPage === Space.Page.DEPLOY
+
   return {
     showUsage,
     showAccount,
     showDevice,
+    showApp,
+    showDeploy,
   }
 }

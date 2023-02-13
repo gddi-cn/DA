@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { ReactComponent as DeviceIcon } from '@src/asset/icons/space/device.svg'
+import { ReactComponent as DeviceActiveIcon } from '@src/asset/icons/space/device_active.svg'
 
 import { useDevice } from './hook'
 
@@ -43,10 +44,13 @@ const Title = styled.p`
 `
 
 const Device: React.FC = () => {
-  const { handleClick, containerRef } = useDevice()
+  const { handleClick, containerRef, active } = useDevice()
+
   return (
     <Container ref={containerRef} onClick={handleClick}>
-      <DeviceIcon />
+      {
+        active ? <DeviceActiveIcon /> : <DeviceIcon />
+      }
       <Title>设备中心</Title>
     </Container>
   )
