@@ -45,7 +45,12 @@ const UplaodImageView = (type: string | undefined, tips: React.ReactNode | undef
 }
 
 const UploadFIle = (props: Props): JSX.Element => {
-  const { regExp, onUpload, maxSize, children, className, onChange, tips, type, value, onError, isShowFileName, ...rest } = props
+  const {
+    regExp, onUpload, maxSize, children,
+    className, onChange, tips, type,
+    value, onError, isShowFileName,
+    ...rest
+  } = props
 
   const [filesrc, setFilesrc] = useState<string>('')
   const [loading, setloading] = useState<any>(false)
@@ -190,7 +195,6 @@ const UploadFIle = (props: Props): JSX.Element => {
       return (
         <div className='preview_wrap'>
           <Image
-            width={200}
             src={filesrc}
           />
           <div className='delete_btn' onClick={handleDelete}>
