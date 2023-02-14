@@ -84,7 +84,7 @@ declare namespace App {
       id: number
       pending_count: number
       success_count: number
-      sync_state: 'Done' | 'InProgress'
+      sync_state: 'Done' | 'InProgress' | 'Failure'
       total: number
     }
   }
