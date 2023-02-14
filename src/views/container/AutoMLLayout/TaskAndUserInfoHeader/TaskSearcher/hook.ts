@@ -5,7 +5,6 @@ import { produce } from 'immer'
 import { useDispatch } from 'react-redux'
 
 import projectAPI from "@src/apis/project"
-import { ProjectStatus } from "@src/shared/enum/project"
 import {
     fetchedAllAtom,
   fetchingTaskListAtom,
@@ -38,7 +37,7 @@ export const useFetchTaskList = () => {
       name,
       page: loadMore ? page + 1 : 1,
       page_size: PAGE_SIZE,
-      status: name === '' ? ProjectStatus.ACTIVE : undefined,
+      status: undefined,
       sort: 'desc',
     })
     loadMore && setPage(p => p + 1)
