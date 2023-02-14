@@ -137,7 +137,21 @@ const appAPI = {
         success: false
       }
     }
-  }
+  },
+
+  syncList: async(id: App.Instance['id']): Promise<APIListResponse<App.Sync.Reacord>> => {
+    try {
+      const { data } = await http.get(`/v3/apps/${id}/syncs`)
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      return {
+        success: false
+      }
+    }
+  },
 }
 
 export default appAPI

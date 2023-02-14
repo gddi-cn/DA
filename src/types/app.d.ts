@@ -14,12 +14,20 @@ declare namespace App {
     description: string
     // ID
     id: number
-    //
+    input: import('@src.shared/enum/applicaiton').AppTemplateInput
+    // 模型列表
+    models: Array<Model>
+    // 名称
     name: string
-    type: import('@src/shared/enum/device').DeviceType
     template_name: string
-    input:import('@src.shared/enum/applicaiton').AppTemplateInput
+    type: import('@src/shared/enum/device').DeviceType
     update_time: number
+  }
+
+  interface Model {
+    create_time: number
+    id: number
+    name: string
   }
 
   interface CreateData {
@@ -48,6 +56,37 @@ declare namespace App {
     sort?: 'asc' | 'desc'
     label?: string
     input?: import ('@src/shared/enum/application').AppTemplateInput
+  }
+
+  namespace Sync {
+    interface Device {
+      chip: stirng
+      create_time: number
+      expire: number
+      id: number
+      match: boolean
+      name: string
+      sn: string
+      state: 'online' | 'offline'
+      sync_state: 'Done' | 'InProgress' | 'Failure'
+      syncs: Array<{ app_name: string, sync_state: 'Done' | 'InProgress' | 'Failure' }>
+      type: string
+      update_time: number
+    }
+
+    interface Reacord {
+      config_url: string
+      create_time: number
+      devices: Array<Device>
+      failed_count: number
+      group_id: number
+      group_name: string
+      id: number
+      pending_count: number
+      success_count: number
+      sync_state: 'Done' | 'InProgress'
+      total: number
+    }
   }
 
   namespace Template {

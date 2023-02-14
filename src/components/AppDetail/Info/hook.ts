@@ -1,13 +1,25 @@
 import { useAtom } from 'jotai'
 import moment from 'moment'
 
-import { appAtom } from '../store'
+import { appAtom, deployRecordListAtom } from '../store'
 import default_cover from '@src/asset/images/app/default_cover.png'
 import { ReactComponent as ImgServerIcon } from '@src/asset/icons/app/img_server.svg'
 import { ReactComponent as VideoServerIcon } from '@src/asset/icons/app/stream_server.svg'
 import { AppTemplateInput } from '@src/shared/enum/application'
 
-export const useInfo = () => {
+export const useHeader = () => {
+  const [app] = useAtom(appAtom)
+
+  const {
+    name,
+  } = app || {}
+
+  return {
+    name,
+  }
+}
+
+export const useMeta = () => {
   const [app] = useAtom(appAtom)
 
   const {
@@ -43,5 +55,24 @@ export const useInfo = () => {
     created,
     updated,
     description,
+  }
+}
+
+
+export const useConfig = () => {
+  const [app] = useAtom(appAtom)
+
+  const modelList = app?.models || []
+
+  return {
+    modelList,
+  }
+}
+
+export const useDeploy = () => {
+  const [recordList] = useAtom(deployRecordListAtom)
+
+  return {
+    recordList,
   }
 }

@@ -130,8 +130,6 @@ export class Ws {
   // 监听关闭
   onclose () {
     this.ws.onclose = () => {
-      console.log('onclose')
-
       // 用户手动关闭的不重连
       if (this.isCustomClose) return
 

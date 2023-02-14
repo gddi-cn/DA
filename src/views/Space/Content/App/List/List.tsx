@@ -1,6 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import Scrollbar from '@src/components/Scrollbar'
+import CustomScrollbar, { ScrollbarProps as CustomScrollbarProps } from 'react-custom-scrollbars'
+
+export interface ScrollbarProps extends Partial<CustomScrollbarProps> {
+
+}
 
 import { useAppList } from './hook'
 
@@ -11,6 +15,8 @@ import DeviceFilter from './DeviceFilter'
 import CreateBtn from './CreateBtn'
 import AppItem from './AppItem'
 import { Spin } from 'antd'
+
+const Bar: any = CustomScrollbar
 
 const Container = styled.div`
   background-color: #fff;
@@ -71,8 +77,13 @@ const LoadingWrap = styled.div`
   background-color: rgba(255, 255, 255, .5)
 `
 
+const ScrollContainer = styled.div`
+  height: 100%;
+  width: 100%;
+`
+
 const List: React.FC = () => {
-  const { appList, loading } = useAppList()
+  const { appList, loading, scrollbarRef, handleScroll, } = useAppList()
 
   return (
     <Container>
@@ -95,15 +106,17 @@ const List: React.FC = () => {
             </LoadingWrap>
           ) : null
         }
-        <Scrollbar autoHide>
-          <Content>
-            {
-              appList.map(app => (
-                <AppItem {...app} key={app.id} />
-              ))
-            }
-          </Content>
-        </Scrollbar>
+        <ScrollContainer>
+          <Bar ref={scrollbarRef} onScrollFrame={handleScroll} autoHide>
+            <Content>
+              {
+                appList.map(app => (
+                  <AppItem {...app} key={app.id} />
+                ))
+              }
+            </Content>
+          </Bar>
+        </ScrollContainer>
       </ScrollWrap>
     </Container>
   )

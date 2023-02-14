@@ -1,12 +1,10 @@
 import appAPI from '@src/apis/app'
 import { useAtom } from 'jotai'
 import React from 'react'
-import produce from 'immer'
 
 import { Space } from '../../enums'
 import {
-  appListAtom,
-  fetchingAppAtom,
+  appListAtom, fetchingAppAtom,
   nameFilterAtom,
   selectedDeviceTypeAtom,
   deviceTypeListAtom,
@@ -18,7 +16,11 @@ import {
   pageFilterAtom,
   pageSizeFilterAtom,
   templateInputAtom,
+  listInitAtom,
+  DEFAULT_PAGE_SIZE,
 } from './store'
+
+import { useAppListFetcher } from './List/hook'
 
 const useResetStore = () => {
   const [, setAppList] = useAtom(appListAtom)
@@ -34,6 +36,7 @@ const useResetStore = () => {
   const [, setPage] = useAtom(pageFilterAtom)
   const [, setPageSize] = useAtom(pageSizeFilterAtom)
   const [, setInput] = useAtom(templateInputAtom)
+  const [, setInit] = useAtom(listInitAtom)
 
   React.useEffect(
     () => {
@@ -49,8 +52,9 @@ const useResetStore = () => {
         setTemplateLabelList([])
         setSelectedTemplateLabelOption(null)
         setPage(1)
-        setPageSize(32)
+        setPageSize(DEFAULT_PAGE_SIZE)
         setInput(undefined)
+        setInit(false)
         setLoading(false)
       }
     },
@@ -73,90 +77,14 @@ const useRefreshTemplateLabelList = () => {
   }
 }
 
-export const useRefreshAppList = () => {
-  const [, setAppList] = useAtom(appListAtom)
-  const [, setTotal] = useAtom(appTotalAtom)
-  const [loading, setLoading] = useAtom(fetchingAppAtom)
-  const [page, setPage] = useAtom(pageFilterAtom)
-  const [page_size, setPageSize] = useAtom(pageSizeFilterAtom)
-  const [name] = useAtom(nameFilterAtom)
-  const [selectedDeviceType] = useAtom(selectedDeviceTypeAtom)
-  const [selectedTemplateLabel] = useAtom(selectedTemplateLabelOptionAtom)
-  const [inputOption] = useAtom(templateInputAtom)
-
-  const device = selectedDeviceType?.value
-  const label = selectedTemplateLabel?.value
-  const input = inputOption?.value
-
-  return async (firstPage = false) => {
-    if (loading) return
-
-    setLoading(true)
-    firstPage && setPage(1)
-    const { success, data } = await appAPI.list({
-      page,
-      page_size,
-      device,
-      name,
-      label,
-      input,
-    })
-    setLoading(false)
-
-    if (!success || !data?.items) {
-      setTotal(0)
-      setAppList([])
-      return
-    }
-
-    if (firstPage) {
-      setAppList(data.items || [])
-    } else {
-      setAppList(produce(draft => {
-        draft.push(...(data.items || []))
-      }))
-    }
-
-    setTotal(data?.total || 0)
-  }
-}
-
-const useListFilter = () => {
-  const initRef = React.useRef<boolean>(false)
-  const [page] = useAtom(pageFilterAtom)
-  const [page_size] = useAtom(pageSizeFilterAtom)
-  const [name] = useAtom(nameFilterAtom)
-  const [selectedDeviceType] = useAtom(selectedDeviceTypeAtom)
-  const [selectedTemplateLabel] = useAtom(selectedTemplateLabelOptionAtom)
-  const [inputOption] = useAtom(templateInputAtom)
-
-  const refresh = useRefreshAppList()
-
-  React.useEffect(
-    () => {
-      refresh(Boolean(!initRef.current))
-    },
-    [page]
-  )
-   
-  React.useEffect(
-    () => {
-      if (!initRef.current) {
-        initRef.current = true
-        return 
-      }
-      refresh(true)
-    },
-    [page_size, name, selectedDeviceType, selectedTemplateLabel, inputOption]
-  )
-}
 
 
 export const useApp = () => {
   const [currentPage] = useAtom(currentPageAtom)
 
+  useAppListFetcher()
   useResetStore()
-  useListFilter()
+
   const refreshTemplateLabelList = useRefreshTemplateLabelList()
 
   React.useEffect(

@@ -7,3 +7,7 @@ export const fetchingAppAtom = atom<boolean>(false)
 
 export const currentPageAtom = atom<AppDetail.Page>(AppDetail.Page.INFO)
 
+export const deployRecordListAtom = atom<App.Sync.Reacord[]>([])
+
+export const fetchingRecordAtom = atom<boolean>(false)
+

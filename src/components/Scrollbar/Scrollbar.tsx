@@ -16,6 +16,7 @@ const Container = styled.div`
 const Scrollbar: React.FC<ScrollbarProps> = (
   {
     children,
+    ref,
     ...props
   }
 ) => {
@@ -23,7 +24,7 @@ const Scrollbar: React.FC<ScrollbarProps> = (
 
   return (
     <Container>
-      <Bar {...props}>
+      <Bar ref={ref} {...props}>
         { c }
       </Bar>
     </Container>
