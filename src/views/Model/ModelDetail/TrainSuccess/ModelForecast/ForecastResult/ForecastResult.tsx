@@ -15,6 +15,7 @@ import moment from "moment";
 import { DatasetScene } from "@src/shared/enum/dataset";
 
 const { RangePicker } = DatePicker;
+
 const RenderView = (props: any) => {
   const { data, scenes } = props;
   const datainfo = transformModelOutputData({
@@ -22,9 +23,11 @@ const RenderView = (props: any) => {
     modelType: scenes,
   });
 
-  if (isEmpty(datainfo)) {
-    return null;
-  }
+
+  // if (isEmpty(datainfo)) {
+  //   return null;
+  // }
+  
   const { dataSet } = datainfo;
   // 这里不能让react复用、我猜是离屏canvas导致的缓存问题~
   return (
@@ -36,10 +39,12 @@ const RenderView = (props: any) => {
       drawCanvasData={
         scenes === "detection" ||
         scenes === "monocular_3d_detection" ||
+        scenes === DatasetScene.KeypointsDetection ||
         scenes === DatasetScene.ImageRetrieval
       }
       hasHtmlTips={
-        scenes === "classify" || scenes === DatasetScene.ImageRetrieval
+        scenes === "classify" ||
+        scenes === DatasetScene.ImageRetrieval
       }
     />
   );
