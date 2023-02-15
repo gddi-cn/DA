@@ -8,11 +8,10 @@ import { ReactComponent as ChipIcon } from './icon/chip.svg'
 
 const Container = styled.ul<{ bgColor?: React.CSSProperties['color'] }>`
   width: 100%;
-  height: 130px;
   border-radius: 8px;
   padding: 10px 20px;
   display: flex;
-  column-gap: 4px;
+  column-gap: 8px;
   background-color: ${props => props.bgColor || '#fff'};
   justify-content: space-between;
   margin: 0;
@@ -24,9 +23,9 @@ const Container = styled.ul<{ bgColor?: React.CSSProperties['color'] }>`
 
 const Img = styled.img`
   display: block;
-  height: 110px;
   width: 110px;
-  object-fix: contain;
+  height: 110px;
+  object-fit: cover;
   border-radius: 8px;
 `
 
@@ -43,6 +42,9 @@ const Status = styled.p<{ color?: React.CSSProperties['color'] }>`
   line-height: 20px;
   color: ${props => props.color || '#000'};
   margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const Name = styled.p`
@@ -51,6 +53,9 @@ const Name = styled.p`
   line-height: 20px;
   color: #061926;
   margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const Meta = styled.div`
@@ -68,12 +73,15 @@ const Scene = styled.div<{ bgColor?: React.CSSProperties['backgroundColor']}>`
   font-size: 14px;
   line-height: 20px;
   color: #FFF;
+  text-align: center;
   background-color: ${props => props.bgColor || '#eee'};
   border-radius: 12px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
-const Platform = styled.p<{
+const Platform = styled.div<{
   color?: React.CSSProperties['color'],
   fill?: React.CSSProperties['fill'] }
 >`
@@ -102,6 +110,9 @@ const CreatedTime = styled.p`
   font-size: 14px;
   line-height: 20px;
   color: rgba(6, 25, 38, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const TaskItem: React.FC<Project.Detail> = (project) => {
@@ -121,7 +132,7 @@ const TaskItem: React.FC<Project.Detail> = (project) => {
     <Container bgColor={bgColor} onClick={handleClick}>
       <Left>
         <Status color={color}>{statusTip}</Status>
-        <Name>{name}</Name>
+        <Name title={name}>{name}</Name>
         <Meta>
           <Scene bgColor={color}>{scene}</Scene>
           <Platform color={color} fill={color}>

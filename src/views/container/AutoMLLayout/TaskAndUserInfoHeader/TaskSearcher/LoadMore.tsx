@@ -9,6 +9,10 @@ const Container = styled.div`
 `
 
 const Button = styled(AntButton)`
+  color: #3693D1;
+  &:hover, &:active, &:focus {
+    color: #3693D1;
+  }
 `
 
 const Tip = styled.p`
@@ -26,7 +30,7 @@ const LoadMore: React.FC = () => {
         showBtn ? (
           <Button block type={'text'} onClick={handleClick}>加载更多</Button>
         ) : (
-          <Tip>暂无更多</Tip>        
+          <Tip>我已到底</Tip>        
         )
       }
     </Container>

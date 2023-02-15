@@ -465,11 +465,11 @@ export const imgMapping: Map<AnalyzeItem, AnalyzeImage> = new Map([
 ])
 
 export const sceneNameMapping: Map<DatasetScene, string> = new Map([
-  [DatasetScene.Detection, '检测'],
+  [DatasetScene.Detection, '目标检测'],
   [DatasetScene.Classify, '图片分类'],
   [DatasetScene.CityscapesSegment, '通用分割'],
   [DatasetScene.PoseDetection, '姿态检测'],
-  [DatasetScene.CarPoseDetection, '单目3D 检测'],
+  [DatasetScene.CarPoseDetection, '单目3D检测'],
   [DatasetScene.KeyPointsBasedAction, '动作识别'],
   [DatasetScene.KeypointsDetection, '关键点检测'],
   [DatasetScene.ImageRetrieval, '图像检索'],
