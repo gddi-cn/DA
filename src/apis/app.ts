@@ -152,6 +152,24 @@ const appAPI = {
       }
     }
   },
+
+  update: async(
+    id: App.Instance['id'],
+    data: Partial<Pick<App.Instance, 'name' | 'cover' | 'description'>>
+  ): Promise<APIResponse<void>> => {
+    try {
+      await http.put(`/v3/apps/${id}`, data)
+      return {
+        success: true,
+      }
+    } catch(e) {
+      console.error(e)
+
+      return {
+        success: false,
+      }
+    }
+  },
 }
 
 export default appAPI
