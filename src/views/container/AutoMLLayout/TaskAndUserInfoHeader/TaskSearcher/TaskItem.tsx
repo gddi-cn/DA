@@ -11,8 +11,9 @@ const Container = styled.ul<{ bgColor?: React.CSSProperties['color'] }>`
   height: 130px;
   border-radius: 8px;
   padding: 10px 20px;
-  background-color: ${props => props.bgColor || '#fff'};
   display: flex;
+  column-gap: 4px;
+  background-color: ${props => props.bgColor || '#fff'};
   justify-content: space-between;
   margin: 0;
   cursor: pointer;
@@ -32,6 +33,8 @@ const Img = styled.img`
 const Left = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  overflow: hidden;
 `
 
 const Status = styled.p<{ color?: React.CSSProperties['color'] }>`
@@ -55,6 +58,7 @@ const Meta = styled.div`
   column-gap: 10px;
   align-items: center;
   margin-bottom: 10px;
+  overflow: hidden;
 `
 
 const Scene = styled.div<{ bgColor?: React.CSSProperties['backgroundColor']}>`
@@ -66,6 +70,7 @@ const Scene = styled.div<{ bgColor?: React.CSSProperties['backgroundColor']}>`
   color: #FFF;
   background-color: ${props => props.bgColor || '#eee'};
   border-radius: 12px;
+  white-space: nowrap;
 `
 
 const Platform = styled.p<{
@@ -79,8 +84,16 @@ const Platform = styled.p<{
   display: flex;
   align-items: center;
   column-gap: 5px;
+  flex: 1;
+  overflow: hidden;
   *{
     fill: ${props => props.fill}
+  }
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
   }
 `
 
@@ -113,7 +126,7 @@ const TaskItem: React.FC<Project.Detail> = (project) => {
           <Scene bgColor={color}>{scene}</Scene>
           <Platform color={color} fill={color}>
             <ChipIcon />
-            <span>{platform}</span>           
+            <p title={platform}>{platform}</p>
           </Platform>
         </Meta>
         <CreatedTime>{createdTime}</CreatedTime>
