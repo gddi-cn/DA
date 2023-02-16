@@ -147,7 +147,13 @@ const SyncList: React.FC<{
                 <DeployTime>{formatUnixTime(record.create_time)}</DeployTime>
               </RowCell>
               <RowCell>
-                <StatusBar bg={bgMapping[record.sync_state]}>
+                <StatusBar
+                  bg={
+                    record.sync_state === 'Done' && record.failed_count > 0
+                      ? '#FAD514'
+                      : bgMapping[record.sync_state]
+                  }
+                >
                   { labelMapping[record.sync_state] || '未知' }
                 </StatusBar>
               </RowCell>

@@ -1,8 +1,36 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Avatar as AntAvatar, Tooltip } from 'antd'
 
 import { useMeta } from './hook'
 import Scrollbar from '@src/components/Scrollbar'
+import camera from '@src/asset/images/space/camera.png'
+
+const AvatarWrap = styled.label`
+  width: 300px;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+`
+
+const Camera = styled.img`
+  display: flex;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+`
+
+const CoverFooter = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(98, 176, 229, .3);
+  //background-color: #ccecff;
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+`
 
 const Container = styled.div`
   display: flex;
@@ -104,6 +132,8 @@ const Meta: React.FC = () => {
     created,
     updated,
     description,
+    handleCoverChange,
+    loading,
   } = useMeta()
 
   return (
@@ -118,9 +148,9 @@ const Meta: React.FC = () => {
         </TagWrap>
         <Device>适用设备类型：{adapter_device}</Device>
         <Text>创建时间：{created}</Text>
-        <Text>最后修改时间：{updated}</Text>
+        <Text>修改时间：{updated}</Text>
         <DescWrap>
-          <Text>描述</Text>
+          <Text>描述：</Text>
           <Description>
             <Scrollbar autoHide>
               <Desc>
@@ -130,7 +160,20 @@ const Meta: React.FC = () => {
           </Description>
         </DescWrap>
       </MetaWrap>
-      <Cover src={cover} alt='cover' />
+      <Tooltip title={'更换封面'} placement='right'>
+        <AvatarWrap>
+          <Cover src={cover} alt='cover' />
+          <CoverFooter>
+            <Camera src={camera} alt={'camera'} />
+          </CoverFooter>
+          <input
+            type={'file'} style={{ display: 'none' }}
+            accept={'image/png, image/jpeg, image/jpg'}
+            onChange={handleCoverChange}
+            disabled={loading}
+          />
+        </AvatarWrap>
+      </Tooltip>
     </Container>
   )
 }

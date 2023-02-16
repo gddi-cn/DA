@@ -12,6 +12,8 @@ import { Form, message, Modal } from 'antd'
 import appAPI from '@src/apis/app'
 import { useRefresh } from '../hook'
 import { AppDetail } from '../enums';
+import s3API from '@src/apis/s3';
+import { useRefreshAppList } from '@src/views/Space/Content/App/List/hook';
 
 export const useHeader = () => {
   const [app] = useAtom(appAtom)
@@ -27,8 +29,12 @@ export const useHeader = () => {
 
 export const useMeta = () => {
   const [app] = useAtom(appAtom)
+  const [loading, setLoading] = React.useState<boolean>(false)
+
+  const refresh = useRefresh()
 
   const {
+    id,
     name,
     cover: _cover,
     template_name,
@@ -51,6 +57,37 @@ export const useMeta = () => {
     ? moment(new Date(update_time * 1000)).format('YYYY-MM-DD HH:mm:SS')
     : '--'
 
+  const handleCoverChange: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
+    if (!id) return
+    if (loading) {
+      e.target.value = ''
+      return
+    }
+
+    const file = e.target.files && e.target.files[0]
+
+    e.target.value = ''
+
+    if (!file) return
+
+    const { name } = file
+
+    if (!/.(jpg|jpeg|png)$/.test(name.toLowerCase())) {
+      message.warn('不支持该类型文件')
+      return
+    }
+
+    setLoading(true)
+    const { success, data } = await s3API.uploadRawFile(file)
+
+    if (success && data) {
+      const { success } = await appAPI.update(id, { cover: data })
+      refresh(id)
+      success && message.success('修改成功')
+    }
+    setLoading(false)
+  }
+
   return {
     name,
     cover,
@@ -61,6 +98,8 @@ export const useMeta = () => {
     created,
     updated,
     description,
+    handleCoverChange,
+    loading,
   }
 }
 
@@ -130,6 +169,7 @@ export const useMore = () => {
 
   const { id } = app || {}
   const refresh = useRefresh()
+  const refreshList = useRefreshAppList()
 
   const handleCopy = async () => {
     if (!id || loading) return
@@ -138,6 +178,8 @@ export const useMore = () => {
     setLoading(false)
 
     if (!success) return
+
+    refreshList()
 
     message.success('复制成功')
   }

@@ -42,7 +42,7 @@ const ModelTitle = styled.p`
 
 const ModelListWrap = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(209px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(209px, 340px));
   gap: 20px;
   margin-top: 10px;
 `
