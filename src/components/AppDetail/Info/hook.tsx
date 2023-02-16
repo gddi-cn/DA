@@ -1,15 +1,17 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 import moment from 'moment'
+import {ExclamationCircleOutlined} from "@ant-design/icons";
 
-import { appAtom, deployRecordListAtom } from '../store'
+import { appAtom, currentPageAtom, currentRecordAtom, deployRecordListAtom, onCloseRefAtom, onDeleteRefAtom } from '../store'
 import default_cover from '@src/asset/images/app/default_cover.png'
 import { ReactComponent as ImgServerIcon } from '@src/asset/icons/app/img_server.svg'
 import { ReactComponent as VideoServerIcon } from '@src/asset/icons/app/stream_server.svg'
 import { AppTemplateInput } from '@src/shared/enum/application'
-import { Form, message } from 'antd'
+import { Form, message, Modal } from 'antd'
 import appAPI from '@src/apis/app'
 import { useRefresh } from '../hook'
+import { AppDetail } from '../enums';
 
 export const useHeader = () => {
   const [app] = useAtom(appAtom)
@@ -121,21 +123,103 @@ export const useEdit = () => {
   }
 }
 
+export const useMore = () => {
+  const [app] = useAtom(appAtom)
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [onDeleteRef] = useAtom(onDeleteRefAtom)
+
+  const { id } = app || {}
+  const refresh = useRefresh()
+
+  const handleCopy = async () => {
+    if (!id || loading) return
+    setLoading(true)
+    const { success } = await appAPI.copy(id)
+    setLoading(false)
+
+    if (!success) return
+
+    message.success('复制成功')
+  }
+
+  const handleDelete = async () => {
+    if (!id || loading) return
+
+    Modal.confirm({
+      title: '删除应用',
+      icon: <ExclamationCircleOutlined />,
+      content: '删除后将无法恢复，是否确定删除？',
+      okType: 'danger',
+      okText: '确定',
+      cancelText: '取消',
+      onOk: async () => {
+        setLoading(true)
+        const { success } = await appAPI.delete(id)
+        setLoading(false)
+
+        if (!success) {
+          refresh(id)
+          return
+        }
+
+        const onDelete = onDeleteRef?.current
+        onDelete && onDelete()
+
+        message.success('删除成功')
+      },
+    })
+  }
+
+  return {
+    handleCopy,
+    handleDelete,
+    loading,
+  }
+}
 
 export const useConfig = () => {
   const [app] = useAtom(appAtom)
+  const [, setCurrentPage] = useAtom(currentPageAtom)
 
   const modelList = app?.models || []
 
+  const handleConfig = () => {
+    setCurrentPage(AppDetail.Page.CONFIG)
+  }
+
+
   return {
     modelList,
+    handleConfig,
   }
 }
 
 export const useDeploy = () => {
   const [recordList] = useAtom(deployRecordListAtom)
+  const [, setCurrentPage] = useAtom(currentPageAtom)
+  const [, setCurrentRecord] = useAtom(currentRecordAtom)
+
+  const handleClick = (record: App.Sync.Record) => {
+    setCurrentRecord(record)
+    setCurrentPage(AppDetail.Page.DEPLOY)
+  }
 
   return {
     recordList,
+    handleClick,
+  }
+}
+
+export const useInfo = () => {
+  const [onCloseRef] = useAtom(onCloseRefAtom)
+
+  const handleClose = () => {
+    const onClose = onCloseRef?.current
+
+    onClose && onClose()
+  }
+
+  return {
+    handleClose,
   }
 }

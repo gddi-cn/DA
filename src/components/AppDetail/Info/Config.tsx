@@ -7,6 +7,7 @@ import { ReactComponent as RightIcon } from '../icons/right.svg'
 import { ReactComponent as ChipIcon } from '../icons/chip.svg'
 import { formatUnixTime } from '@src/utils/tools'
 import noModel from '../images/no_model.png'
+import { PrimaryBtn } from '@src/components/Button'
 
 const Container = styled.div`
   margin-top: 40px;
@@ -82,11 +83,12 @@ const ModelCreated = styled.p`
   color: #8C8C8C;
 `
 
-const ImgWrap = styled.div`
+const EmptyWrap = styled.div`
   width: 100%;
   margin-top: 31px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `
 
 const Img = styled.img`
@@ -96,8 +98,20 @@ const Img = styled.img`
   object-fit: contain;
 `
 
+const Tip = styled.p`
+  margin-top: 20px;
+  color: #061926;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+`
+
+const BtnWrap = styled.div`
+  margin-top: 10px;
+`
+
 const Config: React.FC = () => {
-  const { modelList } = useConfig()
+  const { modelList, handleConfig, } = useConfig()
 
   // mock data for test
   // modelList.push(...[
@@ -110,7 +124,10 @@ const Config: React.FC = () => {
     <Container>
       <Header>
         <Title>关键参数</Title>
-        <Btn icon={<RightIcon />} type='text' size='large'>
+        <Btn
+          icon={<RightIcon />} type='text'
+          size='large' onClick={handleConfig}
+        >
           详情
         </Btn>
       </Header>
@@ -133,9 +150,15 @@ const Config: React.FC = () => {
             </ModelListWrap>
           </>
         ) : (
-          <ImgWrap>
+          <EmptyWrap>
             <Img src={noModel} alt='no model' />
-          </ImgWrap>
+            <Tip>该应用未添加模型，为了避免影响部署模型，请尽快添加</Tip>
+            <BtnWrap>
+              <PrimaryBtn width={97} onClick={handleConfig}>
+                添加模型
+              </PrimaryBtn>
+            </BtnWrap>
+          </EmptyWrap>
         )
       }
     </Container>

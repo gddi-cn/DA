@@ -11,6 +11,7 @@ export namespace Space {
       LIST = 1,
       CREATE,
       DETAIL,
+      CONFIG,
     }
     export namespace Detail {
       export enum Page {
@@ -23,7 +24,6 @@ export namespace Space {
       export enum Step {
         META,
         TEMPLATE,
-        CONFIG,
       }
     }
   }

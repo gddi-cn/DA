@@ -25,7 +25,9 @@ export enum GroupDeviceState {
   // 在线
   ONLINE = 'online',
   // 离线
-  OFFLINE = 'offline'
+  OFFLINE = 'offline',
+  // 注销, 查看下发记录才可能出现
+  DETELE = 'deleted'
 }
 
 // 设备 SDK 注册结果

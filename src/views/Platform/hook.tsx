@@ -408,7 +408,7 @@ export const useConfig = () => {
       defaultValue,
       moduleDefinitions,
     },
-    appBaseINfo: {
+    appBaseInfo: {
       id,
       adapter_device,
     }

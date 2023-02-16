@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ReactComponent as UploadIcon } from '@src/asset/icons/upload-cloud.svg'
 import { Upload, Form, Input } from 'antd'
 
-import Box from '../Box'
+import Box from '@src/components/Box'
 import RemoteSearch from '@src/components/RemoteSearch'
 import deviceAPI from '@src/apis/device'
 import { PrimaryBtn, SecondaryBtn } from '@src/components/Button'

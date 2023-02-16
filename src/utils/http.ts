@@ -31,7 +31,7 @@ axiosInstance.interceptors.response.use(
     const response = error.response
 
     if (!response) {
-      notify.error('1')
+      notify.error('请求超时')
       return Promise.reject(error)
     }
 

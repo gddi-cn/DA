@@ -8,6 +8,7 @@ interface BoxProps {
   header?: React.ReactNode
   children?: React.ReactNode
   footer?: React.ReactNode
+  noScroll?: boolean
 }
 
 const Container = styled.div`
@@ -48,17 +49,22 @@ const Detail: React.FC<BoxProps> = (
     children,
     header,
     footer,
+    noScroll = false,
   }
 ) => {
 
   return (
     <Container>
       <ScrollWrap>
-        <Scrollbar autoHide>
-          <Content>
-            { children }
-          </Content>
-        </Scrollbar>
+        {
+          noScroll ? children : (
+            <Scrollbar autoHide>
+              <Content>
+                { children }
+              </Content>
+            </Scrollbar>
+          )
+        }
       </ScrollWrap>
       <Header>{header}</Header>
       <Footer>

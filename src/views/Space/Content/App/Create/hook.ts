@@ -63,7 +63,11 @@ export const useMeta = () => {
   const [, setCurrentStep] = useAtom(currentStepAtom)
   const [, setCurrentPage] = useAtom(currentPageAtom)
 
-  const [form] = Form.useForm<App.CreateForm>()
+  const [form] =
+  Form.useForm<
+    Omit<App.CreateForm, 'app_template_id' | 'adapter_device'> &
+    { adapter_device: Device.Chip.Instance }
+  >()
 
   const [loading, setLoading] = React.useState<boolean>(false)
   // Cover Uploader state

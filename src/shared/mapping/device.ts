@@ -16,9 +16,11 @@ export const deviceRegisterResultNameMapping: Map<DeviceRegisterRes, string> = n
 export const groupDeviceStateNameMapping: Map<GroupDeviceState, string> = new Map([
   [GroupDeviceState.OFFLINE, /* */'离线'],
   [GroupDeviceState.ONLINE, /* */'在线'],
+  [GroupDeviceState.DETELE, /* */'已注销'],
 ])
 
 export const groupDeviceStateColorMapping: Map<GroupDeviceState, React.CSSProperties['color']> = new Map([
   [GroupDeviceState.OFFLINE, /* */'#FF6177'],
-  [GroupDeviceState.ONLINE, /* */'#19A051']
+  [GroupDeviceState.ONLINE, /* */'#19A051'],
+  [GroupDeviceState.DETELE, /* */'#FF6177'],
 ])

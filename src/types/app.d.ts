@@ -33,7 +33,7 @@ declare namespace App {
   interface CreateData {
     adapter_device: Device.Chip.Instance['key']
     app_template_id: App.Template.Instance['id']
-    model_iter_id: string
+    model_iter_id?: string
     cover?: string
     description?: string
     name: string
@@ -67,14 +67,14 @@ declare namespace App {
       match: boolean
       name: string
       sn: string
-      state: 'online' | 'offline'
+      state: import('@shared/enum/devices').GroupDeviceState;
       sync_state: 'Done' | 'InProgress' | 'Failure'
       syncs: Array<{ app_name: string, sync_state: 'Done' | 'InProgress' | 'Failure' }>
       type: string
       update_time: number
     }
 
-    interface Reacord {
+    interface Record {
       config_url: string
       create_time: number
       devices: Array<Device>

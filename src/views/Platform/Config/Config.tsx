@@ -9,11 +9,11 @@ const Container = styled.div`
 `
 
 const Config: React.FC = () => {
-  const { flowValue, appBaseINfo } = useConfig()
+  const { flowValue, appBaseInfo } = useConfig()
 
   return (
     <Container>
-      <GddiFlow flowValue={flowValue} appBaseInfo={appBaseINfo} />
+      <GddiFlow flowValue={flowValue} appBaseInfo={appBaseInfo} />
     </Container>
   )
 }

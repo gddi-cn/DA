@@ -73,10 +73,16 @@ const Row = styled.div`
   padding: 10px 12px;
   display: grid;
   grid-template-columns: ${gridTemplate};
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, .02);
+  }
 `
 
 const RowCell = styled.div`
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 const DeployTime = styled.p`
@@ -116,9 +122,13 @@ const Line = styled.p`
   color: #606266;
 `
 
-const SyncList: React.FC<{ recordList: Array<App.Sync.Reacord> }> = (
+const SyncList: React.FC<{
+  recordList: Array<App.Sync.Record>
+  onClick(record: App.Sync.Record): void
+}> = (
   {
     recordList,
+    onClick
   }
 ) => {
   return (
@@ -132,7 +142,7 @@ const SyncList: React.FC<{ recordList: Array<App.Sync.Reacord> }> = (
       <RowWrap>
         {
           recordList.map(record => (
-            <Row key={record.id}>
+            <Row key={record.id} onClick={() => onClick(record)}>
               <RowCell>
                 <DeployTime>{formatUnixTime(record.create_time)}</DeployTime>
               </RowCell>
@@ -170,14 +180,14 @@ const SyncList: React.FC<{ recordList: Array<App.Sync.Reacord> }> = (
 }
 
 const Deploy: React.FC = () => {
-  const { recordList } = useDeploy()
+  const { recordList, handleClick } = useDeploy()
 
   return (
     <Container>
       <Title>下发历史记录</Title>
       {
         recordList?.length ? (
-          <SyncList recordList={recordList} />
+          <SyncList recordList={recordList} onClick={handleClick} />
         ) : (
           <ImgWrap>
             <Img src={noSync} alt="no sync record" />

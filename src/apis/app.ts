@@ -139,7 +139,7 @@ const appAPI = {
     }
   },
 
-  syncList: async(id: App.Instance['id']): Promise<APIListResponse<App.Sync.Reacord>> => {
+  syncList: async(id: App.Instance['id']): Promise<APIListResponse<App.Sync.Record>> => {
     try {
       const { data } = await http.get(`/v3/apps/${id}/syncs`)
       return {
@@ -170,6 +170,21 @@ const appAPI = {
       }
     }
   },
+
+  copy: async(id: App.Instance['id']): Promise<APIResponse<App.Instance>> => {
+    try {
+      const { data } = await http.put(`/v3/apps/${id}/copy`)
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  }
 }
 
 export default appAPI
