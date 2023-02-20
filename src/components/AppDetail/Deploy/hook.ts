@@ -29,7 +29,7 @@ export const useDeploy = () => {
   const pendingRef = React.useRef<HTMLDivElement | null>(null)
   const failRef = React.useRef<HTMLDivElement | null>(null)
   const [currentState, setCurrentState] =
-    React.useState<App.Sync.Record['sync_state'] | 'All'>('All')
+    React.useState<Sync.Instance['sync_state'] | 'All'>('All')
 
   const {
     create_time,
@@ -44,7 +44,7 @@ export const useDeploy = () => {
     setCurrentPage(AppDetail.Page.INFO)
   }
 
-  const handleClick = (state: App.Sync.Record['sync_state'] | 'All') => {
+  const handleClick = (state: Sync.Instance['sync_state'] | 'All') => {
     if (state === currentState) return
     setCurrentState(state)
   }
@@ -97,7 +97,7 @@ export const useDeploy = () => {
     if (currentState === 'All') return devices || []
 
     return (devices || []).filter(d =>
-      d.sync_state === (currentState as App.Sync.Record['sync_state'])
+      d.sync_state === (currentState as Sync.Instance['sync_state'])
     )
   }, [currentState])
 

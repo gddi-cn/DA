@@ -8,7 +8,7 @@ export const fetchingAppAtom = atom<boolean>(false)
 
 export const currentPageAtom = atom<AppDetail.Page>(AppDetail.Page.INFO)
 
-export const deployRecordListAtom = atom<App.Sync.Record[]>([])
+export const deployRecordListAtom = atom<Sync.Instance[]>([])
 
 export const fetchingRecordAtom = atom<boolean>(false)
 
@@ -18,5 +18,5 @@ export const onDeleteRefAtom =
 export const onCloseRefAtom =
   atom<React.MutableRefObject<(() => void) | undefined> | undefined>(undefined)
 
-export const currentRecordAtom = atom<App.Sync.Record | undefined>(undefined)
+export const currentRecordAtom = atom<Sync.Instance | undefined>(undefined)
 

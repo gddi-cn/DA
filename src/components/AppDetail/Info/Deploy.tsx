@@ -123,8 +123,8 @@ const Line = styled.p`
 `
 
 const SyncList: React.FC<{
-  recordList: Array<App.Sync.Record>
-  onClick(record: App.Sync.Record): void
+  recordList: Array<Sync.Instance>
+  onClick(record: Sync.Instance): void
 }> = (
   {
     recordList,

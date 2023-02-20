@@ -191,7 +191,7 @@ const EmptyTip = styled.p`
   color: #061926;
 `
 
-const DeviceList: React.FC<{ deviceList: App.Sync.Record['devices'] }> = (
+const DeviceList: React.FC<{ deviceList: Device.SyncInstance[] }> = (
   {
     deviceList,
   }

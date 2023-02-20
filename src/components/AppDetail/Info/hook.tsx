@@ -241,7 +241,7 @@ export const useDeploy = () => {
   const [, setCurrentPage] = useAtom(currentPageAtom)
   const [, setCurrentRecord] = useAtom(currentRecordAtom)
 
-  const handleClick = (record: App.Sync.Record) => {
+  const handleClick = (record: Sync.Instance) => {
     setCurrentRecord(record)
     setCurrentPage(AppDetail.Page.DEPLOY)
   }
@@ -265,3 +265,4 @@ export const useInfo = () => {
     handleClose,
   }
 }
+

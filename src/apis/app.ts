@@ -139,7 +139,7 @@ const appAPI = {
     }
   },
 
-  syncList: async(id: App.Instance['id']): Promise<APIListResponse<App.Sync.Record>> => {
+  syncList: async(id: App.Instance['id']): Promise<APIListResponse<Sync.Instance>> => {
     try {
       const { data } = await http.get(`/v3/apps/${id}/syncs`)
       return {
