@@ -1,6 +1,8 @@
 declare namespace Sync {
-  interface ListParams extends import('@src/shared/types/api').APIListParams {
-    state: import('@src/shared/enum/sync').Sync.State,
+  interface ListParams {
+    page: number,
+    page_size: number,
+    state?: import('@src/shared/enum/sync').Sync.State,
   }
 
   interface SyncParams {

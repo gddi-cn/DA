@@ -1,8 +1,9 @@
+import appAPI from "@src/apis/app"
 import { formatUnixTime } from "@src/utils/tools"
 import { useAtom } from "jotai"
 import React from "react"
 import { AppDetail } from "../enums"
-import { currentPageAtom, currentRecordAtom } from "../store"
+import { appAtom, currentPageAtom, currentRecordAtom } from "../store"
 
 const setSelected = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
   const $c = ref.current
@@ -21,6 +22,7 @@ const removeSelected = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
 }
 
 export const useDeploy = () => {
+  const [app] = useAtom(appAtom)
   const [deploy, setDeploy] = useAtom(currentRecordAtom)
   const [, setCurrentPage] = useAtom(currentPageAtom)
 
@@ -85,6 +87,20 @@ export const useDeploy = () => {
 
   React.useEffect(
     () => {
+      if (!app?.id || !deploy?.id) return
+
+      appAPI
+        .syncDetail(app.id, deploy.id)
+        .then(({ success, data }) => {
+          if (!success || !data) return
+          setDeploy(data)
+        })
+    },
+    []
+  )
+
+  React.useEffect(
+    () => {
       return () => {
         setDeploy(undefined)
       }
@@ -93,13 +109,11 @@ export const useDeploy = () => {
   )
 
 
-  const deviceList = React.useMemo(() => {
-    if (currentState === 'All') return devices || []
+  const deviceList = currentState === 'All'
+    ? (devices || [])
+    : (devices || []).filter(d =>
+      d.sync_state === (currentState as Sync.Instance['sync_state']))
 
-    return (devices || []).filter(d =>
-      d.sync_state === (currentState as Sync.Instance['sync_state'])
-    )
-  }, [currentState])
 
   return {
     handleClose,

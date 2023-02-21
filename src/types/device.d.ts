@@ -35,8 +35,15 @@ declare namespace Device {
     update_time: string
   }
 
+  interface Sync {
+    app_id: number
+    app_name: string
+    sync_state: 'Done' | 'InProgress' | 'Failure'
+    deleted: boolean
+  }
+
   interface SyncInstance extends Instance {
     sync_state: 'Done' | 'InProgress' | 'Failure'
-    syncs: Array<{ app_name: string, sync_state: 'Done' | 'InProgress' | 'Failure' }>
+    syncs: Array<Sync>
   }
 }

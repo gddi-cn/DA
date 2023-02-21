@@ -153,6 +153,20 @@ const appAPI = {
     }
   },
 
+  syncDetail: async(appId: App.Instance['id'], syncId: Sync.Instance['id']) => {
+    try {
+      const { data } = await http.get(`/v3/apps/${appId}/syncs/${syncId}`)
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      return {
+        success: false
+      }
+    }
+  },
+
   update: async(
     id: App.Instance['id'],
     data: Partial<Pick<App.Instance, 'name' | 'cover' | 'description'>>

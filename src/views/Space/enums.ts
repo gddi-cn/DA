@@ -27,4 +27,20 @@ export namespace Space {
       }
     }
   }
+  export namespace Deploy {
+    export enum Page {
+      LIST = 1,
+      CREATE,
+      DETAIL,
+      APP_DETAIL,
+    }
+    export namespace Create {
+      export enum Step {
+        DEVICE_TYPE = 1,
+        APP,
+        DEVICE,
+        OVERVIEW,
+      }
+    }
+  }
 }
