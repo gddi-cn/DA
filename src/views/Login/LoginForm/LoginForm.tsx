@@ -36,9 +36,10 @@ const LoginForm = (props: any): JSX.Element => {
         localStorage.setItem('login-username', data.username)
         // cookieUtils.setCookie('userInfo', userInfo, Infinity)
         data?.token && localStorage.setItem('token', data?.token);
-        navigate({
-          pathname: '/'
-        })
+        window.location.pathname = '/app/guide'
+        // navigate({
+        //   pathname: '/'
+        // })
       } else {
         const errorMsg = res.message || '登录失败！'
         setErrMsg(errorMsg)
