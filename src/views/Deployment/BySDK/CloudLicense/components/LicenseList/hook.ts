@@ -24,6 +24,7 @@ export const useListData = () => {
 
   React.useEffect(
     () => {
+      console.table([id, versionId])
       if (!id || !versionId) return
 
       fetchDeviceLicenseList(id, versionId)

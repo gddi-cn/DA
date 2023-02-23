@@ -5,7 +5,6 @@ import { currentVersionIdAtom, fetchingVersionList, versionListAtom } from './st
 import { RootState } from '@reducer'
 import { useSelector } from 'react-redux'
 import modelAPI from '@src/apis/model'
-import { APP_EXPERIENCE, APP_PLATFORM, APP_SDK_Documents, APP_SELECT_DEPLOY_TYPE } from '@router'
 
 const useResetStore = () => {
   const [, setCurrentVersionId] = useAtom(currentVersionIdAtom)
@@ -39,7 +38,6 @@ export const useRefreshVersionList = () => {
 
     setLoading(true)
     const { success, data } = await modelAPI.versionList(modelId)
-    console.log({ data })
     setLoading(false)
 
     if (!success || !data) {

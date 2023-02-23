@@ -22,3 +22,7 @@ export const useRefreshTask = () => {
     dispatch(checkoutTask(data))
   }
 }
+
+export const useCurrentTask = () => {
+
+}
