@@ -1,3 +1,4 @@
+import { noWrap } from '@src/shared/styles'
 import { lighten } from 'polished'
 import React from 'react'
 import styled from 'styled-components'
@@ -43,6 +44,7 @@ const Status = styled.p<{ color?: React.CSSProperties['color'] }>`
   line-height: 20px;
   color: ${props => props.color || '#000'};
   margin-bottom: 10px;
+  ${noWrap}
 `
 
 const Name = styled.p`
@@ -51,6 +53,7 @@ const Name = styled.p`
   line-height: 20px;
   color: #061926;
   margin-bottom: 8px;
+  ${noWrap}
 `
 
 const Meta = styled.div`
@@ -71,9 +74,11 @@ const Scene = styled.div<{ bgColor?: React.CSSProperties['backgroundColor']}>`
   background-color: ${props => props.bgColor || '#eee'};
   border-radius: 12px;
   white-space: nowrap;
+  max-width: 120px;
+  ${noWrap}
 `
 
-const Platform = styled.p<{
+const Platform = styled.div<{
   color?: React.CSSProperties['color'],
   fill?: React.CSSProperties['fill'] }
 >`
@@ -102,6 +107,7 @@ const CreatedTime = styled.p`
   font-size: 14px;
   line-height: 20px;
   color: rgba(6, 25, 38, 0.5);
+  ${noWrap}
 `
 
 const TaskItem: React.FC<Project.Detail> = (project) => {
