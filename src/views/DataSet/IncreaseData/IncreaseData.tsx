@@ -231,6 +231,7 @@ const IncreaseData = (): JSX.Element => {
   }, [percent, handleCnasel, navigate, activePipeLine, s3info, fileInfo.size])
 
   React.useEffect(() => {
+    console.log({ datasetType })
     setExampleUrl(datasetType ? typeURLMapping.get(datasetType as DatasetType) || '' : '')
   }, [datasetType])
 

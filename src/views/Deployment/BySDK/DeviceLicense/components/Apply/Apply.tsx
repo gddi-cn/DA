@@ -11,6 +11,11 @@ import RegisterResult from './RegisterResult'
 
 import { useApply, useResetApplyStore } from './hook'
 import { stepAtom } from './store'
+import styled from 'styled-components'
+
+const ContentWrap = styled.div`
+  height: 600px;
+`
 
 const Apply: React.FC = () => {
   useResetApplyStore()
@@ -38,8 +43,16 @@ const Apply: React.FC = () => {
   return (
     <>
       <ApplyButton openDialog={openDialog} />
-      <Dialog open={open} onClose={closeDialog} transitionName={''} maskTransitionName={''} destroyOnClose>
-        { content }
+      <Dialog
+        open={open}
+        onClose={closeDialog}
+        transitionName={''}
+        maskTransitionName={''}
+        destroyOnClose
+      >
+        <ContentWrap>
+          { content }
+        </ContentWrap>
       </Dialog>
     </>
   )

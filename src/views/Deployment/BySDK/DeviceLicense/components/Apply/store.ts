@@ -13,6 +13,7 @@ export const groupDeviceTotalAtom = atom<number>(0)
 export const fetchingGroupDeviceAtom = atom<boolean>(false)
 export const groupDevicePageAtom = atom<number>(1)
 export const selectedDeviceAtom = atom<Array<GroupDevice['id']>>([])
+export const groupDevicePageSizeAtom = atom<number>(10)
 
 export const stepAtom = atom<'register' | 'device' | 'date' | 'reg_res'>('device')
 

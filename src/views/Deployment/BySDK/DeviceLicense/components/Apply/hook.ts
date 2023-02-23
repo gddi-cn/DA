@@ -8,6 +8,7 @@ import {
   fetchingGroupDeviceAtom,
   groupDeviceAtom,
   groupDevicePageAtom,
+  groupDevicePageSizeAtom,
   groupDeviceTotalAtom,
   registerResultAtom,
   selectedDeviceAtom,
@@ -32,6 +33,7 @@ export const useResetApplyStore = () => {
   const [, setSelected] = useAtom(selectedDeviceAtom)
   const [, setStep] = useAtom(stepAtom)
   const [, setRes] = useAtom(registerResultAtom)
+  const [, setPageSize] = useAtom(groupDevicePageSizeAtom)
 
   React.useEffect(
     () => {
@@ -42,6 +44,7 @@ export const useResetApplyStore = () => {
       setLoading(false)
       setTotal(0)
       setPage(1)
+      setPageSize(10)
       setSelected([])
       setStep('device')
       setRes([])
@@ -106,41 +109,67 @@ export const useSelect = (id: GroupDevice['id']) => {
   }
 }
 
+export const useRefreshGroupDevice = () => {
+  const [group] = useAtom(selectedDeviceGroupAtom)
+  const [, setDeviceList] = useAtom(groupDeviceAtom)
+  const [loading, setLoading] = useAtom(fetchingGroupDeviceAtom)
+  const [,setTotal] = useAtom(groupDeviceTotalAtom)
+  const [page, setPage] = useAtom(groupDevicePageAtom)
+  const [page_size] = useAtom(groupDevicePageSizeAtom)
+  const [, setSelected] = useAtom(selectedDeviceAtom)
+
+  return async (firstPage = false) => {
+    if (!(group?.value || group?.value === 0) || loading) return
+
+    let type: DeviceType | undefined
+    if (group.value === 0) {
+      type = DeviceType.TERMINAL
+    }
+
+    setLoading (true)
+    firstPage && setPage(1)
+    const { success, data } = await deviceGroupAPI.fetchGroupDeviceList(
+      group.value,
+      { page, page_size, type }
+    )
+    setLoading(false)
+
+    if (!success || !data) return
+    const { items, total } = data
+
+    setTotal(total || 0)
+    setDeviceList(items || [])
+
+    setSelected(s => _.intersection((items || []).map(x => x.id), s))
+  }
+}
+
 export const useGroupDevice = () => {
   const [group] = useAtom(selectedDeviceGroupAtom)
-  const [deviceList, setDeviceList] = useAtom(groupDeviceAtom)
-  const [loading, setLoading] = useAtom(fetchingGroupDeviceAtom)
-  const [total,setTotal] = useAtom(groupDeviceTotalAtom)
+  const [deviceList] = useAtom(groupDeviceAtom)
+  const [total] = useAtom(groupDeviceTotalAtom)
   const [page, setPage] = useAtom(groupDevicePageAtom)
-  const [, setSelected] = useAtom(selectedDeviceAtom)
+  const [page_size, setPageSize] = useAtom(groupDevicePageSizeAtom)
+
+  const refresh = useRefreshGroupDevice()
+
+  const handleChange = (page: number, page_size: number) => {
+    setPage(page)
+    setPageSize(page_size)
+  }
 
   React.useEffect(
     () => {
-      if (!(group?.value || group?.value === 0) || loading) return
-
-      let type: DeviceType | undefined
-      if (group.value === 0) {
-        type = DeviceType.TERMINAL
-      }
-
-      setLoading(true)
-
-      deviceGroupAPI
-        .fetchGroupDeviceList(group.value, { page, page_size: 7, type })
-        .then(({ success, data }) => {
-          if (!success || !data) return
-          const { items, total } = data
-
-          setTotal(total || 0)
-          setDeviceList(items || [])
-
-          setSelected(s => _.intersection((items || []).map(x => x.id), s))
-        })
-        .finally(() => {
-          setLoading(false)
-        })
+      refresh(true)
     },
-    [group, page]
+    [group, page_size]
+  )
+
+  React.useEffect(
+    () => {
+      refresh()
+    },
+    [page]
   )
 
 
@@ -148,7 +177,9 @@ export const useGroupDevice = () => {
     deviceList,
     page,
     setPage,
-    total
+    total,
+    handleChange,
+    page_size,
   }
 }
 

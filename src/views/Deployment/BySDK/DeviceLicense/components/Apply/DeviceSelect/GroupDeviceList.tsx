@@ -8,6 +8,7 @@ import Divider from '../../../../components/Divider'
 import { formatUnixTime } from '@src/utils/tools'
 import { useAtom } from 'jotai'
 import { groupDeviceAtom } from '@views/Deployment/BySDK/DeviceLicense/components/Apply/store'
+import Scrollbar from '@src/components/Scrollbar'
 
 const Row = styled(AntRow)`
   padding: 0 12px;
@@ -23,14 +24,25 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  height: 100%;
 `
 
 const Table = styled.div`
+  height: 100%;
   width: 100%;
-  //width: 784px;
-  //max-width: 100%;
   overflow: hidden;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+`
+
+const Content = styled.div`
+  flex: 1;
+  overflow: hidden;
+`
+
+const ScrollWrap = styled.div`
+  overflow-x: hidden;
 `
 
 const BodyRow = styled(AntRow)`
@@ -43,6 +55,7 @@ const BodyRow = styled(AntRow)`
 const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
+  padding: 10px 0 52px;
 `
 
 const Header: React.FC = () => {
@@ -126,7 +139,10 @@ const Body: React.FC = () => {
 }
 
 const GroupDeviceList: React.FC = () => {
-  const { deviceList, page, setPage, total } = useGroupDevice()
+  const {
+    deviceList, page, page_size,
+    total, handleChange,
+  } = useGroupDevice()
 
   return (
     <Container>
@@ -134,11 +150,18 @@ const GroupDeviceList: React.FC = () => {
         deviceList.length ? (
           <Table>
             <Header />
-            <Body />
+            <Content>
+              <Scrollbar autoHide>
+                <ScrollWrap>
+                  <Body />
+                </ScrollWrap>
+              </Scrollbar>
+            </Content>
             <Footer>
               <Pagination
-                pageSize={7}
-                onChange={(p) => setPage(p)}
+                showSizeChanger
+                pageSize={page_size}
+                onChange={handleChange}
                 current={page}
                 total={total}
                 showQuickJumper
