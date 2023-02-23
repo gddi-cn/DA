@@ -9,6 +9,7 @@ import { RootState } from '@reducer/index'
 import { useSelector } from 'react-redux'
 import api from '@api'
 import './commonUpload.module.less'
+import { DatasetScene } from '@src/shared/enum/dataset';
 
 const { Dragger } = Upload;
 
@@ -54,6 +55,16 @@ const CommonUpload = (props:any): JSX.Element => {
     for (const o of fileList) {
       if (model_type === 'keypoints_based_action') {
         if (imageReg.test(o.name)) {
+          errorList.list.push(o)
+          continue
+        }
+      }
+
+      if (
+        model_type === DatasetScene.Classify
+        || model_type === DatasetScene.ImageRetrieval
+      ) {
+        if (videoReg.test(o.name)) {
           errorList.list.push(o)
           continue
         }
@@ -110,7 +121,6 @@ const CommonUpload = (props:any): JSX.Element => {
   }
 
   const handleOnChange = useDebounceFn((fileList: any) => {
-    console.log(fileList)
     if (isEmpty(fileList)) {
       message.warning('请上传材料')
       return
@@ -203,7 +213,10 @@ const CommonUpload = (props:any): JSX.Element => {
   };
 
   const getText = () => {
-    if (model_type === 'classify') {
+    if (
+      model_type === DatasetScene.Classify
+      || model_type === DatasetScene.ImageRetrieval
+    ) {
       return '支持.jpg .jpeg .png'
     }
     if (model_type === 'keypoints_based_action') {
@@ -213,12 +226,25 @@ const CommonUpload = (props:any): JSX.Element => {
   }
 
   const getOtherTips = () => {
-    if (model_type === 'keypoints_based_action') {
+    if (
+      model_type === 'keypoints_based_action'
+    ) {
       return (
         <>
           <p>单次预测项目总数量不多于20个</p>
 
           <p>单个视频不大于100 MB</p>
+        </>
+      )
+    }
+    if (
+      model_type === DatasetScene.Classify
+      || model_type === DatasetScene.ImageRetrieval
+    ) {
+      return (
+        <>
+          <p>单次预测项目总数量不多于20个</p>
+          <p>单张图片不大于10 MB</p>
         </>
       )
     }

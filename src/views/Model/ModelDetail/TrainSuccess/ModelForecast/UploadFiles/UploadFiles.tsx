@@ -1,4 +1,4 @@
-import { useDeferredValue, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import CommonUpload from './commonUpload'
 import SingleEyeAssessment from './SingleEyeAssessment'
 import { InputNumber, Spin } from 'antd'
@@ -15,7 +15,6 @@ const UploadFiles = (props:any): JSX.Element => {
   })
   const { model_type } = versionInfo
   const [thres, setthres] = useState('0')
-  const deferThres = useDeferredValue(thres)
 
   const [loading, setLoading] = useState(false)
 

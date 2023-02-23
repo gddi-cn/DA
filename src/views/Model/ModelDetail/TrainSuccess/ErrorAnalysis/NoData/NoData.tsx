@@ -15,8 +15,17 @@ const Container = styled.div`
 const Image = styled.img`
   display: block;
   object-fit: contain;
-  width: 200px;
-  height: 200px;
+  width: 240px;
+  height: 240px;
+`
+
+const Title = styled.h5`
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 20px;
+  color: #061926;
+  text-align: center;
+  margin: 40px 0 0;
 `
 
 const Tip = styled.p`
@@ -32,7 +41,8 @@ const NoData: React.FC = () => {
   return (
     <Container>
       <Image alt={'empty'} src={empty} />
-      <Tip>该类型无相关类别的错误</Tip>
+      <Title>暂无错误分析结果</Title>
+      <Tip>模型表现较优，暂无错误分析结果</Tip>
     </Container>
   )
 }
