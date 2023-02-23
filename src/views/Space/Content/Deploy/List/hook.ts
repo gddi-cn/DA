@@ -1,5 +1,7 @@
 import { Space } from "@src/views/Space/enums"
 import { useAtom } from "jotai"
+import React from "react"
+import { useRefreshSyncList } from "../hook"
 import {
   currentPageAtom,
   currentSyncAtom,
@@ -32,7 +34,33 @@ export const useList = () => {
   }
 }
 
+const useSchedule = () => {
+  const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const refreshSyncList = useRefreshSyncList()
+
+  React.useEffect(
+    () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+
+      timerRef.current = setInterval(
+        () => refreshSyncList(false, false)
+        , 5e3
+      )
+
+      return () => {
+        timerRef.current && clearInterval(timerRef.current)
+      }
+    },
+    []
+  )
+}
+
 export const useDeployList = () => {
+  useSchedule()
+
   const [syncList] = useAtom(syncListAtom)
   const [page, setPage] = useAtom(syncListPageAtom)
   const [pageSize, setPageSize] = useAtom(syncListPageSizeAtom)

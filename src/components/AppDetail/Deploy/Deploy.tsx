@@ -43,7 +43,7 @@ const Footer = styled.div`
 
 const ScrollWrap = styled.div`
   height: 100%;
-  over-flow: hidden;
+  overflow: hidden;
 `
 
 const Content = styled.div`

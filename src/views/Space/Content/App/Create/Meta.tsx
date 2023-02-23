@@ -91,7 +91,7 @@ const Meta: React.FC = () => {
             ]}
           >
             <RemoteSearch<Device.Chip.Option>
-              fetchOptions={deviceAPI.fetchChipTypeByNamew}
+              fetchOptions={deviceAPI.fetchChipTypeByName}
               allowClear
               showSearch
               placeholder='选择设备类型'

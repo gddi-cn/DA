@@ -45,10 +45,10 @@ export const useRefreshSyncList = () => {
   const [, setTotal] = useAtom(syncListTotalAtom)
   const [loading, setLoading] = useAtom(fetchingSyncListAtom)
   
-  return async (firstPage = false) => {
+  return async (firstPage = false, showLoading = true) => {
     if (loading) return
 
-    setLoading(true)
+    showLoading && setLoading(true)
     firstPage && setPage(1)
     const { success, data } = await syncAPI.list({ page_size, page })
     setLoading(false)

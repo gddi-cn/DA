@@ -59,9 +59,24 @@ const deviceAPI = {
     }
   },
 
-  fetchChipTypeByNamew: async (name: string): Promise<Array<Device.Chip.Option>> => {
+  fetchChipTypeByName: async (name: string): Promise<Array<Device.Chip.Option>> => {
     try {
       const { success, data } = await deviceAPI.chipTypeList({ name, page: 1, page_size: 999 })
+      if (!success || !data?.items) return []
+
+      return data.items.map(item => ({ key: item.key, value: item.key, label: item.name }))
+    } catch (e) {
+      console.error(e)
+      return []
+    }
+  },
+  fetchChipTypeDetailByName: async (name: string): Promise<Array<Device.Chip.Option>> => {
+    try {
+      const { success, data } = await deviceAPI.chipTypeList({
+        name, page: 1,
+        page_size: 999,
+        detail: true,
+      })
       if (!success || !data?.items) return []
 
       return data.items.map(item => ({ key: item.key, value: item.key, label: item.name }))

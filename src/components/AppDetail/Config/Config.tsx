@@ -21,7 +21,7 @@ const Footer = styled.div`
 
 const Content = styled.div`
   height: 100%;
-  over-flow: hidden;
+  overflow: hidden;
   padding: 0 40px;
 `
 

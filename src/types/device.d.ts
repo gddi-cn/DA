@@ -13,6 +13,7 @@ declare namespace Device {
       page: number
       page_size: number
       sort?: 'asc' | 'desc'
+      detail?: boolean
     }
     
     interface Option {

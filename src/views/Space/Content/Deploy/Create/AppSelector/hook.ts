@@ -3,6 +3,8 @@ import { useAtom } from 'jotai'
 import React from 'react'
 import produce from 'immer'
 import _ from 'lodash'
+import { ReactComponent as CheckIcon } from '@src/asset/icons/app/check.svg'
+import { ReactComponent as UncheckIcon } from '@src/asset/icons/app/uncheck.svg'
 
 const THREADHOLD = 0.95
 
@@ -10,10 +12,8 @@ import {
   appListAtom,
   fetchingAppAtom,
   nameFilterAtom,
-  selectedDeviceTypeAtom,
+  deviceTypeAtom,
   appTotalAtom,
-  currentPageAtom,
-  currentAppIdAtom,
   templateLabelListAtom,
   selectedTemplateLabelOptionAtom,
   pageFilterAtom,
@@ -21,14 +21,17 @@ import {
   templateInputAtom,
   listInitAtom,
   scrollbarRefAtom,
+  selectedAppListAtom,
+  stepAtom,
 } from '../store'
 
 import default_cover from '@src/asset/images/app/default_cover.png'
-import { Space } from '@src/views/Space/enums'
 import { ReactComponent as ImgServerIcon } from '@src/asset/icons/app/img_server.svg'
 import { ReactComponent as VideoServerIcon } from '@src/asset/icons/app/stream_server.svg'
 import { AppTemplateInput } from '@src/shared/enum/application'
 import { positionValues } from 'react-custom-scrollbars'
+import { Space } from '@src/views/Space/enums'
+import { currentPageAtom } from '../../store'
 
 export const useRefreshAppList = () => {
   const [, setAppList] = useAtom(appListAtom)
@@ -37,7 +40,7 @@ export const useRefreshAppList = () => {
   const [page, setPage] = useAtom(pageFilterAtom)
   const [page_size] = useAtom(pageSizeFilterAtom)
   const [name] = useAtom(nameFilterAtom)
-  const [selectedDeviceType] = useAtom(selectedDeviceTypeAtom)
+  const [selectedDeviceType] = useAtom(deviceTypeAtom)
   const [selectedTemplateLabel] = useAtom(selectedTemplateLabelOptionAtom)
   const [inputOption] = useAtom(templateInputAtom)
 
@@ -77,7 +80,7 @@ export const useFetchAppList = () => {
   const [loading, setLoading] = useAtom(fetchingAppAtom)
   const [page_size] = useAtom(pageSizeFilterAtom)
   const [name] = useAtom(nameFilterAtom)
-  const [selectedDeviceType] = useAtom(selectedDeviceTypeAtom)
+  const [selectedDeviceType] = useAtom(deviceTypeAtom)
   const [selectedTemplateLabel] = useAtom(selectedTemplateLabelOptionAtom)
   const [inputOption] = useAtom(templateInputAtom)
 
@@ -111,11 +114,12 @@ export const useFetchAppList = () => {
 }
 
 export const useAppListFetcher = () => {
+  const [currentStep] = useAtom(stepAtom)
   const [init, setInit] = useAtom(listInitAtom)
   const [page, setPage] = useAtom(pageFilterAtom)
   const [page_size] = useAtom(pageSizeFilterAtom)
   const [name] = useAtom(nameFilterAtom)
-  const [selectedDeviceType] = useAtom(selectedDeviceTypeAtom)
+  const [selectedDeviceType] = useAtom(deviceTypeAtom)
   const [selectedTemplateLabel] = useAtom(selectedTemplateLabelOptionAtom)
   const [inputOption] = useAtom(templateInputAtom)
   const [scrollbarRef, setScrollbarRef] = useAtom(scrollbarRefAtom)
@@ -132,6 +136,7 @@ export const useAppListFetcher = () => {
 
   React.useEffect(
     () => {
+      if (currentStep !== Space.Deploy.Create.Step.APP) return
       if (appList.length <= 0) {
         if (!init) {
           setInit(true)
@@ -146,7 +151,9 @@ export const useAppListFetcher = () => {
       }
 
       const $s = scrollbarRef?.current
-      if (!$s) return
+      if (!$s) {
+        return
+      }
 
       const { clientHeight, scrollHeight } = $s.getValues()
 
@@ -157,7 +164,7 @@ export const useAppListFetcher = () => {
 
       setPage(p => p + 1)
     },
-    [appList]
+    [appList, currentStep]
   )
 
   React.useEffect(
@@ -185,8 +192,14 @@ export const useAppList = () => {
   const [total] = useAtom(appTotalAtom)
   const [scrollbarRef] = useAtom(scrollbarRefAtom)
   const [page, setPage] = useAtom(pageFilterAtom)
+  const [, setCurrentPage] = useAtom(currentPageAtom)
+  const [, setStep] = useAtom(stepAtom)
+  const [selectedAppList] = useAtom(selectedAppListAtom)
 
   const debouncedSetPage = React.useMemo(() => _.debounce(setPage, 400), [])
+
+  const disabledNext = !selectedAppList?.length
+  const selectedNum = selectedAppList.length
 
   const handleScroll: ((values: positionValues) => void) = ({ top }) => {
     if (top < THREADHOLD) return
@@ -195,11 +208,29 @@ export const useAppList = () => {
     debouncedSetPage(page + 1)
   }
 
+  const handleCancel = () => {
+    setCurrentPage(Space.Deploy.Page.LIST)
+  }
+
+  const handlePre = () => {
+    setStep(Space.Deploy.Create.Step.DEVICE)
+  }
+
+  const handleNext = () => {
+    if (disabledNext) return
+    setStep(Space.Deploy.Create.Step.OVERVIEW)
+  }
+
   return {
     appList,
     loading,
     scrollbarRef,
     handleScroll,
+    handleCancel,
+    handlePre,
+    handleNext,
+    disabledNext,
+    selectedNum,
   }
 }
 
@@ -226,58 +257,40 @@ export const useNameFilter = () => {
   }
 }
 
-export const useDeviceFilter = () => {
-  const [selectedDeviceType, setSelectedDeviceType] = useAtom(selectedDeviceTypeAtom)
-
-  const handleChange = (newValue?: Device.Chip.Option) => {
-    setSelectedDeviceType(newValue || null)
-  }
-
-  return {
-    value: selectedDeviceType,
-    handleChange,
-  }
-}
-
-export const useCreateBtn = () => {
-  const [, setCurrentPage] = useAtom(currentPageAtom)
-
-  const handleClick = () => {
-    setCurrentPage(Space.App.Page.CREATE)
-  }
-
-  return {
-    handleClick,
-  }
-}
-
 export const useAppItem = (app: App.Instance) => {
+  const [selectedAppList, setSelectedAppList] = useAtom(selectedAppListAtom)
+
   const {
     cover, name, id,
     template_name, input,
     adapter_device,
-  }  = app
+  } = app
 
-  const [, setCurrentAppId] = useAtom(currentAppIdAtom)
-  const [, setCurrentPage] = useAtom(currentPageAtom)
+  const selected = selectedAppList.some(x => x.id === id)
+
+  const handleClick = () => {
+    setSelectedAppList(produce(draft => {
+      const idx = draft.findIndex(x => x.id === id)
+      if (idx >= 0) {
+        draft.splice(idx, 1)
+        return
+      }
+      draft.push(app)
+    }))
+  }
 
   const InputIcon = input === AppTemplateInput.IMAGE? ImgServerIcon : VideoServerIcon
   const inputTip = input === AppTemplateInput.IMAGE ? '图片服务' : '视频流服务'
 
-  const handleClick = () => {
-    setCurrentAppId(id)
-    setCurrentPage(Space.App.Page.DETAIL)
-  }
-
-
   return {
     cover: cover || default_cover,
     name,
-    handleClick,
     template_name,
     adapter_device,
     InputIcon,
     inputTip,
+    handleClick,
+    Icon: selected ? CheckIcon : UncheckIcon,
   }
 }
 

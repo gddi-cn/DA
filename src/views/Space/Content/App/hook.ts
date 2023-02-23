@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Space } from '../../enums'
 import {
-  appListAtom, fetchingAppAtom,
+  appListAtom,
+  fetchingAppAtom,
   nameFilterAtom,
   selectedDeviceTypeAtom,
   deviceTypeListAtom,

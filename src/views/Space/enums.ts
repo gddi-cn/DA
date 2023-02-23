@@ -36,9 +36,8 @@ export namespace Space {
     }
     export namespace Create {
       export enum Step {
-        DEVICE_TYPE = 1,
+        DEVICE = 1,
         APP,
-        DEVICE,
         OVERVIEW,
       }
     }

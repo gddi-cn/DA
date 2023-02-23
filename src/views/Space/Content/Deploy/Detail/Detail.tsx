@@ -33,7 +33,7 @@ const labelMapping = {
 
 const Container = styled.div`
   height: 100%;
-  over-flow: hidden;
+  overflow: hidden;
   background-color: #fff;
   border-radius: 8px;
   padding: 20px 0;
@@ -124,7 +124,7 @@ const Footer = styled.div`
 
 const ScrollWrap = styled.div`
   height: 100%;
-  over-flow: hidden;
+  overflow: hidden;
   margin-top: 20px;
   flex: 1;
 `

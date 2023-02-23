@@ -145,5 +145,9 @@
     "webpack-dev-server": "^4.8.0",
     "webpack-manifest-plugin": "^5.0.0",
     "webpack-merge": "^5.8.0"
+  },
+  "volta": {
+    "node": "18.14.2",
+    "yarn": "4.0.0-rc.39"
   }
 }

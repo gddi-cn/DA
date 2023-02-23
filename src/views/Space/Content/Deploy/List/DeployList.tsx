@@ -16,12 +16,6 @@ const bgMapping = {
   Failure: '#FF6177',
 }
 
-const labelMapping = {
-  Done: '下发完成',
-  InProgress: '下发中',
-  Failure: '下发失败',
-}
-
 const Container = styled.div`
   padding: 20px 0 0;
   display: flex;

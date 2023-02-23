@@ -1,9 +1,22 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Input as AntInput } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 import { useNameFilter } from './hook'
-import styled from 'styled-components'
+
+const Input = styled(AntInput)`
+  border-radius: 19px;
+  background-color: #F7F8FA;
+  border: none;
+  padding: 5.5px 10px;
+  .ant-input {
+    background-color: #F7F8FA;
+  }
+  border-color: unset;
+  box-shadow: none;
+  width: 276px;
+`
 
 const SearchIcon = styled(SearchOutlined)`
   svg {
@@ -11,20 +24,18 @@ const SearchIcon = styled(SearchOutlined)`
   }
 `
 
-const Input = styled(AntInput)`
-  width: 208px;
-  border-radius: 19px;
-`
-
 const NameFilter: React.FC = () => {
   const { name, handleChange } = useNameFilter()
+
   return (
     <Input
-      value={name} onChange={handleChange}
-      placeholder={'搜索设备名称'}
+      placeholder='搜索项目名称'
       prefix={<SearchIcon />}
+      value={name}
+      onChange={handleChange}
     />
   )
 }
 
 export default NameFilter
+

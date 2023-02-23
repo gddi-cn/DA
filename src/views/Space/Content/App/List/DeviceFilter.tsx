@@ -15,7 +15,7 @@ const DeviceFilter: React.FC = () => {
   return (
     <Container>
       <RemoteSearch<Device.Chip.Option>
-        fetchOptions={deviceAPI.fetchChipTypeByNamew}
+        fetchOptions={deviceAPI.fetchChipTypeByName}
         onChange={handleChange}
         value={value}
         allowClear

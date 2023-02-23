@@ -64,6 +64,24 @@ const deviceGroupAPI = {
         return []
     }
   },
+
+  fetchEdgeDeviceGroupByNameWithNoExtend:
+    async (name: string): Promise<Array<DeviceGroupOptions>> => {
+    try {
+      const { data, success } = await deviceGroupAPI.list({
+        page: 1,
+        page_size: 999,
+        name,
+        type: DeviceType.EDGE,
+      })
+      return success && data?.items
+        ? data.items.map(d => ({ key: d.id, value: d.id, label: d.name }))
+        : []
+    } catch (e) {
+      console.error(e)
+        return []
+    }
+  },
   
   fetchTerminalDeviceGroupByName: async (name: string): Promise<Array<DeviceGroupOptions>> => {
     try {
@@ -92,10 +110,34 @@ const deviceGroupAPI = {
 
   // 按组获取设备列表
   // 默认组(id === 0)需要传设备类型
-  fetchGroupDeviceList: async (groupId: number, params?: GroupDeviceListParams & { type?: DeviceType }):
-    Promise<APIListResponse<GroupDevice>> => {
+  fetchGroupDeviceList: async (
+    groupId: number,
+    params?: GroupDeviceListParams
+            & { type?: DeviceType, device_chip_id?: Device.Chip.Instance['key'] }
+  ): Promise<APIListResponse<GroupDevice>> => {
     try {
       const { data } = await http.get(`/v3/devicegroups/${groupId}/devices`, { params })
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
+  fetchDeviceList: async (
+    params?: GroupDeviceListParams & {
+      type?: DeviceType,
+      device_chip_id?: Device.Chip.Instance['key'],
+      group?: DeviceGroup['id']
+    }
+  ): Promise<APIListResponse<GroupDevice>> => {
+    try {
+      const { data } = await http.get(`/v3/devices`, { params })
       return {
         success: true,
         data,
