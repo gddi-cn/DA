@@ -19,15 +19,6 @@ const Image = styled.img`
   height: 200px;
 `
 
-const Title = styled.h5`
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 20px;
-  color: #061926;
-  text-align: center;
-  margin: 40px 0 0;
-`
-
 const Tip = styled.p`
   font-weight: 400;
   font-size: 14px;
@@ -41,8 +32,7 @@ const NoData: React.FC = () => {
   return (
     <Container>
       <Image alt={'empty'} src={empty} />
-      <Title>错误分析生成中</Title>
-      <Tip>暂无错误分析，请耐心等待</Tip>
+      <Tip>该类型无相关类别的错误</Tip>
     </Container>
   )
 }

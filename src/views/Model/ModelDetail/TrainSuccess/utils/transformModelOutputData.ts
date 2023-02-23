@@ -15,7 +15,6 @@ export const transformModelOutputData = ({
   modelType: string;
 }): any => {
   let dataSet: any = [];
-  console.table([data, modelType])
 
   if (!data) {
     return dataSet;
