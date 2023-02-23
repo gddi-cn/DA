@@ -7,6 +7,22 @@ import { useSelector } from 'react-redux'
 import modelAPI from '@src/apis/model'
 import { APP_EXPERIENCE, APP_PLATFORM, APP_SDK_Documents, APP_SELECT_DEPLOY_TYPE } from '@router'
 
+const useResetStore = () => {
+  const [, setCurrentVersionId] = useAtom(currentVersionIdAtom)
+  const [, setVerisonList] = useAtom(versionListAtom)
+  const [, setLoading] = useAtom(fetchingVersionList)
+
+  React.useEffect(
+    () => () => {
+      setLoading(true)
+      setCurrentVersionId(undefined)
+      setVerisonList([])
+      setLoading(false)
+    },
+    []
+  )
+}
+
 export const useRefreshVersionList = () => {
   const [, setVersionList] = useAtom(versionListAtom)
   const [loading, setLoading] = useAtom(fetchingVersionList)
@@ -23,6 +39,7 @@ export const useRefreshVersionList = () => {
 
     setLoading(true)
     const { success, data } = await modelAPI.versionList(modelId)
+    console.log({ data })
     setLoading(false)
 
     if (!success || !data) {
@@ -34,11 +51,13 @@ export const useRefreshVersionList = () => {
 }
 
 export const useVersionSelector = () => {
+  useResetStore()
   const [currentVersionId, setCurrentVersionId] = useAtom(currentVersionIdAtom)
   const [versionList] = useAtom(versionListAtom)
 
   const initialModelVersionId =
-    useSelector((state: RootState) => state.tasksSilce?.activePipeLine?.APP_MODEL_TRAIN_DETAIL?.version_id)
+    useSelector((state: RootState) =>
+    state.tasksSilce?.activePipeLine?.APP_MODEL_TRAIN_DETAIL?.version_id)
 
   const modelId = useSelector((state: RootState) => state.tasksSilce?.activeTaskInfo?.model?.id)
 
@@ -59,7 +78,7 @@ export const useVersionSelector = () => {
       setCurrentVersionId(initialModelVersionId)
       refreshVersion()
     },
-    [modelId]
+    [modelId, initialModelVersionId]
   )
 
   return {
