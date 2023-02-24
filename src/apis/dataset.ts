@@ -1,4 +1,4 @@
-import { Dataset as IDataset } from '@src/shared/types/dataset'
+import { Dataset, Dataset as IDataset, DatasetClass, SubDataset } from '@src/shared/types/dataset'
 import s3API from '@src/apis/s3'
 import http from '@src/utils/http'
 import { APIResponse } from '@src/shared/types/api'
@@ -123,7 +123,25 @@ const datasetAPI = {
         success: false
       }
     }
-  }
+  },
+
+  classes: async (
+    datasetId: Dataset['id'],
+    subDatasetId: SubDataset['id']
+  ): Promise<APIResponse<Array<DatasetClass>>> => {
+    try {
+      const { data } = await http.get(`/v3/datasets/${datasetId}/sub-datasets/${subDatasetId}/classes`)
+      return {
+        data,
+        success: true,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
 }
 
 export default datasetAPI

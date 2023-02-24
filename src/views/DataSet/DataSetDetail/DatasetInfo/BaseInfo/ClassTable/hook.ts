@@ -1,22 +1,19 @@
 import { useAtom } from 'jotai'
 import { currentDatasetAtom } from '../../../store'
-import { classPageAtom, hasMoreAtom, showClassListAtom } from '../store'
+import { classListAtom, showClassListAtom } from '../store'
 
 export const useTableBody = () => {
+  const [classList] = useAtom(classListAtom)
   const [showClassList] = useAtom(showClassListAtom)
   const [datasetInfo] = useAtom(currentDatasetAtom)
-  const [hasMore] = useAtom(hasMoreAtom)
-  const [, setPage] = useAtom(classPageAtom)
 
-  const loadMore = () => {
-    setPage(page => page + 1)
-  }
+  const total = classList.length
+
 
   return {
     showClassList,
     datasetInfo,
-    hasMore,
-    loadMore,
+    total,
   }
 }
 

@@ -3,8 +3,9 @@ import { useAtom } from 'jotai'
 import './ClassTable.module.less'
 import { DatasetScene } from '@src/shared/enum/dataset'
 import { currentClassAtom, currentDatasetAtom, currentSubDatasetAtom } from '../../../store'
-import InfiniteScroll from 'react-infinite-scroller'
 import { useTableBody } from './hook'
+import { DatasetClass } from '@src/shared/types/dataset'
+import Scrollbar from '@src/components/Scrollbar';
 
 type ItemProps<T> = {
   data: T,
@@ -33,7 +34,7 @@ function BodyItem<T extends DataItem> (props: ItemProps<T>) {
   }
 
   const handleClick = () => {
-    setClassInfo(data as Dataset.Class)
+    setClassInfo(data as DatasetClass)
   }
 
   const getCls = () => {
@@ -79,26 +80,25 @@ const Header: React.FC = () => {
 }
 
 const Body: React.FC = () => {
-  const { showClassList, datasetInfo, hasMore, loadMore } = useTableBody()
-  // (items as Array<any>)
+  const { showClassList, datasetInfo } = useTableBody()
   return (
-    <InfiniteScroll
-      pageStart={0}
-      hasMore={hasMore}
-      loadMore={loadMore}
-      useWindow={false}
-    >
-      <div className='body_wrap'>
+    <div className='body_wrap'>
+      <Scrollbar autoHide>
         {
           (showClassList || [])?.map((o, i) => {
             return (
-              <BodyItem key={i} data={o} scene={datasetInfo?.scene} />
+              <BodyItem
+                key={`${o.name}_${o.annotation_count}_${i}`}
+                data={o}
+                scene={datasetInfo?.scene}
+              />
             )
           })
         }
-      </div>
-    </InfiniteScroll>
+      </Scrollbar>
+    </div>
   )
+
 }
 
 const ClassTable = (): JSX.Element => {

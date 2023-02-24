@@ -4515,6 +4515,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-infinite-scroller@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "@types/react-infinite-scroller@npm:1.2.3"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 709bd23d913ab4217b7f868c659ec8b4807d9a7b0f6eca1ad26e2f5b554fd9772bdebf2abf070ee2fc9881ce9e7856fa623cbec00a82c6c6a247b993a1f853a6
+  languageName: node
+  linkType: hard
+
 "@types/react-is@npm:^16.7.1 || ^17.0.0":
   version: 17.0.3
   resolution: "@types/react-is@npm:17.0.3"
@@ -12448,7 +12457,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.10, prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.5.8, prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -13292,6 +13301,7 @@ __metadata:
     "@types/react": "npm:^18.0.14"
     "@types/react-css-modules": "npm:^4.6.4"
     "@types/react-custom-scrollbars": "npm:^4.0.10"
+    "@types/react-infinite-scroller": "npm:^1.2.3"
     "@types/react-router-dom": "npm:^5.3.3"
     "@types/react-transition-group": "npm:^4.4.5"
     "@types/redux-logger": "npm:^3.0.9"
@@ -13359,6 +13369,7 @@ __metadata:
     react-dev-utils: "npm:^12.0.0"
     react-dom: "npm:^18.2.0"
     react-infinite-scroll-component: "npm:^6.1.0"
+    react-infinite-scroller: "npm:^1.2.6"
     react-redux: "npm:^8.0.2"
     react-refresh: "npm:^0.12.0"
     react-router-dom: "npm:^6.3.0"
@@ -13512,6 +13523,17 @@ __metadata:
   peerDependencies:
     react: ">=16.0.0"
   checksum: f9be8894f171860011e5f9464cd6350aebb18bcde86ec191087123e2f02768003b11b7ab2b922d8e9e5a6f7be00fc659f8cc947e00fd85fc9b106f8d7b3f7dc6
+  languageName: node
+  linkType: hard
+
+"react-infinite-scroller@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "react-infinite-scroller@npm:1.2.6"
+  dependencies:
+    prop-types: "npm:^15.5.8"
+  peerDependencies:
+    react: ^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 74225d56b17eceeb7a0d7308590abaebbbeb2dcac610979d1d8418656d9e081862f13dad1b53ef460a0bd3f02c579fe60cb895ce07add411070a609eaf22d9c6
   languageName: node
   linkType: hard
 

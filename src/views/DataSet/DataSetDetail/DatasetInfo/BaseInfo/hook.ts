@@ -1,20 +1,17 @@
 import { useAtom } from 'jotai'
 import React from 'react'
 
-import { classListAtom, classPageAtom, classPageSizeAtom, hasMoreAtom, showClassListAtom } from './store'
+import { classListAtom, showClassListAtom } from './store'
 import datasetAPI from '@src/apis/dataset'
-import { currentDatasetAtom, currentSubDatasetAtom } from '../../store'
+import { currentClassAtom, currentDatasetAtom, currentSubDatasetAtom } from '../../store'
+import produce from 'immer'
 
 const useResetStore = () => {
   const [, setClassList] = useAtom(classListAtom)
-  const [, setPage] = useAtom(classPageAtom)
-  const [, setPageSize] = useAtom(classPageSizeAtom)
 
   React.useEffect(
     () => () => {
       setClassList([])
-      setPage(0)
-      setPageSize(20)
     },
     []
   )
@@ -22,16 +19,12 @@ const useResetStore = () => {
 
 const useRefreshClassList = () => {
   const [, setClassList] = useAtom(classListAtom)
-  const [, setPage] = useAtom(classPageAtom)
-  const [, setPageSize] = useAtom(classPageSizeAtom)
   const [currentSubDataset] = useAtom(currentSubDatasetAtom)
   const [datasetInfo] = useAtom(currentDatasetAtom)
   const datasetId = datasetInfo?.id
   const subDatasetId = currentSubDataset?.id
 
   return async () => {
-    setPage(0)
-    setPageSize(20)
     setClassList([])
     if (!datasetId || !subDatasetId) {
       return
@@ -46,8 +39,43 @@ const useRefreshClassList = () => {
   }
 }
 
+const useSmoothPushClassList = () => {
+  const [classList] = useAtom(classListAtom)
+  const [, setShowClassList] = useAtom(showClassListAtom)
+  const [, setCurrentClass] = useAtom(currentClassAtom)
+
+  React.useEffect(
+    () => {
+      setShowClassList([])
+      let idx = 0
+
+      const helper = () => {
+        if (idx >= classList.length) {
+          return
+        }
+
+        if (idx === 0) {
+          setCurrentClass(classList[0])
+        }
+
+        setShowClassList(produce(draft => {
+          draft.push(...classList.splice(idx, 5))
+        }))
+        idx += 5
+
+        requestAnimationFrame(helper)
+      }
+
+      requestAnimationFrame(helper)
+    },
+    [classList]
+  )
+}
+
 export const useBaseInfo = () => {
   useResetStore()
+  useSmoothPushClassList()
+
   const [currentSubDataset] = useAtom(currentSubDatasetAtom)
   const [datasetInfo] = useAtom(currentDatasetAtom)
   const datasetId = datasetInfo?.id

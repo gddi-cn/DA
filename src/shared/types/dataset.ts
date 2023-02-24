@@ -1,22 +1,36 @@
-import { AnalyzeItem, DatasetDownloadStatus } from '@src/shared/enum/dataset'
+import { AnalyzeItem, DatasetDownloadStatus, DatasetScene } from '@src/shared/enum/dataset'
 
 interface KeyPoint {
-    joint_weight: number
-    name: string
-    sigmas: number
-    swap: string
-    type: string
-  }
+  joint_weight: number
+  name: string
+  sigmas: number
+  swap: string
+  type: string
+}
 
-  interface Skeleton {
-    start: string
-    end: string
-  }
+interface Skeleton {
+  start: string
+  end: string
+}
 
-  interface Meta {
-    keypoint: Array<KeyPoint>
-    skeleton: Array<Skeleton>
-  }
+interface Meta {
+  keypoint: Array<KeyPoint>
+  skeleton: Array<Skeleton>
+}
+
+export interface DatasetClass {
+  annotation_count: number
+  cover: string
+  name: string
+}
+
+export interface SubDataset {
+  annotation_count: number
+  class_count: number
+  id: string
+  image_count: number
+  size: number
+}
 
 export interface Dataset {
   cover: string,
@@ -27,26 +41,14 @@ export interface Dataset {
   },
   id: string,
   name: string,
-  scene: string,
+  scene: DatasetScene,
   status: number,
   summary: string,
   is_public:boolean,
   meta: Meta,
   reason:string,
-  train_set: {
-    annotation_count: number
-    class_count: number
-    id: string
-    image_count: number
-    size: number
-  },
-  val_set: {
-    annotation_count: number
-    class_count: number
-    id: string
-    image_count: number
-    size: number
-  },
+  train_set: SubDataset,
+  val_set: SubDataset,
   assess: Record<string, number>,
   updated: number,
   username: string,
