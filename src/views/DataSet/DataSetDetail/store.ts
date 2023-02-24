@@ -1,7 +1,5 @@
-import { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
+import { Dataset, SubDataset } from '@src/shared/types/dataset'
 import { atom } from 'jotai'
-
-export const currentDatasetAtom = atom<Data | null>(null)
 
 // 点连线顺序 [开始下标，结束下标]
 export const keypointOrderAtom = atom<Array<[number, number]>>((get) => {
@@ -20,3 +18,19 @@ export const keypointOrderAtom = atom<Array<[number, number]>>((get) => {
 
   return order
 })
+
+export const currentDatasetAtom = atom<Dataset | null>(null)
+export const currentClassAtom = atom<Dataset.Class | null>(null)
+export const datasetTypeAtom = atom<'train_set' | 'val_set'>('train_set')
+export const fetchingDatasetAtom = atom<boolean>(false)
+
+// currentSet
+export const currentSubDatasetAtom = atom<SubDataset | null>((get) => {
+  const datasetInfo = get(currentDatasetAtom)
+  if (!datasetInfo) return null
+
+  const datasetType = get(datasetTypeAtom)
+  
+  return datasetInfo[datasetType] || null
+})
+

@@ -1,27 +1,13 @@
-import { Pagination } from 'antd'
+import { useAtom } from 'jotai'
 
-import type { Dispatch, SetStateAction } from 'react'
-import { useMemo } from 'react'
-import { isEmpty } from 'lodash'
-import { ReactCusScrollBar } from '@src/UIComponents'
 import './ClassTable.module.less'
 import { DatasetScene } from '@src/shared/enum/dataset'
-
-type Props = {
-  // version: any,
-  // whichSet: string,
-  setClassInfo: Dispatch<SetStateAction<any>>,
-  classInfo: any,
-  currentSet:any,
-
-  statistic:any
-  scene?: DatasetScene
-}
+import { currentClassAtom, currentDatasetAtom, currentSubDatasetAtom } from '../../../store'
+import InfiniteScroll from 'react-infinite-scroller'
+import { useTableBody } from './hook'
 
 type ItemProps<T> = {
-  data: T, currentSet: any,
-  setClassInfo: Dispatch<SetStateAction<any>>,
-  classInfo: any,
+  data: T,
   scene?: DatasetScene
 }
 
@@ -29,24 +15,25 @@ type DataItem = {
   cover?: string,
   name?: string,
   annotation_count?: number,
-  // file_type: 'video' | 'image',
-  // url: string,
-  // class_id:number
 }
-function BodyItem<T extends DataItem> (props: ItemProps<T>) {
-  const { data, currentSet, classInfo, setClassInfo, scene } = props
 
+function BodyItem<T extends DataItem> (props: ItemProps<T>) {
+  const { data, scene } = props
+  const [classInfo, setClassInfo] = useAtom(currentClassAtom)
+  const [currentSet] = useAtom(currentSubDatasetAtom)
 
   const isKeyPoint = scene === DatasetScene.KeyPointsBasedAction
 
   const getPercent = () => {
-    if (data?.annotation_count) {
-      return (data.annotation_count / currentSet?.annotation_count * 100).toFixed(2) + '%'
+    if (data?.annotation_count && currentSet?.annotation_count) {
+      return (
+        data.annotation_count / currentSet.annotation_count * 100).toFixed(2) + '%'
     }
     return 0
   }
+
   const handleClick = () => {
-    setClassInfo(data)
+    setClassInfo(data as Dataset.Class)
   }
 
   const getCls = () => {
@@ -72,61 +59,53 @@ function BodyItem<T extends DataItem> (props: ItemProps<T>) {
   )
 }
 
-const ClassTable = (props: Props): JSX.Element => {
-  const { currentSet, classInfo, setClassInfo, statistic, scene } = props
-
+const Header: React.FC = () => {
+  const [datasetInfo] = useAtom(currentDatasetAtom)
+  const scene = datasetInfo?.scene
   const isKeyPoint = scene === DatasetScene.KeyPointsBasedAction
 
-  const Header = () => {
-    return (
-      <div className={['header_wrap', isKeyPoint ? 'col_3' : ''].join(' ')}>
+  return (
+    <div className={['header_wrap', isKeyPoint ? 'col_3' : ''].join(' ')}>
+      {
+        isKeyPoint ? null : (
+          <div>标签封面</div>
+        )
+      }
+      <div>标签名</div>
+      <div>标注数</div>
+      <div>占比</div>
+    </div>
+  )
+}
+
+const Body: React.FC = () => {
+  const { showClassList, datasetInfo, hasMore, loadMore } = useTableBody()
+  // (items as Array<any>)
+  return (
+    <InfiniteScroll
+      pageStart={0}
+      hasMore={hasMore}
+      loadMore={loadMore}
+      useWindow={false}
+    >
+      <div className='body_wrap'>
         {
-          isKeyPoint ? null : (
-            <div>标签封面</div>
-          )
+          (showClassList || [])?.map((o, i) => {
+            return (
+              <BodyItem key={i} data={o} scene={datasetInfo?.scene} />
+            )
+          })
         }
-        <div>标签名</div>
-        <div>标注数</div>
-        <div>占比</div>
       </div>
-    )
-  }
+    </InfiniteScroll>
+  )
+}
 
-  const Body = useMemo(() => {
-    if (isEmpty(statistic)) {
-      return null
-    }
-
-    // (items as Array<any>)
-    return (
-      <>
-        <ReactCusScrollBar id='body_wrap'>
-          <div className='body_wrap'>
-            {
-              (statistic as Array<any>)?.map((o, i) => {
-                return (
-                  <BodyItem
-                    key={i} data={o} currentSet={currentSet} scene={scene}
-                    classInfo={classInfo} setClassInfo={setClassInfo}
-                  />
-                )
-              })
-            }
-          </div>
-        </ReactCusScrollBar>
-
-        <div className='Pagination_wrap'>
-          <Pagination size="small" total={statistic.length} showQuickJumper hideOnSinglePage pageSize={999} />
-        </div>
-      </>
-    )
-  }, [statistic, currentSet, classInfo, setClassInfo])
+const ClassTable = (): JSX.Element => {
   return (
     <div styleName='ClassTable'>
-
       <Header />
-      {Body}
-
+      <Body />
     </div>
   )
 }

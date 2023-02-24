@@ -7,6 +7,8 @@ import { isNil } from "lodash";
 import ListItem from "./ListItem";
 import api from "@api";
 import "./ListView.module.less";
+import { currentClassAtom } from '../../../store';
+import { useAtom } from 'jotai';
 
 export type FectData = {
   isInit?: boolean;
@@ -15,14 +17,14 @@ export type FectData = {
 
 type Props = {
   scenes: string;
-  classInfo: any;
   currentId: any;
   id: string;
 };
 
 const ListView = (props: Props): JSX.Element => {
   const [loading, setLoading] = React.useState<boolean>(false)
-  const { currentId, scenes, classInfo, id } = props;
+  const { currentId, scenes, id } = props;
+  const [classInfo] = useAtom(currentClassAtom)
 
   const { name } = classInfo || {};
   const [show, setShow] = useState(false);
@@ -32,7 +34,7 @@ const ListView = (props: Props): JSX.Element => {
     page_size: 50,
     scene: undefined,
   });
-  //   const [datasetList, setDatasetList] = useState<Array<any>>([])
+
   const [datasetTotal, setDatasetTotal] = useState(0);
   const datasetList = useRef<Array<any>>([]);
   const [dataListLen, setDataListLen] = useState(0);

@@ -15,6 +15,8 @@ import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './IncreaseData.module.less'
 import { isEmpty } from 'lodash';
+import { useAtom } from 'jotai';
+import { templateDatasetAtom } from '@src/store/dataset';
 
 const regExp = /\.(zip|tar|gz)$/
 
@@ -41,13 +43,13 @@ const typeURLMapping: Map<DatasetType, string> = new Map([
 ])
 
 const IncreaseData = (): JSX.Element => {
+
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
 
-  const datasetType = useSelector((state: RootState) => {
-    return state.tasksSilce.activeTaskInfo?.additional?.model_type
-  })
+  const [currentDataset] = useAtom(templateDatasetAtom)
+  const datasetType = currentDataset?.scene
 
   const navigate = useNavigate()
   const [percent, setLocalPercent] = useState<any>(0)
@@ -91,7 +93,6 @@ const IncreaseData = (): JSX.Element => {
   const handleOnuploadBigData = async (file: File | undefined) => {
     if (file) {
       setIsUploading(true)
-      console.log(file)
       setFileInfo({ filename: file.name, size: file.size })
       const defaultInitConfig = {
         accessKeyId: 'HCIYFRUYM897VE1PUG47',
@@ -231,7 +232,6 @@ const IncreaseData = (): JSX.Element => {
   }, [percent, handleCnasel, navigate, activePipeLine, s3info, fileInfo.size])
 
   React.useEffect(() => {
-    console.log({ datasetType })
     setExampleUrl(datasetType ? typeURLMapping.get(datasetType as DatasetType) || '' : '')
   }, [datasetType])
 

@@ -4,9 +4,9 @@ import { message, Modal, Input, Form, Button } from 'antd'
 
 import api from '@api'
 
-import type { Data } from '../V1DatasetCard'
-
 import './EditDataset.module.less'
+import { useAtom } from 'jotai'
+import { currentDatasetAtom } from '@src/views/DataSet/DataSetDetail/store'
 
 const maxSize = 2 * 1024 * 1024
 
@@ -14,14 +14,16 @@ const regExp = /\.(png|jpg|jpeg)$/
 
 type Props={
     type: 'nomal' | 'delete' | 'primary',
-    callback?:()=>void,
-    data: Data,
+    callback?: ()=>void,
     eleId:string
 }
+
 const EditDataset = (props: Props): JSX.Element => {
-  const { data, callback, eleId, type } = props
+  const { callback, eleId, type } = props
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm();
+
+  const [data] = useAtom(currentDatasetAtom)
 
   const handleCancel = () => {
     setVisible(false)

@@ -1,13 +1,16 @@
 import { TypeSettingBotton } from '@src/UIComponents'
+import { useAtom } from 'jotai'
 import type { Dispatch, SetStateAction } from 'react'
+import { currentClassAtom } from '../../../store'
 import './PreviewHeader.module.less'
 
 type Props = {
-    classInfo: any,
     setViewType: Dispatch<SetStateAction<string>>
 }
 const PreviewHeader = (props: Props): JSX.Element => {
-  const { classInfo, setViewType } = props
+  const { setViewType } = props
+  const [classInfo] = useAtom(currentClassAtom)
+
   const handleTypeChange = (key: string) => {
     setViewType(key)
   }

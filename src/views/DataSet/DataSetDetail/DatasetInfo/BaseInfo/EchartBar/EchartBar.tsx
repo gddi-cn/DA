@@ -2,12 +2,14 @@
 import { GEcharts } from '@src/UIComponents'
 import { getOptions } from './options'
 import './EchartBar.module.less'
+import { useAtom } from 'jotai'
+import { classListAtom } from '../store'
 
-const EchartBar = (props: any) => {
-  const { dataList } = props
+const EchartBar = () => {
+  const [classList] = useAtom(classListAtom)
   return (
     <div className='EchartBar' styleName='EchartBar'>
-      <GEcharts options={getOptions(dataList)} />
+      <GEcharts options={getOptions(classList)} />
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { isEmpty } from "lodash";
 import "./SlickView.module.less";
 import { DatasetScene } from "@src/shared/enum/dataset";
 import { useAtom } from "jotai";
-import { keypointOrderAtom } from "../../../store";
+import { currentClassAtom, keypointOrderAtom } from "../../../store";
 
 export type FectData = {
   isInit?: boolean;
@@ -22,7 +22,6 @@ type RenderViewProps = {
 };
 type Props = {
   scenes: string;
-  classInfo: any;
   currentId: any;
   id: string;
 };
@@ -58,7 +57,8 @@ const RenderView = (props: RenderViewProps) => {
 };
 
 const SlickView = (props: Props): JSX.Element => {
-  const { currentId, scenes, classInfo, id } = props;
+  const { currentId, scenes, id } = props;
+  const [classInfo] = useAtom(currentClassAtom)
   const { name } = classInfo || {};
   const [dataList, setDataList] = useState<Array<any>>([]);
   const [total, setTotal] = useState<number>(0);

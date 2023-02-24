@@ -5,7 +5,6 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import type { FectData } from '../../DatasetList/DatasetList'
 import api from '@api'
 import EditDataset from '../EditDataset'
-// import Qs from 'qs'
 import { APP_DATASET_DETAIL } from '@router'
 import { useNavigate } from 'react-router-dom'
 import type { Data } from '../V1DatasetCard'
@@ -62,11 +61,8 @@ function Operation (props: Props): JSX.Element {
 
   const handleGotoDetail = useCallback(
     () => {
-      console.log(data)
-      // const search = Qs.stringify({ id: data?.id, version_id: data?.latest_version?.id })
       navigate({
         pathname: APP_DATASET_DETAIL,
-        // search: search
       })
 
       socketPushMsgForProject(activePipeLine, {
@@ -76,17 +72,6 @@ function Operation (props: Props): JSX.Element {
       })
     }, [activePipeLine, data, navigate]
   )
-
-  // const otherBtn = useMemo(() => {
-  //   if (!onlyShowDelete) {
-  //     return (
-  //       <>
-  //         <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
-  //         <EditDataset data={data} callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
-  //       </>
-  //     )
-  //   }
-  // }, [data, fetchData, handleGotoDetail, onlyShowDelete])
 
   const renderContent = () => {
     if (onlyShowDelete) {
@@ -104,7 +89,7 @@ function Operation (props: Props): JSX.Element {
     return (
       <>
         <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
-        <EditDataset data={data} callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
+        <EditDataset callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
         <SmallButton type='delete' onClick={handleDelete}>删除</SmallButton>
       </>
     )

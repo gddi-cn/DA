@@ -11,6 +11,9 @@ import { socketPushMsgForProject } from '@ghooks'
 
 import Download from './Download'
 import ImportHistory from './ImportHistory'
+import { useAtom } from 'jotai'
+import { currentDatasetAtom } from '../../store'
+import { useRefresh } from '@src/components/AppDetail/hook'
 
 const Container = styled.div`
   width: 100%;
@@ -37,13 +40,17 @@ const Name = styled.p`
   margin: 0 4px 0 0;
 `
 
-type Props={
-    datasetInfo: Data,
-    initFetchDatasetInfo:()=>void,
-}
-const DatasetInfoHeader = (props:Props): JSX.Element => {
+const DatasetInfoHeader = (): JSX.Element => {
   const navigate = useNavigate()
-  const { datasetInfo, initFetchDatasetInfo } = props
+  const [datasetInfo] = useAtom(currentDatasetAtom)
+  const refreshDataset = useRefresh()
+
+  const refresh = () => {
+    const datasetId = useSelector((state: RootState) =>
+      state.tasksSilce.activePipeLine?.APP_DATASET_DETAIL?.id
+    )
+    refreshDataset(datasetId)
+  }
 
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
@@ -62,14 +69,35 @@ const DatasetInfoHeader = (props:Props): JSX.Element => {
     <Container>
       <Left>
         <Name>
-          {datasetInfo?.name}
+          {datasetInfo?.name || '--'}
         </Name>
-        <EditDataset data={datasetInfo} type='nomal' eleId='root' callback={initFetchDatasetInfo} />
-        <SmallButton type='nomal' className='add_data_wrap' onClick={handleGotoADDData}>添加数据</SmallButton>
-        <Download {...datasetInfo} refresh={initFetchDatasetInfo} />
+        <EditDataset
+          type='nomal'
+          eleId='root'
+          callback={refresh}
+        />
+        <SmallButton
+          type='nomal'
+          className='add_data_wrap'
+          onClick={handleGotoADDData}
+        >
+          添加数据
+        </SmallButton>
+        {
+          datasetInfo ? (
+            <Download
+              {...datasetInfo}
+              refresh={refresh}
+            />
+          ) : null
+        }
       </Left>
       <Right>
-        <ImportHistory {...datasetInfo} />
+        {
+          datasetInfo ? (
+            <ImportHistory {...datasetInfo} />
+          ) : null
+        }
       </Right>
     </Container>
   )

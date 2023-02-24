@@ -1,10 +1,6 @@
 import DatasetInfoHeader from './DatasetInfoHeader'
-import { useMemo } from 'react'
-
-import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import BaseInfo from './BaseInfo'
 import { APP_DATA_SET_INDEX } from '@router'
-import type { Dispatch, SetStateAction } from 'react'
 import { LeftOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -13,24 +9,13 @@ import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './DatasetInfo.module.less'
 
-type Props = {
-  whichSet: string,
-  setClassInfo: Dispatch<SetStateAction<string>>,
-  classInfo: any,
-  datasetInfo: Data | null,
-  initFetchDatasetInfo: () => Promise<void>,
-  // version:any,
-  // setVersion: Dispatch<SetStateAction<string>>,
-  currentSet: any,
-
-}
-
-const DatasetInfo = (props: Props): JSX.Element => {
-  const { whichSet, setClassInfo, classInfo, datasetInfo, initFetchDatasetInfo, currentSet } = props
+const DatasetInfo = (): JSX.Element => {
   const navigate = useNavigate()
+
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
+
   const handleGotoList = () => {
     navigate({
       pathname: APP_DATA_SET_INDEX
@@ -40,6 +25,7 @@ const DatasetInfo = (props: Props): JSX.Element => {
       APP_DATASET_DETAIL: {}
     })
   }
+
   const showGoBackBtn = () => {
     if (activePipeLine?.APP_MODEL_TRAIN_DETAIL?.id) {
       return null
@@ -55,23 +41,8 @@ const DatasetInfo = (props: Props): JSX.Element => {
     <div styleName='DatasetInfo'>
       {showGoBackBtn()}
       <div className='DatasetInfo_wrap'>
-        {
-          useMemo(() => (
-            <DatasetInfoHeader datasetInfo={datasetInfo || {} as Data} initFetchDatasetInfo={initFetchDatasetInfo} />
-          ), [datasetInfo, initFetchDatasetInfo])
-        }
-        {
-          useMemo(() => (
-            <BaseInfo
-              // version={version}
-              currentSet={currentSet}
-              datasetInfo={datasetInfo || {} as Data}
-              whichSet={whichSet}
-              setClassInfo={setClassInfo}
-              classInfo={classInfo}
-            />
-          ), [classInfo, setClassInfo, currentSet, whichSet, datasetInfo])
-        }
+        <DatasetInfoHeader />
+        <BaseInfo />
       </div>
     </div>
   )
