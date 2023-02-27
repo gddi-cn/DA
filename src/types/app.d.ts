@@ -33,7 +33,7 @@ declare namespace App {
   interface CreateData {
     adapter_device: Device.Chip.Instance['key']
     app_template_id: App.Template.Instance['id']
-    model_iter_id: string
+    model_iter_id?: string
     cover?: string
     description?: string
     name: string
@@ -56,37 +56,6 @@ declare namespace App {
     sort?: 'asc' | 'desc'
     label?: string
     input?: import ('@src/shared/enum/application').AppTemplateInput
-  }
-
-  namespace Sync {
-    interface Device {
-      chip: stirng
-      create_time: number
-      expire: number
-      id: number
-      match: boolean
-      name: string
-      sn: string
-      state: 'online' | 'offline'
-      sync_state: 'Done' | 'InProgress' | 'Failure'
-      syncs: Array<{ app_name: string, sync_state: 'Done' | 'InProgress' | 'Failure' }>
-      type: string
-      update_time: number
-    }
-
-    interface Reacord {
-      config_url: string
-      create_time: number
-      devices: Array<Device>
-      failed_count: number
-      group_id: number
-      group_name: string
-      id: number
-      pending_count: number
-      success_count: number
-      sync_state: 'Done' | 'InProgress' | 'Failure'
-      total: number
-    }
   }
 
   namespace Template {

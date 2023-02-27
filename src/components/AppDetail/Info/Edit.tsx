@@ -84,11 +84,14 @@ const Edit: React.FC = () => {
                 { required: true, message: '请输入用户名称' },
               ]}
             >
-              <Input />
+              <Input autoComplete='off' autoFocus />
             </Form.Item>
             <Form.Item
               name='description'
               label='应用描述'
+              rules={[
+                { max: 256, message: '应用描述不能长于 256 个字符' }
+              ]}
             >
               <Input.TextArea rows={4} />
             </Form.Item>

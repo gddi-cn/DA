@@ -1,9 +1,8 @@
 import React from 'react'
 
 import { useCreateApp } from './hook'
-import Meta from './Meata'
+import Meta from './Meta'
 import Template from './Template'
-import Config from './Config'
 import { Space } from '@src/views/Space/enums'
 
 const Create: React.FC = () => {
@@ -13,7 +12,6 @@ const Create: React.FC = () => {
     <>
       { currentStep === Space.App.Create.Step.META ? <Meta /> : null }
       { currentStep === Space.App.Create.Step.TEMPLATE ? <Template /> : null }
-      { currentStep === Space.App.Create.Step.CONFIG ? <Config /> : null }
     </>
   )
 }

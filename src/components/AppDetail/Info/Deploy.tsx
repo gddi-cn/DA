@@ -73,10 +73,16 @@ const Row = styled.div`
   padding: 10px 12px;
   display: grid;
   grid-template-columns: ${gridTemplate};
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, .02);
+  }
 `
 
 const RowCell = styled.div`
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 const DeployTime = styled.p`
@@ -116,9 +122,13 @@ const Line = styled.p`
   color: #606266;
 `
 
-const SyncList: React.FC<{ recordList: Array<App.Sync.Reacord> }> = (
+const SyncList: React.FC<{
+  recordList: Array<Sync.Instance>
+  onClick(record: Sync.Instance): void
+}> = (
   {
     recordList,
+    onClick
   }
 ) => {
   return (
@@ -132,12 +142,18 @@ const SyncList: React.FC<{ recordList: Array<App.Sync.Reacord> }> = (
       <RowWrap>
         {
           recordList.map(record => (
-            <Row key={record.id}>
+            <Row key={record.id} onClick={() => onClick(record)}>
               <RowCell>
                 <DeployTime>{formatUnixTime(record.create_time)}</DeployTime>
               </RowCell>
               <RowCell>
-                <StatusBar bg={bgMapping[record.sync_state]}>
+                <StatusBar
+                  bg={
+                    record.sync_state === 'Done' && record.failed_count > 0
+                      ? '#FAD514'
+                      : bgMapping[record.sync_state]
+                  }
+                >
                   { labelMapping[record.sync_state] || '未知' }
                 </StatusBar>
               </RowCell>
@@ -170,14 +186,14 @@ const SyncList: React.FC<{ recordList: Array<App.Sync.Reacord> }> = (
 }
 
 const Deploy: React.FC = () => {
-  const { recordList } = useDeploy()
+  const { recordList, handleClick } = useDeploy()
 
   return (
     <Container>
       <Title>下发历史记录</Title>
       {
         recordList?.length ? (
-          <SyncList recordList={recordList} />
+          <SyncList recordList={recordList} onClick={handleClick} />
         ) : (
           <ImgWrap>
             <Img src={noSync} alt="no sync record" />

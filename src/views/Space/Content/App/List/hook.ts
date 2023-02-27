@@ -122,7 +122,6 @@ export const useAppListFetcher = () => {
   const [total] = useAtom(appTotalAtom)
   const [appList, setAppList] = useAtom(appListAtom)
   const _scrollbarRef = React.useRef(null)
-  const pageInitRef = React.useRef<boolean>(false)
 
   const refresh = useRefreshAppList()
   const fetchAppList = useFetchAppList()
@@ -134,7 +133,10 @@ export const useAppListFetcher = () => {
   React.useEffect(
     () => {
       if (appList.length <= 0) {
-        refresh()
+        if (!init) {
+          setInit(true)
+          refresh()
+        }
         return
       }
 
@@ -161,10 +163,6 @@ export const useAppListFetcher = () => {
   React.useEffect(
     () => {
       if (!init) return
-      if (!pageInitRef.current) {
-        pageInitRef.current = true
-        return
-      }
       fetchAppList(page)
     },
     [page]

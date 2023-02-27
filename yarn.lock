@@ -2986,7 +2986,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.20.7, @babel/types@npm:^7.21.0, @babel/types@npm:^7.21.2, @babel/types@npm:^7.8.3":
+"@babel/types@npm:^7.20.7, @babel/types@npm:^7.21.0, @babel/types@npm:^7.8.3":
+  version: 7.21.0
+  resolution: "@babel/types@npm:7.21.0"
+  dependencies:
+    "@babel/helper-string-parser": "npm:^7.19.4"
+    "@babel/helper-validator-identifier": "npm:^7.19.1"
+    to-fast-properties: "npm:^2.0.0"
+  checksum: fe4d4327cb218345d9cf4d8e38956ab00830714f69c97e2d26f4dc7e544c8e76ea3549a1e51110d1b176784ed48df95b88ba40c9a68589c863d1bddeb6ee93ff
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.21.2":
   version: 7.21.2
   resolution: "@babel/types@npm:7.21.2"
   dependencies:

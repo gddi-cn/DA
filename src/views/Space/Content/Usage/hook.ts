@@ -66,8 +66,14 @@ export const useUsage = () => {
   const refresh = useRefreshConsume()
   const resetStore = useResetStore()
 
+  const initRef = React.useRef<boolean>(false)
+
   React.useEffect(
     () => {
+      if (!initRef.current) {
+        initRef.current = true
+        return
+      }
       refresh(true)
     },
     [consume_type, page_size]

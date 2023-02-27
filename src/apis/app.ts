@@ -139,9 +139,23 @@ const appAPI = {
     }
   },
 
-  syncList: async(id: App.Instance['id']): Promise<APIListResponse<App.Sync.Reacord>> => {
+  syncList: async(id: App.Instance['id']): Promise<APIListResponse<Sync.Instance>> => {
     try {
       const { data } = await http.get(`/v3/apps/${id}/syncs`)
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      return {
+        success: false
+      }
+    }
+  },
+
+  syncDetail: async(appId: App.Instance['id'], syncId: Sync.Instance['id']) => {
+    try {
+      const { data } = await http.get(`/v3/apps/${appId}/syncs/${syncId}`)
       return {
         success: true,
         data,
@@ -170,6 +184,21 @@ const appAPI = {
       }
     }
   },
+
+  copy: async(id: App.Instance['id']): Promise<APIResponse<App.Instance>> => {
+    try {
+      const { data } = await http.put(`/v3/apps/${id}/copy`)
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  }
 }
 
 export default appAPI

@@ -11,6 +11,7 @@ export namespace Space {
       LIST = 1,
       CREATE,
       DETAIL,
+      CONFIG,
     }
     export namespace Detail {
       export enum Page {
@@ -23,7 +24,21 @@ export namespace Space {
       export enum Step {
         META,
         TEMPLATE,
-        CONFIG,
+      }
+    }
+  }
+  export namespace Deploy {
+    export enum Page {
+      LIST = 1,
+      CREATE,
+      DETAIL,
+      APP_DETAIL,
+    }
+    export namespace Create {
+      export enum Step {
+        DEVICE = 1,
+        APP,
+        OVERVIEW,
       }
     }
   }

@@ -68,7 +68,7 @@ const LoadingWrap = styled.div`
 `
 
 const Template: React.FC = () => {
-  const { handlePre, handleNext, loading, templateList, disabledNext } = useTemplate()
+  const { handlePre, handleCreate, loading, templateList, disabledNext, creating } = useTemplate()
 
   return (
     <Container>
@@ -95,8 +95,12 @@ const Template: React.FC = () => {
         </Scrollbar>
       </ScrollWrap>
       <Footer>
-        <SecondaryBtn width={97} onClick={handlePre}>上一步</SecondaryBtn>
-        <PrimaryBtn width={97} onClick={handleNext} disabled={disabledNext}>下一步</PrimaryBtn>
+        <SecondaryBtn width={97} onClick={handlePre} disabled={creating}>
+          上一步
+        </SecondaryBtn>
+        <PrimaryBtn width={97} onClick={handleCreate} disabled={disabledNext} loading={creating}>
+          创建
+        </PrimaryBtn>
       </Footer>
     </Container>
   )

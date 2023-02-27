@@ -13,6 +13,7 @@ declare namespace Device {
       page: number
       page_size: number
       sort?: 'asc' | 'desc'
+      detail?: boolean
     }
     
     interface Option {
@@ -20,5 +21,30 @@ declare namespace Device {
       value: Instance['key']
       label: Instance['name']
     }
+  }
+
+  interface Instance {
+    chip: stirng
+    create_time: number
+    expire: number
+    id: number
+    match: boolean
+    name: string
+    sn: string
+    state: import('@shared/enum/devices').GroupDeviceState
+    type: string
+    update_time: string
+  }
+
+  interface Sync {
+    app_id: number
+    app_name: string
+    sync_state: 'Done' | 'InProgress' | 'Failure'
+    deleted: boolean
+  }
+
+  interface SyncInstance extends Instance {
+    sync_state: 'Done' | 'InProgress' | 'Failure'
+    syncs: Array<Sync>
   }
 }
