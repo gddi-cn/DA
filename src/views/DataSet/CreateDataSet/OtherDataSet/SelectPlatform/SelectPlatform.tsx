@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import './SelectPlatform.module.less'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants';
+import { useBack2DatasetIndex } from '@src/hooks/task';
+import { SecondaryBtn } from '@src/components/Button';
 
 const { Option } = Select;
 
@@ -62,9 +64,9 @@ const SelectPlatform = (): JSX.Element => {
     })
 
     fetchUserList(select)
-
-    console.log(option, 'option')
   }
+
+  const handleCancel = useBack2DatasetIndex()
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
@@ -77,9 +79,7 @@ const SelectPlatform = (): JSX.Element => {
     }
 
     const goNext = async () => {
-      // 123
-      const data = await form.validateFields()
-      console.log(data)
+      await form.validateFields()
       navigate({
         pathname: APP_THIRDPARTY_STEP_2
       })
@@ -144,7 +144,6 @@ const SelectPlatform = (): JSX.Element => {
               {
                 ({ getFieldValue }) => {
                   const plat = getFieldValue('source');
-                  console.log(plat, 'platplat')
                   const disabled = isEmpty(plat) || isNil(plat)
                   return (
                     <Form.Item
@@ -172,7 +171,14 @@ const SelectPlatform = (): JSX.Element => {
           </Form>
         </Spin>
       </div>
-      <FooterBar rightContent={rightContent} />
+      <FooterBar
+        leftContent={
+          <SecondaryBtn width={132} onClick={handleCancel}>
+            取消
+          </SecondaryBtn>
+        }
+        rightContent={rightContent}
+      />
     </div>
   )
 }

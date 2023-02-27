@@ -12,14 +12,15 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import './SelectProject.module.less'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import { useBack2DatasetIndex } from '@src/hooks/task'
+import { SecondaryBtn } from '@src/components/Button'
 
 const { Option } = Select;
 
 const SelectProject = (): JSX.Element => {
-  // const initPageInfo = { name: 'manfu' }
   const [form] = Form.useForm();
-  // const thirdInfo = { user_open_id: '123' }
   const [proList, setProList] = useState<any[]>([]);
+  const handleCancel = useBack2DatasetIndex()
 
   const navigate = useNavigate()
 
@@ -147,9 +148,7 @@ const SelectProject = (): JSX.Element => {
     }
 
     const goNext = async () => {
-      // 123
-      const data = await form.validateFields()
-      console.log(data)
+      await form.validateFields()
       navigate({
         pathname: APP_THIRDPARTY_STEP_3
       })
@@ -167,18 +166,9 @@ const SelectProject = (): JSX.Element => {
     )
   }, [activePipeLine, form, navigate])
 
-  // const handleChange = (changeValue: any, all_values: any) => {
-  //   socketPushMsgForProject(activePipeLine, {
-  //     // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
-  //     APP_THIRDPARTY_STEP_2: all_values
-  //   })
-  // }
-
-  const handleOnSelect = (value:any, option:any) => {
-    console.log(option, 'option')
+  const handleOnSelect = (_: any, option:any) => {
     const { data_value } = option
     socketPushMsgForProject(activePipeLine, {
-      // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
       APP_THIRDPARTY_STEP_2: data_value
     })
   }
@@ -220,7 +210,14 @@ const SelectProject = (): JSX.Element => {
 
         </div>
       </div>
-      <FooterBar rightContent={rightContent} />
+      <FooterBar
+        leftContent={
+          <SecondaryBtn onClick={handleCancel} width={132}>
+            取消
+          </SecondaryBtn>
+        }
+        rightContent={rightContent}
+      />
     </div>
   )
 }

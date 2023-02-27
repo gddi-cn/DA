@@ -98,17 +98,14 @@ const ListView = (props: Props): JSX.Element => {
     fetchData();
   };
 
-  const list = useMemo(() => {
-    console.log('gen...')
-    if (dataListLen === 0 || datasetTotal === 0) {
-      return null;
-    }
-    return datasetList.current.map((o, idx) => {
-      return (
-        <ListItem key={o.hash + "-" + currentId + "_" + idx} data={o} scenes={scenes} />
-      );
-    });
-  }, [dataListLen, name, datasetTotal, scenes, currentId]);
+  const list = 
+    (dataListLen === 0 || datasetTotal === 0)
+    ? null
+    : datasetList.current.map((o, idx) => {
+        return (
+          <ListItem key={o.hash + "-" + currentId + "_" + idx} data={o} scenes={scenes} />
+        );
+      });
 
   return (
     <div styleName="ListView">

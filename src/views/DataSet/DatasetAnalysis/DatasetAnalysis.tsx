@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import styled from 'styled-components'
 import api from '@api'
 import { useNavigate } from 'react-router-dom'
-
 import { Empty, Typography } from 'antd'
 import Radar from './Radar'
 import { FooterBar, GButton, ReactCusScrollBar } from '@src/UIComponents'
@@ -17,6 +17,8 @@ import Details from '@views/DataSet/DatasetAnalysis/Details'
 import { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import { AnalyzeData } from '@src/shared/types/dataset'
 import { AnalyzeItem } from '@src/shared/enum/dataset'
+import { SecondaryBtn, PrimaryBtn } from '@src/components/Button'
+import { useBack2DatasetIndex } from '@src/hooks/task'
 
 const ErrorHelper: React.FC<{msg: string}> = (
   {
@@ -38,6 +40,18 @@ const ErrorHelper: React.FC<{msg: string}> = (
   </Empty>
 )
 
+const Footer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const FooterRight = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+`
+
 const DatasetAnalysis = (): JSX.Element => {
   const navigate = useNavigate()
   const [dataList, setDataList] = useState<Array<AnalyzeData>>([])
@@ -46,6 +60,8 @@ const DatasetAnalysis = (): JSX.Element => {
   const [item, setItem] = useState<AnalyzeItem | undefined>(undefined)
   // 获取数据集概括信息
   const [datasetInfo, setDatasetInfo] = useState<Data>({} as Data)
+
+  const handleCnacel = useBack2DatasetIndex()
 
   const detailData = useMemo(
     () => {
@@ -104,45 +120,38 @@ const DatasetAnalysis = (): JSX.Element => {
     }, [activePipeLine]
   )
 
+
   useEffect(() => {
     initFetchDatasetInfo()
   }, [initFetchDatasetInfo])
 
-  const rightContent = useMemo(() => {
-    const handleGoback = () => {
-      navigate({
-        pathname: APP_DATA_SET_INDEX
-      })
+  const handleGoback = () => {
+    navigate({
+      pathname: APP_DATA_SET_INDEX
+    })
 
-      socketPushMsgForProject(
-        activePipeLine,
-        {
-          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
-          APP_DATASET_ANALYSE: null
-        }
-      )
-    }
-
-    const goNext = () => {
-      navigate({
-        pathname: APP_MODEL_TRAIN_CONFIG
-      })
-
-      socketPushMsgForProject(
-        activePipeLine,
-        {
-          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_MODEL_TRAIN_CONFIG,
-
-        }
-      )
-    }
-    return (
-      <div className='footer_btn_wrap'>
-        <GButton className='previous_btn' type='default' onClick={handleGoback}>上一步</GButton>
-        <GButton type='primary' onClick={goNext}>下一步</GButton>
-      </div>
+    socketPushMsgForProject(
+      activePipeLine,
+      {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
+        APP_DATASET_ANALYSE: null
+      }
     )
-  }, [activePipeLine, navigate])
+  }
+
+  const goNext = () => {
+    navigate({
+      pathname: APP_MODEL_TRAIN_CONFIG
+    })
+
+    socketPushMsgForProject(
+      activePipeLine,
+      {
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_MODEL_TRAIN_CONFIG,
+
+      }
+    )
+  }
 
   return (
     <div styleName='DatasetAnalysis'>
@@ -186,7 +195,17 @@ const DatasetAnalysis = (): JSX.Element => {
           }
         </div>
       </div>
-      <FooterBar rightContent={rightContent} />
+      <FooterBar
+        leftContent={(
+          <SecondaryBtn width={132} onClick={handleCnacel}>取消</SecondaryBtn>
+        )}
+        rightContent={(
+          <FooterRight>
+            <SecondaryBtn width={132} onClick={handleGoback}>上一步</SecondaryBtn>
+            <PrimaryBtn width={132} onClick={goNext}>下一步</PrimaryBtn>
+          </FooterRight>
+        )}
+      />
     </div>
   )
 }

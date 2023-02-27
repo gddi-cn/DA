@@ -15,6 +15,8 @@ import TrainTypeItem from './TrainTypeItem'
 import { activeTypeAtom } from './store'
 import { DatasetScene } from '@src/shared/enum/dataset'
 import styled from 'styled-components'
+import { SecondaryBtn } from '@src/components/Button'
+import { useBack2DatasetIndex } from '@src/hooks/task'
 
 const Container = styled.div`
   height: calc(100vh - 186px);
@@ -49,6 +51,8 @@ const SelectTrainType = (): JSX.Element => {
       setActiveType(activeType)
     }
   }, [activePipeLine])
+
+  const handleCancel = useBack2DatasetIndex()
 
   const rightContent = useMemo(() => {
     const handleGoback = () => {
@@ -95,7 +99,14 @@ const SelectTrainType = (): JSX.Element => {
           }
         </List>
       </Content>
-      <FooterBar rightContent={rightContent} />
+      <FooterBar
+        leftContent={
+          <SecondaryBtn width={132} onClick={handleCancel}>
+            取消
+          </SecondaryBtn>
+        }
+        rightContent={rightContent}
+      />
     </Container>
   )
 }

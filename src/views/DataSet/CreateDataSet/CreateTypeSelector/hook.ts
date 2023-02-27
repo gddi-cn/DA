@@ -16,6 +16,7 @@ import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
+import { useBack2DatasetIndex } from '@src/hooks/task'
 
 export const useTypeItem = (createType: DatasetCreateType) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null)
@@ -77,13 +78,12 @@ export const useFooter = () => {
   const navigate = useNavigate()
   const [selectedType] = useAtom(selectedTypeAtom)
 
+  const handleCancel = useBack2DatasetIndex()
+
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
 
-  const handleCancel = () => {
-    navigate(APP_DATA_SET_INDEX)
-  }
 
   const handleNext = () => {
     switch (selectedType) {

@@ -2,9 +2,6 @@
 import { Form, Input } from 'antd';
 import { FooterBar, GButton, UploadFile } from '@src/UIComponents'
 import { useMemo, cloneElement, useEffect } from 'react'
-// import { bytesToSize } from '@src/utils'
-// import { isNil, isString } from 'lodash';
-// import api from '@api'
 
 import { useNavigate } from 'react-router-dom'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
@@ -13,6 +10,8 @@ import { RootState } from '@reducer/index'
 import { socketPushMsgForProject } from '@ghooks'
 import { APP_LOCAL_FILE_STEP_1, APP_LOCAL_FILE_STEP_3 } from '@router'
 import './DatasetBaseInfoForm.module.less'
+import { useBack2DatasetIndex } from '@src/hooks/task';
+import { SecondaryBtn } from '@src/components/Button';
 
 const { TextArea } = Input;
 const maxSize = 2 * 1024 * 1024
@@ -44,6 +43,8 @@ const DatasetBaseInfoForm = (): JSX.Element => {
   })
   const navigate = useNavigate()
   const [form] = Form.useForm();
+
+  const handleCancel = useBack2DatasetIndex()
 
   useEffect(() => {
     if (activePipeLine.APP_LOCAL_FILE_STEP_2) {
@@ -85,14 +86,8 @@ const DatasetBaseInfoForm = (): JSX.Element => {
     )
   }, [form, navigate, activePipeLine])
 
-  // const handleNext = async () => {
-  //   const data = await form.validateFields()
-  //   console.log(data)
-  // }
   const handleBaseInfoChange = (_:any, all_values:any) => {
-    console.log(all_values)
     socketPushMsgForProject(activePipeLine, {
-      // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
       APP_LOCAL_FILE_STEP_2: all_values
     })
   }
@@ -135,7 +130,14 @@ const DatasetBaseInfoForm = (): JSX.Element => {
           </UploadFile>
         </Form.Item>
       </Form>
-      <FooterBar rightContent={rightContent} />
+      <FooterBar
+        leftContent={
+          <SecondaryBtn width={132} onClick={handleCancel}>
+            取消
+          </SecondaryBtn>
+        }
+        rightContent={rightContent}
+      />
     </div>
   )
 }

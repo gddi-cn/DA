@@ -9,6 +9,8 @@ import ChipList from './components/ChipList'
 import Footer from './components/Footer'
 
 import { useTrainConfig } from './hook'
+import { SecondaryBtn } from '@src/components/Button'
+import { useBack2DatasetIndex } from '@src/hooks/task'
 
 const Container = styled.div`
   height: calc(100vh - 100px);
@@ -52,6 +54,8 @@ const Right = styled.div`
 
 const TrainConfig: React.FC = () => {
   useTrainConfig()
+  const handleCancel = useBack2DatasetIndex()
+
   return (
     <Container>
       <Content>
@@ -67,7 +71,12 @@ const TrainConfig: React.FC = () => {
           <ChipList />
         </Right>
       </Content>
-      <FooterBar rightContent={<Footer />} />
+      <FooterBar
+        leftContent={
+          <SecondaryBtn width={132} onClick={handleCancel}>取消</SecondaryBtn>
+        }
+        rightContent={<Footer />}
+      />
     </Container>
   )
 }

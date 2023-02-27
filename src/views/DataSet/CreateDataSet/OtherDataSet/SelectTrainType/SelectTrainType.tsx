@@ -15,6 +15,8 @@ import { socketPushMsgForProject } from '@ghooks'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import './SelectTrainType.module.less'
+import { useBack2DatasetIndex } from '@src/hooks/task'
+import { SecondaryBtn } from '@src/components/Button'
 
 const MODEL_TYPES_ICON: any = {
   detection: <Mubiaojiance />,
@@ -46,6 +48,8 @@ const SelectTrainType = (): JSX.Element => {
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
+
+  const handleCancel = useBack2DatasetIndex()
 
   const navigate = useNavigate()
 
@@ -123,7 +127,14 @@ const SelectTrainType = (): JSX.Element => {
           }
         </div>
       </div>
-      <FooterBar rightContent={rightContent} />
+      <FooterBar
+        leftContent={
+          <SecondaryBtn width={132} onClick={handleCancel}>
+            取消
+          </SecondaryBtn>
+        }
+        rightContent={rightContent}
+      />
     </div>
   )
 }

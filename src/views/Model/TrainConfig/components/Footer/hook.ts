@@ -99,6 +99,7 @@ export const useFooter = () => {
     setLoading(false)
   }
 
+
   return {
     disabledNext,
     handleGoBack,

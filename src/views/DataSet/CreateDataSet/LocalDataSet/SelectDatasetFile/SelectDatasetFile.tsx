@@ -14,6 +14,8 @@ import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './SelectDatasetFile.module.less'
 import { isEmpty } from 'lodash';
+import { useBack2DatasetIndex } from '@src/hooks/task';
+import { SecondaryBtn } from '@src/components/Button';
 
 const { Option } = Select;
 
@@ -50,6 +52,7 @@ const SelectDatasetFile = (): JSX.Element => {
     nextLoad: 0
   });
 
+  const handleCancel = useBack2DatasetIndex()
 
   const [loading, setLoading] = useState(false)
   const [percent, setLocalPercent] = useState<any>(0)
@@ -353,7 +356,14 @@ const SelectDatasetFile = (): JSX.Element => {
         </div>
 
       </div>
-      <FooterBar rightContent={rightContent} />
+      <FooterBar
+        leftContent={
+          <SecondaryBtn width={132} onClick={handleCancel}>
+            取消
+          </SecondaryBtn>
+        }
+        rightContent={rightContent}
+      />
     </div>
   )
 }

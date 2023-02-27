@@ -13,6 +13,8 @@ import { RootState } from '@reducer/index'
 import { socketPushMsgForProject } from '@ghooks'
 import api from '@api'
 import './BaseInfoForm.module.less'
+import { useBack2DatasetIndex } from '@src/hooks/task'
+import { SecondaryBtn } from '@src/components/Button'
 
 const { Option } = Select
 
@@ -76,8 +78,6 @@ const BaseInfoForm = (): JSX.Element => {
         const creteDatares = await api.post('/v3/datasets', createParams);
         console.log(creteDatares, 'creteDatares')
         if (creteDatares.code === 0) {
-          console.log('90909090')
-
           message.success('创建数据集成功')
           navigate({
             pathname: APP_THIRDPARTY_STEP_4
@@ -101,12 +101,14 @@ const BaseInfoForm = (): JSX.Element => {
   }, [activePipeLine, form, navigate])
 
   const handleBaseInfoChange = (_: any, all_values: any) => {
-    console.log(all_values)
     socketPushMsgForProject(activePipeLine, {
       // active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
       APP_THIRDPARTY_STEP_3: all_values
     })
   }
+
+  const handleCancel = useBack2DatasetIndex()
+
   return (
     <div styleName='BaseInfoForm'>
       <div className='BaseInfoForm_wrap'>
@@ -155,7 +157,14 @@ const BaseInfoForm = (): JSX.Element => {
           </Form.Item>
         </Form>
       </div>
-      <FooterBar rightContent={rightContent} />
+      <FooterBar
+        leftContent={
+          <SecondaryBtn width={132} onClick={handleCancel}>
+            取消
+          </SecondaryBtn>
+        }
+        rightContent={rightContent}
+      />
     </div>
   )
 }

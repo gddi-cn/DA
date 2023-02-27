@@ -6,14 +6,14 @@ import { useNavigate } from "react-router-dom"
 
 import datasetAPI from "@src/apis/dataset"
 import { RootState } from "@src/controller/reducer"
-import {APP_DATASET_CREATE_TYPE, APP_DATA_SET_INDEX, APP_ORDER_PROCESS} from "@src/router"
+import {APP_DATASET_CREATE_TYPE, APP_ORDER_PROCESS} from "@src/router"
 
 import { stepAtom, baseFormAtom, requirementAtom, taskIdAtom, baseFormDataAtom, createLoadingAtom } from './store'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { RcFile } from "antd/es/upload"
 import {socketPushMsgForProject} from "@ghooks";
 import {SNAPSHOT_KEY_OF_ROUTER} from "@src/constants";
-import { useRefreshTask } from "@src/hooks/task"
+import { useBack2DatasetIndex, useRefreshTask } from "@src/hooks/task"
 import { useHeader } from "@src/hooks/header"
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -205,9 +205,7 @@ export const useFooter = () => {
       return setStep('base')
   }
 
-  const handleCancel = () => {
-    return navigate(APP_DATA_SET_INDEX)
-  }
+  const handleCancel = useBack2DatasetIndex()
 
   const handleNext = async () => {
     if (step === 'base')
