@@ -42,7 +42,6 @@ const ListView = (props: Props): JSX.Element => {
   const lastId = useRef<string>("");
 
   useEffect(() => {
-    // 弱智组件，你TM为啥要在init的时候获取target啊？
     setShow(true);
   }, []);
 
@@ -100,6 +99,7 @@ const ListView = (props: Props): JSX.Element => {
   };
 
   const list = useMemo(() => {
+    console.log('gen...')
     if (dataListLen === 0 || datasetTotal === 0) {
       return null;
     }
@@ -108,7 +108,7 @@ const ListView = (props: Props): JSX.Element => {
         <ListItem key={o.hash + "-" + currentId + "_" + idx} data={o} scenes={scenes} />
       );
     });
-  }, [dataListLen, datasetTotal, scenes, currentId]);
+  }, [dataListLen, name, datasetTotal, scenes, currentId]);
 
   return (
     <div styleName="ListView">
