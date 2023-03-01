@@ -25,6 +25,10 @@ import {
   devicePageSizeAtom,
   deviceTotalAtom,
   fetchingDeviceAtom,
+  noLimitAtom,
+  limitAtom,
+  noExpireAtom,
+  expireAtom,
 } from './store'
 import { Space } from '@src/views/Space/enums'
 import { useAppListFetcher } from './AppSelector/hook'
@@ -52,6 +56,10 @@ const useResetStore = () => {
   const [, setDevicePageSize] = useAtom(devicePageSizeAtom)
   const [, setDeviceTotal] = useAtom(deviceTotalAtom)
   const [, setFetchingDevice] = useAtom(fetchingDeviceAtom)
+  const [, setLimit] = useAtom(limitAtom)
+  const [, setExpire] = useAtom(expireAtom)
+  const [, setNoLimit] = useAtom(noLimitAtom)
+  const [, setNoExpire] = useAtom(noExpireAtom)
 
   React.useEffect(
     () => () => {
@@ -77,6 +85,10 @@ const useResetStore = () => {
       setDevicePage(1)
       setDevicePageSize(10)
       setDeviceTotal(0)
+      setLimit(-1)
+      setExpire(-1)
+      setNoLimit(true)
+      setNoExpire(true)
       setFetchingDevice(false)
       setLoading(false)
     },

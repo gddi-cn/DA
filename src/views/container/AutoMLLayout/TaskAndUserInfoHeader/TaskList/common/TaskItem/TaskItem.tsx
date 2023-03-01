@@ -173,7 +173,7 @@ const TaskItem = (props: Props): JSX.Element => {
             <div className="right"></div>
           </div>
           <div className='border_wrap'>
-            <div className="task_icon">
+            <div className={["task_icon", icon ? '' : 'no_icon'].join(' ')}>
               {
                 icon ? (
                   <Img src={icon} />

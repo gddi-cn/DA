@@ -6,7 +6,7 @@ import { AppTemplateInput } from '@src/shared/enum/application'
 export const currentStepAtom = atom<Space.App.Create.Step>(Space.App.Create.Step.META)
 
 export const metaFormValueAtom = atom<
-  Omit<App.CreateForm, 'app_template_id' | 'adapter_device'>
+  Omit<App.CreateForm, 'adapter_device'>
   & { adapter_device: Device.Chip.Instance }
   | null
 >(null)

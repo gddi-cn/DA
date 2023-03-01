@@ -1,5 +1,7 @@
 import { APIListResponse, APIResponse } from '@src/shared/types/api'
 import http from '@src/utils/http'
+import { downloadBlob } from '@src/utils/tools'
+import axios from 'axios'
 
 const syncAPI = {
   list: async (params: Sync.ListParams): Promise<APIListResponse<Sync.Instance>> => {
@@ -20,6 +22,25 @@ const syncAPI = {
   sync: async (data: Sync.SyncParams): Promise<APIResponse<void>> => {
     try {
       await http.post('/v3/appsyncs', data)
+      return {
+        success: true,
+      }
+    } catch(e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
+  export: async (
+    data: Sync.SyncParams,
+    filename: string
+  ): Promise<APIResponse<void>> => {
+    try {
+      const blob = await http.put('/v3/appsync/export', data, { responseType: 'blob' })
+      downloadBlob(blob, filename)
+
       return {
         success: true,
       }

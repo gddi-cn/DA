@@ -41,7 +41,6 @@ declare namespace App {
 
   interface CreateForm {
     adapter_device: Device.Chip.Instance['key']
-    app_template_id: App.Template.Instance['id']
     cover?: import('antd').UploadFile[]
     description?: string
     name: string
@@ -64,11 +63,13 @@ declare namespace App {
       config_url: string
       cover: string
       description: string
+      format: string
       id: number
       input: string
       labels: Array<string>
       name: string
       sample: string
+      samples: Array<string>
     }
 
     interface ListParams {

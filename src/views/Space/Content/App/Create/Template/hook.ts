@@ -1,10 +1,6 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 
-import { ReactComponent as ImgServerIcon } from '@src/asset/icons/app/img_server.svg'
-import { ReactComponent as VideoServerIcon } from '@src/asset/icons/app/stream_server.svg'
-import pic_default_cover from '@src/asset/images/space/pic.png'
-import stream_default_cover from '@src/asset/images/space/stream.png'
 import { Space } from '@src/views/Space/enums'
 import {
   currentStepAtom, fetchingTemplateListAtom,
@@ -17,7 +13,6 @@ import {
 import appAPI from '@src/apis/app'
 import s3API from '@src/apis/s3'
 import { DeviceType } from '@src/shared/enum/device'
-import { AppTemplateInput } from '@src/shared/enum/application'
 import { message } from 'antd'
 import { currentAppIdAtom, currentPageAtom } from '../../store'
 import { useRefreshAppList } from '../../List/hook'
@@ -64,7 +59,7 @@ export const useTemplate = () => {
   const [labelOptions] = useAtom(templateLabelFilterAtom)
   const [input] = useAtom(templateInputFilterAtom)
   const [, setCurrentStep] = useAtom(currentStepAtom)
-  const [currentTemplate] = useAtom(selectedTemplateAtom)
+  const [currentTemplate, setCurrentTempalte] = useAtom(selectedTemplateAtom)
   const [creating, setCreating] = React.useState<boolean>(false)
   const [metaFormValue] = useAtom(metaFormValueAtom)
 
@@ -124,6 +119,10 @@ export const useTemplate = () => {
     refreshList()
   }
 
+  const handleChange = (selected: App.Template.Instance | null) => {
+    setCurrentTempalte(selected)
+  }
+
   React.useEffect(
     () => {
       refresh()
@@ -138,52 +137,8 @@ export const useTemplate = () => {
     loading,
     disabledNext,
     creating,
+    template: currentTemplate,
+    handleChange,
   }
 }
 
-export const useTemplateItem = (template: App.Template.Instance) => {
-  const containerRef = React.useRef<HTMLDivElement | null>(null)
-  const { cover: _cover, name, input, labels, description, id } = template || {}
-  const [currentTemplate, setCurrentTempalte] = useAtom(selectedTemplateAtom)
-
-  const InputIcon = input === AppTemplateInput.IMAGE ? ImgServerIcon : VideoServerIcon
-  const inputTip = input === AppTemplateInput.IMAGE ? '图片服务' : '视频流服务'
-
-  const selected = id !== undefined && currentTemplate?.id === id
-
-  const cover = _cover ? _cover : (
-    input === AppTemplateInput.IMAGE
-      ? pic_default_cover
-      : stream_default_cover
-  )
-
-  const handleClick = () => {
-    if (selected) return
-    setCurrentTempalte(template)
-  }
-
-  React.useEffect(
-    () => {
-      const $c = containerRef.current
-      if (!$c) return
-      
-      if (selected) {
-        $c.setAttribute('selected', '')
-      } else {
-        $c.removeAttribute('selected')
-      }
-    },
-    [selected]
-  )
-
-  return {
-    cover,
-    name,
-    InputIcon,
-    inputTip,
-    tagList: labels?.filter(Boolean) || [],
-    description,
-    containerRef,
-    handleClick,
-  }
-}

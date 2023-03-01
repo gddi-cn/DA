@@ -11,8 +11,8 @@ const Create: React.FC = () => {
 
   return (
     <>
-      { currentStep === Space.Deploy.Create.Step.APP ? <AppSelector /> : null }
       { currentStep === Space.Deploy.Create.Step.DEVICE ? <DeviceSelector /> : null }
+      { currentStep === Space.Deploy.Create.Step.APP ? <AppSelector /> : null }
       { currentStep === Space.Deploy.Create.Step.OVERVIEW ? <Overview /> : null }
     </>
   )

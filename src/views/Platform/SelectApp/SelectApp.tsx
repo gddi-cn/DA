@@ -29,7 +29,7 @@ import { useSelectApp } from './hook'
 
 import AppList from './AppList'
 import NoData from './NoData'
-import CreateApp from './CreateApp'
+import CreateApp from '../CreateApp'
 import { Spin } from 'antd'
 
 const SelectApp: React.FC = () => {

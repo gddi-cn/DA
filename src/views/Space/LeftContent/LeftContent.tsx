@@ -5,8 +5,8 @@ import { useLeftContent } from './hook'
 import Usage from './Usage'
 import Account from './Account'
 import Device from './Device'
-// import App from './App'
-// import Deploy from './Deploy'
+import App from './App'
+import Deploy from './Deploy'
 
 const Container = styled.div`
   padding: 4px 24px;
@@ -39,6 +39,8 @@ const LeftContent: React.FC = () => {
       <Account />
       <Divider />
       <Device />
+      <App />
+      <Deploy />
     </Container>
   )
 }

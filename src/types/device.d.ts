@@ -4,6 +4,8 @@ declare namespace Device {
       key : string
       name: string
       type: import('@src/shared/enum/device').DeviceType
+      app_count?: number
+      device_count?: number
     }
 
     interface ListParams {
@@ -19,7 +21,7 @@ declare namespace Device {
     interface Option {
       key: Instance['key']
       value: Instance['key']
-      label: Instance['name']
+      label: import('react').ReactNode
     }
   }
 

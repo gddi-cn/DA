@@ -11,18 +11,10 @@ const Modal = styled(AntdModal)<{ pb?: React.CSSProperties['paddingBottom'] }>`
     border-radius: 12px;
     position: relative;
     .ant-modal-body {
-      padding: 40px 0 ${props => props.pb || '40px'} 0;
+      padding: 0;
       overflow: hidden;
     }
   }
-`
-
-const Title = styled.p`
-  padding: 0 40px;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
-  color: #2582C1;
 `
 
 const CloseButton = styled(AntdButton)`
@@ -51,17 +43,17 @@ const Content = styled.div`
 
 interface DialogProps extends ModalProps {
   width?: number
-  pb?: React.CSSProperties['paddingBottom']
+  showCloseBtn?: boolean
 }
 
 const Dialog: React.FC<DialogProps> = (
   {
     open,
     onCancel,
-    width,
     children,
     title,
-    pb,
+    width = 1400,
+    showCloseBtn = false,
     ...props
   }
 ) => {
@@ -72,22 +64,20 @@ const Dialog: React.FC<DialogProps> = (
       footer={null}
       onCancel={onCancel}
       closable={false}
-      centered
-      title={null}
       width={width}
-      pb={pb}
       {...props}
     >
-      { title ? <Title>{title}</Title> : null }
-      <CloseButton
-        shape={'circle'}
-        icon={(
-          <CloseOutlined style={{ fontSize: 16 }} onClick={onCancel} />
-        )}
-      />
-      <Content>
-        { children }
-      </Content>
+      { children }
+      {
+        showCloseBtn ? (
+          <CloseButton
+            shape={'circle'}
+            icon={(
+              <CloseOutlined style={{ fontSize: 16 }} onClick={onCancel} />
+            )}
+          />
+        ) : null
+      }
     </Modal>
   )
 }

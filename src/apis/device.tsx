@@ -4,6 +4,30 @@ import { DeviceRegisterResult } from '@src/shared/types/device'
 import http from '@src/utils/http'
 import { DeviceType } from '@src/shared/enum/device'
 
+const getDeviceChipLabel = (label: string, appCount?: number) => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        overflow: 'hidden',
+    }}
+    >
+      <div
+        style={{
+          flex: 1,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {label}
+      </div>
+      <div>{appCount || '暂无应用'}</div>
+    </div>
+  )
+}
+
 const deviceAPI = {
   offlineRegister: async (
     groupId: DeviceGroup['id'],
@@ -31,7 +55,7 @@ const deviceAPI = {
 
   chipTypeList: async (params: Device.Chip.ListParams): Promise<APIListResponse<Device.Chip.Instance>> => {
     try {
-      const { data } = await http.get('/v3/device/types', { params })
+      const { data } = await http.get('/v3/device/types_v2', { params })
       return {
         success: true,
         data,
@@ -70,7 +94,7 @@ const deviceAPI = {
       return []
     }
   },
-  fetchChipTypeDetailByName: async (name: string): Promise<Array<Device.Chip.Option>> => {
+  fetchChipTypeDetailByName: async (name: string): Promise<Array<Device.Chip.Option & { disabled?: boolean }>> => {
     try {
       const { success, data } = await deviceAPI.chipTypeList({
         name, page: 1,
@@ -79,7 +103,12 @@ const deviceAPI = {
       })
       if (!success || !data?.items) return []
 
-      return data.items.map(item => ({ key: item.key, value: item.key, label: item.name }))
+      return data.items.map(({key, name, app_count}) => ({
+        key,
+        value: key,
+        label: getDeviceChipLabel(name, app_count),
+        disabled: Number(app_count) <= 0
+      }))
     } catch (e) {
       console.error(e)
       return []

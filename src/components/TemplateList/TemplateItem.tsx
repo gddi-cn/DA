@@ -6,18 +6,19 @@ import { useTemplateItem } from './hook'
 const Container = styled.div`
   background-color: #EDF8FF;
   width: 100%;
-  height: 358px;
+  height: 385px;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
   cursor: pointer;
   transition: box-shadow ease-in .2s;
+  filter: drop-shadow(0px 0px 4px rgba(0, 56, 95, 0.25));
   &:hover:not([selected]) {
-    box-shadow: 1px 4px 6px rgba(177, 191, 202, 0.36);
-  }
+    filter: drop-shadow(0px 2px 6px rgba(0, 56, 95, 0.25));}
   &[selected] {
     outline: 2px solid #62b0e5;
   }
+  overflow: hidden;
 `
 
 const Img = styled.img`
@@ -67,6 +68,7 @@ const TagList = styled.div`
   align-items: center;
   column-gap: 10px;
   margin-top: 20px;
+  overflow: hidden;
 `
 
 const TagItem = styled.div`
@@ -79,6 +81,15 @@ const TagItem = styled.div`
   background: #D8EDFB;
   border: 1px solid #62B0E5;
   border-radius: 2px;
+  white-space: nowrap;
+`
+
+const Format = styled.div`
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #061926;
+  overflow: hidden;
 `
 
 const Description = styled.div`
@@ -98,6 +109,7 @@ const TemplateItem: React.FC<App.Template.Instance> = (template) => {
     containerRef, cover, name,
     InputIcon, inputTip, tagList,
     description, handleClick,
+    format,
   } = useTemplateItem(template)
 
   return (
@@ -111,13 +123,21 @@ const TemplateItem: React.FC<App.Template.Instance> = (template) => {
             <InputTip>{inputTip}</InputTip>
           </Input>
         </Header>
-        <TagList>
+        <TagList title={tagList.join('，')}>
           {
             tagList.map((tag, idx) => (
               <TagItem key={`${tag}_${idx}`}>{tag}</TagItem>
             ))
           }
+          {
+            tagList.length === 0 ? (
+              <div style={{ height: 23, width: '100%' }} />
+            ) : null
+          }
         </TagList>
+        <Format>
+          支持格式：{format}
+        </Format>
         <Description title={description}>
           {description}
         </Description>

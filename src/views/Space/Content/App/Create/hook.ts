@@ -65,7 +65,7 @@ export const useMeta = () => {
 
   const [form] =
   Form.useForm<
-    Omit<App.CreateForm, 'app_template_id' | 'adapter_device'> &
+    Omit<App.CreateForm, 'adapter_device'> &
     { adapter_device: Device.Chip.Instance }
   >()
 

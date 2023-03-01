@@ -2,7 +2,6 @@ import React from 'react'
 import { useAtom } from 'jotai'
 import { expireAtom, limitAtom, syncTypeAtom } from '../store'
 import { RadioChangeEvent } from 'antd/lib/radio/interface'
-import { setLightness } from 'polished'
 
 export const useLimit = () => {
   const [, setLimit] = useAtom(limitAtom)

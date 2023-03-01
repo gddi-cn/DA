@@ -5,6 +5,10 @@ import styled from 'styled-components'
 
 import { useOverview } from './hook'
 
+import Config from './Config'
+import AppList from './AppList'
+import DeviceList from './DeviceList'
+
 const Container = styled.div`
   height: 100%;
   background-color: #fff;
@@ -28,7 +32,6 @@ const Title = styled.p`
 const Content = styled.div`
   flex: 1;
   overflow: hidden;
-  padding-top: 20px;
 `
 
 const Footer = styled.div`
@@ -40,14 +43,6 @@ const Footer = styled.div`
 
 const ScrollWrap = styled.div`
   padding: 0 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const Long = styled.div`
-  height: 4000px;
-  background-color: #ffffaa;
 `
 
 const FooterRight = styled.div`
@@ -62,6 +57,8 @@ const Overview: React.FC = () => {
     handlePre,
     handleDeploy,
     handleExport,
+    exporting,
+    syncing,
   } = useOverview()
 
   return (
@@ -70,9 +67,11 @@ const Overview: React.FC = () => {
         <Title>总览</Title>
       </Header>
       <Content>
-        <Scrollbar>
+        <Scrollbar autoHide>
           <ScrollWrap>
-            <Long />
+            <Config />
+            <AppList />
+            <DeviceList />
           </ScrollWrap>
         </Scrollbar>
       </Content>
@@ -80,8 +79,12 @@ const Overview: React.FC = () => {
         <SecondaryBtn width={97} onClick={handleCancel}>取消</SecondaryBtn>
         <FooterRight>
           <SecondaryBtn width={97} onClick={handlePre}>上一步</SecondaryBtn>
-          <SecondaryBtn width={97} onClick={handleExport}>离线导出</SecondaryBtn>
-          <PrimaryBtn width={97} onClick={handleDeploy}>在线部署</PrimaryBtn>
+          <SecondaryBtn width={97} onClick={handleExport} loading={exporting}>
+            离线导出
+          </SecondaryBtn>
+          <PrimaryBtn width={97} onClick={handleDeploy} loading={syncing}>
+            在线部署
+          </PrimaryBtn>
         </FooterRight>
       </Footer>
     </Container>

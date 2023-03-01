@@ -54,3 +54,10 @@ export const deviceTotalAtom = atom<number>(0)
 
 export const fetchingDeviceAtom = atom<boolean>(false)
 // ============================== Device List =====================================
+
+// ================================ Config ========================================
+export const noExpireAtom = atom<boolean>(true)
+export const expireAtom = atom<number>(-1)
+export const noLimitAtom = atom<boolean>(true)
+export const limitAtom = atom<number>(-1)
+// ================================ Config ========================================
