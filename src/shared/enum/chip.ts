@@ -20,6 +20,8 @@ export enum ChipBrand {
   SOPHGO = 'SOPHGO',
   // 星宸科技
   SIGMASTAR = 'Sigmastar',
+  // 清微智能
+  TSING_MICRO = 'Tsingmicro'
 }
 
 // 芯片类型
@@ -114,6 +116,7 @@ export enum ChipName {
   _3326 = '3326',
   _3328 = '3328',
   _3368 = '3368',
+  TX5368A = 'TX5368A',
 }
 
 // 芯片设置类型

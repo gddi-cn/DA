@@ -10,6 +10,7 @@ import sigmastar from '@src/asset/images/brand/SigmoStar.png'
 import sophgo from '@src/asset/images/brand/sophgo.png'
 import intel from '@src/asset/images/brand/intel.png'
 import ingenic from '@src/asset/images/brand/Ingenic.png'
+import tsingMicro from '@src/asset/images/brand/tsing_micro.png'
 
 import cambricon_l from '@src/asset/images/brand/cambricon_l.png'
 import nvidia_l from '@src/asset/images/brand/nvidia_l.png'
@@ -21,6 +22,7 @@ import sigmostar_l from '@src/asset/images/brand/sigmostar_l.png'
 import sophgo_l from '@src/asset/images/brand/sophgo_l.png'
 import intel_l from '@src/asset/images/brand/intel_l.png'
 import ingenic_l from '@src/asset/images/brand/ingenic_l.png'
+import tsingMicro_l from '@src/asset/images/brand/tsing_micro_l.png'
 
 import _1109 from '@src/asset/images/chip/_1109.png'
 import AGXXavier from '@src/asset/images/chip/AGXXavier.png'
@@ -105,44 +107,48 @@ import _3288 from '@src/asset/images/chip/_3288.png'
 import _3326 from '@src/asset/images/chip/_3326.png'
 import _3328 from '@src/asset/images/chip/_3328.png'
 import _3368 from '@src/asset/images/chip/_3368.png'
+import tx5368a from '@src/asset/images/chip/TX5368A.png'
 
 export const chipBrandNameMapping: Map<ChipBrand, string> = new Map([
-  [ChipBrand.CAMBRICON, /* */'寒武纪'],
-  [ChipBrand.NVIDIA, /*    */'英伟达'],
-  [ChipBrand.HUAWEI, /*    */'华为海思'],
-  [ChipBrand.MEDIA_TEK, /* */'联发科'],
-  [ChipBrand.QUALCOMM, /*  */'高通'],
-  [ChipBrand.ROCKCHIP, /*  */'瑞芯微'],
-  [ChipBrand.SIGMASTAR, /* */'星宸科技'],
-  [ChipBrand.SOPHGO, /*    */'算能科技'],
-  [ChipBrand.INTEL, /*     */'英特尔'],
-  [ChipBrand.INGENIC, /*   */'君正'],
+  [ChipBrand.CAMBRICON, /*   */'寒武纪'],
+  [ChipBrand.NVIDIA, /*      */'英伟达'],
+  [ChipBrand.HUAWEI, /*      */'华为海思'],
+  [ChipBrand.MEDIA_TEK, /*   */'联发科'],
+  [ChipBrand.QUALCOMM, /*    */'高通'],
+  [ChipBrand.ROCKCHIP, /*    */'瑞芯微'],
+  [ChipBrand.SIGMASTAR, /*   */'星宸科技'],
+  [ChipBrand.SOPHGO, /*      */'算能科技'],
+  [ChipBrand.INTEL, /*       */'英特尔'],
+  [ChipBrand.INGENIC, /*     */'君正'],
+  [ChipBrand.TSING_MICRO, /* */'清微智能'],
 ])
 
 export const chipBrandLogoMapping: Map<ChipBrand, any> = new Map([
-  [ChipBrand.CAMBRICON, /* */cambricon],
-  [ChipBrand.NVIDIA, /*    */nvidia],
-  [ChipBrand.HUAWEI, /*    */huawei],
-  [ChipBrand.MEDIA_TEK, /* */mediaTek],
-  [ChipBrand.QUALCOMM, /*  */qualcomm],
-  [ChipBrand.ROCKCHIP, /*  */rockchip],
-  [ChipBrand.SIGMASTAR, /* */sigmastar],
-  [ChipBrand.SOPHGO, /*    */sophgo],
-  [ChipBrand.INTEL, /*     */intel],
-  [ChipBrand.INGENIC, /*   */ingenic],
+  [ChipBrand.CAMBRICON, /*   */cambricon],
+  [ChipBrand.NVIDIA, /*      */nvidia],
+  [ChipBrand.HUAWEI, /*      */huawei],
+  [ChipBrand.MEDIA_TEK, /*   */mediaTek],
+  [ChipBrand.QUALCOMM, /*    */qualcomm],
+  [ChipBrand.ROCKCHIP, /*    */rockchip],
+  [ChipBrand.SIGMASTAR, /*   */sigmastar],
+  [ChipBrand.SOPHGO, /*      */sophgo],
+  [ChipBrand.INTEL, /*       */intel],
+  [ChipBrand.INGENIC, /*     */ingenic],
+  [ChipBrand.TSING_MICRO, /* */tsingMicro],
 ])
 
 export const chipBrandLittleLogoMapping: Map<ChipBrand, any> = new Map([
-  [ChipBrand.CAMBRICON, /* */cambricon_l],
-  [ChipBrand.NVIDIA, /*    */nvidia_l],
-  [ChipBrand.HUAWEI, /*    */huawei_l],
-  [ChipBrand.MEDIA_TEK, /* */mediaTek_l],
-  [ChipBrand.QUALCOMM, /*  */qualcomm_l],
-  [ChipBrand.ROCKCHIP, /*  */rockchip_l],
-  [ChipBrand.SIGMASTAR, /* */sigmostar_l],
-  [ChipBrand.SOPHGO, /*    */sophgo_l],
-  [ChipBrand.INTEL, /*     */intel_l],
-  [ChipBrand.INGENIC, /*   */ingenic_l],
+  [ChipBrand.CAMBRICON, /*   */cambricon_l],
+  [ChipBrand.NVIDIA, /*      */nvidia_l],
+  [ChipBrand.HUAWEI, /*      */huawei_l],
+  [ChipBrand.MEDIA_TEK, /*   */mediaTek_l],
+  [ChipBrand.QUALCOMM, /*    */qualcomm_l],
+  [ChipBrand.ROCKCHIP, /*    */rockchip_l],
+  [ChipBrand.SIGMASTAR, /*   */sigmostar_l],
+  [ChipBrand.SOPHGO, /*      */sophgo_l],
+  [ChipBrand.INTEL, /*       */intel_l],
+  [ChipBrand.INGENIC, /*     */ingenic_l],
+  [ChipBrand.TSING_MICRO, /* */tsingMicro_l],
 ])
 
 export const chipNameLogoMapping: Map<ChipName, any> = new Map([
@@ -229,6 +235,7 @@ export const chipNameLogoMapping: Map<ChipName, any> = new Map([
   [ChipName._3326, _3326],
   [ChipName._3328, _3328],
   [ChipName._3368, _3368],
+  [ChipName.TX5368A, tx5368a],
 ])
 
 export const chipConfigNameMapping: Map<ChipConfigType, string> = new Map([
