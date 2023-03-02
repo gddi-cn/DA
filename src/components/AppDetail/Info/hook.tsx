@@ -19,10 +19,12 @@ export const useHeader = () => {
   const [app] = useAtom(appAtom)
 
   const {
+    id,
     name,
   } = app || {}
 
   return {
+    id,
     name,
   }
 }

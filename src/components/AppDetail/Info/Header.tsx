@@ -28,10 +28,10 @@ const Toolbars = styled.div`
 `
 
 const Header: React.FC = () => {
-  const { name } = useHeader()
+  const { id, name } = useHeader()
   return (
     <Container>
-      <Title title={name}>{name}</Title>
+      <Title title={`${name}(id: ${id})`}>{name}</Title>
       <Toolbars>
         <Edit />
         <More />
