@@ -134,6 +134,29 @@ const modelAPI = {
       }
     }
   },
+
+  versionOptionList: async (id: string): Promise<APIResponse<Array<{
+    key: Model.Version['id'],
+    label: Model.Version['name'],
+    value: Model.Version['id']
+  }>>> => {
+    const { success: _success, data: _data } = await modelAPI.versionList(id)
+    if (!_success || !_data) {
+      return {
+        success: false,
+      }
+    }
+    
+    return {
+      success: true,
+      data: _data.versions.map(version => ({
+        key: version.id,
+        label: version.name,
+        value: version.id,
+      }))
+    }
+
+  }
 }
 
 export default modelAPI

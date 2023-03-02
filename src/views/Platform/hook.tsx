@@ -109,8 +109,8 @@ export const useRefreshDeviceTypeList = () => {
   }
 }
 
-export const usePlatform = () => {
-  const [currentStep, setCurrentStep] = useAtom(currentStepAtom)
+const useResetStore = () => {
+  const [, setCurrentStep] = useAtom(currentStepAtom)
   const [, setModelVersionId] = useAtom(modelVersionIdAtom)
   const [, setSelectDeviceType] = useAtom(selectDeviceTypeAtom)
   const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
@@ -125,47 +125,39 @@ export const usePlatform = () => {
   const [, setSyncType] = useAtom(syncTypeAtom)
   const [, setSelectedDeviceList] = useAtom(selectedDeviceIdListAtom)
 
-  const [modelVersionId] =
-    useAtom(currentVersionIdAtom)
+  React.useEffect(
+    () => () => {
+      setFetchingAppList(true)
+      setFetchingDeviceTypeList(true)
+      setCurrentStep(Platform.Step.SELECT_APP)
+      setModelVersionId(undefined)
+      setSelectDeviceType(null)
+      setDeviceTypeList([])
+      setAppList([])
+      setCreateAppOpen(false)
+      setSelectedApp(undefined)
+      setSelectedDeviceGroup(null)
+      setExpire(-1)
+      setLimit(-1)
+      setSyncType('sync')
+      setSelectedDeviceList([])
+      setFetchingDeviceTypeList(false)
+      setFetchingAppList(false)
+    },
+    []
+  )
+}
+
+export const usePlatform = () => {
+  useResetStore()
+
+  const [currentStep] = useAtom(currentStepAtom)
 
   const showSelectApp = currentStep === Platform.Step.SELECT_APP
   const showConfig = currentStep === Platform.Step.CONFIG
   const showSelectDevice = currentStep === Platform.Step.SELECT_DEVICE
   const showSync = currentStep === Platform.Step.SYNC
   const showContent = currentStep !== Platform.Step.NOTIFY
-
-  const resetStore = () => {
-    setFetchingAppList(true)
-    setFetchingDeviceTypeList(true)
-    setCurrentStep(Platform.Step.SELECT_APP)
-    setModelVersionId(undefined)
-    setSelectDeviceType(null)
-    setDeviceTypeList([])
-    setAppList([])
-    setCreateAppOpen(false)
-    setSelectedApp(undefined)
-    setSelectedDeviceGroup(null)
-    setExpire(-1)
-    setLimit(-1)
-    setSyncType('sync')
-    setSelectedDeviceList([])
-    setFetchingDeviceTypeList(false)
-    setFetchingAppList(false)
-  }
-
-  React.useEffect(
-    () => {
-      return resetStore
-    },
-    []
-  )
-
-  React.useEffect(
-    () => {
-      setModelVersionId(modelVersionId || undefined)
-    },
-    [modelVersionId]
-  )
 
   return {
     showSelectApp,
@@ -191,7 +183,6 @@ export const useStep = () => {
   const firstNextIcon = currentStep >= Platform.Step.CONFIG ? <NextActiveIcon /> : <NextIcon />
   const secondNextIcon = currentStep >= Platform.Step.SELECT_DEVICE ? <NextActiveIcon /> : <NextIcon />
   const thirdNextIcon = currentStep >= Platform.Step.SYNC ? <NextActiveIcon /> : <NextIcon />
-  
 
   React.useEffect(
     () => {

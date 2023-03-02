@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import TaskStep from '@views/container/TaskStepLayout/TaskStep'
 import Footer from './Footer'
 import Create from './Create'
 import Pending from './Pending'
@@ -16,7 +15,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 100px);
 `
 
 const Content = styled.div`
@@ -42,7 +41,6 @@ const Experience: React.FC = () => {
 
   return (
     <Container>
-      <TaskStep />
       <Title>应用平台部署（体验版）</Title>
         <Content>
           <Spin spinning={loading}>

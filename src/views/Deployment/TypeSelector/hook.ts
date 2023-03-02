@@ -11,6 +11,10 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
 import { useNavigate } from 'react-router-dom'
 import experienceAPI from '@src/apis/experience'
+import { currentVersionStatusAtom } from '@src/components/ModelVersionSelector/store'
+import { Model } from '@src/shared/enum/model'
+import { message } from 'antd'
+import { modelVersionTipMapping } from '@src/shared/mapping/model'
 
 export const useItemCard = (deployType: DeployType, disabled: boolean) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null)
@@ -86,6 +90,7 @@ export const useItemCard = (deployType: DeployType, disabled: boolean) => {
 }
 
 export const useFooter = () => {
+  const [modelStatus] = useAtom(currentVersionStatusAtom)
   const [selectedType] = useAtom(selectedTypeAtom)
   const navigate = useNavigate()
 
@@ -130,6 +135,11 @@ export const useFooter = () => {
 
   const handleClick = () => {
     if (!selectedType) return
+
+    if (modelStatus !== Model.TrainStatus.SUCCESS) {
+      message.warn(modelVersionTipMapping.get(modelStatus as Model.TrainStatus) || '--')
+      return
+    }
 
     switch (selectedType) {
       case DeployType.SDK:

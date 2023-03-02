@@ -86,7 +86,19 @@ const PUBLISH_ACTIVE = [
 
 const TaskStep: React.FC = () => {
   const { pathname } = useLocation()
-  const showModelSelector = [APP_SELECT_DEPLOY_TYPE, APP_EXPERIENCE, APP_PLATFORM, APP_SDK_Documents].includes(pathname)
+  const showModelSelector = [
+    APP_SELECT_DEPLOY_TYPE,
+    APP_EXPERIENCE,
+    APP_PLATFORM,
+    APP_SDK_Documents
+  ].includes(pathname)
+
+  const disabledModelSelector = [
+    APP_EXPERIENCE,
+    APP_PLATFORM,
+    APP_SDK_Documents
+  ].includes(pathname)
+
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine
   })
@@ -139,10 +151,6 @@ const TaskStep: React.FC = () => {
           activePipeLine,
           {
             active_page: SNAPSHOT_KEY_OF_ROUTER.APP_MODEL_TRAIN_DETAIL,
-            // APP_DATASET_DETAIL: {
-            //   id: activeTaskInfo.dataset?.id,
-
-            // }
           }
         )
       }
@@ -159,10 +167,6 @@ const TaskStep: React.FC = () => {
             activePipeLine,
             {
               active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE,
-              // APP_DATASET_DETAIL: {
-              //   id: activeTaskInfo.dataset?.id,
-
-              // }
             }
           )
         }
@@ -195,24 +199,13 @@ const TaskStep: React.FC = () => {
   }
 
   const getCls = (active_paths:any[], atvcls:string) => {
-    // const findActiveMap = new Map([
-    //   [DATASET_ACTIVE, 1],
-    //   [MODEL_ACTIVE, 2],
-    //   [PUBLISH_ACTIVE, 3],
-    // ])
-    // let step = 0
-    // for (const [k, v] of findActiveMap.entries()) {
-    //   if (k.includes(pathname)) {
-    //     step = v
-    //     break
-    //   }
-    // }
     if (active_paths.includes(pathname)) {
       return `step_item step_item_router_active ${atvcls}`
     }
 
     return `step_item ${atvcls}`
   }
+
   return (
     <div styleName='TaskStep'>
       <div className='TaskStep_step_wrap '>
@@ -241,7 +234,9 @@ const TaskStep: React.FC = () => {
         <ModelIterrator />
         {
           showModelSelector ? (
-            <ModelVersionSelector />
+            <ModelVersionSelector
+              disabled={disabledModelSelector}
+            />
           ) : null
         }
       </div>

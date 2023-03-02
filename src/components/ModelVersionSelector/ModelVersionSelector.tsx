@@ -14,8 +14,16 @@ const Select = styled(AntSelect)`
   }
 `
 
-const ModelVersionSelector: React.FC = () => {
-  const { currentVersionId, optionsList, handleChange } = useVersionSelector()
+const ModelVersionSelector: React.FC<{
+  disabled?: boolean,
+  disabledAutoSelect?: boolean;
+}> = (
+  {
+    disabled = false,
+    disabledAutoSelect = false,
+  }
+) => {
+  const { currentVersionId, optionsList, handleChange } = useVersionSelector(disabledAutoSelect)
 
   return (
     <Label>
@@ -24,7 +32,8 @@ const ModelVersionSelector: React.FC = () => {
         options={optionsList}
         onChange={handleChange as any}
         value={currentVersionId}
-        style={{ width: 80 }}
+        style={{ width: 120 }}
+        disabled={disabled}
       />
     </Label>
   )

@@ -75,7 +75,7 @@ const ModelDetail = (): JSX.Element => {
           // 默认
           // 如果还没选择过版本,就默认第一个,选择过了就都是选择后的
           if (versions) {
-            let _currentVersion = versions[0]
+            let _currentVersion = versions[versions.length - 1]
 
             if (model_version_id) {
               const existCurrentVersion = versions.find((o: any) => o.id === model_version_id)

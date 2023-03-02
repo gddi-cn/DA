@@ -48,6 +48,22 @@ export const modelTrainStatusNameMapping: Map<Model.TrainStatus, string> = new M
   [Model.TrainStatus.WAITING, /*   */'等待中'],
 ])
 
+export const modelVersionStatusNameMapping: Map<Model.TrainStatus, string> = new Map([
+  [Model.TrainStatus.NOT_START, /* */'未开始'],
+  [Model.TrainStatus.TRAINING, /*  */'训练中'],
+  [Model.TrainStatus.SUCCESS, /*   */'成功'],
+  [Model.TrainStatus.FAILED, /*    */'失败'],
+  [Model.TrainStatus.WAITING, /*   */'等待中'],
+])
+
+export const modelVersionTipMapping: Map<Model.TrainStatus, string> = new Map([
+  [Model.TrainStatus.NOT_START, /* */'该模型版本未开始训练'],
+  [Model.TrainStatus.TRAINING, /*  */'该模型版本正在训练'],
+  [Model.TrainStatus.SUCCESS, /*   */'该模型版本训练成功'],
+  [Model.TrainStatus.FAILED, /*    */'该模型版本训练失败'],
+  [Model.TrainStatus.WAITING, /*   */'该模型版本未开始训练'],
+])
+
 export const modelTrainStatusColorMapping: Map<Model.TrainStatus, string> = new Map([
   [Model.TrainStatus.NOT_START, /* */'#637381'],
   [Model.TrainStatus.TRAINING, /*  */'#48a2df'],

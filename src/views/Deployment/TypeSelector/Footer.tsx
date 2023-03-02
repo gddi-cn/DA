@@ -9,7 +9,11 @@ const Footer: React.FC = () => {
 
   return (
     <FooterBar
-      rightContent={<PrimaryBtn disabled={disabled} width={132} onClick={handleClick}>下一步</PrimaryBtn>}
+      rightContent={
+        <PrimaryBtn disabled={disabled} width={132} onClick={handleClick}>
+          下一步
+        </PrimaryBtn>
+      }
     />
   )
 }

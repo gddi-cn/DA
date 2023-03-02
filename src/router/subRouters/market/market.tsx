@@ -116,14 +116,6 @@ export default {
           path: APP_ORDER_PROCESS,
           element: SuspenseFn(OrderDetail)
         },
-        {
-          path: APP_EXPERIENCE,
-          element: SuspenseFn(Experience)
-        },
-        {
-          path: APP_PLATFORM,
-          element: SuspenseFn(Platform)
-        },
         // 本地文件上传
 
         localfile,
@@ -173,7 +165,14 @@ export default {
               element: SuspenseFn(DeployTypeSelector),
 
             },
-
+            {
+              path: APP_EXPERIENCE,
+              element: SuspenseFn(Experience)
+            },
+            {
+              path: APP_PLATFORM,
+              element: SuspenseFn(Platform)
+            },
             {
               path: APP_SDK_Documents,
               element: SuspenseFn(Documents),

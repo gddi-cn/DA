@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import TaskStep from '@views/container/TaskStepLayout/TaskStep'
 import Step from './Step'
 import Footer from './Footer'
 
@@ -16,7 +15,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 100px);
   background-color: #FFF;
 `
 
@@ -41,7 +40,6 @@ const Platform: React.FC = () => {
 
   return (
     <Container>
-      <TaskStep />
       {
         showContent ? (
           <>

@@ -5,6 +5,31 @@ import { currentVersionIdAtom, fetchingVersionList, versionListAtom } from './st
 import { RootState } from '@reducer'
 import { useSelector } from 'react-redux'
 import modelAPI from '@src/apis/model'
+import { modelVersionStatusNameMapping } from '@src/shared/mapping/model'
+
+const getVersionOptionLabel = (label: Model.Version['name'], status: Model.Version['status']) => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        overflow: 'hidden',
+    }}
+    >
+      <div
+        style={{
+          flex: 1,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {label}
+      </div>
+      <div style={{ color: '#a0a0a0' }}>{modelVersionStatusNameMapping.get(status) || '暂无应用'}</div>
+    </div>
+  )
+}
 
 const useResetStore = () => {
   const [, setCurrentVersionId] = useAtom(currentVersionIdAtom)
@@ -48,8 +73,31 @@ export const useRefreshVersionList = () => {
   }
 }
 
-export const useVersionSelector = () => {
+export const useIntervalRefreshVersionList = (interval: number) => {
+  const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
+  const refresh = useRefreshVersionList()
+
+  React.useEffect(
+    () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+
+      timerRef.current = setInterval(() => {
+        refresh()
+      }, interval)
+
+      return () => {
+        timerRef.current && clearInterval(timerRef.current)
+      }
+    },
+    []
+  )
+}
+
+export const useVersionSelector = (disabledAutoSelect = false) => {
   useResetStore()
+  useIntervalRefreshVersionList(5e3)
   const [currentVersionId, setCurrentVersionId] = useAtom(currentVersionIdAtom)
   const [versionList] = useAtom(versionListAtom)
 
@@ -61,10 +109,10 @@ export const useVersionSelector = () => {
 
   const refreshVersion = useRefreshVersionList()
 
-  const optionsList = versionList.map(version => ({
-    key: version.id,
-    label: version.name,
-    value: version.id,
+  const optionsList = versionList.map(({ id, name ,status }) => ({
+    key: id,
+    label: getVersionOptionLabel(name, status),
+    value: id,
   }))
 
   const handleChange = (newValue: Model.Version['id']) => {
@@ -73,10 +121,17 @@ export const useVersionSelector = () => {
 
   React.useEffect(
     () => {
+      if (disabledAutoSelect) return
       setCurrentVersionId(initialModelVersionId)
+    },
+    [initialModelVersionId, disabledAutoSelect]
+  )
+
+  React.useEffect(
+    () => {
       refreshVersion()
     },
-    [modelId, initialModelVersionId]
+    [modelId]
   )
 
   return {
