@@ -108,6 +108,17 @@ import _3326 from '@src/asset/images/chip/_3326.png'
 import _3328 from '@src/asset/images/chip/_3328.png'
 import _3368 from '@src/asset/images/chip/_3368.png'
 import tx5368a from '@src/asset/images/chip/TX5368A.png'
+import hi3519av100 from '@src/asset/images/chip/Hi3519AV100.png'
+import hi3520dv500 from '@src/asset/images/chip/Hi3520DV500.png'
+import hi3521dv200 from '@src/asset/images/chip/Hi3521DV200.png'
+import hi3531dv200 from '@src/asset/images/chip/Hi3531DV200.png'
+import hi3535av100 from '@src/asset/images/chip/Hi3535AV100.png'
+import hi3559av100 from '@src/asset/images/chip/Hi3559AV100.png'
+import hi3559cv100 from '@src/asset/images/chip/Hi3559CV100.png'
+import hi3568v100 from '@src/asset/images/chip/Hi3568V100.png'
+import hi3569v100 from '@src/asset/images/chip/Hi3569V100.png'
+import hi3516cv500 from '@src/asset/images/chip/Hi3516CV500.png'
+import hi3516dv300 from '@src/asset/images/chip/Hi3516DV300.png'
 
 export const chipBrandNameMapping: Map<ChipBrand, string> = new Map([
   [ChipBrand.CAMBRICON, /*   */'寒武纪'],
@@ -236,6 +247,17 @@ export const chipNameLogoMapping: Map<ChipName, any> = new Map([
   [ChipName._3328, _3328],
   [ChipName._3368, _3368],
   [ChipName.TX5368A, tx5368a],
+  [ChipName.HI3519AV100, hi3519av100],
+  [ChipName.HI3520DV500, hi3520dv500],
+  [ChipName.HI3521DV200, hi3521dv200],
+  [ChipName.HI3531DV200, hi3531dv200],
+  [ChipName.HI3535AV100, hi3535av100],
+  [ChipName.HI3559AV100, hi3559av100],
+  [ChipName.HI3559CV100, hi3559cv100],
+  [ChipName.HI3568V100, hi3568v100],
+  [ChipName.HI3569V100, hi3569v100],
+  [ChipName.HI3516CV500, hi3516cv500],
+  [ChipName.HI3516DV300, hi3516dv300],
 ])
 
 export const chipConfigNameMapping: Map<ChipConfigType, string> = new Map([
