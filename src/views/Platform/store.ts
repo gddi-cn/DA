@@ -4,8 +4,6 @@ import { Platform } from '@views/Platform/enum'
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
 import { GroupDevice } from '@src/shared/types/device'
 
-export const modelVersionIdAtom = atom<string | undefined>(undefined)
-
 export const currentStepAtom = atom<Platform.Step>(Platform.Step.SELECT_APP)
 // export const currentStepAtom = atom<Platform.Step>(Platform.Step.CONFIG)
 

@@ -6,16 +6,16 @@ import {
   appListAtom,
   createAppOpenAtom,
   deviceTypeListAtom, fetchingAppListAtom,
-  modelVersionIdAtom,
   selectDeviceTypeAtom,
   selectedAppAtom
 } from '../store'
 import appAPI from '@src/apis/app'
 import { useRefreshAppList, useRefreshDeviceTypeList } from '@views/Platform/hook'
+import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
 
 export const useSelectApp = () => {
   const [appList] = useAtom(appListAtom)
-  const [modelVersionId] = useAtom(modelVersionIdAtom)
+  const [modelVersionId] = useAtom(currentVersionIdAtom)
   const [selectDeviceType] = useAtom(selectDeviceTypeAtom)
   const [loading] = useAtom(fetchingAppListAtom)
 

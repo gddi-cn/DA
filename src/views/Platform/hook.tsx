@@ -15,7 +15,6 @@ import {
   expireAtom,
   fetchingAppListAtom,
   fetchingDeviceTypeListAtom, limitAtom,
-  modelVersionIdAtom,
   selectDeviceTypeAtom,
   selectedAppAtom,
   selectedDeviceGroupAtom,
@@ -48,11 +47,11 @@ const setInactive = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
 }
 
 export const useRefreshAppList = () => {
-  const [model_iter_id] = useAtom(modelVersionIdAtom)
   const [selectDeviceType] = useAtom(selectDeviceTypeAtom)
   const [loading, setLoading] = useAtom(fetchingAppListAtom)
   const [, setAppList] = useAtom(appListAtom)
   const [, setSelectedApp] = useAtom(selectedAppAtom)
+  const [model_iter_id] = useAtom(currentVersionIdAtom)
 
   return async () => {
     if (loading || !model_iter_id) return
@@ -82,12 +81,14 @@ export const useRefreshAppList = () => {
 }
 
 export const useRefreshDeviceTypeList = () => {
-  const [model_iter_id] = useAtom(modelVersionIdAtom)
+  const [model_iter_id] = useAtom(currentVersionIdAtom)
   const [loading, setLoading] = useAtom(fetchingDeviceTypeListAtom)
   const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
 
   return async () => {
+    console.log({ model_iter_id, loading })
     if (!model_iter_id || loading) return
+    console.log(333)
 
     setLoading(true)
 
@@ -111,7 +112,6 @@ export const useRefreshDeviceTypeList = () => {
 
 const useResetStore = () => {
   const [, setCurrentStep] = useAtom(currentStepAtom)
-  const [, setModelVersionId] = useAtom(modelVersionIdAtom)
   const [, setSelectDeviceType] = useAtom(selectDeviceTypeAtom)
   const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
   const [, setFetchingAppList] = useAtom(fetchingAppListAtom)
@@ -130,7 +130,6 @@ const useResetStore = () => {
       setFetchingAppList(true)
       setFetchingDeviceTypeList(true)
       setCurrentStep(Platform.Step.SELECT_APP)
-      setModelVersionId(undefined)
       setSelectDeviceType(null)
       setDeviceTypeList([])
       setAppList([])

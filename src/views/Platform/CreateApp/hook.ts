@@ -3,15 +3,14 @@ import { useAtom } from 'jotai'
 import { Form, message } from 'antd'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
-import { DeviceType } from '@src/shared/enum/device'
 import { getBase64 } from '@src/utils'
 import s3API from '@src/apis/s3'
 import { Platform } from '@views/Platform/enum'
+import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
 import {
   createAppOpenAtom,
   currentStepAtom,
   deviceTypeListAtom,
-  modelVersionIdAtom,
   selectedAppAtom
 } from '../store'
 import appAPI from '@src/apis/app'
@@ -129,7 +128,7 @@ export const useFooter = () => {
   const [loading, setLoading] = useAtom(creatingAppAtom)
   const [formLoading, setFormLoading] = React.useState<boolean>(false)
   const [, setFormValue] = useAtom(baseFormValueAtom)
-  const [model_iter_id] = useAtom(modelVersionIdAtom)
+  const [model_iter_id] = useAtom(currentVersionIdAtom)
   const [, setSelectedApp] = useAtom(selectedAppAtom)
   const [, setCurrentStep] = useAtom(currentStepAtom)
   const [selectedTemplate] = useAtom(selectedTemplateAtom)

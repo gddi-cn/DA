@@ -6,7 +6,6 @@ import {
   groupDevicePageAtom,
   groupDevicePageSizeAtom,
   groupDeviceTotalAtom,
-  modelVersionIdAtom,
   selectedAppAtom,
   selectedDeviceGroupAtom, selectedDeviceIdListAtom
 } from '../store'
