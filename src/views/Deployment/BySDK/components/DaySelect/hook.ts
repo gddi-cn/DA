@@ -22,6 +22,10 @@ export const useDateSelect = () => {
 
   React.useEffect(
     () => {
+      setTimeout(
+        () => form.setFieldValue('custom', 30),
+        500
+      )
       return () => {
         form.resetFields()
         setDisabled(true)

@@ -130,7 +130,7 @@ export const useRefreshGroupDevice = () => {
     firstPage && setPage(1)
     const { success, data } = await deviceGroupAPI.fetchGroupDeviceList(
       group.value,
-      { page, page_size, type }
+      { page: firstPage ? 1 : page, page_size, type }
     )
     setLoading(false)
 

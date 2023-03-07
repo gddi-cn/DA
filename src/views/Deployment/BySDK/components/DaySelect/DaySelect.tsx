@@ -63,6 +63,8 @@ const DaySelect: React.FC<DaySelectProps> = (
             rules={[
               ({getFieldValue}) => ({
                 validator(_, value) {
+                  console.log({ value })
+                  console.log({ custom: getFieldValue('custom') })
                   if (getFieldValue('day') === 0 && !value) {
                     return Promise.reject('请输入授权天数')
                   }
@@ -73,11 +75,11 @@ const DaySelect: React.FC<DaySelectProps> = (
           >
             <InputNumber
               addonAfter={'天'}
-              disabled={disabled} min={1}
+              disabled={disabled}
+              min={1}
               placeholder={'请输入天数'}
               autoComplete={'off'}
               precision={0}
-              defaultValue={30}
             />
           </Form.Item>
         </Form>
