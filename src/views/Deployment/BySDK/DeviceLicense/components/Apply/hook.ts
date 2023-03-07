@@ -70,14 +70,23 @@ export const useCheckAll = () => {
   const [selected, setSelected] = useAtom(selectedDeviceAtom)
   const [deviceList] = useAtom(groupDeviceAtom)
 
-  const indeterminate = selected.length > 0 && selected.length < deviceList.length
-  const checkedAll = selected.length >= deviceList.length
+  const checkedAll =
+    deviceList.filter(x => selected.includes(x.id)).length === deviceList.length
+
+  const indeterminate =
+    !checkedAll &&
+    (selected.filter(s => deviceList.some(x => x.id === s)).length > 0)
+
 
   const handleToggle = () => {
     if (checkedAll) {
-      setSelected([])
+      setSelected(s => s.filter(id => !deviceList.some(x => x.id === id)))
     } else {
-      setSelected(deviceList.map(x => x.id))
+      setSelected(produce(draft => {
+        draft.push(
+          ...deviceList.map(x => x.id).filter(x => !draft.includes(x))
+        )
+      }))
     }
   }
 
@@ -116,7 +125,7 @@ export const useRefreshGroupDevice = () => {
   const [,setTotal] = useAtom(groupDeviceTotalAtom)
   const [page, setPage] = useAtom(groupDevicePageAtom)
   const [page_size] = useAtom(groupDevicePageSizeAtom)
-  const [, setSelected] = useAtom(selectedDeviceAtom)
+  // const [, setSelected] = useAtom(selectedDeviceAtom)
 
   return async (firstPage = false) => {
     if (!(group?.value || group?.value === 0) || loading) return
@@ -140,7 +149,7 @@ export const useRefreshGroupDevice = () => {
     setTotal(total || 0)
     setDeviceList(items || [])
 
-    setSelected(s => _.intersection((items || []).map(x => x.id), s))
+    // setSelected(s => _.intersection((items || []).map(x => x.id), s))
   }
 }
 
