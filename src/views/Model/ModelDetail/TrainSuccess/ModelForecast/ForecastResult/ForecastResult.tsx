@@ -28,7 +28,7 @@ const RenderView = (props: any) => {
   //   return null;
   // }
   
-  const { dataSet } = datainfo;
+  const { dataSet } = datainfo || {};
   // 这里不能让react复用、我猜是离屏canvas导致的缓存问题~
   return (
     <UIDatasetVisual

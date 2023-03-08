@@ -22,7 +22,13 @@ export const falseListAtom = atom<Array<ModelFalseAnalysisItem>>((get) => {
 
   if (!falseAnalysis || !scene) return [] as Array<ModelFalseAnalysisItem>;
 
-  return formatFalseAnalysis(scene, falseAnalysis, falseType, orderList);
+  const analysisList = formatFalseAnalysis(scene, falseAnalysis, falseType, orderList);
+
+  if (falseType === 'label') {
+    analysisList.sort((a, b) => b.labelTip.wrongNum - a.labelTip.wrongNum)
+  }
+
+  return analysisList
 });
 
 export const selectedItemKeyAtom = atom<string | null>(null);

@@ -46,7 +46,7 @@ const ListItem = (props: any) => {
   }, [datainfo, model_type, data]);
 
   const modalView = useMemo(() => {
-    const { dataSet } = datainfo;
+    const { dataSet } = datainfo || {};
     return (
       <Modal
         title={null}
