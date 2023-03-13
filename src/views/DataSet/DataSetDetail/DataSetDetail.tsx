@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components";
 
 import { ScaleRight } from "@src/UIComponents";
@@ -25,10 +26,10 @@ const Item = styled.div`
   height: 100%;
 `;
 
-const DataSetDetail = (): JSX.Element => {
+const DataSetDetail: React.FC = () => {
   useDatasetDetail()
 
-  return (
+  const memoedChild = React.useMemo(() => (
     <Container>
       <Content>
         <ScaleRight
@@ -46,7 +47,9 @@ const DataSetDetail = (): JSX.Element => {
       </Content>
       <Footer />
     </Container>
-  );
+  ), [])
+
+  return memoedChild;
 };
 
 export default DataSetDetail;

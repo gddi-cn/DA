@@ -1,7 +1,12 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 
-import { currentClassAtom, currentDatasetAtom, currentSubDatasetAtom, datasetTypeAtom, fetchingDatasetAtom } from './store'
+import {
+  currentClassAtom,
+  currentDatasetAtom,
+  datasetTypeAtom,
+  fetchingDatasetAtom
+} from './store'
 import { Dataset } from '@src/shared/types/dataset'
 import { templateDatasetAtom } from '@src/store/dataset'
 import datasetAPI from '@src/apis/dataset'
@@ -18,8 +23,8 @@ const useResetStore = () => {
     () => () => {
       setLoading(true)
       setCurrentClass(null)
-      setDatasetType('train_set')
       setCurrentDatasetInfo(null)
+      setDatasetType('train_set')
       setLoading(false)
     },
     []
@@ -57,6 +62,7 @@ const useRefreshDataset = () => {
 
 export const useDatasetDetail = () => {
   useResetStore()
+
   const refresh = useRefreshDataset()
 
   const datasetId = useSelector((state: RootState) =>
@@ -65,6 +71,7 @@ export const useDatasetDetail = () => {
 
   React.useEffect(
     () => {
+      if (!datasetId) return
       refresh(datasetId)
     },
     [datasetId]

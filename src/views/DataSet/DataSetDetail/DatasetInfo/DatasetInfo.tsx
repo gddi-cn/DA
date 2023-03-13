@@ -1,3 +1,4 @@
+import React from 'react'
 import DatasetInfoHeader from './DatasetInfoHeader'
 import BaseInfo from './BaseInfo'
 import { APP_DATA_SET_INDEX } from '@router'
@@ -37,13 +38,17 @@ const DatasetInfo = (): JSX.Element => {
     )
   }
 
+  const memoedChild = React.useMemo(() => (
+    <div className='DatasetInfo_wrap'>
+      <DatasetInfoHeader />
+      <BaseInfo />
+    </div>
+  ), [])
+
   return (
     <div styleName='DatasetInfo'>
       {showGoBackBtn()}
-      <div className='DatasetInfo_wrap'>
-        <DatasetInfoHeader />
-        <BaseInfo />
-      </div>
+      {memoedChild}
     </div>
   )
 }
