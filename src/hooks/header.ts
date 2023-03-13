@@ -8,7 +8,6 @@ import { APP_GUIDE_PAGE } from "@router";
 import {socketPushMsgForProject} from "@ghooks";
 import { SNAPSHOT_KEY_OF_ROUTER } from "@src/constants";
 
-
 export const useHeader = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -68,3 +67,4 @@ export const useHeader = () => {
     updateCurrentProjectStatus,
   }
 }
+

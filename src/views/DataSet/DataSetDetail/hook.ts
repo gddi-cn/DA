@@ -1,5 +1,6 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
+import _ from 'lodash'
 
 import {
   currentClassAtom,
@@ -7,11 +8,11 @@ import {
   datasetTypeAtom,
   fetchingDatasetAtom
 } from './store'
-import { Dataset } from '@src/shared/types/dataset'
-import { templateDatasetAtom } from '@src/store/dataset'
+import { currentDatasetIdAtom, templateDatasetAtom } from '@src/store/dataset'
 import datasetAPI from '@src/apis/dataset'
 import { useSelector } from 'react-redux'
 import { RootState } from '@src/controller/reducer'
+import { Dataset } from '@src/shared/types/dataset'
 
 const useResetStore = () => {
   const [, setCurrentClass] = useAtom(currentClassAtom)
@@ -36,17 +37,17 @@ const useRefreshDataset = () => {
   const [, setDataset] = useAtom(currentDatasetAtom)
   const [loading, setLoading] = useAtom(fetchingDatasetAtom)
 
-  return async (id?: Dataset['id']) => {
+  return async (datasetId: Dataset['id']) => {
     if (loading) return
 
-    if (!id) {
+    if (!datasetId) {
       setTemplateDataset(null)
       setDataset(null)
       return
     }
 
     setLoading(true)
-    const { success, data } = await datasetAPI.detail(id)
+    const { success, data } = await datasetAPI.detail(datasetId)
     setLoading(false)
 
     if (!success || !data) {
@@ -65,8 +66,15 @@ export const useDatasetDetail = () => {
 
   const refresh = useRefreshDataset()
 
-  const datasetId = useSelector((state: RootState) =>
-    state.tasksSilce.activePipeLine?.APP_DATASET_DETAIL?.id
+  const [datasetId, setDatasetId] = useAtom(currentDatasetIdAtom)
+
+  React.useEffect(
+    () => {
+      return () => {
+        setDatasetId(undefined)
+      }
+    },
+    []
   )
 
   React.useEffect(
@@ -76,5 +84,6 @@ export const useDatasetDetail = () => {
     },
     [datasetId]
   )
+
 }
 

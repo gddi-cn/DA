@@ -27,7 +27,7 @@ export const fetchingDatasetAtom = atom<boolean>(false)
 
 // currentSet
 export const currentSubDatasetAtom = atom<SubDataset | null>((get) => {
-  const datasetInfo = get(templateDatasetAtom)
+  const datasetInfo = get(currentDatasetAtom)
   if (!datasetInfo) return null
 
   const datasetType = get(datasetTypeAtom)

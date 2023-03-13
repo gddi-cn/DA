@@ -59,7 +59,6 @@ const TaskItem = (props: Props): JSX.Element => {
     name, id, additional,
   } = data
 
-
   const icon = useMemo(
     () => {
       const type = additional?.model_type

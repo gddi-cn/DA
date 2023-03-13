@@ -5,14 +5,18 @@ import { classListAtom, showClassListAtom } from './store'
 import datasetAPI from '@src/apis/dataset'
 import { currentClassAtom, currentDatasetAtom, currentSubDatasetAtom, datasetTypeAtom } from '../../store'
 import produce from 'immer'
-import { templateDatasetAtom } from '@src/store/dataset'
+
+// 如果设置过小且标签数过大可能会超出最大迭代数，会导致各种奇怪的 bug
+const step = 10
 
 const useResetStore = () => {
   const [, setClassList] = useAtom(classListAtom)
+  const [, setShowClassList] = useAtom(showClassListAtom)
 
   React.useEffect(
     () => () => {
       setClassList([])
+      setShowClassList([])
     },
     []
   )
@@ -20,8 +24,8 @@ const useResetStore = () => {
 
 const useRefreshClassList = () => {
   const [, setClassList] = useAtom(classListAtom)
-  const [currentSubDataset] = useAtom(templateDatasetAtom)
   const [datasetInfo] = useAtom(currentDatasetAtom)
+  const [currentSubDataset] = useAtom(currentSubDatasetAtom)
   const datasetId = datasetInfo?.id
   const subDatasetId = currentSubDataset?.id
 
@@ -35,7 +39,6 @@ const useRefreshClassList = () => {
     if (!success || !data) {
       return
     }
-
     setClassList(data)
   }
 }
@@ -48,10 +51,11 @@ const useSmoothPushClassList = () => {
   React.useEffect(
     () => {
       setShowClassList([])
+      const total = classList.length
       let idx = 0
 
       const helper = () => {
-        if (idx >= classList.length) {
+        if (idx >= total) {
           return
         }
 
@@ -60,9 +64,9 @@ const useSmoothPushClassList = () => {
         }
 
         setShowClassList(produce(draft => {
-          draft.push(...classList.splice(idx, 5))
+          draft.push(...classList.slice(idx, idx + step))
         }))
-        idx += 5
+        idx += step
 
         requestAnimationFrame(helper)
       }
@@ -74,9 +78,10 @@ const useSmoothPushClassList = () => {
 }
 
 export const useBaseInfo = () => {
-  // useResetStore()
-  // useSmoothPushClassList()
-  const [datasetInfo] = useAtom(templateDatasetAtom)
+  useResetStore()
+  useSmoothPushClassList()
+
+  const [datasetInfo] = useAtom(currentDatasetAtom)
   const datasetId = datasetInfo?.id
   const [currentSubDataset] = useAtom(currentSubDatasetAtom)
   const [datasetType] = useAtom(datasetTypeAtom)
@@ -85,21 +90,11 @@ export const useBaseInfo = () => {
 
   React.useEffect(
     () => {
-      console.log({ datasetId })
-      // refreshClasses()
+      refreshClasses()
     },
-    [datasetId]
+    [datasetId, datasetType]
   )
 
-
-  React.useEffect(
-    () => {
-      return () => {
-        console.log('__')
-      }
-    },
-    []
-  )
   return {
     datasetInfo,
     currentSubDataset,
