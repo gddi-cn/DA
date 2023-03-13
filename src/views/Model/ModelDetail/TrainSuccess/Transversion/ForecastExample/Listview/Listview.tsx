@@ -5,11 +5,45 @@ import { Modal, Image } from "antd";
 import { useGetDataInfo } from "../../../utils";
 import "./Listview.module.less";
 import { DatasetScene } from "@src/shared/enum/dataset";
+import styled from "styled-components";
+import ZoomArea from "@src/components/ZoomArea";
+
+const ImgWrap = styled.div`
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+`
+
+const Img = styled.img`
+  display: block;
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+`
+
+const P: React.FC<{src?: string}> = (
+  {
+    src,
+  }
+) => {
+  const s = src ? src + `?t=${Date.now()}` : undefined
+
+  return (
+    <ImgWrap>
+      <ZoomArea>
+        <Img
+          src={s}
+        />
+      </ZoomArea>
+    </ImgWrap>
+  )
+}
 
 const ListItem = (props: any) => {
   const { data, model_type } = props;
   const [visible, setvisible] = useState(false);
   const datainfo = useGetDataInfo(data.value, model_type);
+  const { dataSet } = datainfo || {}
 
   const view = useMemo(() => {
     const {
@@ -19,7 +53,13 @@ const ListItem = (props: any) => {
     } = datainfo;
 
     if (model_type === "keypoints_based_action") {
-      return <Image src={data.src as any} />;
+      return (
+        <div
+          onClick={() => setvisible(true)}
+        >
+          <Image src={data.src as any} preview={false} />
+        </div>
+      );
     }
 
     return (
@@ -45,9 +85,10 @@ const ListItem = (props: any) => {
     );
   }, [datainfo, model_type, data]);
 
-  const modalView = useMemo(() => {
-    const { dataSet } = datainfo || {};
-    return (
+
+  return (
+    <div className="ListItem_wrap">
+      {view}
       <Modal
         title={null}
         open={visible}
@@ -60,28 +101,28 @@ const ListItem = (props: any) => {
         footer={[]}
         className="global_dataset_view_modal"
       >
-        <UIDatasetVisual
-          url={data.src}
-          zoom={true}
-          canvasData={dataSet || []}
-          drawCanvasData={
-            model_type === "detection" ||
-            model_type === "monocular_3d_detection" ||
-            model_type === DatasetScene.ImageRetrieval
-          }
-          hasHtmlTips={
-            model_type === "classify" ||
-            model_type === DatasetScene.ImageRetrieval
-          }
-          key={data.src + "big"}
-        />
+        {
+          model_type === DatasetScene.KeyPointsBasedAction ? (
+            <P src={(data as any)?.src} />
+          ) : (
+            <UIDatasetVisual
+              url={data.src}
+              zoom={true}
+              canvasData={dataSet || []}
+              drawCanvasData={
+                model_type === "detection" ||
+                model_type === "monocular_3d_detection" ||
+                model_type === DatasetScene.ImageRetrieval
+              }
+              hasHtmlTips={
+                model_type === "classify" ||
+                model_type === DatasetScene.ImageRetrieval
+              }
+              key={data.src + "big"}
+            />
+          )
+        }
       </Modal>
-    );
-  }, [datainfo, model_type, visible, data]);
-  return (
-    <div className="ListItem_wrap">
-      {view}
-      {modalView}
     </div>
   );
 };
