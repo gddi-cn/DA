@@ -89,7 +89,12 @@ function Operation (props: Props): JSX.Element {
     return (
       <>
         <SmallButton type="nomal" onClick={handleGotoDetail}>查看</SmallButton>
-        <EditDataset callback={() => { fetchData({ isInit: true }) }} type='primary' eleId='DataSetIndex' />
+        <EditDataset
+          callback={() => { fetchData({ isInit: true }) }}
+          type='primary'
+          eleId='DataSetIndex'
+          dataset={data}
+        />
         <SmallButton type='delete' onClick={handleDelete}>删除</SmallButton>
       </>
     )
