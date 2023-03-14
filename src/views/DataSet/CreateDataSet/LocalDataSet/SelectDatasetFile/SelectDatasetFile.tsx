@@ -60,6 +60,7 @@ const SelectDatasetFile = (): JSX.Element => {
   const [checking, setChecking] = useState<boolean>(false)
   const [exampleUrl, setExampleUrl] = useState('')
   const [proportion, setProportion] = useState<any>(0.2)
+  const [backing, setBacking] = useState<boolean>(false)
   const [fileInfo, setFileInfo] = useState({
     filename: '',
     size: 0
@@ -104,8 +105,25 @@ const SelectDatasetFile = (): JSX.Element => {
   )
 
   const handleCancel = async () => {
-    await handleCnasel.run()
-    handleBack()
+    if (backing) return
+    setBacking(true)
+    console.log({uploader: uploadCurrent.current})
+    if (uploadCurrent.current) {
+      try {
+        const res = await uploadCurrent.current.cansel()
+        if (res) {
+          message.success("取消上传")
+        }
+      } catch (e) {
+        console.error(e)
+      }
+      setIsUploading(false)
+      uploadCurrent.current = null
+      handleBack()
+    } else {
+      handleBack()
+    }
+    setBacking(false)
   }
 
   const goNext = async (s3info: any) => {
@@ -205,6 +223,7 @@ const SelectDatasetFile = (): JSX.Element => {
         callback: async (err: any, data: any) => {
           if (err) {
             console.log(err)
+            return
           }
           if (data) {
             goNext(data)
@@ -363,7 +382,7 @@ const SelectDatasetFile = (): JSX.Element => {
       </div>
       <FooterBar
         leftContent={
-          <SecondaryBtn width={132} onClick={handleCancel}>
+          <SecondaryBtn loading={backing} width={132} onClick={handleCancel}>
             取消
           </SecondaryBtn>
         }
