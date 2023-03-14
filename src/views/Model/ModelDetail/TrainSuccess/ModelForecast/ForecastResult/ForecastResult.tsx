@@ -201,7 +201,6 @@ const ForecastResult = (props: any): JSX.Element => {
   };
 
   const handleRangeChange = (dates: any) => {
-    console.log(dates, "info");
 
     if (dates) {
       const [start, end] = dates;

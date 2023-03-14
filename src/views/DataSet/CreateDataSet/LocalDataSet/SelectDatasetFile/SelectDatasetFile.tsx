@@ -52,7 +52,7 @@ const SelectDatasetFile = (): JSX.Element => {
     nextLoad: 0
   });
 
-  const handleCancel = useBack2DatasetIndex()
+  const handleBack = useBack2DatasetIndex()
 
   const [loading, setLoading] = useState(false)
   const [percent, setLocalPercent] = useState<any>(0)
@@ -102,6 +102,11 @@ const SelectDatasetFile = (): JSX.Element => {
       wait: 300
     }
   )
+
+  const handleCancel = async () => {
+    await handleCnasel.run()
+    handleBack()
+  }
 
   const goNext = async (s3info: any) => {
     if (isEmpty(s3info)) {
