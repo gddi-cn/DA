@@ -34,7 +34,12 @@ const DatasetInfo: React.FC<Props> = (
           </div>
           <div className='point'>·</div>
         </div>
-        <EditDataset type='nomal' eleId='root' callback={initFetchDatasetInfo} />
+        <EditDataset
+          type='nomal'
+          eleId='root'
+          callback={initFetchDatasetInfo}
+          dataset={datasetInfo}
+        />
       </div>
       <div className="dataset-info-cover">
         <Image src={datasetInfo?.cover} fallback={datasetDefault} />

@@ -5,25 +5,24 @@ import { message, Modal, Input, Form, Button } from 'antd'
 import api from '@api'
 
 import './EditDataset.module.less'
-import { useAtom } from 'jotai'
-import { currentDatasetAtom } from '@src/views/DataSet/DataSetDetail/store'
+import { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
+import { Dataset } from '@src/shared/types/dataset'
 
 const maxSize = 2 * 1024 * 1024
 
 const regExp = /\.(png|jpg|jpeg)$/
 
 type Props={
-    type: 'nomal' | 'delete' | 'primary',
-    callback?: ()=>void,
-    eleId:string
+  type: 'nomal' | 'delete' | 'primary',
+  callback?: ()=>void,
+  eleId:string,
+  dataset: Data | Dataset | null
 }
 
 const EditDataset = (props: Props): JSX.Element => {
-  const { callback, eleId, type } = props
+  const { callback, eleId, type, dataset: data } = props
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm();
-
-  const [data] = useAtom(currentDatasetAtom)
 
   const handleCancel = () => {
     setVisible(false)
@@ -37,10 +36,8 @@ const EditDataset = (props: Props): JSX.Element => {
   const onFinish = async (values: any) => {
     console.log(values)
     try {
+      if (!data?.id) return
       const row = (await form.validateFields()) as any;
-      // editDataset(id, row, setVisible)
-      console.warn(row, 'rowrowrow')
-
       const res: any = await api.patch(`/v3/datasets/${data?.id}`, row)
       if (res.code === 0) {
         setVisible(false)
@@ -76,8 +73,8 @@ const EditDataset = (props: Props): JSX.Element => {
           form={form}
           name='basic'
           initialValues={{ remember: true }}
+          labelCol={{ span: 6 }}
           // onFinish={onFinish}
-
         >
           <Form.Item
             label='数据集名'

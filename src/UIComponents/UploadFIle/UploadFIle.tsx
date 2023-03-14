@@ -197,7 +197,7 @@ const UploadFIle = (props: Props): JSX.Element => {
           <Image
             src={filesrc}
           />
-          <div className='delete_btn' onClick={handleDelete}>
+          <div className='delete_btn' onClick={handleDelete} title='移除'>
             <CloseCircleOutlined />
           </div>
         </div>
@@ -214,7 +214,7 @@ const UploadFIle = (props: Props): JSX.Element => {
   return (
     <div styleName='UploadFIle' className={`UploadFIle_container ${className}`}>
       <Spin spinning={loading}>
-        <div className='UploadFIle_upload_wrap'>
+        <div className={['UploadFIle_upload_wrap', filesrc ? 'no_padding' : ''].join(' ')}>
           {
             getView()
           }

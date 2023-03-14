@@ -24,6 +24,7 @@ const Preview = (): JSX.Element => {
         {
           viewType === 'grid' ? (
             <ListView
+              key={currentId}
               scenes={scene}
               currentId={currentId}
               id={id}

@@ -75,6 +75,7 @@ const DatasetInfoHeader = (): JSX.Element => {
           type='nomal'
           eleId='root'
           callback={refresh}
+          dataset={datasetInfo}
         />
         <SmallButton
           type='nomal'

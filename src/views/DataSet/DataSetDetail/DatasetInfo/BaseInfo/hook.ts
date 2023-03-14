@@ -3,7 +3,7 @@ import React from 'react'
 
 import { classListAtom, showClassListAtom } from './store'
 import datasetAPI from '@src/apis/dataset'
-import { currentClassAtom, currentDatasetAtom, currentSubDatasetAtom, datasetTypeAtom } from '../../store'
+import { currentClassAtom, currentDatasetAtom, currentSubDatasetAtom } from '../../store'
 import produce from 'immer'
 
 // 如果设置过小且标签数过大可能会超出最大迭代数，会导致各种奇怪的 bug
@@ -82,9 +82,8 @@ export const useBaseInfo = () => {
   useSmoothPushClassList()
 
   const [datasetInfo] = useAtom(currentDatasetAtom)
-  const datasetId = datasetInfo?.id
   const [currentSubDataset] = useAtom(currentSubDatasetAtom)
-  const [datasetType] = useAtom(datasetTypeAtom)
+  const subDatasetId = currentSubDataset?.id
 
   const refreshClasses = useRefreshClassList()
 
@@ -92,7 +91,7 @@ export const useBaseInfo = () => {
     () => {
       refreshClasses()
     },
-    [datasetId, datasetType]
+    [subDatasetId]
   )
 
   return {
