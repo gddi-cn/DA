@@ -33,8 +33,7 @@ const EditDataset = (props: Props): JSX.Element => {
     })
   }
 
-  const onFinish = async (values: any) => {
-    console.log(values)
+  const onFinish = async () => {
     try {
       if (!data?.id) return
       const row = (await form.validateFields()) as any;
@@ -43,11 +42,10 @@ const EditDataset = (props: Props): JSX.Element => {
         setVisible(false)
 
         message.success('修改成功。')
-        // fetchData({ isInit: true })
         callback && callback()
       }
-    } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
+    } catch (e) {
+      console.error(e)
     }
   };
   return (

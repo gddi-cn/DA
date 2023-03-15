@@ -10,15 +10,15 @@ import {
 } from './store'
 import { currentDatasetIdAtom, templateDatasetAtom } from '@src/store/dataset'
 import datasetAPI from '@src/apis/dataset'
-import { useSelector } from 'react-redux'
-import { RootState } from '@src/controller/reducer'
 import { Dataset } from '@src/shared/types/dataset'
+import { classListAtom } from './DatasetInfo/BaseInfo/store'
 
 const useResetStore = () => {
   const [, setCurrentClass] = useAtom(currentClassAtom)
   const [, setDatasetType] = useAtom(datasetTypeAtom)
   const [, setCurrentDatasetInfo] = useAtom(currentDatasetAtom)
   const [, setLoading] = useAtom(fetchingDatasetAtom)
+  const [, setClassList] = useAtom(classListAtom)
 
   React.useEffect(
     () => () => {
@@ -79,6 +79,7 @@ export const useDatasetDetail = () => {
 
   React.useEffect(
     () => {
+      console.log({ datasetId })
       if (!datasetId) return
       refresh(datasetId)
     },

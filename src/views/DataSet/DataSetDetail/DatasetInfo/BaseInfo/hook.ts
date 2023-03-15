@@ -30,10 +30,11 @@ const useRefreshClassList = () => {
   const subDatasetId = currentSubDataset?.id
 
   return async () => {
-    setClassList([])
     if (!datasetId || !subDatasetId) {
       return
     }
+
+    setClassList([])
 
     const { success, data } = await datasetAPI.classes(datasetId, subDatasetId)
     if (!success || !data) {
