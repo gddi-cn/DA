@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { useContent } from './hook'
 import NameFilter from './NameFilter'
+import AdditionalFilter from './AdditionalFilter'
 import TaskList from './TaskList'
 
 const Container = styled.div`
@@ -23,6 +24,7 @@ const Content: React.FC = () => {
   return (
     <Container>
       <NameFilter />
+      <AdditionalFilter />
       <TaskList />
     </Container>
   )

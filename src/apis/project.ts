@@ -17,6 +17,7 @@ const projectAPI = {
       }
     }
   },
+
   list: async (params: Project.ListParams): Promise<APIListResponse<Project.Detail>> => {
     try {
       const { data } = await http.get('/v3/projects', { params })

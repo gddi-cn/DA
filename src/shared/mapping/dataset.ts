@@ -473,6 +473,7 @@ export const sceneNameMapping: Map<DatasetScene, string> = new Map([
   [DatasetScene.KeyPointsBasedAction, '动作识别'],
   [DatasetScene.KeypointsDetection, '关键点检测'],
   [DatasetScene.ImageRetrieval, '图像检索'],
+  [DatasetScene.Unknown, '未知'],
 ])
 
 export const datasetCreateTypeLogoMapping: Map<DatasetCreateType, any> = new Map([

@@ -26,7 +26,9 @@ export enum DatasetScene {
   // 关键点检测
   KeypointsDetection = 'keypoint_detection',
   // 图像检索
-  ImageRetrieval = 'image_retrieval'
+  ImageRetrieval = 'image_retrieval',
+  // 未知
+  Unknown = 'unknown'
 }
 
 export enum ScoreClass {
