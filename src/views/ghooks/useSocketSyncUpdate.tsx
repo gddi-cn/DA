@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@reducer/index'
-import { saveActivePipeLine, saveActivePipeLineLoading } from '@reducer/tasksSilce'
+import { saveActivePipeLine } from '@reducer/tasksSilce'
 import { Ws } from './gSocket'
 import { APP_DATA_SET_INDEX } from '@router'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
@@ -9,14 +9,17 @@ import { socketPushMsgForProject } from '@ghooks'
 import * as all_paths from '@router/pathNames'
 import { useNavigate } from 'react-router-dom'
 import { isNil } from 'lodash'
-import { useAtom } from 'jotai'
-import { currentDatasetIdAtom } from '@src/store/dataset'
+import { useAtom, useSetAtom } from 'jotai'
+import { currentDatasetIdAtom, currentModelIdAtom, currentModelVersionIdAtom } from '@src/store/dataset'
 // 全局的sokcet更新
 export const useSocketSyncUpdate = () => {
   // const [loading, setLoading] = useState(false)
   const wsInstance = useRef<Ws|null>(null)
   const [loginSuccess, setLoginSuccess] = useState(false)
+
   const [, setCurrentDatasetId] = useAtom(currentDatasetIdAtom)
+  const setCurrentModelId = useSetAtom(currentModelIdAtom)
+  const setCurrentModelVersionId = useSetAtom(currentModelVersionIdAtom)
 
   // const isFirst = useRef(true)
 
@@ -93,12 +96,17 @@ export const useSocketSyncUpdate = () => {
         }))
       }
 
+      // 万恶之源
       wsInstance.current.subscribe('notice', (notice_data: any) => {
         const { topic, data } = notice_data
+        const { id, version_id } = data?.APP_MODEL_TRAIN_DETAIL || {}
+
         if (topic === _topic) {
           setTimeout(
             () => {
               setCurrentDatasetId(data?.APP_DATASET_DETAIL?.id)
+              setCurrentModelVersionId(data?.APP_MODEL_TRAIN_DETAIL?.version_id)
+              setCurrentModelId(data?.APP_MODEL_TRAIN_DETAIL?.id)
             },
             100
           )

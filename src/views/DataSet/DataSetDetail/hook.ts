@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import _ from 'lodash'
 
 import {
@@ -23,6 +23,7 @@ const useResetStore = () => {
   React.useEffect(
     () => () => {
       setLoading(true)
+      setClassList([])
       setCurrentClass(null)
       setCurrentDatasetInfo(null)
       setDatasetType('train_set')
@@ -66,20 +67,10 @@ export const useDatasetDetail = () => {
 
   const refresh = useRefreshDataset()
 
-  const [datasetId, setDatasetId] = useAtom(currentDatasetIdAtom)
+  const [datasetId] = useAtom(currentDatasetIdAtom)
 
   React.useEffect(
     () => {
-      return () => {
-        setDatasetId(undefined)
-      }
-    },
-    []
-  )
-
-  React.useEffect(
-    () => {
-      console.log({ datasetId })
       if (!datasetId) return
       refresh(datasetId)
     },

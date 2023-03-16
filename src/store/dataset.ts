@@ -3,3 +3,5 @@ import { atom } from 'jotai'
 
 export const templateDatasetAtom = atom<Data | null>(null)
 export const currentDatasetIdAtom = atom<Data['id'] | undefined>(undefined)
+export const currentModelIdAtom = atom<string | undefined>(undefined)
+export const currentModelVersionIdAtom = atom<Model.Version['id'] | undefined>(undefined)

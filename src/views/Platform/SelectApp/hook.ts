@@ -26,6 +26,13 @@ export const useSelectApp = () => {
 
   React.useEffect(
     () => {
+      // console.log({ modelVersionId })
+    },
+    [modelVersionId]
+  )
+
+  React.useEffect(
+    () => {
       refreshAppList()
       refreshDeviceTypeList()
     },

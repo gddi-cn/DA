@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 
 import { APP_SELECT_DEPLOY_TYPE } from '@router'
 import { socketPushMsgForProject } from '@ghooks'
@@ -38,6 +38,7 @@ import { ReactComponent as DeviceIcon } from '@src/asset/icons/platform/device.s
 import { ReactComponent as DeviceActiveIcon } from '@src/asset/icons/platform/device_active.svg'
 import { ReactComponent as SyncIcon } from '@src/asset/icons/platform/sync.svg'
 import { ReactComponent as SyncActiveIcon } from '@src/asset/icons/platform/sync_active.svg'
+import { currentModelVersionIdAtom } from '@src/store/dataset'
 
 const setActive = (ref: React.MutableRefObject<HTMLDivElement | null>) =>
   ref.current?.setAttribute('active', '')
@@ -86,9 +87,7 @@ export const useRefreshDeviceTypeList = () => {
   const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
 
   return async () => {
-    console.log({ model_iter_id, loading })
     if (!model_iter_id || loading) return
-    console.log(333)
 
     setLoading(true)
 
