@@ -33,6 +33,7 @@ const AutoMLLayout = (): JSX.Element => {
 
   useSocketSyncUpdate()
 
+  // 真 * 万恶之源
   // const getView = useMemo(
   //   () => {
   //     // PPT是不需要性能的
