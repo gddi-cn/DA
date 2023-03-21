@@ -110,6 +110,8 @@ export const useRefreshDeviceTypeList = () => {
 }
 
 const useResetStore = () => {
+  const currentTaskId = useSelector((state: RootState) => state.tasksSilce.activeTaskInfo?.id)
+
   const [, setCurrentStep] = useAtom(currentStepAtom)
   const [, setSelectDeviceType] = useAtom(selectDeviceTypeAtom)
   const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
@@ -142,7 +144,7 @@ const useResetStore = () => {
       setFetchingDeviceTypeList(false)
       setFetchingAppList(false)
     },
-    []
+    [currentTaskId]
   )
 }
 
