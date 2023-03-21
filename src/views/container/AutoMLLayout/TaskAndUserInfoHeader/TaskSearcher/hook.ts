@@ -171,7 +171,6 @@ const getTime = (eta?: number) => {
 }
 
 export const useTaskItem = (project: Project.Detail) => {
-  console.log({project})
   const { name, additional, created } = project || {}
   const { eta, status, cover: _cover, platform: _platform, model_type } = additional || {}
 

@@ -5,6 +5,7 @@ import { useContent } from './hook'
 import NameFilter from './NameFilter'
 import AdditionalFilter from './AdditionalFilter'
 import TaskList from './TaskList'
+import Footer from './Footer'
 
 const Container = styled.div`
   width: 452px;
@@ -26,6 +27,7 @@ const Content: React.FC = () => {
       <NameFilter />
       <AdditionalFilter />
       <TaskList />
+      <Footer />
     </Container>
   )
 }

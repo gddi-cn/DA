@@ -9,6 +9,13 @@ const Container = styled.div`
 `
 
 const Button = styled(AntButton)`
+  color: var(--ant-primary-color);
+  &:hover {
+    color: var(--ant-primary-color-hover);
+  }
+  &:active,&:focus {
+    color: var(--ant-primary-color-active);
+  }
 `
 
 const Tip = styled.p`
