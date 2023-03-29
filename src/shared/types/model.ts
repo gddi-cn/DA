@@ -150,6 +150,7 @@ export type DetectionLabelFalse = Record<
       cnt: number;
       // 目标检测错误分析图片 meta 数据
       bbox: DetectionFalseItem;
+      score: number;
     }
   >
 >;
@@ -164,7 +165,7 @@ export type DetectionSceneFalse = Record<
     // 目标检测错误分析图片 meta 数据
     bbox: DetectionFalseItem;
     // 建议
-    advice: string;
+    advice: string | string[];
   }
 >;
 
@@ -180,6 +181,7 @@ export type ClassifyLabelFalse = Record<
       cnt: number;
       // 图片分类错误分析图片 meta 数据
       bbox: ClassifyFalseItem;
+      score: number;
     }
   >
 >;
@@ -194,7 +196,7 @@ export type ClassifySceneFalse = Record<
     // 图片分类错误分析图片 meta 数据
     bbox: ClassifyFalseItem;
     // 建议
-    advice: string;
+    advice: string | string[];
   }
 >;
 
@@ -210,6 +212,7 @@ export type SegmentLabelFalse = Record<
       cnt: number;
       // 通用分割错误分析图片 meta 数据
       results: SegmentFalseItem;
+      score: number;
     }
   >
 >;
@@ -224,7 +227,7 @@ export type SegmentSceneFalse = Record<
     // 通用分割错误分析图片 meta 数据
     results: SegmentFalseItem;
     // 建议
-    advice: string;
+    advice: string | string[];
   }
 >;
 
@@ -240,6 +243,7 @@ export type PoseLabelFalse = Record<
       cnt: number;
       // 姿态检测错误分析图片 meta 数据
       results: PoseFalseItem;
+      score: number;
     }
   >
 >;
@@ -254,7 +258,7 @@ export type PoseSceneFalse = Record<
     // 姿态检测错误分析图片 meta 数据
     results: PoseFalseItem;
     // 建议
-    advice: string;
+    advice: string | string[];
   }
 >;
 
@@ -270,6 +274,7 @@ export type CarPoseLabelFalse = Record<
       cnt: number;
       // 单目 3D 错误分析图片 meta 数据
       results: CarPoseFalseItem;
+      score: number;
     }
   >
 >;
@@ -284,7 +289,7 @@ export type CarPoseSceneFalse = Record<
     // 单目 3D 错误分析图片 meta 数据
     results: CarPoseFalseItem;
     // 建议
-    advice: string;
+    advice: string | string[];
   }
 >;
 
@@ -298,6 +303,7 @@ export type KeyPointLabelFalse = Record<
     {
       cnt: number;
       results: KeyPointFalseItem;
+      score: number;
     }
   >
 >;
@@ -307,7 +313,7 @@ export type KeyPointLabelFalse = Record<
 export type KeyPointSceneFalse = Record<
   string,
   {
-    advice: string;
+    advice: string | string[];
     results: KeyPointFalseItem;
     score: number;
   }
@@ -323,6 +329,7 @@ export type ImageRetrievalLabelFalse = Record<
     {
       results: ImageRetrievalFalseItem;
       cnt: number;
+      score: number;
     }
   >
 >;
@@ -332,7 +339,7 @@ export type ImageRetrievalLabelFalse = Record<
 export type ImageRetrievalSceneFalse = Record<
   string,
   {
-    advice: string;
+    advice: string | string[];
     results: ImageRetrievalFalseItem;
     score: number;
   }
@@ -342,6 +349,7 @@ export type ImageRetrievalSceneFalse = Record<
 export interface DetectionFalseAnalysis {
   confusion_matrix: DetectionLabelFalse;
   scene_false: DetectionSceneFalse;
+  score: number;
 }
 
 // 通用分割错误分析
@@ -400,7 +408,7 @@ export interface ModelFalseAnalysisItem {
   score: number;
   sceneTip: {
     label: string;
-    advice: string;
+    advice: [string, string];
   };
   labelTip: {
     correctLabel: string;

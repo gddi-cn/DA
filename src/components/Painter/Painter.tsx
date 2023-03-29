@@ -34,7 +34,6 @@ const Spin = styled(AntSpin)`
 `;
 
 const Painter: React.FC<Painter.ImgMeta> = (props) => {
-  console.log({ props })
   const {
     rawCanvasRef,
     resultCanvasRef,
@@ -57,4 +56,4 @@ const Painter: React.FC<Painter.ImgMeta> = (props) => {
   );
 };
 
-export default Painter;
+export default React.memo(Painter, () => false);

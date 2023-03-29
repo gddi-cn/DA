@@ -13,10 +13,10 @@ const Container = styled.div`
   overflow: hidden;
 `
 
-const AlbumContainer = styled.div<{ px?: number }>`
+const AlbumContainer = styled.div<{ pt?: number, px?: number }>`
   flex: 1;
   overflow: hidden;
-  padding: 24px ${props => props.px || 0}px 0;
+  padding: ${props => props.pt || 0}px ${props => props.px || 0}px 0;
 `
 
 const Right: React.FC = () => {
@@ -25,7 +25,10 @@ const Right: React.FC = () => {
   return (
     <Container>
       <Header />
-      <AlbumContainer px={Number(displayType === 'slick') * 76}>
+      <AlbumContainer
+        pt={Number(displayType === 'slick') * 24}
+        px={Number(displayType === 'slick') * 76}
+      >
         <Album type={displayType} imgList={dataList} />
       </AlbumContainer>
     </Container>

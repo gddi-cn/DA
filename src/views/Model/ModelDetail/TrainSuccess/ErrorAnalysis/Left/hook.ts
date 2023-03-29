@@ -4,6 +4,7 @@ import { lighten } from 'polished'
 import { falseTypeAtom, falseListAtom, selectedItemKeyAtom } from '../store'
 import { ScoreProps } from './type'
 import React from 'react'
+
 export const useLeft = () => {
   const [falseType] = useAtom(falseTypeAtom)
   const [scoreList] = useAtom(falseListAtom)
@@ -15,19 +16,21 @@ export const useLeft = () => {
 }
 
 export const useScoreItem = (props: ScoreProps) => {
-  const { score, sceneTip, labelTip, uid, index } = props
+  const { score, sceneTip, labelTip, uid } = props
 
   const scoreBarRef = React.useRef<HTMLDivElement | null>(null)
 
   const [falseType] = useAtom(falseTypeAtom)
   const [selectedItemKey, setSelectedItemKey] = useAtom(selectedItemKeyAtom)
 
-  const backgroundColor = lighten(0.13 * index, '#085082')
-  const width = `${Math.max(0, Math.min(score, 100))}%`
+  const _score = Math.max(0, Math.min(Math.round(score * 100), 100))
+  const backgroundColor = lighten(60 * (100 - _score) / 1e4, '#042041')
+  const width = `${_score}%`
 
   const selected = selectedItemKey === uid
   const handleClick = () => {
-    setSelectedItemKey(selected ? null : uid)
+    if (selected) return
+    setSelectedItemKey(uid)
   }
 
   React.useEffect(

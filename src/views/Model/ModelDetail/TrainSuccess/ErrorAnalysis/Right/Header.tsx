@@ -25,7 +25,12 @@ const Title = styled.div`
 const SceneTitle = styled.p`
   font-weight: 600;
   font-size: 18px;
-  line-height: 20px;
+`
+
+const SceneSubTitle = styled.p`
+  font-weight: 500;
+  font-size: 14px;
+  min-height: 32px;
 `
 
 const Label = styled.p`
@@ -84,6 +89,19 @@ const LabelTip: React.FC<ModelFalseAnalysisItem['labelTip']> = (
   )
 }
 
+const SceneTip: React.FC<{ advice: ModelFalseAnalysisItem['sceneTip']['advice'] }> = (
+  {
+    advice,
+  }
+) => {
+  return (
+    <>
+      <SceneTitle>{advice[0] || ' '}</SceneTitle>
+      <SceneSubTitle>{advice[1] || ' '}</SceneSubTitle>
+    </>
+  )
+}
+
 const Header: React.FC = () => {
   const {
     falseType,
@@ -100,7 +118,7 @@ const Header: React.FC = () => {
       <Title>
         {
           falseType === ModelFalseType.SCENE ? (
-            <SceneTitle>该类需{sceneTip?.advice || '-'}</SceneTitle>
+            <SceneTip advice={sceneTip?.advice || ['', '']} />
           ) : null
         }
         {
