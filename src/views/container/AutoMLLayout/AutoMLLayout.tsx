@@ -1,10 +1,9 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import TaskAndUserInfoHeader from './TaskAndUserInfoHeader'
 import { useSocketSyncUpdate } from '@src/views/ghooks'
-import { Spin } from 'antd';
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
-import { useMemo, useEffect } from 'react';
+import { useEffect } from 'react';
 import { isEmpty } from 'lodash'
 import { APP_GUIDE_PAGE } from '@router'
 
