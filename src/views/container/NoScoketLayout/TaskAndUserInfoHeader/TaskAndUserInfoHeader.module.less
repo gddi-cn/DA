@@ -4,89 +4,30 @@
     display: flex;
     background: var(--gddi-secondary-bg-color);
 
-    padding-top: 3px;
+    padding: 0 16px;
 
     position: sticky;
     top: 0;
     z-index: 88;
+    justify-content: space-between;
+    align-items: center;
 
     :global {
+        .space_header {
+            width: 100%;
+        }
         .wrap_common {
             height: 100%;
         }
-
-        .hori-selector {
-            display: inline-block;
-            position: absolute;
-            height: 100%;
-            width: 160px;
-            top: 0px;
-            left: 0px;
-            transition-duration: 0.6s;
-            transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            background-color: #fff;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            // margin-top: 10px;
-        }
-
-        .hori-selector .right,
-        .hori-selector .left {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #fff;
-            bottom: 0px;
-        }
-
-        .hori-selector .right {
-            right: -10px;
-        }
-
-        .hori-selector .left {
-            left: -10px;
-        }
-
-        .hori-selector .right:before,
-        .hori-selector .left:before {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-bottom-left-radius: 50%;
-            border-bottom-right-radius: 50%;
-            background: var(--gddi-secondary-bg-color);
-        }
-
-        .hori-selector .right:before {
-            bottom: 0;
-            right: -10px;
-        }
-
-        .hori-selector .left:before {
-            bottom: 0;
-            left: -10px;
-        }
-
         .logo_wrap {
             .wrap_common();
             cursor: pointer;
             position: relative;
-        
-            width: 160px;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-shrink: 0;
-          
-
-            .logo {
-                width: 111px;
-                height: 100%;
-                position: absolute;
-                z-index: 11;
-            }
-
+            height: 100%;
             // .logo * {
 
             //     stroke: var(--gddi-primary-text-color);

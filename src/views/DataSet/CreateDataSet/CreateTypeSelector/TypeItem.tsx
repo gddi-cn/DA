@@ -65,8 +65,8 @@ const TypeItem: React.FC<TypeItemProp> = (
         type === DatasetCreateType.LABELING ? (
           <div style={{position: 'absolute', bottom: 15, left: 0, right: 0}}>
             <p style={{textAlign: 'center', fontSize: 14, color: '#888'}}>
-              目前支持&nbsp;<span style={{color: '#F7C5AA'}}>目标检测</span>&nbsp;算法，采用&nbsp;
-              <span>GDDi 自动化标注</span>
+              目前支持&nbsp;<span style={{color: '#F7C5AA'}}>目标检测</span>&nbsp;算法，采用
+              <span>自动化标注</span>
             </p>
           </div>
         ) : null

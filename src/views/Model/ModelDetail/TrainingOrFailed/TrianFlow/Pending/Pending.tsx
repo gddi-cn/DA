@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import waiting from './watting_resource.gif'
+import Loading from "@src/components/Loading";
 
 const Container = styled.div`
   height: 100%;
@@ -21,7 +21,11 @@ const Img = styled.img`
 const Pending: React.FC = () => {
   return (
     <Container>
-      <Img src={waiting} />
+      {/*<Img src={waiting} />*/}
+      <div style={{ display: 'flex', flexDirection: 'column', rowGap: 32, alignItems: 'center' }}>
+        <Loading />
+        <p style={{ fontSize: 24, color: '#48A2DF' }}>等待资源释放，训练排队中</p>
+      </div>
     </Container>
   )
 }

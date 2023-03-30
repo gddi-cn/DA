@@ -41,9 +41,9 @@ const Local: React.FC = () => {
         {/*<TypeItem type={DatasetCreateType.UPLOAD_UNREMARKED} />*/}
         <TypeItem type={DatasetCreateType.LABELING} />
         <TypeItem type={DatasetCreateType.UPLOAD_REMARKED} />
-        <AppDownloadWrap>
-          <AppDownload />
-        </AppDownloadWrap>
+        {/*<AppDownloadWrap>*/}
+        {/*  <AppDownload />*/}
+        {/*</AppDownloadWrap>*/}
       </Content>
     </Container>
   )
