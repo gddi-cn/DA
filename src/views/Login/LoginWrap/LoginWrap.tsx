@@ -21,7 +21,7 @@ const LoginWrap = (): JSX.Element => {
     gsap.defaults({ ease: 'none' });
 
     const tl = gsap.timeline({ yoyo: true });
-    tl.to('.system_name', { duration: 0.5, text: '共达地智能系统' })
+    tl.to('.system_name', { duration: 0.5, text: '智能系统' })
       .to('.system_des', { duration: 0.8, text: '零门槛定制高精度AI模型 零代码部署至终端设备' })
       .fromTo('.breeze', { duration: 0.5, y: -50 }, { duration: 0.5, y: 0 })
   }, [])
@@ -55,14 +55,11 @@ const LoginWrap = (): JSX.Element => {
       <div className='gddi_info_wrap'>
 
         <div className='gddi_info_inner'>
-          <Gddilogo />
 
           <h3 className='system_name'></h3>
           <h5 className='system_des'></h5>
 
         </div>
-        <p className='footer_title'>网站备案：<a href='https://beian.miit.gov.cn/#/Integrated/recordQuery' target='blank'>粤ICP备2020111095号</a></p>
-        {/* <Background className='Background_svg' /> */}
       </div>
       <div className='form_wrap'>
         <div className={getCls('LoginForm')}>
