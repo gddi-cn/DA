@@ -35,30 +35,10 @@ const AutoMLLayout = (): JSX.Element => {
 
   useSocketSyncUpdate()
 
-  const getView = useMemo(
-    () => {
-      // PPT是不需要性能的
-      if (activePipeLineLoading) {
-        return (
-          <div className='transition_div'>
-            <Spin tip='页面加载中' />
-          </div>
-        )
-      } else {
-        return (
-          <Outlet />
-        )
-      }
-    }, [activePipeLineLoading]
-  )
-
-  // if (taskList.length === 0) {
-  //   return <Navigate to={APP_GUIDE_PAGE}/>
-  // }
   return (
     <div styleName='AutoMLLayout'>
       {useMemo(() => <TaskAndUserInfoHeader />, [])}
-      {getView}
+      <Outlet />
     </div>
   )
 }

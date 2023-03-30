@@ -46,11 +46,11 @@ const Template: React.FC = () => {
   const {
     handlePre, creating,
     handleCreate, disabledNext,
-    template, handleChange, 
+    template, handleChange,
   } = useTemplate()
 
   return (
-     <Container>
+    <Container>
       <Header>
         <Title>选择模板</Title>
         <AddTemplate />

@@ -1,6 +1,6 @@
 import { ReactComponent as Logo } from '@src/asset/images/logo.svg'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 
-import UserCenter from './UserCenter'
 
 import { useNavigate } from 'react-router-dom'
 import { APP_GUIDE_PAGE } from '@router'
@@ -18,16 +18,9 @@ const TaskAndUserInfoHeader = (): JSX.Element => {
   }
 
   return (
-    <div styleName='TaskAndUserInfoHeader'>
-      <div className='logo_wrap' onClick={gotoGuide}>
-        <Logo className='logo' />
-        <div className="hori-selector" ><div className="left"></div><div className="right"></div></div>
-      </div>
-      <div className='task_list_wrap'>
-
-      </div>
-      <div className='user_wrap '>
-
+    <div styleName='TaskAndUserInfoHeader' className={'space_header'}>
+      <div className='logo_wrap' onClick={gotoGuide} title={'返回'}>
+        <ArrowLeftOutlined size={48} />
       </div>
       <AuthUser />
     </div>
