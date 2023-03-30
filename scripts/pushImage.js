@@ -14,8 +14,9 @@ const gitCommitVersion = develop + '-' + gitVersion // 例如dev环境: "develop
 const args = require('minimist')(process.argv.slice(2))
 
 const _describetion = args['--d'] || args.d || `${new Date().valueOf()} 更新`
+const _versionTail = args['--t'] || args.t || ''
 
-const tag = pj.version
+const tag = pj.version + _versionTail
 
 const build = shell.exec(`docker build -t market_web_06:${tag} -f ./docker/Dockerfile .`)
 if (build.code) {
