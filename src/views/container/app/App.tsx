@@ -16,7 +16,6 @@ import { authUserInfoAtom } from '@src/store/user'
 // 可以在这里做登录拦截或者其他
 //
 import styled from 'styled-components'
-import GddiChat from '@src/components/GddiChat'
 
 const ChatWrap = styled.div`
   position: fixed;
@@ -77,18 +76,6 @@ const App = () => {
 
       {/* {getView()} */}
       <Outlet />
-      <ChatWrap>
-        <GddiChat
-          chatStreamURL='/robot/openai/v1/chat/completions'
-          ratingURL='/robot/openai/v1/mark'
-          getHeaders={() => ({
-            Authentication: `${localStorage.getItem('token')}`,
-            Token: `${localStorage.getItem('token')}`,
-            "X-App-Id": (window as any).globalConfig.app.id,
-            "X-App-Key": (window as any).globalConfig.app.key,
-          })}
-        />
-      </ChatWrap>
     </div>
   )
 }

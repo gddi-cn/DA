@@ -51,7 +51,7 @@ const GuideHome = (): JSX.Element => {
   })
   return (
     <div styleName='GuideHome'>
-      <div className='title'>共达地智能系统</div>
+      <div className='title'>智能系统</div>
 
       <div className='sub_title'>从开发到部署只需简单三步</div>
       <GButton onClick={handleAddTask.run} className='start_gddi' type='primary'>自动训练模型</GButton>
