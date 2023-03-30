@@ -69,7 +69,7 @@ const CommonUpload = (props:any): JSX.Element => {
           continue
         }
       }
-      if (imageReg.test(o.name)) {
+      if (imageReg.test(o.name.toLocaleLowerCase())) {
         imgList.push(o)
         continue
       }
