@@ -1,4 +1,3 @@
-import { ReactComponent as Logo } from '@src/asset/images/logo.svg'
 import TaskList from './TaskList'
 import { useNavigate } from 'react-router-dom'
 import { APP_GUIDE_PAGE } from '@router'
@@ -18,9 +17,6 @@ const TaskAndUserInfoHeader = (): JSX.Element => {
 
   return (
     <div styleName='TaskAndUserInfoHeader'>
-      <div className='logo_wrap' onClick={gotoGuide}>
-        <Logo className='logo' />
-      </div>
       <div className='task_list_wrap'>
         <TaskList/>
       </div>
