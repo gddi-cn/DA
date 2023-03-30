@@ -39,7 +39,7 @@ const Img = styled.img`
 const Flow: React.FC = () => {
   return (
     <Container>
-      <Title>注册码是针对边缘盒子的注册方式，主要用于共达地推理平台进行快速设备注册</Title>
+      <Title>注册码是针对边缘盒子的注册方式，主要用于推理平台进行快速设备注册</Title>
       <FlowTitle>注册流程</FlowTitle>
       <Img src={flow} alt='flow' />
     </Container>

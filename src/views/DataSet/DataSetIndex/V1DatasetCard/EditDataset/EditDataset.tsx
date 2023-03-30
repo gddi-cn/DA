@@ -12,10 +12,10 @@ const maxSize = 2 * 1024 * 1024
 
 const regExp = /\.(png|jpg|jpeg)$/
 
-type Props={
+type Props = {
   type: 'nomal' | 'delete' | 'primary',
-  callback?: ()=>void,
-  eleId:string,
+  callback?: () => void,
+  eleId: string,
   dataset: Data | Dataset | null
 }
 
@@ -72,7 +72,7 @@ const EditDataset = (props: Props): JSX.Element => {
           name='basic'
           initialValues={{ remember: true }}
           labelCol={{ span: 6 }}
-          // onFinish={onFinish}
+        // onFinish={onFinish}
         >
           <Form.Item
             label='数据集名'
@@ -109,10 +109,10 @@ const EditDataset = (props: Props): JSX.Element => {
 
           <div className='btn_wrap'>
             <Button type='default' className='cansel_btn' onClick={() => setVisible(false)}>
-                取消
+              取消
             </Button>
             <Button type='primary' htmlType='submit' onClick={onFinish}>
-                提交
+              提交
             </Button>
           </div>
         </Form>

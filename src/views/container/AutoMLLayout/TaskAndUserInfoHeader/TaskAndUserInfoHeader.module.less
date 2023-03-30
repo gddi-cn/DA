@@ -4,7 +4,7 @@
     display: flex;
     background: var(--gddi-secondary-bg-color);
 
-    padding-top: 3px;
+    padding: 3px 16px 0;
 
     position: sticky;
     top: 0;
@@ -15,31 +15,9 @@
             height: 100%;
         }
 
-        .logo_wrap {
-            .wrap_common();
-            cursor: pointer;
-
-            width: 160px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-shrink: 0;
-            
-
-            .logo {
-                width: 111px;
-                height: 100%
-            }
-
-            // .logo * {
-
-            //     stroke: var(--gddi-primary-text-color);
-            // }
-        }
-
         .task_list_wrap {
             .wrap_common();
-            width: calc(100vw - 331px)
+            flex: 1;
         }
 
         .user_wrap {
