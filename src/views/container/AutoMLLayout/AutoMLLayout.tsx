@@ -33,6 +33,7 @@ const AutoMLLayout = (): JSX.Element => {
 
   useSocketSyncUpdate()
 
+<<<<<<< HEAD
   // 真 * 万恶之源
   // const getView = useMemo(
   //   () => {
@@ -57,6 +58,11 @@ const AutoMLLayout = (): JSX.Element => {
   return (
     <div styleName='AutoMLLayout'>
       <TaskAndUserInfoHeader />
+=======
+  return (
+    <div styleName='AutoMLLayout'>
+      {useMemo(() => <TaskAndUserInfoHeader />, [])}
+>>>>>>> b370d2b (remove all logo)
       <Outlet />
     </div>
   )

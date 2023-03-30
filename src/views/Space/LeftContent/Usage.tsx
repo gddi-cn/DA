@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Spin } from "antd";
 
-import watermark from "@src/asset/images/platform/watermark.png";
 import { useUsage } from "./hook";
 
 import Model from "./Model";
@@ -32,16 +31,6 @@ const Container = styled.div`
   }
 `;
 
-const Watermark = styled.img`
-  object-fit: contain;
-  display: block;
-  width: 104px;
-  height: 40px;
-  position: absolute;
-  top: 10px;
-  right: 4px;
-`;
-
 const Title = styled.p`
   font-weight: 600;
   font-size: 18px;
@@ -62,7 +51,6 @@ const Usage: React.FC = () => {
   return (
     <Spin spinning={loading}>
       <Container ref={containerRef} onClick={handleClick}>
-        <Watermark src={watermark} alt={"watermark"} />
         <Title>使用情况</Title>
         <DataDisplay>
           {

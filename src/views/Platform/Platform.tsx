@@ -37,6 +37,7 @@ const Wrap = styled.div`
   max-height: 970px;
 `
 
+
 const Platform: React.FC = () => {
   const { showSelectApp, showConfig, showSelectDevice, showContent, showSync } = usePlatform()
 
