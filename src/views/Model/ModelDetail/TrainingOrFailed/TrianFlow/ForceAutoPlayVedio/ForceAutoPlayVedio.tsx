@@ -86,8 +86,6 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
     if (!isMount.current) {
       try {
         const index = getSrcPosition(RawVideoMap, progress)
-        console.log('index', index)
-        console.log('progress', progress)
 
         if (progress === 0) {
           setFlowsIndex(0)
@@ -111,6 +109,7 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
     }
   }, [progress])
 
+
   // useEffect(() => {
   //   return () => {
 
@@ -122,11 +121,7 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
 
     // 看看后端返回的实际的到了哪里
     const index = getSrcPosition(RawVideoMap, progress)
-    console.log('handleFuckingEnd', progress)
-    console.log('index', index)
-    console.log('currentIndex.current', currentIndex.current)
     if (index > currentIndex.current) {
-      console.log('中间还有多少个没播放的')
       currentIndex.current += 1
       const _index = currentIndex.current
       setFlowsIndex(_index)
@@ -140,6 +135,11 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
       initFlv(RawVideoMap[index])
     }
   }
+
+  useEffect(() => {
+    handleFuckingEnd()
+  }, [progress])
+
   return (
 
     <div styleName='ForceAutoPlayVedio'>

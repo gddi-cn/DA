@@ -17,7 +17,7 @@ export const useSocketSyncUpdate = () => {
   const wsInstance = useRef<Ws|null>(null)
   const [loginSuccess, setLoginSuccess] = useState(false)
 
-  const [, setCurrentDatasetId] = useAtom(currentDatasetIdAtom)
+  const setCurrentDatasetId = useSetAtom(currentDatasetIdAtom)
   const setCurrentModelId = useSetAtom(currentModelIdAtom)
   const setCurrentModelVersionId = useSetAtom(currentModelVersionIdAtom)
 
