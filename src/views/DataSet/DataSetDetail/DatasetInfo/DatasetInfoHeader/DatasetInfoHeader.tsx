@@ -1,6 +1,6 @@
+import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import type { Data } from '@views/DataSet/DataSetIndex/V1DatasetCard/V1DatasetCard'
 import EditDataset from '../../../DataSetIndex/V1DatasetCard/EditDataset'
 import { SmallButton } from '@src/UIComponents'
 import { APP_IncreaseData } from '@src/router'
@@ -11,9 +11,10 @@ import { socketPushMsgForProject } from '@ghooks'
 
 import Download from './Download'
 import ImportHistory from './ImportHistory'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { currentDatasetAtom } from '../../store'
-import { useRefresh } from '@src/components/AppDetail/hook'
+import { useRefreshDataset } from '../../hook'
+import { currentDatasetIdAtom } from '@src/store/dataset'
 
 const Container = styled.div`
   width: 100%;
@@ -43,14 +44,14 @@ const Name = styled.p`
 const DatasetInfoHeader = (): JSX.Element => {
   const navigate = useNavigate()
   const [datasetInfo] = useAtom(currentDatasetAtom)
-  const refreshDataset = useRefresh()
+  const refreshDataset = useRefreshDataset()
 
-  const refresh = () => {
-    const datasetId = useSelector((state: RootState) =>
-      state.tasksSilce.activePipeLine?.APP_DATASET_DETAIL?.id
-    )
-    refreshDataset(datasetId)
-  }
+  const datasetId = useAtomValue(currentDatasetIdAtom)
+
+  const refresh = React.useCallback(() => {
+    datasetId && refreshDataset(datasetId as any)
+  }, [datasetId])
+  
 
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}

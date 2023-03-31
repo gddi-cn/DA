@@ -54,6 +54,19 @@ const Download: React.FC<Dataset & { refresh: () => void }> = (
     }
   }
 
+  React.useEffect(
+    () => {
+      refresh()
+      if (status === DatasetDownloadStatus.DOWNLOADING) {
+        const timer = setInterval(refresh, 5000)
+        return () => {
+          clearInterval(timer)
+        }
+      }
+    },
+    [status]
+  )
+
   return (
     <Container>
       <SmallButton type={'nomal'} disabled={disabled} onClick={handleClick}>

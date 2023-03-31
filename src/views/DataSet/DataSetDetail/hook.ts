@@ -33,7 +33,7 @@ const useResetStore = () => {
   )
 }
 
-const useRefreshDataset = () => {
+export const useRefreshDataset = () => {
   const [, setTemplateDataset] = useAtom(templateDatasetAtom)
   const [, setDataset] = useAtom(currentDatasetAtom)
   const [loading, setLoading] = useAtom(fetchingDatasetAtom)
