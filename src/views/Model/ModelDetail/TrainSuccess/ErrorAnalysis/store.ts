@@ -24,9 +24,9 @@ export const falseListAtom = atom<Array<ModelFalseAnalysisItem>>((get) => {
 
   const analysisList = formatFalseAnalysis(scene, falseAnalysis, falseType, orderList);
 
-  if (falseType === 'label') {
-    analysisList.sort((a, b) => b.labelTip.wrongNum - a.labelTip.wrongNum)
-  }
+    analysisList.sort((a, b) =>
+      b.score - a.score
+    )
 
   return analysisList
 });
