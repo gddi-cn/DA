@@ -1,18 +1,40 @@
 import React from 'react'
 import { useAtom } from 'jotai'
-import { expireAtom, limitAtom, syncTypeAtom } from '../store'
+import { expireAtom, limitAtom, maxLimitAtom, syncTypeAtom } from '../store'
 import { RadioChangeEvent } from 'antd/lib/radio/interface'
+import systemAPI from '@src/apis/system'
+
+export const useMaxLimit = () => {
+  const [maxLimit, setMaxLimit] = useAtom(maxLimitAtom)
+
+  const fetchMaxLimit = async () => {
+    const { success, data } = await systemAPI.license()
+
+    if (!success || !data?.license) return
+
+    const { channel } = data.license
+
+    setMaxLimit(channel)
+  }
+
+  React.useEffect(
+    () => {
+      fetchMaxLimit()
+    },
+    []
+  )
+
+  return {
+    maxLimit,
+  }
+}
 
 export const useLimit = () => {
-  const [, setLimit] = useAtom(limitAtom)
+  const [limit, setLimit] = useAtom(limitAtom)
 
-  const [noLimit, setNoLimit] = React.useState<boolean>(true)
-  const [disableLimitInput, setDisableLimitInput] = React.useState<boolean>(true)
-  const [limitInputValue, setLimitInputValue] = React.useState<number | null>(null)
-
-  const handleDisableLimitInputChange  = (value: number | null) => {
+  const handleChange  = (value: number | null) => {
     if (value === null) {
-      setLimitInputValue(1)
+      setLimit(1)
       return
     }
 
@@ -20,48 +42,13 @@ export const useLimit = () => {
       return
     }
 
-    setLimitInputValue(value)
+    setLimit(value)
   }
 
 
-  const handleLimitRadioChange = (e: RadioChangeEvent) => setNoLimit(e.target.value)
-
-  React.useEffect(
-    () => {
-      setDisableLimitInput(noLimit)
-    },
-    [noLimit]
-  )
-
-  React.useEffect(
-    () => {
-      if (!disableLimitInput) {
-        setLimitInputValue(1)
-      } else {
-        setLimitInputValue(null)
-      }
-    },
-    [disableLimitInput]
-  )
-
-  React.useEffect(
-    () => {
-      if (noLimit) {
-        setLimit(-1)
-        return
-      }
-
-      setLimit(limitInputValue || 1)
-    },
-    [noLimit, limitInputValue]
-  )
-
   return {
-    noLimit,
-    limitInputValue,
-    disableLimitInput,
-    handleLimitRadioChange,
-    handleDisableLimitInputChange,
+    limit,
+    handleChange,
   }
 }
 

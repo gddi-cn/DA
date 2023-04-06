@@ -28,7 +28,7 @@ export enum ChipBrand {
 export enum ChipType {
   CPU = 'CPU',
   GPU = 'GPU',
-  NPU = 'NUP',
+  NPU = 'NPU',
 }
 
 export enum ChipName {

@@ -3,7 +3,8 @@ import _ from 'lodash'
 
 import {
   fetchingTerminalAtom,
-  selectedTerminalGroupAtom, selectedTerminalDeviceIdListAtom,
+  selectedTerminalGroupAtom,
+  selectedTerminalDeviceIdListAtom,
   terminalDeviceListAtom,
   terminalNameAtom,
   terminalPageAtom,

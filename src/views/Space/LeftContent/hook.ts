@@ -1,9 +1,12 @@
 import React from "react";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { authUserInfoAtom } from "@src/store/user";
-import { fetchingUsageAtom, usageAtom, currentPageAtom } from "../store";
-import userAPI from "@src/apis/user";
+import { currentPageAtom } from "../store";
 import { Space } from "../enums";
+import systemAPI from "@src/apis/system";
+import { channelAtom, channelRestAtom, channelTotalAtom, deviceAtom, deviceRestAtom, deviceTotalAtom, expireAtom, loadingAtom, modelAtom, modelRestAtom, modelTotalAtom, onlineDeviceAtom, onlineDeviceRestAtom, onlineDeviceTotalAtom } from "./store";
+import { formatUnixDate } from "@src/utils/tools";
+import moment from "moment";
 
 const useGreeting = () => {
   const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
@@ -49,31 +52,89 @@ export const useLeftContent = () => {
 };
 
 export const useRefreshUsage = () => {
-  const [, setUsage] = useAtom(usageAtom);
-  const [loading, setLoading] = useAtom(fetchingUsageAtom);
+  const [loading, setLoading] = useAtom(loadingAtom)
+  const setChannelRest = useSetAtom(channelRestAtom)
+  const setChannelTotal = useSetAtom(channelTotalAtom)
+  const setModelRest = useSetAtom(modelRestAtom)
+  const setModelTotal = useSetAtom(modelTotalAtom)
+  const setDeviceRest = useSetAtom(deviceRestAtom)
+  const setDeviceTotal = useSetAtom(deviceTotalAtom)
+  const setOnlineDeviceRest = useSetAtom(onlineDeviceRestAtom)
+  const setOnlineDeviceTotal = useSetAtom(onlineDeviceTotalAtom)
+  const setExpire = useSetAtom(expireAtom)
 
   return async () => {
-    if (loading) return;
+    if (loading) return
 
-    setLoading(true);
-    const { success, data } = await userAPI.usage();
-    setLoading(false);
+    setLoading(true)
+    const { success, data } = await systemAPI.license()
+    setLoading(false)
 
-    if (!success || !data) {
-      setUsage(null);
-      return;
-    }
+    if (!success || !data?.license) return
 
-    setUsage(data);
+    const {
+      channel,
+      channel_total,
+      model,
+      model_total,
+      device,
+      device_total,
+      online_device,
+      online_device_total,
+      expire,
+    } = data.license
+
+    setChannelRest(channel)
+    setChannelTotal(channel_total)
+    setModelRest(model)
+    setModelTotal(model_total)
+    setDeviceRest(device)
+    setDeviceTotal(device_total)
+    setOnlineDeviceRest(online_device)
+    setOnlineDeviceTotal(online_device_total)
+    setExpire(expire)
   };
 };
+
+export const useResetUseage = () => {
+  const setLoading = useSetAtom(loadingAtom)
+  const setChannelRest = useSetAtom(channelRestAtom)
+  const setChannelTotal = useSetAtom(channelTotalAtom)
+  const setModelRest = useSetAtom(modelRestAtom)
+  const setModelTotal = useSetAtom(modelTotalAtom)
+  const setDeviceRest = useSetAtom(deviceRestAtom)
+  const setDeviceTotal = useSetAtom(deviceTotalAtom)
+  const setOnlineDeviceRest = useSetAtom(onlineDeviceRestAtom)
+  const setOnlineDeviceTotal = useSetAtom(onlineDeviceTotalAtom)
+  const setExpire = useSetAtom(expireAtom)
+
+  React.useEffect(
+    () => {
+      return () => {
+        setLoading(true)
+        setChannelRest(0)
+        setChannelTotal(0)
+        setModelRest(0)
+        setModelTotal(0)
+        setDeviceRest(0)
+        setDeviceTotal(0)
+        setOnlineDeviceRest(0)
+        setOnlineDeviceTotal(0)
+        setExpire(0)
+        setLoading(false)
+      }
+    },
+    []
+  )
+}
 
 export const useUsage = () => {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
 
-  const [loading] = useAtom(fetchingUsageAtom);
+  const loading = useAtomValue(loadingAtom);
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
 
+  useResetUseage()
   const refresh = useRefreshUsage();
 
   const handleClick = () => {
@@ -99,68 +160,6 @@ export const useUsage = () => {
     containerRef,
     loading,
     handleClick,
-  };
-};
-
-export const useTrainTime = () => {
-  const [usage] = useAtom(usageAtom);
-
-  const { train_usage, train_limited } = usage || {
-    train_limited: 1,
-    train_usage: 0,
-  };
-
-  const noLimit = train_limited === 0;
-
-  const progress = noLimit
-    ? 0
-    : (((train_usage / train_limited) * 10000) | 0) / 100;
-
-  const used = ((train_usage / 6) | 0) / 10;
-  const total = noLimit ? "无限制" : ((train_limited / 6) | 0) / 10;
-
-  const tip = `${used} / ${total} 小时`;
-
-  return {
-    tip,
-    progress,
-  };
-};
-
-export const useStorage = () => {
-  const [usage] = useAtom(usageAtom);
-
-  const { storage_limited, storage_usage } = usage || {
-    storage_limited: 1,
-    storage_usage: 0,
-  };
-
-  const noLimit = storage_limited === 0;
-
-  const progress = noLimit
-    ? 0
-    : (((storage_usage / storage_limited) * 10000) | 0) / 100;
-
-  const used = (storage_usage / 2 ** 30).toFixed(1);
-  const limited = noLimit ? "无限制" : (storage_limited / 2 ** 30).toFixed(1);
-
-  const tip = `${used} / ${limited} GB`;
-
-  return {
-    progress,
-    tip,
-  };
-};
-
-export const useAuthModel = () => {
-  const [usage] = useAtom(usageAtom);
-
-  const { authorization_usage: usaged, authorization_limited: limited } =
-    usage || { authorization_usage: 0, authorization_limited: 1 };
-
-  return {
-    usaged,
-    limited: limited === 0 ? "无限制" : limited + "",
   };
 };
 
@@ -280,4 +279,68 @@ export const useDeploy = () => {
     handleClick,
     containerRef,
   };
+}
+
+export const useChannel = () => {
+  const channel = useAtomValue(channelAtom)
+  const channelTotal = useAtomValue(channelTotalAtom)
+
+  const progress = channelTotal === 0 ? 1 : (channel / channelTotal) | 0
+  const tip = `${channel} / ${channelTotal} 个`
+
+  return {
+    progress,
+    tip,
+  }
+}
+
+export const useModel = () => {
+  const model = useAtomValue(modelAtom)
+  const modelTotal = useAtomValue(modelTotalAtom)
+
+  const progress = modelTotal === 0 ? 1 : (model / modelTotal) | 0
+  const tip = `${model} / ${modelTotal} 个`
+
+  return {
+    progress,
+    tip,
+  }
+}
+
+// 应用设备
+export const useEdgeDevice = () => {
+  const onlineDevice = useAtomValue(onlineDeviceAtom)
+  const onlineDeviceTotal = useAtomValue(onlineDeviceTotalAtom)
+
+  const progress = onlineDeviceTotal === 0 ? 1 : (onlineDevice / onlineDeviceTotal) | 0
+  const tip = `${onlineDevice} / ${onlineDeviceTotal} 台`
+
+  return {
+    progress,
+    tip,
+  }
+}
+
+// SDK 设备
+export const useTerminalDevice = () => {
+  const device = useAtomValue(deviceAtom)
+  const deviceTotal = useAtomValue(deviceTotalAtom)
+
+  const progress = deviceTotal === 0 ? 1 : (device / deviceTotal) | 0
+  const tip = `${device} / ${deviceTotal} 台`
+
+  return {
+    progress,
+    tip,
+  }
+}
+
+export const useExprie = () => {
+  const expire = useAtomValue(expireAtom)
+
+  const date = moment(expire * 1000).format('YYYY-MM-DD')
+
+  return {
+    date,
+  }
 }

@@ -59,6 +59,21 @@ const columns: Array<ColumnType<GroupDevice>> = [
     }
   },
   {
+    title: '任务最大并发数',
+    dataIndex: 'max_process',
+    ellipsis: true,
+    width: 2,
+    render: (max: number) => {
+      const limit = max === 0 ? '无限制' : (max ?? '-')
+
+      return (
+        <Tooltip title={limit}>
+          <span>{limit}</span>
+        </Tooltip>
+      )
+    }
+  },
+  {
     title: '设备状态',
     dataIndex: 'state',
     ellipsis: true,

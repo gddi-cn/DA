@@ -1,7 +1,7 @@
 import syncAPI from "@src/apis/sync"
 import { Space } from "@src/views/Space/enums"
 import { message } from "antd"
-import { useAtom } from "jotai"
+import { useAtom, useAtomValue } from "jotai"
 import React from "react"
 import { currentPageAtom } from "../../store"
 import {
@@ -11,6 +11,7 @@ import {
   limitAtom,
   expireAtom,
 } from "../store"
+import { channelRestAtom } from "@src/views/Space/LeftContent/store"
 
 export const useOverview = () => {
   const [, setStep] = useAtom(stepAtom) 
@@ -18,6 +19,7 @@ export const useOverview = () => {
   const [appList] = useAtom(selectedAppListAtom)
   const [deviceList] = useAtom(selectedDeviceListAtom)
   const [limit] = useAtom(limitAtom)
+  const maxLimit = useAtomValue(channelRestAtom)
   const [expire] = useAtom(expireAtom)
 
   const [exporting, setExporting] = React.useState<boolean>(false)
@@ -39,6 +41,11 @@ export const useOverview = () => {
   }
 
   const handleDeploy = async () => {
+    if (limit > maxLimit) {
+      message.warn('路数设置大于剩余最大应用授权额度')
+      return
+    }
+
     setSyncing(true)
     const { success } = await syncAPI.sync(data)
     setSyncing(false)
@@ -68,4 +75,3 @@ export const useOverview = () => {
     syncing,
   }
 }
-

@@ -1,9 +1,9 @@
-import flvjs from 'flv.js';
+import flvjs from 'flv.js'
 import { useEffect, useRef, useState } from 'react'
 import FlvJs from 'flv.js/d.ts/flv'
 import StepProgress from '../StepProgress'
-import { RawVideoMap, flows } from './config'
 import type { RawVideoMapTypeItem } from './config'
+import { flows, RawVideoMap } from './config'
 import './ForceAutoPlayVedio.module.less'
 
 let flvplayer: FlvJs.Player | null = null;
@@ -12,14 +12,12 @@ interface Props {
     progress: number
 }
 
-const getSrcPosition = (rawMap: RawVideoMapTypeItem[], progress: number): number => {
-  const index = rawMap.findIndex((o) => {
-    const { weight: [start, end] } = o;
+const getSrcPosition = (rawMap: RawVideoMapTypeItem[], progress: number): number =>
+  rawMap.findIndex((o) => {
+    const {weight: [start, end]} = o;
     return progress >= start && progress < end
   })
 
-  return index
-}
 
 const ForceAutoPlayVedio = (props: Props): JSX.Element => {
   const { progress } = props
@@ -38,7 +36,7 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
 
   const initFlv = (target: RawVideoMapTypeItem) => {
     try {
-      const { url } = target
+      const { url } = target || {}
 
       if (flvplayer) {
         flvplayer.destroy();

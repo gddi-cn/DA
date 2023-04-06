@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 
 import { APP_SELECT_DEPLOY_TYPE } from '@router'
 import { socketPushMsgForProject } from '@ghooks'
@@ -15,6 +15,7 @@ import {
   expireAtom,
   fetchingAppListAtom,
   fetchingDeviceTypeListAtom, limitAtom,
+  maxLimitAtom,
   selectDeviceTypeAtom,
   selectedAppAtom,
   selectedDeviceGroupAtom,
@@ -38,6 +39,7 @@ import { ReactComponent as DeviceIcon } from '@src/asset/icons/platform/device.s
 import { ReactComponent as DeviceActiveIcon } from '@src/asset/icons/platform/device_active.svg'
 import { ReactComponent as SyncIcon } from '@src/asset/icons/platform/sync.svg'
 import { ReactComponent as SyncActiveIcon } from '@src/asset/icons/platform/sync_active.svg'
+import { message } from 'antd'
 
 const setActive = (ref: React.MutableRefObject<HTMLDivElement | null>) =>
   ref.current?.setAttribute('active', '')
@@ -86,9 +88,7 @@ export const useRefreshDeviceTypeList = () => {
   const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
 
   return async () => {
-    console.log({ model_iter_id, loading })
     if (!model_iter_id || loading) return
-    console.log(333)
 
     setLoading(true)
 
@@ -124,6 +124,7 @@ const useResetStore = () => {
   const [, setLimit] = useAtom(limitAtom)
   const [, setSyncType] = useAtom(syncTypeAtom)
   const [, setSelectedDeviceList] = useAtom(selectedDeviceIdListAtom)
+  const setMaxLimit = useSetAtom(maxLimitAtom)
 
   React.useEffect(
     () => () => {
@@ -140,6 +141,7 @@ const useResetStore = () => {
       setLimit(-1)
       setSyncType('sync')
       setSelectedDeviceList([])
+      setMaxLimit(0)
       setFetchingDeviceTypeList(false)
       setFetchingAppList(false)
     },
@@ -237,6 +239,7 @@ export const useFooter = () => {
   const [syncType] = useAtom(syncTypeAtom)
   const [expire_seconds] = useAtom(expireAtom)
   const [limit] = useAtom(limitAtom)
+  const [maxLimit] = useAtom(maxLimitAtom)
   const [selectedApp] = useAtom(selectedAppAtom)
   const [selectedDeviceIdList] = useAtom(selectedDeviceIdListAtom)
   const [deploying, setDeploying] = React.useState<boolean>(false)
@@ -270,6 +273,10 @@ export const useFooter = () => {
   }
 
   const handleDeploy = async () => {
+    if (maxLimit > limit) {
+      message.warn('路数设置超过最大限制，请重新选择')
+      return
+    }
     if (!selectedDeviceIdList?.length) return
     if (!selectedApp?.id) return
 

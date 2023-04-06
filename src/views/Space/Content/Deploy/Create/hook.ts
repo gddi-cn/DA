@@ -25,7 +25,6 @@ import {
   devicePageSizeAtom,
   deviceTotalAtom,
   fetchingDeviceAtom,
-  noLimitAtom,
   limitAtom,
   noExpireAtom,
   expireAtom,
@@ -58,7 +57,6 @@ const useResetStore = () => {
   const [, setFetchingDevice] = useAtom(fetchingDeviceAtom)
   const [, setLimit] = useAtom(limitAtom)
   const [, setExpire] = useAtom(expireAtom)
-  const [, setNoLimit] = useAtom(noLimitAtom)
   const [, setNoExpire] = useAtom(noExpireAtom)
 
   React.useEffect(
@@ -87,7 +85,6 @@ const useResetStore = () => {
       setDeviceTotal(0)
       setLimit(-1)
       setExpire(-1)
-      setNoLimit(true)
       setNoExpire(true)
       setFetchingDevice(false)
       setLoading(false)

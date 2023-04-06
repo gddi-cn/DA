@@ -1,18 +1,18 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { RadioChangeEvent } from 'antd/lib/radio/interface'
 
 import {
-  noLimitAtom,
   limitAtom,
   noExpireAtom,
   expireAtom,
 } from '../../store'
 import React from 'react'
+import { channelRestAtom } from '@src/views/Space/LeftContent/store'
 
 export const useConfig = () => {
+  const maxLimit = useAtomValue(channelRestAtom)
   const [limit, setLimit] = useAtom(limitAtom)
   const [expire, setExpire] = useAtom(expireAtom)
-  const [noLimit, setNoLimit] = useAtom(noLimitAtom)
   const [noExpire, setNoExpire] = useAtom(noExpireAtom)
 
   const handleLimitChange  = (value: number | null) => {
@@ -42,19 +42,7 @@ export const useConfig = () => {
   }
 
 
-  const handleLimitRadioChange = (e: RadioChangeEvent) => setNoLimit(e.target.value)
   const handleExpireRadioChange = (e: RadioChangeEvent) => setNoExpire(e.target.value)
-
-  React.useEffect(
-    () => {
-      if (noLimit) {
-        setLimit(-1)
-      } else {
-        setLimit(limit > 0 ? limit : 1)
-      }
-    },
-    [noLimit]
-  )
 
   React.useEffect(
     () => {
@@ -68,12 +56,11 @@ export const useConfig = () => {
 
   return {
     limit,
-    noLimit,
     expire,
     noExpire,
-    handleLimitRadioChange,
     handleLimitChange,
     handleExpireRadioChange,
     handleExpireChange,
+    maxLimit,
   }
 }

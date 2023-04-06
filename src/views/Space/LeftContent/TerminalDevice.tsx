@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-
+import React from "react";
+import styled from "styled-components";
 import Progress from './Progress'
-import { useStorage } from './hook'
+
+import { useTerminalDevice } from "./hook";
 
 const Container = styled.div`
   display: flex;
@@ -26,18 +26,19 @@ const Meta = styled.div`
   color: #48A2DF;
 `
 
-const Storage: React.FC = () => {
-  const { tip, progress } = useStorage()
+const TerminalDevice: React.FC = () => {
+  const { progress, tip } = useTerminalDevice();
+
   return (
     <Container>
-      <Title>储存空间</Title>
+      <Title>SDK 设备</Title>
       <Progress progress={progress} />
       <Meta>
         <span>{tip}</span>
         <span>{progress}%</span>
       </Meta>
     </Container>
-  )
-}
+  );
+};
 
-export default Storage
+export default TerminalDevice;

@@ -23,14 +23,16 @@ const Flex = styled.div`
   align-items: center;
 `
 
+const InputWrap = styled.div`
+  padding: 5px 0;
+`
 
 const Config: React.FC = () => {
   const {
     limit,
-    noLimit,
+    maxLimit,
     expire,
     noExpire,
-    handleLimitRadioChange,
     handleLimitChange,
     handleExpireRadioChange,
     handleExpireChange,
@@ -39,23 +41,13 @@ const Config: React.FC = () => {
   return (
     <>
       <Title>路数设置</Title>
-      <Flex>
-        <RadioWrap>
-          <Radio.Group value={noLimit} onChange={handleLimitRadioChange}>
-            <Radio value={true}>无限制</Radio>
-            <Radio value={false}>自定义</Radio>
-          </Radio.Group>
-        </RadioWrap>
-        {
-          !noLimit ? (
-            <InputNumber<number>
-              min={1}
-              addonAfter={'路'} value={limit}
-              onChange={handleLimitChange}
-            />
-          ) : null
-        }
-      </Flex>
+      <InputWrap>
+        <InputNumber<number>
+          min={1} max={maxLimit}
+          addonAfter={'路'} value={limit}
+          onChange={handleLimitChange}
+        />
+      </InputWrap>
       <Title mt={'40px'}>授权天数</Title>
       <Flex>
         <RadioWrap>
