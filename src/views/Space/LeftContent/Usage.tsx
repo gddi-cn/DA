@@ -5,9 +5,10 @@ import { Spin } from "antd";
 import watermark from "@src/asset/images/platform/watermark.png";
 import { useUsage } from "./hook";
 
-import TrainTime from "./TrainTime";
-import Storage from "./Storage";
-import AuthModel from "./AuthModel";
+import Model from "./Model";
+import Channel from "./Channel";
+import Train from "./Train";
+import Storage from '@views/Space/LeftContent/Storage'
 
 const Container = styled.div`
   margin-top: 20px;
@@ -59,9 +60,10 @@ const Usage: React.FC = () => {
         <Watermark src={watermark} alt={"watermark"} />
         <Title>使用情况</Title>
         <DataDisplay>
-          <TrainTime />
+          <Train />
           <Storage />
-          <AuthModel />
+          <Model />
+          <Channel />
         </DataDisplay>
       </Container>
     </Spin>

@@ -5,7 +5,7 @@ import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
 import { GroupDevice } from '@src/shared/types/device'
 
 export const currentStepAtom = atom<Platform.Step>(Platform.Step.SELECT_APP)
-// export const currentStepAtom = atom<Platform.Step>(Platform.Step.CONFIG)
+// export const currentStepAtom = atom<Platform.Step>(Platform.Step.SYNC)
 
 // app list filter params
 export const selectDeviceTypeAtom = atom<Device.Chip.Instance | null>(null)
@@ -38,6 +38,8 @@ export const selectedDeviceIdListAtom = atom<Array<GroupDevice['id']>>([])
 
 export const expireAtom = atom<number>(-1)
 
-export const limitAtom = atom<number>(-1)
+export const limitAtom = atom<number>(1)
 
 export const syncTypeAtom = atom<'export' | 'sync'>('sync')
+
+export const maxLimitAtom = atom<number>(0)

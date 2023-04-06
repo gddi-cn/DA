@@ -4,6 +4,7 @@ export namespace User {
       ALL,
       CALCULATE,
       AUTH,
+      CHANNEL,
     }
   }
 }

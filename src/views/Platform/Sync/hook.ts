@@ -1,67 +1,55 @@
 import React from 'react'
 import { useAtom } from 'jotai'
-import { expireAtom, limitAtom, syncTypeAtom } from '../store'
+import { expireAtom, limitAtom, maxLimitAtom, syncTypeAtom } from '../store'
 import { RadioChangeEvent } from 'antd/lib/radio/interface'
+import systemAPI from '@src/apis/system'
+import userAPI from '@src/apis/user'
+
+export const useMaxLimit = () => {
+  const [maxLimit, setMaxLimit] = useAtom(maxLimitAtom)
+
+  const fetchMaxLimit = async () => {
+    const { success, data } = await userAPI.usage()
+
+    if (!success || !data) return
+
+    const { channel_limited, channel_usage } = data || { channel_limited: 0, channel_usage: 0 }
+    const rest = channel_limited - channel_usage
+
+    setMaxLimit(rest > 0 ? rest : 0)
+  }
+
+  React.useEffect(
+    () => {
+      fetchMaxLimit()
+    },
+    []
+  )
+
+  return {
+    maxLimit,
+  }
+}
 
 export const useLimit = () => {
-  const [, setLimit] = useAtom(limitAtom)
+  const [limit, setLimit] = useAtom(limitAtom)
 
-  const [noLimit, setNoLimit] = React.useState<boolean>(true)
-  const [disableLimitInput, setDisableLimitInput] = React.useState<boolean>(true)
-  const [limitInputValue, setLimitInputValue] = React.useState<number | null>(null)
-
-  const handleDisableLimitInputChange  = (value: number | null) => {
+  const handleChange  = (value: number | null) => {
     if (value === null) {
-      setLimitInputValue(1)
+      setLimit(1)
       return
     }
 
     if (!/^[1-9]\d*$/.test(value + '')) {
       return
     }
-
-    setLimitInputValue(value)
+    setLimit(value)
   }
 
 
-  const handleLimitRadioChange = (e: RadioChangeEvent) => setNoLimit(e.target.value)
-
-  React.useEffect(
-    () => {
-      setDisableLimitInput(noLimit)
-    },
-    [noLimit]
-  )
-
-  React.useEffect(
-    () => {
-      if (!disableLimitInput) {
-        setLimitInputValue(1)
-      } else {
-        setLimitInputValue(null)
-      }
-    },
-    [disableLimitInput]
-  )
-
-  React.useEffect(
-    () => {
-      if (noLimit) {
-        setLimit(-1)
-        return
-      }
-
-      setLimit(limitInputValue || 1)
-    },
-    [noLimit, limitInputValue]
-  )
-
   return {
-    noLimit,
-    limitInputValue,
-    disableLimitInput,
-    handleLimitRadioChange,
-    handleDisableLimitInputChange,
+    limit,
+    handleChange,
   }
 }
 

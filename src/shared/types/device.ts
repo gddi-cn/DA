@@ -26,6 +26,8 @@ export interface GroupDevice {
   match: boolean;
   // 模型授权状态
   modelAuth: GroupDeviceModelAuthStatus,
+  // 任务最大并发数
+  max_process: number,
   // 名称
   name: string,
   // SN

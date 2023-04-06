@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Progress from './Progress'
 
-import { useStorage } from './hook'
-
+import { useTrain } from "./hook";
 
 const Container = styled.div`
   display: flex;
@@ -27,12 +26,12 @@ const Meta = styled.div`
   color: #48A2DF;
 `
 
-const Model: React.FC = () => {
-  const { progress, tip } = useStorage();
+const Train: React.FC = () => {
+  const { progress, tip } = useTrain();
 
   return (
     <Container>
-      <Title>存储空间</Title>
+      <Title>训练时长</Title>
       <Progress progress={progress} />
       <Meta>
         <span>{tip}</span>
@@ -42,4 +41,4 @@ const Model: React.FC = () => {
   );
 };
 
-export default Model;
+export default Train;

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Progress from './Progress'
 
-import { useStorage } from './hook'
+import { useChannel } from "./hook";
 
 
 const Container = styled.div`
@@ -28,11 +28,11 @@ const Meta = styled.div`
 `
 
 const Model: React.FC = () => {
-  const { progress, tip } = useStorage();
+  const { progress, tip } = useChannel();
 
   return (
     <Container>
-      <Title>存储空间</Title>
+      <Title>应用授权</Title>
       <Progress progress={progress} />
       <Meta>
         <span>{tip}</span>

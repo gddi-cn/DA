@@ -113,6 +113,10 @@ const getConsume = (type: User.Consume.Type, amount: number) => {
     return  `${amount} 个`
   }
 
+  if (type === User.Consume.Type.CHANNEL) {
+    return `${amount} 路`
+  }
+
   return '-'
 }
 

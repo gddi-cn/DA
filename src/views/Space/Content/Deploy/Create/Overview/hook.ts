@@ -13,11 +13,12 @@ import {
 } from "../store"
 
 export const useOverview = () => {
-  const [, setStep] = useAtom(stepAtom) 
+  const [, setStep] = useAtom(stepAtom)
   const [, setCurrentPage] = useAtom(currentPageAtom)
   const [appList] = useAtom(selectedAppListAtom)
   const [deviceList] = useAtom(selectedDeviceListAtom)
   const [limit] = useAtom(limitAtom)
+  // const maxLimit = useAtomValue(channelRestAtom)
   const [expire] = useAtom(expireAtom)
 
   const [exporting, setExporting] = React.useState<boolean>(false)
@@ -39,6 +40,11 @@ export const useOverview = () => {
   }
 
   const handleDeploy = async () => {
+    if (limit < 0) {
+      message.warn('请设置正确的路数')
+      return
+    }
+
     setSyncing(true)
     const { success } = await syncAPI.sync(data)
     setSyncing(false)
@@ -68,4 +74,3 @@ export const useOverview = () => {
     syncing,
   }
 }
-

@@ -39,7 +39,7 @@ export const useFooter = () => {
     if (train_set.class_count !== val_set.class_count) return notification.error({
       message: '提示',
       duration: 3,
-      description: '训练数据与测试数据标签不一致，请不全数据后再开始训练'
+      description: '训练数据与测试数据标签不一致，请补全数据后再开始训练'
     })
 
     taskId && dispatch(modifyActiveTask({

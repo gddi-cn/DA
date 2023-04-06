@@ -1,9 +1,9 @@
-import React from 'react'
-
-import { useTrainTime } from './hook'
-
+import React from "react";
+import styled from "styled-components";
 import Progress from './Progress'
-import styled from 'styled-components'
+
+import { useModel } from "./hook";
+
 
 const Container = styled.div`
   display: flex;
@@ -27,19 +27,19 @@ const Meta = styled.div`
   color: #48A2DF;
 `
 
-const TrainTime: React.FC = () => {
-  const { tip, progress } = useTrainTime()
+const Model: React.FC = () => {
+  const { progress, tip } = useModel();
 
   return (
     <Container>
-      <Title>训练时长</Title>
+      <Title>模型授权</Title>
       <Progress progress={progress} />
       <Meta>
         <span>{tip}</span>
         <span>{progress}%</span>
       </Meta>
     </Container>
-  )
-}
+  );
+};
 
-export default TrainTime
+export default Model;

@@ -64,6 +64,8 @@ declare namespace User {
     authorization_limited: number
     // 授权用量
     authorization_usage: number
+    channel_limited: number
+    channel_usage: number
     // 并行 GPU 使用数限制，值为0时为无限制
     gpu_limited: number
     // 存储限额(Byte)，值为0时为无限制
