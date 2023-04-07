@@ -285,7 +285,7 @@ export const useChannel = () => {
   const channel = useAtomValue(channelAtom)
   const channelTotal = useAtomValue(channelTotalAtom)
 
-  const progress = channelTotal === 0 ? 1 : (channel / channelTotal) | 0
+  const progress = channelTotal === 0 ? 1 : (channel / channelTotal) * 100 | 0
   const tip = `${channel} / ${channelTotal} 个`
 
   return {
@@ -298,7 +298,7 @@ export const useModel = () => {
   const model = useAtomValue(modelAtom)
   const modelTotal = useAtomValue(modelTotalAtom)
 
-  const progress = modelTotal === 0 ? 1 : (model / modelTotal) | 0
+  const progress = modelTotal === 0 ? 1 : (model / modelTotal) * 100 | 0
   const tip = `${model} / ${modelTotal} 个`
 
   return {
@@ -312,7 +312,7 @@ export const useEdgeDevice = () => {
   const onlineDevice = useAtomValue(onlineDeviceAtom)
   const onlineDeviceTotal = useAtomValue(onlineDeviceTotalAtom)
 
-  const progress = onlineDeviceTotal === 0 ? 1 : (onlineDevice / onlineDeviceTotal) | 0
+  const progress = onlineDeviceTotal === 0 ? 1 : (onlineDevice / onlineDeviceTotal) * 100 | 0
   const tip = `${onlineDevice} / ${onlineDeviceTotal} 台`
 
   return {
@@ -326,7 +326,7 @@ export const useTerminalDevice = () => {
   const device = useAtomValue(deviceAtom)
   const deviceTotal = useAtomValue(deviceTotalAtom)
 
-  const progress = deviceTotal === 0 ? 1 : (device / deviceTotal) | 0
+  const progress = deviceTotal === 0 ? 1 : (device / deviceTotal) * 100 | 0
   const tip = `${device} / ${deviceTotal} 台`
 
   return {
