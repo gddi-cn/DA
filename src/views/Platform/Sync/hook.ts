@@ -1,11 +1,17 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { expireAtom, limitAtom, maxLimitAtom, syncTypeAtom } from '../store'
 import { RadioChangeEvent } from 'antd/lib/radio/interface'
 import systemAPI from '@src/apis/system'
+import { selectedDeviceIdListAtom } from '../store'
+import { message } from 'antd'
 
 export const useMaxLimit = () => {
-  const [maxLimit, setMaxLimit] = useAtom(maxLimitAtom)
+  const [rest, setMaxLimit] = useAtom(maxLimitAtom)
+  const selectedDeviceIdList = useAtomValue(selectedDeviceIdListAtom)
+  const length = selectedDeviceIdList.length
+
+  const maxLimit = length === 0 ? rest : Math.floor(rest / length)
 
   const fetchMaxLimit = async () => {
     const { success, data } = await systemAPI.license()
@@ -25,12 +31,18 @@ export const useMaxLimit = () => {
   )
 
   return {
+    rest,
     maxLimit,
   }
 }
 
 export const useLimit = () => {
   const [limit, setLimit] = useAtom(limitAtom)
+  const rest = useAtomValue(maxLimitAtom)
+  const selectedDeviceIdList = useAtomValue(selectedDeviceIdListAtom)
+  const length = selectedDeviceIdList.length
+
+  const maxLimit = length === 0 ? rest : Math.floor(rest / length)
 
   const handleChange  = (value: number | null) => {
     if (value === null) {
@@ -39,6 +51,12 @@ export const useLimit = () => {
     }
 
     if (!/^[1-9]\d*$/.test(value + '')) {
+      return
+    }
+
+    if(value > maxLimit) {
+      message.warn('总 Channel 超出限额')
+      setLimit(maxLimit)
       return
     }
 

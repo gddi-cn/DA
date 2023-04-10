@@ -5,15 +5,21 @@ import {
   limitAtom,
   noExpireAtom,
   expireAtom,
+  selectedDeviceListAtom,
 } from '../../store'
 import React from 'react'
 import { channelRestAtom } from '@src/views/Space/LeftContent/store'
+import { message } from 'antd'
 
 export const useConfig = () => {
-  const maxLimit = useAtomValue(channelRestAtom)
+  const rest = useAtomValue(channelRestAtom)
   const [limit, setLimit] = useAtom(limitAtom)
   const [expire, setExpire] = useAtom(expireAtom)
   const [noExpire, setNoExpire] = useAtom(noExpireAtom)
+  const selectedDevices = useAtomValue(selectedDeviceListAtom)
+  const length = selectedDevices.length
+
+  const maxLimit = length === 0 ? rest : Math.floor(rest / length)
 
   const handleLimitChange  = (value: number | null) => {
     if (value === null) {
@@ -22,6 +28,12 @@ export const useConfig = () => {
     }
 
     if (!/^[1-9]\d*$/.test(value + '')) {
+      return
+    }
+
+    if (value > maxLimit) {
+      message.warn('总 Channel 超出限额')
+      setLimit(maxLimit)
       return
     }
 
@@ -61,6 +73,6 @@ export const useConfig = () => {
     handleLimitChange,
     handleExpireRadioChange,
     handleExpireChange,
-    maxLimit,
+    rest,
   }
 }

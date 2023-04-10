@@ -41,6 +41,11 @@ export const useOverview = () => {
   }
 
   const handleDeploy = async () => {
+    if (limit < 0) {
+      message.warn('请设置正确的路数')
+      return
+    }
+
     if (limit > maxLimit) {
       message.warn('路数设置大于剩余最大应用授权额度')
       return

@@ -83,7 +83,7 @@ const useResetStore = () => {
       setDevicePage(1)
       setDevicePageSize(10)
       setDeviceTotal(0)
-      setLimit(-1)
+      setLimit(1)
       setExpire(-1)
       setNoExpire(true)
       setFetchingDevice(false)

@@ -75,13 +75,13 @@ const Sync: React.FC = () => {
     handleChange,
   } = useSyncType()
 
-  const { maxLimit } = useMaxLimit()
+  const { maxLimit, rest } = useMaxLimit()
 
   return (
     <Container>
       <Content>
         <Img src={bg} />
-        <ChannelLimit>路数额度剩余：{maxLimit}</ChannelLimit>
+        <ChannelLimit>路数额度剩余：{rest}</ChannelLimit>
         <Form>
           <div>
             <Label>
@@ -90,7 +90,7 @@ const Sync: React.FC = () => {
             <Divider />
             <InputNumber<number>
               addonAfter={'路'}
-              min={Math.min(1, maxLimit)} max={maxLimit}
+              min={Math.min(1, maxLimit)}
               value={limit}
               onChange={handleLimitChange}
               style={{ width: '100%', marginTop: 8, padding: '0 24px' }}

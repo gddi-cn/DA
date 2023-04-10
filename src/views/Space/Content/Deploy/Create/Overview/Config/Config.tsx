@@ -30,7 +30,6 @@ const InputWrap = styled.div`
 const Config: React.FC = () => {
   const {
     limit,
-    maxLimit,
     expire,
     noExpire,
     handleLimitChange,
@@ -43,7 +42,7 @@ const Config: React.FC = () => {
       <Title>路数设置</Title>
       <InputWrap>
         <InputNumber<number>
-          min={1} max={maxLimit}
+          min={1} 
           addonAfter={'路'} value={limit}
           onChange={handleLimitChange}
         />

@@ -138,7 +138,7 @@ const useResetStore = () => {
       setSelectedApp(undefined)
       setSelectedDeviceGroup(null)
       setExpire(-1)
-      setLimit(-1)
+      setLimit(1)
       setSyncType('sync')
       setSelectedDeviceList([])
       setMaxLimit(0)
@@ -273,6 +273,11 @@ export const useFooter = () => {
   }
 
   const handleDeploy = async () => {
+    if (limit < 1) {
+      message.warn('请选输入正确的路数')
+      return
+    }
+
     if (maxLimit < limit) {
       message.warn('路数设置超过最大限制，请重新选择')
       return
