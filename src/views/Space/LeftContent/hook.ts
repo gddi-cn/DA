@@ -286,7 +286,7 @@ export const useChannel = () => {
   const channelTotal = useAtomValue(channelTotalAtom)
 
   const progress = channelTotal === 0 ? 1 : (channel / channelTotal) * 100 | 0
-  const tip = `${channel} / ${channelTotal} 个`
+  const tip = `${channel} / ${channelTotal} 路`
 
   return {
     progress,
