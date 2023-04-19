@@ -38,7 +38,7 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
 
   const initFlv = (target: RawVideoMapTypeItem) => {
     try {
-      const { url } = target
+      const { url } = target || {}
 
       if (flvplayer) {
         flvplayer.destroy();

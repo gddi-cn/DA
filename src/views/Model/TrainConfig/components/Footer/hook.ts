@@ -1,8 +1,8 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 
 import {
-  cardNumAtom, configConcurrentAtom, configFpsAtom, configTypeAtom, selectedChipAtom
+  cardNumAtom, configConcurrentAtom, configFpsAtom, configTypeAtom, resolutionAtom, selectedChipAtom
 } from '@views/Model/TrainConfig/store'
 import { APP_DATASET_ANALYSE, APP_MODEL_TRAIN_DETAIL } from '@router'
 import { useNavigate } from 'react-router-dom'
@@ -22,6 +22,7 @@ export const useFooter = () => {
   const [channel] = useAtom(configConcurrentAtom)
   const [gpu_count] = useAtom(cardNumAtom)
   const [configType] = useAtom(configTypeAtom)
+  const resolution = useAtomValue(resolutionAtom)
 
   const [loading, setLoading] = React.useState<boolean>(false)
 
@@ -62,7 +63,7 @@ export const useFooter = () => {
       dataset_id: APP_DATA_SET_INDEX.id,
       describe: '--',
       gpu_count,
-      model_args: { fps, ddr: 50, io: 50, mode, channel },
+      model_args: { fps, ddr: 50, io: 50, mode, channel, resolution },
       name: pro_name,
       platform: [brand, name, chip_type],
       application,

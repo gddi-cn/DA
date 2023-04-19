@@ -23,6 +23,8 @@ export interface CreateModelData {
     io?: number;
     // 算法模式
     mode: ModelTrainMode;
+    // 分辨率
+    resolution?: number
   };
   // 模型名称
   name: string;

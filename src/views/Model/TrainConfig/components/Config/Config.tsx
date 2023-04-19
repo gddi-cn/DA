@@ -8,6 +8,7 @@ import { chipConfigNameMapping } from '@src/shared/mapping/chip'
 import { useParamsSetting } from './hook'
 
 import LeftTitle from '../LeftTitle'
+import Resolution from '../Resolution'
 
 const Container = styled.div`
   background-color: #EDF8FF;
@@ -139,6 +140,7 @@ const Config: React.FC = () => {
         style={{ width: '100%' }}
         precision={0}
       />
+      <Resolution />
     </Container>
   )
 }

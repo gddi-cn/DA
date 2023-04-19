@@ -11,6 +11,7 @@ import Footer from './components/Footer'
 import { useTrainConfig } from './hook'
 import { SecondaryBtn } from '@src/components/Button'
 import { useBack2DatasetIndex } from '@src/hooks/task'
+import Resolution from './components/Resolution'
 
 const Container = styled.div`
   height: calc(100vh - 100px);

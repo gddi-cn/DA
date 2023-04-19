@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 import { isEmpty, isNil } from 'lodash'
 
 const ChipList = (props: ModelTrainConfigType.ChipList): JSX.Element => {
-  console.log(props, 'ChipList')
   const { chipList, onChange, value } = props
   useEffect(() => {
     if (isNil(value)) {
@@ -19,6 +18,7 @@ const ChipList = (props: ModelTrainConfigType.ChipList): JSX.Element => {
   const handleSelect = (data:any) => {
     onChange(data)
   }
+
   return (
     <div styleName='ChipList'>
       <ReactCusScrollBar autoHide id="scrollableDiv">

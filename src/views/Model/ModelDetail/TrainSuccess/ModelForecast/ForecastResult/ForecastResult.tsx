@@ -116,7 +116,7 @@ const ForecastResult = (props: any): JSX.Element => {
     if (!data) {
       return null;
     }
-    const { url } = data;
+    const { url } = data || {};
     const isVideo = /\.mp4$/.test(url);
 
     const getView = () => {
@@ -145,7 +145,7 @@ const ForecastResult = (props: any): JSX.Element => {
   };
 
   const renderDotView = (data: any, activeIndex: any, index: any) => {
-    const { url } = data;
+    const { url } = data || {};
     const isVideo = /\.mp4$/.test(url);
     const active = activeIndex === index;
 
