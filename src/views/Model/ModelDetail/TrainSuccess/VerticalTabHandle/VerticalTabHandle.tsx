@@ -150,11 +150,15 @@ const VerticalTabHandle = (
         {Title("训练过程")}
         {TabItem("训练过程", "train_process")}
       </div>
-      <div className="VerticalTabHandle_block">
-        {Title("模型评估")}
-        {TabItem("模型预测 ", "model_forecast")}
-        {getMenuList()}
-      </div>
+      {
+        model_type === DatasetScene.FaceRecognition ? null : (
+          <div className="VerticalTabHandle_block">
+            {Title("模型评估")}
+            {TabItem("模型预测 ", "model_forecast")}
+            {getMenuList()}
+          </div>
+        )
+      }
     </div>
   );
 };

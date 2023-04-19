@@ -39,7 +39,6 @@ const LocalDataSet = (): JSX.Element => {
       <div className='content_wrap'>
         <Outlet />
       </div>
-
     </div>
   )
 }
