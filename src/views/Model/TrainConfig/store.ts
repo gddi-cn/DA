@@ -47,15 +47,19 @@ export const resolutionLimitAtom = atom<number>(get => {
 // 4. 如果分辨率列表中没有小于等于限制值的值，返回0
 export const defaultResolutionAtom = atom<number>(get => {
   const limit = get(resolutionLimitAtom)
+  console.log({ limit })
   const dataset = get(currentDatasetAtom)
+  console.log({ dataset })
   const list = dataset?.resolution ?? []
+  console.log({ list })
 
   if (!list.length) return 0;
 
   let defaultResolution = list[0]
+  console.log({ defaultResolution })
 
   if (defaultResolution > limit) {
-    const sortedList = list.sort((a, b) => b - a)
+    const sortedList = [...list].sort((a, b) => b - a)
     defaultResolution = sortedList.find(x => x <= limit) ?? 0
   }
 
@@ -68,5 +72,5 @@ export const resolutionListAtom = atom<Array<number>>(get => {
   const dataset = get(currentDatasetAtom)
   const list = dataset?.resolution ?? [] as number[]
 
-  return list.sort((a, b) => b - a)
+  return [...list].sort((a, b) => a -b)
 })

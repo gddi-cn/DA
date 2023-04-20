@@ -34,7 +34,13 @@ export const useResolution = () => {
     [selectedChip, defaultResolution]
   )
 
-  
+  React.useEffect(
+    () => {
+      setResolution(defaultResolution)
+    },
+    [configType]
+  )
+
   return {
     limit,
     resolution,
