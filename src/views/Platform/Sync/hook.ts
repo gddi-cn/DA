@@ -38,11 +38,11 @@ export const useMaxLimit = () => {
 
 export const useLimit = () => {
   const [limit, setLimit] = useAtom(limitAtom)
-  const rest = useAtomValue(maxLimitAtom)
+  // const rest = useAtomValue(maxLimitAtom)
   const selectedDeviceIdList = useAtomValue(selectedDeviceIdListAtom)
-  const length = selectedDeviceIdList.length
+  // const length = selectedDeviceIdList.length
 
-  const maxLimit = length === 0 ? rest : Math.floor(rest / length)
+  // const maxLimit = length === 0 ? rest : Math.floor(rest / length)
 
   const handleChange  = (value: number | null) => {
     if (value === null) {
@@ -54,11 +54,11 @@ export const useLimit = () => {
       return
     }
 
-    if(value > maxLimit) {
-      message.warn('总 Channel 超出限额')
-      setLimit(maxLimit)
-      return
-    }
+    // if(value > maxLimit) {
+    //   message.warn('总 Channel 超出限额')
+    //   setLimit(maxLimit)
+    //   return
+    // }
 
     setLimit(value)
   }
