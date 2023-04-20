@@ -16,6 +16,10 @@ export const onlineDeviceRestAtom = atom<number>(0)
 export const onlineDeviceTotalAtom = atom<number>(0)
 export const onlineDeviceAtom = atom<number>(get => get(onlineDeviceTotalAtom) - get(onlineDeviceRestAtom))
 
+export const modelAuthRestAtom = atom<number>(0)
+export const modelAuthTotalAtom = atom<number>(0)
+export const modelAuthAtom = atom<number>(get => get(modelAuthTotalAtom) - get(modelAuthRestAtom))
+
 export const expireAtom = atom<number>(0)
 
 export const loadingAtom = atom<boolean>(false)

@@ -8,6 +8,8 @@ export namespace System {
     expire: number
     model: number
     model_total: number
+    model_auth: number
+    model_auth_total: number
     online_device: number
     online_device_total: number
   }

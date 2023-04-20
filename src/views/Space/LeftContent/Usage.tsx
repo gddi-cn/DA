@@ -5,6 +5,7 @@ import { Spin } from "antd";
 import { useUsage } from "./hook";
 
 import Model from "./Model";
+import ModelAuth from './ModelAuth'
 import Channel from "./Channel";
 import EdgeDevice from "./EdgeDevice";
 import TerminalDevice from "./TerminalDevice";
@@ -50,6 +51,7 @@ const Usage: React.FC = () => {
         <Title>使用情况</Title>
         <DataDisplay>
           <Model />
+          <ModelAuth />
           <Channel />
           <EdgeDevice />
           <TerminalDevice />

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Progress from './Progress'
 
-import { useChannel } from "./hook";
+import { useModelAuth } from "./hook";
 
 
 const Container = styled.div`
@@ -27,12 +27,12 @@ const Meta = styled.div`
   color: #48A2DF;
 `
 
-const Channel: React.FC = () => {
-  const { progress, tip } = useChannel();
+const ModelAuth: React.FC = () => {
+  const { progress, tip } = useModelAuth();
 
   return (
     <Container>
-      <Title>应用授权额度</Title>
+      <Title>模型授权</Title>
       <Progress progress={progress} />
       <Meta>
         <span>{tip}</span>
@@ -42,4 +42,4 @@ const Channel: React.FC = () => {
   );
 };
 
-export default Channel;
+export default ModelAuth;

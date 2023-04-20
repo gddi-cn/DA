@@ -4,7 +4,7 @@ import { authUserInfoAtom } from "@src/store/user";
 import { currentPageAtom } from "../store";
 import { Space } from "../enums";
 import systemAPI from "@src/apis/system";
-import { channelAtom, channelRestAtom, channelTotalAtom, deviceAtom, deviceRestAtom, deviceTotalAtom, expireAtom, loadingAtom, modelAtom, modelRestAtom, modelTotalAtom, onlineDeviceAtom, onlineDeviceRestAtom, onlineDeviceTotalAtom } from "./store";
+import { channelAtom, channelRestAtom, channelTotalAtom, deviceAtom, deviceRestAtom, deviceTotalAtom, expireAtom, loadingAtom, modelAtom, modelAuthAtom, modelAuthRestAtom, modelAuthTotalAtom, modelRestAtom, modelTotalAtom, onlineDeviceAtom, onlineDeviceRestAtom, onlineDeviceTotalAtom } from "./store";
 import { formatUnixDate } from "@src/utils/tools";
 import moment from "moment";
 
@@ -62,6 +62,8 @@ export const useRefreshUsage = () => {
   const setOnlineDeviceRest = useSetAtom(onlineDeviceRestAtom)
   const setOnlineDeviceTotal = useSetAtom(onlineDeviceTotalAtom)
   const setExpire = useSetAtom(expireAtom)
+  const setModelAuthRest = useSetAtom(modelAuthRestAtom)
+  const setModelAuthTotal = useSetAtom(modelAuthTotalAtom)
 
   return async () => {
     if (loading) return
@@ -82,6 +84,8 @@ export const useRefreshUsage = () => {
       online_device,
       online_device_total,
       expire,
+      model_auth,
+      model_auth_total,
     } = data.license
 
     setChannelRest(channel)
@@ -93,6 +97,8 @@ export const useRefreshUsage = () => {
     setOnlineDeviceRest(online_device)
     setOnlineDeviceTotal(online_device_total)
     setExpire(expire)
+    setModelAuthRest(model_auth)
+    setModelAuthTotal(model_auth_total)
   };
 };
 
@@ -107,6 +113,8 @@ export const useResetUseage = () => {
   const setOnlineDeviceRest = useSetAtom(onlineDeviceRestAtom)
   const setOnlineDeviceTotal = useSetAtom(onlineDeviceTotalAtom)
   const setExpire = useSetAtom(expireAtom)
+  const setModelAuthRest = useSetAtom(modelAuthRestAtom)
+  const setModelAuthTotal = useSetAtom(modelAuthTotalAtom)
 
   React.useEffect(
     () => {
@@ -121,6 +129,8 @@ export const useResetUseage = () => {
         setOnlineDeviceRest(0)
         setOnlineDeviceTotal(0)
         setExpire(0)
+        setModelAuthRest(0)
+        setModelAuthTotal(0)
         setLoading(false)
       }
     },
@@ -279,6 +289,20 @@ export const useDeploy = () => {
     handleClick,
     containerRef,
   };
+}
+
+export const useModelAuth = () => {
+  const modelAuth = useAtomValue(modelAuthAtom)
+  const modelAuthTotal = useAtomValue(modelAuthTotalAtom)
+
+  const progress = modelAuthTotal === 0 ? 1 : (modelAuth / modelAuthTotal) * 100 | 0
+  const tip = `${modelAuth} / ${modelAuthTotal} 个`
+
+  return {
+    progress,
+    tip,
+  }
+
 }
 
 export const useChannel = () => {
