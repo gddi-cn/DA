@@ -107,7 +107,6 @@ const SelectDatasetFile = (): JSX.Element => {
   const handleCancel = async () => {
     if (backing) return
     setBacking(true)
-    console.log({uploader: uploadCurrent.current})
     if (uploadCurrent.current) {
       try {
         const res = await uploadCurrent.current.cansel()
@@ -339,7 +338,7 @@ const SelectDatasetFile = (): JSX.Element => {
         <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
       </div>
     )
-  }, [handleCnasel ])
+  }, [handleCnasel])
 
   useEffect(() => {
     if (activePipeLine?.APP_LOCAL_FILE_STEP_3?.proportion) {
