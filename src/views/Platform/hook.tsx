@@ -275,11 +275,6 @@ export const useFooter = () => {
   }
 
   const handleDeploy = async () => {
-    if (maxLimit < limit) {
-      message.warn('路数设置超过最大限制，请重新选择')
-      return
-    }
-
     if (!selectedDeviceIdList?.length) return
     if (!selectedApp?.id) return
 
