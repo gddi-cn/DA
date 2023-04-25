@@ -10,7 +10,7 @@
     "image": " node ./scripts/pushImage.js",
     "emcc": " node ./scripts/emcc_build_wasm.js",
     "push": "node ./scripts/pushImage.js",
-    "bnp": "yarn run build && npm version patch && yarn run push"
+    "bnp": "yarn run build && npm version patch --no-git-tag-version && yarn run push"
   },
   "keywords": [],
   "author": "",

@@ -1,8 +1,10 @@
-import { ChipConfigType } from "@src/shared/enum/chip";
-import { RadioChangeEvent } from "antd";
-import { useAtom, useAtomValue } from "jotai"
-import React from "react";
-import { configTypeAtom, defaultResolutionAtom, resolutionAtom, resolutionLimitAtom, resolutionListAtom, selectedChipAtom } from "../../store"
+import { ChipConfigType } from '@src/shared/enum/chip'
+import { RadioChangeEvent } from 'antd'
+import { useAtom, useAtomValue } from 'jotai'
+import React from 'react'
+import {
+  configTypeAtom, defaultResolutionAtom, resolutionAtom, resolutionLimitAtom, resolutionListAtom, selectedChipAtom
+} from '../../store'
 
 export const useResolution = () => {
   const limit             = useAtomValue(resolutionLimitAtom),
@@ -12,6 +14,11 @@ export const useResolution = () => {
         list              = useAtomValue(resolutionListAtom);
 
   const [resolution, setResolution] = useAtom(resolutionAtom)
+
+  const fixed =
+    selectedChip !== undefined
+    && (resolution === defaultResolution)
+    && (configType === ChipConfigType.RECOMMEND)
 
   const options = list.map(x => ({ key: x, value: x, label: x }))
 
@@ -47,5 +54,6 @@ export const useResolution = () => {
     options,
     disabled,
     handleChange,
+    fixed,
   }
 }
