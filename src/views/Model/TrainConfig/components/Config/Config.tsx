@@ -136,7 +136,8 @@ const Config: React.FC = () => {
       <Label htmlFor={'concurrent_input'}>算法并行数</Label>
       <InputNumber
         min={1} id={'concurrent_input'} disabled={disableInput}
-        value={configConcurrent} onChange={(v) => handleConcurrentChange(v as (number | null))}
+        value={configConcurrent}
+        onChange={(v) => handleConcurrentChange(v as (number | null))}
         style={{ width: '100%' }}
         precision={0}
       />
