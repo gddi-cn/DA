@@ -3228,7 +3228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.7.1, @emotion/react@npm:^11.9.0":
+"@emotion/react@npm:^11.7.1":
   version: 11.9.3
   resolution: "@emotion/react@npm:11.9.3"
   dependencies:
@@ -3271,7 +3271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.6.0, @emotion/styled@npm:^11.8.1":
+"@emotion/styled@npm:^11.6.0":
   version: 11.9.3
   resolution: "@emotion/styled@npm:11.9.3"
   dependencies:
@@ -3460,7 +3460,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.2.5, @mui/icons-material@npm:^5.6.1":
+"@mui/icons-material@npm:^5.2.5":
   version: 5.8.4
   resolution: "@mui/icons-material@npm:5.8.4"
   dependencies:
@@ -3476,7 +3476,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.2.6, @mui/material@npm:^5.6.1":
+"@mui/material@npm:^5.2.6":
   version: 5.9.0
   resolution: "@mui/material@npm:5.9.0"
   dependencies:
@@ -8732,9 +8732,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gddi-app-canvas@npm:^2.0.8":
-  version: 2.0.8
-  resolution: "gddi-app-canvas@npm:2.0.8"
+"gddi-app-flow-pro@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "gddi-app-flow-pro@npm:0.0.6"
   dependencies:
     "@emotion/react": "npm:^11.7.1"
     "@emotion/styled": "npm:^11.6.0"
@@ -8746,15 +8746,13 @@ __metadata:
     fabric: "npm:^4.6.0"
     fp-ts: "npm:^2.11.10"
     io-ts: "npm:^2.2.16"
-    lodash: "npm:^4.17.21"
     react-colorful: "npm:^5.5.1"
-    react-draw-roi: "npm:^1.0.6"
     react-flow-renderer: "npm:^10.3.8"
     react-images-uploading: "npm:^3.1.3"
   peerDependencies:
     react: 16 || 17 || 18
     react-dom: 16 || 17 || 18
-  checksum: 4227d6ab1c6b4ec587df89f61423044382e927ce1672d08a79df35cd42fe517d9f013cd186bc1ca07cbb239a8cb55d1012e9ab9cb35a04dfe480915e1d70bb61
+  checksum: 5ba5d3de8f78bb4e7d87e1acdad781ec2b4033bf36931244132cb6bd65a40d56bef55c37490fd5a5c56bd71e5283b037ad8237edae142df9246c45c73d004ed9
   languageName: node
   linkType: hard
 
@@ -13386,7 +13384,7 @@ __metadata:
     file-loader: "npm:^6.2.0"
     flv.js: "npm:^1.6.2"
     fs-extra: "npm:^10.0.1"
-    gddi-app-canvas: "npm:^2.0.8"
+    gddi-app-flow-pro: "npm:^0.0.6"
     generic-names: "npm:^4.0.0"
     gsap: "npm:^3.10.4"
     html-webpack-plugin: "npm:^5.5.0"
@@ -13514,22 +13512,6 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
   checksum: 7c5b915fb793d63563cec1f721e059e6ff0e2855ac116ab5cb7450b6c59398f5e25f95c960ce5cb93504cc58ab724a75a78e99282354e702a0e667d0d787d028
-  languageName: node
-  linkType: hard
-
-"react-draw-roi@npm:^1.0.6":
-  version: 1.0.6
-  resolution: "react-draw-roi@npm:1.0.6"
-  dependencies:
-    "@emotion/react": "npm:^11.9.0"
-    "@emotion/styled": "npm:^11.8.1"
-    "@mui/icons-material": "npm:^5.6.1"
-    "@mui/material": "npm:^5.6.1"
-    fabric: "npm:^5.2.1"
-  peerDependencies:
-    react: 16 || 17 || 18
-    react-dom: 16 || 17 || 18
-  checksum: e7f6261c29dc488fb2a081f17ba5fa386d419222fb074c41ad8b84239fce05df86b6be34a346dafa620d0733518e89790c188457fd9f51d403864f7a35d6b329
   languageName: node
   linkType: hard
 

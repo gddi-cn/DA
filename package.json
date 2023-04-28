@@ -1,6 +1,6 @@
 {
   "name": "react-cli",
-  "version": "1.0.98",
+  "version": "1.0.99",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -41,7 +41,7 @@
     "echarts": "^5.3.2",
     "fabric": "^5.2.1",
     "flv.js": "^1.6.2",
-    "gddi-app-canvas": "^2.0.8",
+    "gddi-app-flow-pro": "^0.0.6",
     "gsap": "^3.10.4",
     "immer": "^9.0.16",
     "jotai": "^1.9.2",

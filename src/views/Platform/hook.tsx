@@ -27,7 +27,7 @@ import appAPI from '@src/apis/app'
 import deviceAPI from '@src/apis/device'
 import { DeviceType } from '@src/shared/enum/device'
 import http from '@src/utils/http'
-import { ModuleDefinitions, Pipeline } from 'gddi-app-canvas'
+import { ModuleDefinitions, Pipeline } from 'gddi-app-flow-pro'
 import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
 
 import { ReactComponent as TemplateActiveIcon } from '@src/asset/icons/platform/template_active.svg'
@@ -140,7 +140,7 @@ const useResetStore = () => {
       setSelectedApp(undefined)
       setSelectedDeviceGroup(null)
       setExpire(-1)
-      setLimit(-1)
+      setLimit(1)
       setSyncType('sync')
       setSelectedDeviceList([])
       setMaxLimit(0)
