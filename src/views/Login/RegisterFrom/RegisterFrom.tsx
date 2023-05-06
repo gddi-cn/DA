@@ -74,7 +74,6 @@ const RegisterFrom = (props: any): JSX.Element => {
           setNum(60)
           timerRefs.current = setInterval(() => {
             setNum((num: any) => --num)
-            console.log(888)
           }, 1000)
         }
       } else {
@@ -129,7 +128,7 @@ const RegisterFrom = (props: any): JSX.Element => {
           rules={[
             { required: true, message: '请输入密码!' },
             ({ getFieldValue }) => ({
-              validator (rule, value) {
+              validator(rule, value) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
