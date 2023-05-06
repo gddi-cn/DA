@@ -81,7 +81,11 @@ const Sync: React.FC = () => {
     <Container>
       <Content>
         <Img src={bg} />
-        <ChannelLimit>路数额度剩余：{maxLimit}</ChannelLimit>
+        {
+          maxLimit !== 0 ? (
+            <ChannelLimit>路数额度剩余：{maxLimit}</ChannelLimit>
+          ) : null
+        }
         <Form>
           <div>
             <Label>
