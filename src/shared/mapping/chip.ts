@@ -100,6 +100,7 @@ import i710 from '@src/asset/images/chip/i710.png'
 import i711 from '@src/asset/images/chip/i711.png'
 import MyriadX from '@src/asset/images/chip/MyriadX.png'
 import t40 from '@src/asset/images/chip/T40.png'
+import t41 from '@src/asset/images/chip/T41.png'
 import p4 from '@src/asset/images/chip/P4.png'
 import p6 from '@src/asset/images/chip/P6.png'
 import p40 from '@src/asset/images/chip/P40.png'
@@ -239,6 +240,7 @@ export const chipNameLogoMapping: Map<ChipName, any> = new Map([
   [ChipName.I711, i711],
   [ChipName.MYRIADX, MyriadX],
   [ChipName.T40, t40],
+  [ChipName.T41, t41],
   [ChipName.P4, p4],
   [ChipName.P6, p6],
   [ChipName.P40, p40],

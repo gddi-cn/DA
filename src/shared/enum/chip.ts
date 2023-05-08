@@ -109,6 +109,7 @@ export enum ChipName {
   I711 = 'i711',
   MYRIADX = 'MyriadX',
   T40 = 'T40',
+  T41 = 'T41',
   P4 = 'P4',
   P6 = 'P6',
   P40 = 'P40',
