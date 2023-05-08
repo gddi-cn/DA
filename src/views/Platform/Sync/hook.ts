@@ -1,8 +1,7 @@
 import React from 'react'
-import { useAtom } from 'jotai'
-import { expireAtom, limitAtom, maxLimitAtom, syncTypeAtom } from '../store'
+import { useAtom, useAtomValue } from 'jotai'
+import { expireAtom, hideChannelAtom, limitAtom, maxLimitAtom, selectedAppAtom, syncTypeAtom } from '../store'
 import { RadioChangeEvent } from 'antd/lib/radio/interface'
-import systemAPI from '@src/apis/system'
 import userAPI from '@src/apis/user'
 
 export const useMaxLimit = () => {
@@ -33,8 +32,9 @@ export const useMaxLimit = () => {
 
 export const useLimit = () => {
   const [limit, setLimit] = useAtom(limitAtom)
+  const hideChannel = useAtomValue(hideChannelAtom)
 
-  const handleChange  = (value: number | null) => {
+  const handleChange = (value: number | null) => {
     if (value === null) {
       setLimit(1)
       return
@@ -48,6 +48,7 @@ export const useLimit = () => {
 
 
   return {
+    hideChannel,
     limit,
     handleChange,
   }

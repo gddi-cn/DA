@@ -9,7 +9,7 @@ declare namespace Sync {
     apps: Array<App.Instance['id']>
     device_ids: Array<Device.Instance['id']>
     expire_seconds: number;
-    limit: number;
+    limit?: number;
   }
 
   interface Instance {

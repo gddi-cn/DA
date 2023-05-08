@@ -6,6 +6,7 @@ import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
 import { GroupDevice } from '@src/shared/types/device'
 import { useSelector } from 'react-redux'
 import { RootState } from '@src/controller/reducer'
+import { AppTemplateInput } from '@src/shared/enum/application'
 
 
 export const currentStepAtom = atom<Platform.Step>(Platform.Step.SELECT_APP)
@@ -25,6 +26,11 @@ export const createAppOpenAtom = atom<boolean>(false)
 export const fetchingDeviceTypeListAtom = atom<boolean>(false)
 
 export const selectedAppAtom = atom<App.Instance | undefined>(undefined)
+
+export const hideChannelAtom = atom<boolean>(get => {
+  const selectedApp = get(selectedAppAtom)
+  return selectedApp?.input === AppTemplateInput.IMAGE
+})
 
 export const selectedDeviceGroupAtom = atom<DeviceGroupOptions | null>(null)
 

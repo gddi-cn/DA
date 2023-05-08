@@ -18,6 +18,7 @@ export const appTotalAtom = atom<number>(0)
 export const fetchingAppAtom = atom<boolean>(false)
 export const deviceTypeListAtom = atom<Device.Chip.Instance[]>([])
 
+
 // app list filter
 export const pageFilterAtom = atom<number>(1)
 export const pageSizeFilterAtom = atom<number>(DEFAULT_PAGE_SIZE)
@@ -34,6 +35,12 @@ export const scrollbarRefAtom =
   atom<React.MutableRefObject<{ getValues(): positionValues } | null> | undefined>(undefined)
 
 export const selectedAppListAtom = atom<Array<App.Instance>>([])
+
+export const appInputTypeAtom = atom<AppTemplateInput | undefined>(get => {
+  const appList = get(selectedAppListAtom)
+  const firstItem = appList[0]
+  return firstItem?.input
+})
 
 // ============================== App List =====================================
 

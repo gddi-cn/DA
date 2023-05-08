@@ -30,6 +30,7 @@ const InputWrap = styled.div`
 const Config: React.FC = () => {
   const {
     limit,
+    hideLimit,
     expire,
     noExpire,
     handleLimitChange,
@@ -39,15 +40,21 @@ const Config: React.FC = () => {
 
   return (
     <>
-      <Title>路数设置</Title>
-      <InputWrap>
-        <InputNumber<number>
-          min={1}
-          addonAfter={'路'} value={limit}
-          onChange={handleLimitChange}
-        />
-      </InputWrap>
-      <Title mt={'40px'}>授权天数</Title>
+      {
+        hideLimit ? null : (
+          <>
+            <Title>路数设置</Title>
+            <InputWrap>
+              <InputNumber<number>
+                min={1}
+                addonAfter={'路'} value={limit}
+                onChange={handleLimitChange}
+              />
+            </InputWrap>
+          </>
+        )
+      }
+      <Title mt={hideLimit ? undefined : '40px'}>授权天数</Title>
       <Flex>
         <RadioWrap>
           <Radio.Group value={noExpire} onChange={handleExpireRadioChange}>

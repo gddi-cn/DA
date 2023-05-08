@@ -24,12 +24,12 @@ export const useSelectApp = () => {
   const refreshAppList = useRefreshAppList()
   const refreshDeviceTypeList = useRefreshDeviceTypeList()
 
-  React.useEffect(
-    () => {
-      // console.log({ modelVersionId })
-    },
-    [modelVersionId]
-  )
+  // React.useEffect(
+  //   () => {
+  //     // console.log({ modelVersionId })
+  //   },
+  //   [modelVersionId]
+  // )
 
   React.useEffect(
     () => {
@@ -113,7 +113,7 @@ export const useAppItem = (instance: App.Instance) => {
       cancelText: '取消',
       onOk: async () => {
         setDeleting(true)
-        const { success } = await appAPI.delete(id) 
+        const { success } = await appAPI.delete(id)
         setDeleting(false)
 
         if (success) {

@@ -1,19 +1,26 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { RadioChangeEvent } from 'antd/lib/radio/interface'
 
 import {
   limitAtom,
   noExpireAtom,
   expireAtom,
+  appInputTypeAtom,
 } from '../../store'
 import React from 'react'
+import { AppTemplateInput } from '@src/shared/enum/application'
 
 export const useConfig = () => {
   const [limit, setLimit] = useAtom(limitAtom)
   const [expire, setExpire] = useAtom(expireAtom)
   const [noExpire, setNoExpire] = useAtom(noExpireAtom)
+  const inputType = useAtomValue(appInputTypeAtom)
 
-  const handleLimitChange  = (value: number | null) => {
+  const hideLimit = inputType === AppTemplateInput.IMAGE
+
+  const handleLimitChange = (value: number | null) => {
+    if (hideLimit) return
+
     if (value === null) {
       setLimit(1)
       return
@@ -26,7 +33,7 @@ export const useConfig = () => {
     setLimit(value)
   }
 
-  const handleExpireChange  = (value: number | null) => {
+  const handleExpireChange = (value: number | null) => {
     if (value === null) {
       setExpire(1)
       return
@@ -54,6 +61,7 @@ export const useConfig = () => {
 
   return {
     limit,
+    hideLimit,
     expire,
     noExpire,
     handleLimitChange,

@@ -63,7 +63,7 @@ const ChannelLimit = styled.div`
 
 
 const Sync: React.FC = () => {
-  const { limit, handleChange: handleLimitChange } = useLimit()
+  const { limit, hideChannel, handleChange: handleLimitChange } = useLimit()
 
   const {
     noExpire, disableExpireInput, expireInputValue,
@@ -82,24 +82,28 @@ const Sync: React.FC = () => {
       <Content>
         <Img src={bg} />
         {
-          maxLimit !== 0 ? (
+          maxLimit !== 0 && !hideChannel ? (
             <ChannelLimit>路数额度剩余：{maxLimit}</ChannelLimit>
           ) : null
         }
         <Form>
-          <div>
-            <Label>
-              路数设置
-            </Label>
-            <Divider />
-            <InputNumber<number>
-              addonAfter={'路'}
-              min={1}
-              value={limit}
-              onChange={handleLimitChange}
-              style={{ width: '100%', marginTop: 8, padding: '0 24px' }}
-            />
-          </div>
+          {
+            hideChannel ? null : (
+              <div>
+                <Label>
+                  路数设置
+                </Label>
+                <Divider />
+                <InputNumber<number>
+                  addonAfter={'路'}
+                  min={1}
+                  value={limit}
+                  onChange={handleLimitChange}
+                  style={{ width: '100%', marginTop: 8, padding: '0 24px' }}
+                />
+              </div>
+            )
+          }
           <div>
             <Label>
               授权天数

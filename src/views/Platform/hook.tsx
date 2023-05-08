@@ -13,7 +13,7 @@ import {
   deviceTypeListAtom,
   expireAtom,
   fetchingAppListAtom,
-  fetchingDeviceTypeListAtom, limitAtom,
+  fetchingDeviceTypeListAtom, hideChannelAtom, limitAtom,
   maxLimitAtom,
   selectDeviceTypeAtom,
   selectedAppAtom,
@@ -197,11 +197,13 @@ export const useFooter = () => {
   const [currentStep, setCurrentStep] = useAtom(currentStepAtom)
   const [syncType] = useAtom(syncTypeAtom)
   const [expire_seconds] = useAtom(expireAtom)
-  const [limit] = useAtom(limitAtom)
-  const [maxLimit] = useAtom(maxLimitAtom)
+  const _limit = useAtomValue(limitAtom)
+  const hideChannel = useAtomValue(hideChannelAtom)
   const [selectedApp] = useAtom(selectedAppAtom)
   const [selectedDeviceIdList] = useAtom(selectedDeviceIdListAtom)
   const [deploying, setDeploying] = React.useState<boolean>(false)
+
+  const limit = hideChannel ? undefined : _limit
 
   const navigate = useNavigate()
 

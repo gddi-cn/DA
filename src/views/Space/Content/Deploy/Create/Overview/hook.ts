@@ -1,7 +1,8 @@
 import syncAPI from "@src/apis/sync"
+import { AppTemplateInput } from "@src/shared/enum/application"
 import { Space } from "@src/views/Space/enums"
 import { message } from "antd"
-import { useAtom } from "jotai"
+import { useAtom, useAtomValue } from "jotai"
 import React from "react"
 import { currentPageAtom } from "../../store"
 import {
@@ -10,6 +11,7 @@ import {
   selectedDeviceListAtom,
   limitAtom,
   expireAtom,
+  appInputTypeAtom,
 } from "../store"
 
 export const useOverview = () => {
@@ -17,9 +19,11 @@ export const useOverview = () => {
   const [, setCurrentPage] = useAtom(currentPageAtom)
   const [appList] = useAtom(selectedAppListAtom)
   const [deviceList] = useAtom(selectedDeviceListAtom)
-  const [limit] = useAtom(limitAtom)
-  // const maxLimit = useAtomValue(channelRestAtom)
   const [expire] = useAtom(expireAtom)
+  const _limit = useAtomValue(limitAtom)
+  const inputType = useAtomValue(appInputTypeAtom)
+
+  const limit = inputType === AppTemplateInput.IMAGE ? undefined : _limit
 
   const [exporting, setExporting] = React.useState<boolean>(false)
   const [syncing, setSyncing] = React.useState<boolean>(false)
@@ -40,7 +44,7 @@ export const useOverview = () => {
   }
 
   const handleDeploy = async () => {
-    if (limit < 0) {
+    if (limit !== undefined && limit < 0) {
       message.warn('请设置正确的路数')
       return
     }

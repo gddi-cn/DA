@@ -1,5 +1,5 @@
 import appAPI from '@src/apis/app'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import React from 'react'
 import produce from 'immer'
 import _ from 'lodash'
@@ -23,6 +23,7 @@ import {
   scrollbarRefAtom,
   selectedAppListAtom,
   stepAtom,
+  appInputTypeAtom,
 } from '../store'
 
 import default_cover from '@src/asset/images/app/default_cover.png'
@@ -108,7 +109,7 @@ export const useFetchAppList = () => {
       return
     }
 
-    setAppList(produce(draft => {draft.push(...(data?.items || []))}))
+    setAppList(produce(draft => { draft.push(...(data?.items || [])) }))
     setTotal(data?.total || 0)
   }
 }
@@ -174,10 +175,10 @@ export const useAppListFetcher = () => {
     },
     [page]
   )
-   
+
   React.useEffect(
     () => {
-      if (!init) return 
+      if (!init) return
       setInit(false)
       setPage(1)
       setAppList([])
@@ -259,6 +260,9 @@ export const useNameFilter = () => {
 
 export const useAppItem = (app: App.Instance) => {
   const [selectedAppList, setSelectedAppList] = useAtom(selectedAppListAtom)
+  const appInputType = useAtomValue(appInputTypeAtom)
+
+  const disabled = appInputType !== undefined && appInputType !== app.input
 
   const {
     cover, name, id,
@@ -269,6 +273,8 @@ export const useAppItem = (app: App.Instance) => {
   const selected = selectedAppList.some(x => x.id === id)
 
   const handleClick = () => {
+    if (disabled) return
+
     setSelectedAppList(produce(draft => {
       const idx = draft.findIndex(x => x.id === id)
       if (idx >= 0) {
@@ -279,12 +285,13 @@ export const useAppItem = (app: App.Instance) => {
     }))
   }
 
-  const InputIcon = input === AppTemplateInput.IMAGE? ImgServerIcon : VideoServerIcon
+  const InputIcon = input === AppTemplateInput.IMAGE ? ImgServerIcon : VideoServerIcon
   const inputTip = input === AppTemplateInput.IMAGE ? '图片服务' : '视频流服务'
 
   return {
     cover: cover || default_cover,
     name,
+    disabled,
     template_name,
     adapter_device,
     InputIcon,
@@ -300,14 +307,14 @@ export const useTemplateLabelFilter = () => {
     useAtom(selectedTemplateLabelOptionAtom)
 
   const getOptions = (name: string):
-    Promise<Array<{key: string, value: string, label: string}>> =>
+    Promise<Array<{ key: string, value: string, label: string }>> =>
     Promise.resolve(
       templateLabelList
         .filter(x => x && x.includes(name))
         .map(x => ({ key: x, value: x, label: x }))
     )
 
-  const handleChange = (newOptions?: {key: string, value: string, label: string}) => {
+  const handleChange = (newOptions?: { key: string, value: string, label: string }) => {
     setSelectedTemplateLabelOption(newOptions || null)
   }
 

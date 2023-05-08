@@ -10,11 +10,11 @@ const DeviceIcon = styled(DeviceI)`
   } 
 `
 
-const Container = styled.div`
+const Container = styled.div<{ disabled?: boolean }>`
   width: 100%;
   background-color: #EDF8FF;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   transition: box-shadow ease-in .2s;
   display: flex;
   flex-direction: column;
@@ -107,6 +107,7 @@ const AppItem: React.FC<App.Instance> = (app) => {
   const {
     cover,
     name,
+    disabled,
     handleClick,
     adapter_device,
     inputTip,
@@ -116,7 +117,7 @@ const AppItem: React.FC<App.Instance> = (app) => {
   } = useAppItem(app)
 
   return (
-    <Container onClick={handleClick}>
+    <Container onClick={handleClick} disabled={disabled}>
       <Cover src={cover} alt={'cover'} />
       <Content>
         <Title title={name}>{name}</Title>
@@ -124,11 +125,11 @@ const AppItem: React.FC<App.Instance> = (app) => {
           <Tag>
             <InputIcon />
             <TagTip>{inputTip}</TagTip>
-          </Tag> 
+          </Tag>
           <Device>
             <DeviceIcon />
             <DeviceTip title={adapter_device}>{adapter_device}</DeviceTip>
-          </Device> 
+          </Device>
         </TagList>
         <div>
           <TemplateName>{template_name}</TemplateName>
