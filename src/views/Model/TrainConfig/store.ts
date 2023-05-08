@@ -6,7 +6,7 @@ import { ApplicationScene } from '@src/shared/enum/application'
 import { currentDatasetAtom } from '@src/store/dataset'
 
 export const MAX_FPS = 30
-export const MAX_CHANNEL = 16
+export const MAX_CHANNEL = 32
 
 export const brandListAtom = atom<Array<ChipBrand>>([])
 
