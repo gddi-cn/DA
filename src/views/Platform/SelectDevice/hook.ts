@@ -1,13 +1,16 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import {
+  deviceListSortAtom,
+  deviceListSortByAtom,
   fetchingGroupDeviceAtom,
   groupDeviceListAtom,
   groupDevicePageAtom,
   groupDevicePageSizeAtom,
   groupDeviceTotalAtom,
   selectedAppAtom,
-  selectedDeviceGroupAtom, selectedDeviceIdListAtom
+  selectedDeviceGroupAtom,
+  selectedDeviceIdListAtom,
 } from '../store'
 import deviceGroupAPI from '@src/apis/deviceGroups'
 import { DeviceType } from '@src/shared/enum/device'
@@ -22,6 +25,8 @@ const useRefreshDeviceList = () => {
   const [page, setPage] = useAtom(groupDevicePageAtom)
   const [page_size] = useAtom(groupDevicePageSizeAtom)
   const [selectedApp] = useAtom(selectedAppAtom)
+  const sort = useAtomValue(deviceListSortAtom)
+  const sort_by = useAtomValue(deviceListSortByAtom)
 
   const groupId = selectedGroup?.value
 
@@ -46,6 +51,8 @@ const useRefreshDeviceList = () => {
           page_size,
           type: DeviceType.EDGE,
           app_id: selectedApp.id + '',
+          sort,
+          sort_by,
         }
       )
     setLoading(false)
@@ -72,6 +79,8 @@ export const useSelectDevice = () => {
   const [loading, setLoading] = useAtom(fetchingGroupDeviceAtom)
   const [, setTotal] = useAtom(groupDeviceTotalAtom)
   const [, setSelectedDeviceIdList] = useAtom(selectedDeviceIdListAtom)
+  const [sort, setSort] = useAtom(deviceListSortAtom)
+  const [sortBy, setSortBy] = useAtom(deviceListSortByAtom)
 
   const groupId = group?.value
 
@@ -86,11 +95,35 @@ export const useSelectDevice = () => {
     setSelectedDeviceIdList(idList)
   }
 
+  const handleSorterChange = (name: string, order?: 'ascend' | 'descend') => {
+    let sort: 'asc' | 'desc' = 'desc',
+      sort_by: 'name' | 'registered_time' = 'registered_time';
+
+    if (name === 'name' && !!order) {
+      sort_by = 'name'
+    }
+
+    if (name === 'create_time' && !!order) {
+      sort_by = 'registered_time'
+    }
+
+    if (order === 'ascend') {
+      sort = 'asc'
+    }
+
+    if (order === 'descend') {
+      sort = 'desc'
+    }
+
+    setSort(sort)
+    setSortBy(sort_by)
+  }
+
   React.useEffect(
     () => {
       refreshDeviceList(true)
     },
-    [groupId, pageSize]
+    [groupId, pageSize, sort, sortBy]
   )
 
   React.useEffect(
@@ -119,9 +152,10 @@ export const useSelectDevice = () => {
     deviceList,
     page,
     pageSize,
-    handlePaginationChange,
     total,
     loading,
+    handlePaginationChange,
     handleSelectedChange,
+    handleSorterChange,
   }
 }

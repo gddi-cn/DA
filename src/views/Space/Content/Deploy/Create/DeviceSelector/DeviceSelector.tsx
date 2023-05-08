@@ -11,6 +11,7 @@ import { Checkbox, Pagination } from 'antd'
 import Row from './Row'
 import Nodata from './Nodata'
 import DeviceTypeSelector from './DeviceTypeSelector'
+import SortSelector from '@src/views/Space/components/SortSelector'
 
 const gridTemplate = '1fr 6fr 6fr 4fr 6fr 4fr'
 
@@ -123,6 +124,9 @@ const DeviceSelector: React.FC = () => {
     handleSelectAll,
     selectedCount,
     disabledSelect,
+    sort,
+    sortBy,
+    handleSortChange,
   } = useDeviceSelector()
 
   return (
@@ -142,6 +146,7 @@ const DeviceSelector: React.FC = () => {
         <Filter>
           <NameFilter />
           <DeviceGroupSelector />
+          <SortSelector sort={sort} sortBy={sortBy} onChange={handleSortChange} />
         </Filter>
       </Header>
       {

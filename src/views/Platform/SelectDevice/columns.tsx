@@ -9,6 +9,7 @@ const columns: Array<ColumnType<GroupDevice>> = [
     title: '设备名称',
     dataIndex: 'name',
     ellipsis: true,
+    sorter: true,
     width: 2,
     render: (name: string) => {
       return (
@@ -48,6 +49,7 @@ const columns: Array<ColumnType<GroupDevice>> = [
     title: '注册时间',
     dataIndex: 'create_time',
     ellipsis: true,
+    sorter: true,
     width: 2,
     render: (created: number) => {
       const time = created ? formatUnixTime(created) : '-'

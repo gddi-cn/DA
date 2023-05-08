@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import _ from 'lodash'
 
 import {
@@ -14,6 +14,8 @@ import {
   selectedDeviceListAtom,
   deviceTypeAtom,
   selectedAppListAtom,
+  sortAtom,
+  sortByAtom,
 } from "../store";
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
 import { currentPageAtom } from '../../store';
@@ -81,6 +83,8 @@ export const useRefreshDevice = () => {
   const [, setTotal] = useAtom(deviceTotalAtom);
   const [loading, setLoading] = useAtom(fetchingDeviceAtom);
   const [selectedDeviceType] = useAtom(deviceTypeAtom)
+  const sort = useAtomValue(sortAtom)
+  const sortBy = useAtomValue(sortByAtom)
 
   const device_chip_id = selectedDeviceType?.value
 
@@ -99,6 +103,8 @@ export const useRefreshDevice = () => {
         type: DeviceType.EDGE,
         device_chip_id,
         group: groupId ?? -1,
+        sort,
+        sort_by: sortBy,
       }
     );
     setLoading(false);
@@ -127,10 +133,18 @@ export const useDeviceSelector = () => {
   const [selectedDeviceList, setSelectedDeviceList] = useAtom(selectedDeviceListAtom)
   const [deviceType] = useAtom(deviceTypeAtom)
 
+  const [sort, setSort] = useAtom(sortAtom)
+  const [sortBy, setSortBy] = useAtom(sortByAtom)
+
+  const handleSortChange = (sort: 'asc' | 'desc', sortBy: 'name' | 'registered_time') => {
+    setSort(sort)
+    setSortBy(sortBy)
+  }
+
   const disabledNext =
     selectedDeviceList.length <= 0
     || !deviceType
-    
+
   const handleCancel = () => {
     setCurrentPage(Space.Deploy.Page.LIST)
   }
@@ -155,7 +169,7 @@ export const useDeviceSelector = () => {
       && deviceList.length > 0,
     [deviceList, selectedDeviceList]
   )
-  
+
   const indeterminate = React.useMemo(
     () =>
       deviceList.some(d => selectedDeviceList.some(x => x.id === d.id))
@@ -188,7 +202,7 @@ export const useDeviceSelector = () => {
 
   React.useEffect(() => {
     refresh(true);
-  }, [groupId, name, page_size, deviceType]);
+  }, [groupId, name, page_size, deviceType, sort, sortBy]);
 
   React.useEffect(() => {
     refresh();
@@ -209,6 +223,9 @@ export const useDeviceSelector = () => {
     handleSelectAll,
     selectedCount: selectedDeviceList.length,
     disabledSelect: !deviceType,
+    sort,
+    sortBy,
+    handleSortChange,
   }
 }
 

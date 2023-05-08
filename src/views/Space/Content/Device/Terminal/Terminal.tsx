@@ -12,6 +12,7 @@ import { Pagination } from 'antd'
 import DeleteGroup from './DeleteGroup'
 import Register from '../Register'
 import { DeviceType } from '@src/shared/enum/device'
+import SortSelector from '@src/views/Space/components/SortSelector'
 
 const Container = styled.div`
   height: 100%;
@@ -55,7 +56,17 @@ const Footer = styled.div`
 `
 
 const Terminal: React.FC = () => {
-  const { page, pageSize, total, handleChange, showOperations, showDeleteGroup } = useTerminal()
+  const {
+    page,
+    pageSize,
+    total,
+    handleChange,
+    showOperations,
+    showDeleteGroup,
+    sort,
+    sortBy,
+    handleSortChange,
+  } = useTerminal()
 
   return (
     <Container>
@@ -63,6 +74,7 @@ const Terminal: React.FC = () => {
         <Left>
           <NameFilter />
           <DeviceGroupSelector />
+          <SortSelector sort={sort} sortBy={sortBy} onChange={handleSortChange} />
         </Left>
         <Right>
           <Register type={DeviceType.TERMINAL} />
@@ -77,8 +89,8 @@ const Terminal: React.FC = () => {
       </ContentWrap>
       <Footer>
         <div>
-          { showOperations ? <Operations /> : null }
-          { showDeleteGroup ? <DeleteGroup /> : null }
+          {showOperations ? <Operations /> : null}
+          {showDeleteGroup ? <DeleteGroup /> : null}
         </div>
         <Pagination
           current={page}

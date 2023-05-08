@@ -46,10 +46,11 @@ export interface GroupDeviceListParams extends APIListParams {
   status?: GroupDeviceState,
   // 排序方式
   sort?: 'asc' | 'desc',
-  // 按芯片排序
-  sort_by_expire?: 'asc' | 'desc',
-  // 按芯片排序
-  sort_by_chip?: 'asc' | 'desc',
-  // 按设备名称排序
-  sort_by_name?: 'asc' | 'desc',
+  sort_by?: 'name' | 'registered_time'
+  // // 按芯片排序
+  // sort_by_expire?: 'asc' | 'desc',
+  // // 按芯片排序
+  // sort_by_chip?: 'asc' | 'desc',
+  // // 按设备名称排序
+  // sort_by_name?: 'asc' | 'desc',
 }

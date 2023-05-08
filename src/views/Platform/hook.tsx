@@ -9,7 +9,6 @@ import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { RootState } from '@reducer'
 import {
   appListAtom,
-  createAppOpenAtom,
   currentStepAtom,
   deviceTypeListAtom,
   expireAtom,
@@ -18,9 +17,9 @@ import {
   maxLimitAtom,
   selectDeviceTypeAtom,
   selectedAppAtom,
-  selectedDeviceGroupAtom,
   selectedDeviceIdListAtom,
-  syncTypeAtom
+  syncTypeAtom,
+  useResetStore,
 } from './store'
 import { Platform } from '@views/Platform/enum'
 import appAPI from '@src/apis/app'
@@ -39,7 +38,6 @@ import { ReactComponent as DeviceIcon } from '@src/asset/icons/platform/device.s
 import { ReactComponent as DeviceActiveIcon } from '@src/asset/icons/platform/device_active.svg'
 import { ReactComponent as SyncIcon } from '@src/asset/icons/platform/sync.svg'
 import { ReactComponent as SyncActiveIcon } from '@src/asset/icons/platform/sync_active.svg'
-import { message } from 'antd'
 
 const setActive = (ref: React.MutableRefObject<HTMLDivElement | null>) =>
   ref.current?.setAttribute('active', '')
@@ -108,47 +106,6 @@ export const useRefreshDeviceTypeList = () => {
 
     setDeviceTypeList(data.items || [])
   }
-}
-
-const useResetStore = () => {
-  const currentTaskId = useSelector((state: RootState) => state.tasksSilce.activeTaskInfo?.id)
-
-  const [, setCurrentStep] = useAtom(currentStepAtom)
-  const [, setSelectDeviceType] = useAtom(selectDeviceTypeAtom)
-  const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
-  const [, setFetchingAppList] = useAtom(fetchingAppListAtom)
-  const [, setAppList] = useAtom(appListAtom)
-  const [, setCreateAppOpen] = useAtom(createAppOpenAtom)
-  const [, setFetchingDeviceTypeList] = useAtom(fetchingDeviceTypeListAtom)
-  const [, setSelectedApp] = useAtom(selectedAppAtom)
-  const [, setSelectedDeviceGroup] = useAtom(selectedDeviceGroupAtom)
-  const [, setExpire] = useAtom(expireAtom)
-  const [, setLimit] = useAtom(limitAtom)
-  const [, setSyncType] = useAtom(syncTypeAtom)
-  const [, setSelectedDeviceList] = useAtom(selectedDeviceIdListAtom)
-  const setMaxLimit = useSetAtom(maxLimitAtom)
-
-  React.useEffect(
-    () => () => {
-      setFetchingAppList(true)
-      setFetchingDeviceTypeList(true)
-      setCurrentStep(Platform.Step.SELECT_APP)
-      setSelectDeviceType(null)
-      setDeviceTypeList([])
-      setAppList([])
-      setCreateAppOpen(false)
-      setSelectedApp(undefined)
-      setSelectedDeviceGroup(null)
-      setExpire(-1)
-      setLimit(1)
-      setSyncType('sync')
-      setSelectedDeviceList([])
-      setMaxLimit(0)
-      setFetchingDeviceTypeList(false)
-      setFetchingAppList(false)
-    },
-    [currentTaskId]
-  )
 }
 
 export const usePlatform = () => {
@@ -254,7 +211,7 @@ export const useFooter = () => {
 
   const disabledNext =
     (currentStep === Platform.Step.SELECT_APP && !selectedApp)
-  || (currentStep === Platform.Step.SELECT_DEVICE && !selectedDeviceIdList.length)
+    || (currentStep === Platform.Step.SELECT_DEVICE && !selectedDeviceIdList.length)
 
   const loading =
     (currentStep === Platform.Step.SYNC && deploying)
@@ -269,8 +226,8 @@ export const useFooter = () => {
     })
     socketPushMsgForProject(
       activePipeLine, {
-        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
-      }
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
+    }
     )
   }
 
@@ -301,7 +258,7 @@ export const useFooter = () => {
           expire_seconds,
           limit,
         },
-        (selectedApp.name || 'app') +'.gem'
+        (selectedApp.name || 'app') + '.gem'
       )
 
       success = res.success
@@ -420,8 +377,8 @@ export const useNotify = () => {
   const handleClick = () => {
     socketPushMsgForProject(
       activePipeLine, {
-        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE,
-      }
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE,
+    }
     )
     navigate(
       {
