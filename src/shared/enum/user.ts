@@ -5,6 +5,9 @@ export namespace User {
       CALCULATE,
       AUTH,
       CHANNEL,
+      MODEL_TRAIN,
+      EDGE_DEVICE_REGISTER,
+      TERMINAL_DEVICE_REGISTER,
     }
   }
 }

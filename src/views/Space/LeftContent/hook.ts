@@ -14,7 +14,14 @@ import {
   storageUsedAtom,
   storageTotalAtom,
   loadingAtom,
-  useResetUsageStore
+  useResetUsageStore,
+  modelTrainUsedAtom,
+  modelTrainTotalAtom,
+  onlineDeviceUsedAtom,
+  onlineDeviceTotalAtom,
+  offlineDeviceUsedAtom,
+  offlineDeviceTotalAtom,
+  balanceAtom,
 } from './store'
 import { formatUnixDate } from '@src/utils/tools'
 import moment from 'moment'
@@ -72,12 +79,19 @@ export const useRefreshUsage = () => {
   const setTrainTotal = useSetAtom(trainTotalAtom)
   const setStorageUsed = useSetAtom(storageUsedAtom)
   const setStorageTotal = useSetAtom(storageTotalAtom)
+  const setModelTrainUsed = useSetAtom(modelTrainUsedAtom)
+  const setModelTrainTotal = useSetAtom(modelTrainTotalAtom)
+  const setOnlineDeviceUsed = useSetAtom(onlineDeviceUsedAtom)
+  const setOnlineDeviceTotal = useSetAtom(onlineDeviceTotalAtom)
+  const setOfflineDeviceUsed = useSetAtom(offlineDeviceUsedAtom)
+  const setOfflineDeviceTotal = useSetAtom(offlineDeviceTotalAtom)
+  const setBalance = useSetAtom(balanceAtom)
 
   return async () => {
     if (loading) return
 
     setLoading(true)
-    const {success, data} = await userAPI.usage()
+    const { success, data } = await userAPI.usage()
     setLoading(false)
 
     if (!success || !data) return
@@ -90,7 +104,14 @@ export const useRefreshUsage = () => {
       train_usage,
       train_limited,
       storage_usage,
-      storage_limited
+      storage_limited,
+      model_usage,
+      model_limited,
+      online_device_usage,
+      online_device_limited,
+      offline_device_usage,
+      offline_device_limited,
+      balance,
     } = data
 
     setAuthUsed(authorization_usage)
@@ -101,6 +122,13 @@ export const useRefreshUsage = () => {
     setTrainTotal(train_limited)
     setStorageUsed(storage_usage)
     setStorageTotal(storage_limited)
+    setModelTrainUsed(model_usage)
+    setModelTrainTotal(model_limited)
+    setOnlineDeviceUsed(online_device_usage)
+    setOnlineDeviceTotal(online_device_limited)
+    setOfflineDeviceUsed(offline_device_usage)
+    setOfflineDeviceTotal(offline_device_limited)
+    setBalance(balance)
   }
 }
 
@@ -303,5 +331,57 @@ export const useStorage = () => {
 
   return {
     progress, tip
+  }
+}
+
+// 应用设备
+export const useEdgeDevice = () => {
+  const device = useAtomValue(onlineDeviceUsedAtom)
+  const deviceTotal = useAtomValue(onlineDeviceTotalAtom)
+  const noLimit = deviceTotal === 0
+
+  const progress = noLimit ? 0 : (device / deviceTotal) * 100 | 0
+  const tip = `${device} / ${noLimit ? '无限制' : deviceTotal} 台`
+
+  return {
+    progress, tip
+  }
+}
+
+// SDK 设备
+export const useTerminalDevice = () => {
+  const device = useAtomValue(offlineDeviceUsedAtom)
+  const deviceTotal = useAtomValue(offlineDeviceTotalAtom)
+  const noLimit = deviceTotal === 0
+
+  const progress = noLimit ? 0 : (device / deviceTotal) * 100 | 0
+  const tip = `${device} / ${noLimit ? '无限制' : deviceTotal} 台`
+
+  return {
+    progress, tip
+  }
+}
+
+// 模型训练
+export const useModelTrain = () => {
+  const model = useAtomValue(modelTrainUsedAtom)
+  const modelTotal = useAtomValue(modelTrainTotalAtom)
+  const noLimit = modelTotal === 0
+
+  const progress = noLimit ? 0 : (model / modelTotal) * 100 | 0
+  const tip = `${model} / ${noLimit ? '无限制' : modelTotal} 个`
+
+  return {
+    progress, tip
+  }
+}
+
+export const useBalance = () => {
+  const _balance = useAtomValue(balanceAtom)
+
+  const balance = _balance + ' 元'
+
+  return {
+    balance
   }
 }

@@ -9,6 +9,10 @@ import Model from "./Model";
 import Channel from "./Channel";
 import Train from "./Train";
 import Storage from '@views/Space/LeftContent/Storage'
+import ModelTrain from "./ModelTrain";
+import EdgeDevice from "./EdgeDevice";
+import TerminalDevice from "./TeriminalDevice";
+import Balance from "./Balance";
 
 const Container = styled.div`
   margin-top: 20px;
@@ -60,10 +64,14 @@ const Usage: React.FC = () => {
         <Watermark src={watermark} alt={"watermark"} />
         <Title>使用情况</Title>
         <DataDisplay>
+          <Balance />
           <Train />
           <Storage />
           <Model />
+          <ModelTrain />
           <Channel />
+          <EdgeDevice />
+          <TerminalDevice />
         </DataDisplay>
       </Container>
     </Spin>
