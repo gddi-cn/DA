@@ -5,6 +5,13 @@ export namespace Space {
     DEVICE,
     APP,
     DEPLOY,
+    API,
+  }
+  export namespace API {
+    export enum Status {
+      ACTIVE = 1,
+      INACTIVE,
+    }
   }
   export namespace App {
     export enum Page {

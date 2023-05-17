@@ -219,6 +219,33 @@ export const useDevice = () => {
   }
 }
 
+export const useApi = () => {
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
+
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
+
+  const active = currentPage === Space.Page.API
+
+  const handleClick = () => {
+    setCurrentPage(Space.Page.API)
+  }
+
+  React.useEffect(() => {
+    const $c = containerRef.current
+    if (!$c) return
+
+    if (active) {
+      $c.setAttribute('selected', '')
+    } else {
+      $c.removeAttribute('selected')
+    }
+  }, [currentPage])
+
+  return {
+    active, handleClick, containerRef
+  }
+}
+
 export const useApp = () => {
 
   const containerRef = React.useRef<HTMLDivElement | null>(null)

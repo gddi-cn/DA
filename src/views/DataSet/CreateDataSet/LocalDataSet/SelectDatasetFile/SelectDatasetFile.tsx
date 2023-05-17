@@ -163,6 +163,7 @@ const SelectDatasetFile = (): JSX.Element => {
         })
       } else {
         setLoading(false)
+        message.warn('创建数据集失败')
       }
     } catch (e) {
       console.log(e)
@@ -170,7 +171,7 @@ const SelectDatasetFile = (): JSX.Element => {
     }
   }
 
-  const handleOnuploadBigData = async (file:File|undefined) => {
+  const handleOnuploadBigData = async (file: File | undefined) => {
     if (!file) return
 
     setIsUploading(true)

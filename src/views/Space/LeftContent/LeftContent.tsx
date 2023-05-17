@@ -7,6 +7,7 @@ import Account from './Account'
 import Device from './Device'
 import App from './App'
 import Deploy from './Deploy'
+import Api from './Api'
 
 const Container = styled.div`
   padding: 4px 24px;
@@ -30,7 +31,7 @@ const Divider = styled.hr`
 `
 
 const LeftContent: React.FC = () => {
-  const {greeting, username} = useLeftContent()
+  const { greeting, username } = useLeftContent()
   return (
     <Container>
       <LeftTitle>{greeting}</LeftTitle>
@@ -41,6 +42,7 @@ const LeftContent: React.FC = () => {
       <Device />
       <App />
       <Deploy />
+      <Api />
     </Container>
   )
 }

@@ -7,16 +7,18 @@ import Account from './Account'
 import Device from './Device'
 import App from './App'
 import Deploy from './Deploy'
+import Api from './Api'
 
 const Content: React.FC = () => {
-  const { showUsage, showAccount, showDevice, showApp, showDeploy } = useContent()
+  const { showUsage, showAccount, showDevice, showApp, showDeploy, showApi } = useContent()
   return (
     <>
-      { showUsage ? <Usage /> : null }
-      { showAccount ? <Account /> : null }
-      { showDevice ? <Device /> : null }
-      { showApp ? <App /> : null }
-      { showDeploy ? <Deploy /> : null }
+      {showUsage ? <Usage /> : null}
+      {showAccount ? <Account /> : null}
+      {showDevice ? <Device /> : null}
+      {showApp ? <App /> : null}
+      {showDeploy ? <Deploy /> : null}
+      {showApi ? <Api /> : null}
     </>
   )
 }

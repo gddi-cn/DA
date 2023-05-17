@@ -34,6 +34,7 @@ export enum ChipType {
 export enum ChipName {
   AGXXAVIER = "AGXXavier",
   ASCEND310 = "Ascend310",
+  ASCEND310P3 = "Ascend310P3",
   // BM1684 = "BM1684",
   BM1684 = "SE5",
   DIMENSITY820 = "Dimensity820",

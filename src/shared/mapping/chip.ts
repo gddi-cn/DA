@@ -38,6 +38,7 @@ import SSC336Q from '@src/asset/images/chip/SSC336Q.png'
 import XavierNX from '@src/asset/images/chip/XavierNX.png'
 import _1126 from '@src/asset/images/chip/_1126.png'
 import Ascend310 from '@src/asset/images/chip/Ascend310.png'
+import Ascend310P3 from '@src/asset/images/chip/Ascend310p3.png'
 import Dimensity820 from '@src/asset/images/chip/Dimensity820.png'
 import helioP70 from '@src/asset/images/chip/helioP70.png'
 import JetsonTX2i from '@src/asset/images/chip/JetsonTX2i.png'
@@ -178,6 +179,7 @@ export const chipNameLogoMapping: Map<ChipName, any> = new Map([
   [ChipName.XAVIERNX, XavierNX],
   [ChipName._1126, _1126],
   [ChipName.ASCEND310, Ascend310],
+  [ChipName.ASCEND310P3, Ascend310P3],
   [ChipName.DIMENSITY820, Dimensity820],
   [ChipName.HELIOP70, helioP70],
   [ChipName.JETSONTX2I, JetsonTX2i],
