@@ -265,6 +265,39 @@ module.exports = function (webpackEnv) {
               sideEffects: true,
             },
             {
+              test: /\.module\.s(a|c)ss$/,
+              use: [
+                isEnvDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    modules: true,
+                    sourceMap: isEnvDevelopment
+                  }
+                },
+                {
+                  loader: 'sass-loader',
+                  options: {
+                    sourceMap: isEnvDevelopment
+                  }
+                }
+              ]
+            },
+            {
+              test: /\.s(a|c)ss$/,
+              exclude: /\.module\.(s(a|c)ss)$/,
+              use: [
+                isEnvDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+                'css-loader',
+                {
+                  loader: 'sass-loader',
+                  options: {
+                    sourceMap: isEnvDevelopment
+                  }
+                }
+              ]
+            },
+            {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
 

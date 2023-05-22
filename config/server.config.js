@@ -29,6 +29,12 @@ module.exports = {
       // xfwd: false,
       secure: false,
     },
+    {
+      context: ['/robot/openai'],
+      target: 'http://market.lab.k8s.gddi.com/',
+      changeOrigin: true,
+      secure: false,
+    },
 
   ]
 

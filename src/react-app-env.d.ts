@@ -23,6 +23,12 @@ declare module '*.less' {
   const styles: any;
   export = styles;
 }
+
+declare module '*.module.scss' {
+  const styles: any;
+  export = styles;
+}
+
 declare module '*.avif' {
   const src: string;
   export default src;
