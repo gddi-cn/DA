@@ -14,14 +14,13 @@ export const useRating = (onRating?: (value: number) => void) => {
       newValue <= 1
         ? [
           '非常抱歉给您带来不好的体验，如需人工帮助，请联系我们的业务代表',
-          '欢迎随时向我们提出建议，您的没一个建议对我们都很宝贵'
+          '欢迎随时向我们提出建议，您的每一个建议对我们都很宝贵'
         ]
         : [
           '非常感谢您的评价，我们会继续努力，为您提供更好的服务'
         ]
     )
     setTimeout(() => {
-      console.log({ onRating })
       onRating && onRating(newValue)
     })
   }
