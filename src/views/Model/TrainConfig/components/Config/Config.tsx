@@ -42,7 +42,7 @@ const InputNumber = styled(AntInputNumber)`
 
 const Label = styled.label`
   display: block;
-  margin-top: 8px;
+  margin-top: 16px;
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
@@ -126,6 +126,7 @@ const Config: React.FC = () => {
           }
         </Space>
       </RadioGroup>
+      <Resolution />
       <Label htmlFor={'fps_input'}>帧率设置</Label>
       <InputNumber
         min={1} id={'fps_input'} disabled={disableInput} addonAfter={<Suffix>FPS</Suffix>}
@@ -141,7 +142,6 @@ const Config: React.FC = () => {
         style={{ width: '100%' }}
         precision={0}
       />
-      <Resolution />
     </Container>
   )
 }

@@ -1,4 +1,5 @@
-import { atom } from 'jotai'
+import React from 'react'
+import { atom, useSetAtom } from 'jotai'
 
 import { ChipBrand, ChipConfigType } from '@src/shared/enum/chip'
 import { Chip, ChipListParams } from '@src/shared/types/chip'
@@ -6,7 +7,7 @@ import { ApplicationScene } from '@src/shared/enum/application'
 import { currentDatasetAtom } from '@src/store/dataset'
 
 export const MAX_FPS = 30
-export const MAX_CHANNEL = 32
+// export const MAX_CHANNEL = 32
 
 export const brandListAtom = atom<Array<ChipBrand>>([])
 
@@ -33,7 +34,7 @@ export const configFpsAtom = atom<number>(25)
 export const configConcurrentAtom = atom<number>(1)
 
 export const maxFPSAtom = atom<number>(MAX_FPS)
-export const maxChannelAtom = atom<number>(MAX_CHANNEL)
+export const maxChannelAtom = atom<number>(16)
 
 export const resolutionLimitAtom = atom<number>(get => {
   const chip = get(selectedChipAtom)
@@ -70,3 +71,43 @@ export const resolutionListAtom = atom<Array<number>>(get => {
 
   return [...list].sort((a, b) => a - b)
 })
+
+export const useResetStore = () => {
+  const setBrandList = useSetAtom(brandListAtom)
+  const setAllChipList = useSetAtom(allChipListAtom)
+  const setSelectedChip = useSetAtom(selectedChipAtom)
+  const setApplication = useSetAtom(applicationAtom)
+  const setBrand = useSetAtom(brandAtom)
+  const setChipType = useSetAtom(chipTypeAtom)
+  const setName = useSetAtom(nameAtom)
+  const setFetchingChip = useSetAtom(fetchingChipAtom)
+  const setCardNum = useSetAtom(cardNumAtom)
+  const setConfigType = useSetAtom(configTypeAtom)
+  const setConfigFps = useSetAtom(configFpsAtom)
+  const setConfigConcurrent = useSetAtom(configConcurrentAtom)
+  const setMaxFPS = useSetAtom(maxFPSAtom)
+  const setMaxChannel = useSetAtom(maxChannelAtom)
+
+  React.useEffect(
+    () => {
+      return () => {
+        setFetchingChip(true)
+        setBrandList([])
+        setAllChipList([])
+        setSelectedChip(undefined)
+        setApplication(ApplicationScene.ENDPOINT)
+        setBrand(undefined)
+        setChipType(undefined)
+        setName(undefined)
+        setCardNum(1)
+        setConfigType(ChipConfigType.RECOMMEND)
+        setConfigFps(25)
+        setConfigConcurrent(1)
+        setMaxFPS(MAX_FPS)
+        setMaxChannel(16)
+        setFetchingChip(false)
+      }
+    },
+    []
+  )
+}

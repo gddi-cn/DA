@@ -7,11 +7,11 @@ import {
 } from '../../store'
 
 export const useResolution = () => {
-  const limit             = useAtomValue(resolutionLimitAtom),
-        defaultResolution = useAtomValue(defaultResolutionAtom),
-        selectedChip      = useAtomValue(selectedChipAtom),
-        configType        = useAtomValue(configTypeAtom),
-        list              = useAtomValue(resolutionListAtom);
+  const limit = useAtomValue(resolutionLimitAtom),
+    defaultResolution = useAtomValue(defaultResolutionAtom),
+    selectedChip = useAtomValue(selectedChipAtom),
+    configType = useAtomValue(configTypeAtom),
+    list = useAtomValue(resolutionListAtom);
 
   const [resolution, setResolution] = useAtom(resolutionAtom)
 

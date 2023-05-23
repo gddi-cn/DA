@@ -20,8 +20,8 @@ import GddiChat from '@src/components/GddiChat'
 
 const ChatWrap = styled.div`
   position: fixed;
-  bottom: 16px;
-  right: 22px;
+  bottom: 56px;
+  right: 8px;
 `
 
 const App = () => {
