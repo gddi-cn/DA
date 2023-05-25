@@ -92,7 +92,12 @@ export const useParamsSetting = () => {
 
       let newFPS = Math.floor(totalFPS / configConcurrent)
       if (newFPS > maxFPS) newFPS = maxFPS
-      const newConcurrent = Math.floor(totalFPS / newFPS)
+
+      let newConcurrent = Math.floor(totalFPS / newFPS)
+
+      if (newConcurrent > maxChannel) {
+        newConcurrent = maxChannel
+      }
 
       setConfigFps(newFPS)
       setConfigConcurrent(newConcurrent)
