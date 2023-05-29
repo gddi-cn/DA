@@ -14,7 +14,7 @@ import { currentDatasetAtom, currentDatasetIdAtom, currentModelIdAtom, currentMo
 // 全局的sokcet更新
 export const useSocketSyncUpdate = () => {
   // const [loading, setLoading] = useState(false)
-  const wsInstance = useRef<Ws|null>(null)
+  const wsInstance = useRef<Ws | null>(null)
   const [loginSuccess, setLoginSuccess] = useState(false)
 
   const setCurrentDataset = useSetAtom(currentDatasetAtom)
@@ -22,8 +22,8 @@ export const useSocketSyncUpdate = () => {
   const setCurrentModelId = useSetAtom(currentModelIdAtom)
   const setCurrentModelVersionId = useSetAtom(currentModelVersionIdAtom)
 
-  // const isFirst = useRef(true)
 
+  // const isFirst = useRef(true)
   const dispatch = useDispatch()
 
   const navigate = useNavigate()
@@ -45,7 +45,7 @@ export const useSocketSyncUpdate = () => {
       const url = `${(window).globalConfig.socket.protocol}://${window.location.host}/api/v1/ws`
       wsInstance.current = new Ws(url)
 
-      wsInstance.current.subscribe('resp', (data:any) => {
+      wsInstance.current.subscribe('resp', (data: any) => {
         const { status, topic } = data
 
         if (topic === 'login') {
@@ -89,7 +89,7 @@ export const useSocketSyncUpdate = () => {
       }))
 
       // 全局的推送API,这是最简单的办法了
-      window.globalSocketPushMsgForProject = (data:any) => {
+      window.globalSocketPushMsgForProject = (data: any) => {
         wsInstance.current?.send(JSON.stringify({
           action: 'pub',
           topic: _topic,
@@ -131,8 +131,8 @@ export const useSocketSyncUpdate = () => {
   }, [activeTaskInfo_id, dispatch, loginSuccess])
 
   useEffect(() => {
-  // 监听当前active task info，变化了就都发回去，也不管啥的
-  // 变化可能是某个页面数据变了，也可能页面变了，反正都是要发送的，但是怎么判断这个东西变了还是要研究研究
+    // 监听当前active task info，变化了就都发回去，也不管啥的
+    // 变化可能是某个页面数据变了，也可能页面变了，反正都是要发送的，但是怎么判断这个东西变了还是要研究研究
     if (isNil(activePipeLine)) {
       return
     }
@@ -160,12 +160,12 @@ export const useSocketSyncUpdate = () => {
       })
     }
     // 奇怪navigate为啥会是新得依赖
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activePipeLine])
 
   useEffect(() => {
     // 阻止浏览器这个事件
-    window.onpopstate = function () {
+    window.onpopstate = function() {
       if (activePipeLine) {
         socketPushMsgForProject(activePipeLine, {
 

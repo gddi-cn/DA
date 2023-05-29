@@ -1,4 +1,4 @@
-import { lazy, useCallback, useEffect, useMemo } from 'react'
+import { lazy, useState, useCallback, useEffect, useMemo } from 'react'
 import { FooterBar, GButton } from '@src/UIComponents'
 import { SuspenseForFC } from '@router/utils'
 import api from '@api'
@@ -15,6 +15,9 @@ import { APP_SELECT_DEPLOY_TYPE } from '@router'
 import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './ModelDetail.module.less'
+import { useAtomValue } from 'jotai'
+import { currentModelVersionIdAtom } from '@src/store/dataset'
+import projectAPI from '@src/apis/project'
 
 // ?id=370695350071697408&cuurentVersionId=370695350075891712&
 const { confirm } = Modal;
@@ -32,7 +35,7 @@ const ModelDetail = (): JSX.Element => {
     return ''
   })
 
-  const task_id = useSelector((state: RootState) => {
+  const taskId = useSelector((state: RootState) => {
     return state.tasksSilce.activeTaskInfo?.id
   })
 
@@ -40,13 +43,23 @@ const ModelDetail = (): JSX.Element => {
     return state.tasksSilce.activePipeLine || {}
   })
 
-  const model_version_id = useSelector((state: RootState) => {
-    // return '342463664469155840'
-    if (state.tasksSilce.activePipeLine) {
-      return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.version_id
-    }
-    return ''
-  })
+  const [modelVersionId, setModelVersionId] = useState<string>('')
+
+  useEffect(
+    () => {
+      if (!taskId) return
+      projectAPI.detail(taskId)
+        .then(({ success, data }) => {
+          if (!success || !data) return
+          const { model } = data
+          if (!model) return
+          const { version_id } = model
+          setModelVersionId(version_id)
+        })
+    },
+    [taskId]
+  )
+
 
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
@@ -77,8 +90,8 @@ const ModelDetail = (): JSX.Element => {
           if (versions) {
             let _currentVersion = versions[versions.length - 1]
 
-            if (model_version_id) {
-              const existCurrentVersion = versions.find((o: any) => o.id === model_version_id)
+            if (modelVersionId) {
+              const existCurrentVersion = versions.find((o: any) => o.id === modelVersionId)
               if (existCurrentVersion) {
                 _currentVersion = existCurrentVersion
               }
@@ -93,7 +106,7 @@ const ModelDetail = (): JSX.Element => {
       } catch (e) {
 
       }
-    }, [dispatch, model_id, model_version_id]
+    }, [dispatch, model_id, modelVersionId]
   )
 
   useEffect(() => {
@@ -121,8 +134,8 @@ const ModelDetail = (): JSX.Element => {
         console.error(e)
       }
     }, [
-      currentVersion?.id, dispatch, model_id
-    ]
+    currentVersion?.id, dispatch, model_id
+  ]
   )
 
   useEffect(() => {
@@ -153,7 +166,7 @@ const ModelDetail = (): JSX.Element => {
         try {
           const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
           if (res.code === 0) {
-            const updateSnapRes = await api.patch(`/v3/projects/${task_id}`, {
+            const updateSnapRes = await api.patch(`/v3/projects/${taskId}`, {
               dataset: {
                 id: '0'
               },
@@ -187,16 +200,16 @@ const ModelDetail = (): JSX.Element => {
         title: '是否删除该模型?',
         icon: <ExclamationCircleOutlined />,
         content: '删除后不可恢复，请谨慎。',
-        onOk () {
+        onOk() {
           console.log('OK');
           okfn()
         },
-        onCancel () {
+        onCancel() {
           console.log('Cancel');
         },
       });
       // /v2/models/{id}/versions/{version_id}
-    }, [activePipeLine, currentVersion?.id, dispatch, model_id, task_id]
+    }, [activePipeLine, currentVersion?.id, dispatch, model_id, taskId]
   )
 
   const handlePause = useCallback(async () => {
@@ -231,8 +244,8 @@ const ModelDetail = (): JSX.Element => {
     const goNext = async () => {
       socketPushMsgForProject(
         activePipeLine, {
-          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
-        }
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
+      }
       )
       navigate({
         pathname: APP_SELECT_DEPLOY_TYPE

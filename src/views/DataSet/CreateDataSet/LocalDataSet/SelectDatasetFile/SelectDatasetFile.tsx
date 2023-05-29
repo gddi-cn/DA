@@ -1,12 +1,12 @@
 import { FooterBar, UploadFile, GButton, GSelect } from '@src/UIComponents'
-import { useState, useRef, useMemo, useCallback, useEffect } from 'react'
+import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react'
 import { Select, message } from 'antd';
 import api from '@api'
 import { S3Uploader } from '@src/components'
 
 import UploadingView from './UploadingView'
 import { useNavigate } from 'react-router-dom'
-import { APP_LOCAL_FILE_STEP_4, APP_LOCAL_FILE_STEP_2 } from '@router'
+import { APP_LOCAL_FILE_STEP_4, APP_LOCAL_FILE_STEP_2, APP_LOCAL_FILE_STEP_1 } from '@router'
 import { useDebounceFn } from 'ahooks'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
@@ -72,15 +72,30 @@ const SelectDatasetFile = (): JSX.Element => {
     return state.tasksSilce.activePipeLine || {}
   })
 
+  const { APP_LOCAL_FILE_STEP_1: s1, APP_LOCAL_FILE_STEP_2: s2 } = activePipeLine
+  const { activeType: scene } = s1 || {}
+  const { name, summary, cover } = s2 || {}
+
+  React.useEffect(
+    () => {
+      if (!name || !scene) {
+        navigate({
+          pathname: APP_LOCAL_FILE_STEP_1
+        })
+        socketPushMsgForProject(activePipeLine, {
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_1,
+        })
+      }
+    },
+    []
+  )
+
   const datasetType = useMemo(
     () => {
       return activePipeLine?.APP_LOCAL_FILE_STEP_1?.activeType
     },
     [activePipeLine]
   )
-  // const activeTaskInfo = useSelector((state: RootState) => {
-  //   return state.tasksSilce.activeTaskInfo || {}
-  // })
 
 
   const handleCnasel = useDebounceFn(
@@ -130,15 +145,14 @@ const SelectDatasetFile = (): JSX.Element => {
       return
     }
 
-    const { APP_LOCAL_FILE_STEP_1, APP_LOCAL_FILE_STEP_2 } = activePipeLine
 
     const { bucket, filename, key, hash, size } = s3info
 
     const createInfo = {
-      scene: APP_LOCAL_FILE_STEP_1?.activeType,
-      name: APP_LOCAL_FILE_STEP_2?.name,
-      summary: APP_LOCAL_FILE_STEP_2?.summary,
-      cover: APP_LOCAL_FILE_STEP_2?.cover,
+      scene,
+      name,
+      summary,
+      cover,
       key,
       filename,
       source: 1,
