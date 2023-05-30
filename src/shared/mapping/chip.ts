@@ -24,7 +24,12 @@ import intel_l from '@src/asset/images/brand/intel_l.png'
 import ingenic_l from '@src/asset/images/brand/ingenic_l.png'
 import tsingMicro_l from '@src/asset/images/brand/tsing_micro_l.png'
 
+import _1103 from '@src/asset/images/chip/_1103.png'
+import _1106 from '@src/asset/images/chip/_1106.png'
 import _1109 from '@src/asset/images/chip/_1109.png'
+import _3566 from '@src/asset/images/chip/_3566.png'
+import _3568 from '@src/asset/images/chip/_3568.png'
+import _3588 from '@src/asset/images/chip/_3588.png'
 import AGXXavier from '@src/asset/images/chip/AGXXavier.png'
 import Dimensity1200 from '@src/asset/images/chip/Dimensity1200.png'
 import helioP65 from '@src/asset/images/chip/helioP65.png'
@@ -165,7 +170,12 @@ export const chipBrandLittleLogoMapping: Map<ChipBrand, any> = new Map([
 ])
 
 export const chipNameLogoMapping: Map<ChipName, any> = new Map([
+  [ChipName._1103, _1103],
+  [ChipName._1106, _1106],
   [ChipName._1109, _1109],
+  [ChipName._3566, _3566],
+  [ChipName._3568, _3568],
+  [ChipName._3588, _3588],
   [ChipName.AGXXAVIER, AGXXavier],
   [ChipName.DIMENSITY1200, Dimensity1200],
   [ChipName.HELIOP65, helioP65],

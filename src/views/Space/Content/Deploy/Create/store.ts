@@ -128,7 +128,7 @@ export const useResetStore = () => {
       setDeviceTotal(0)
       setSort('desc')
       setSortBy('registered_time')
-      setLimit(-1)
+      setLimit(1)
       setExpire(-1)
       setNoExpire(true)
       setFetchingDevice(false)
