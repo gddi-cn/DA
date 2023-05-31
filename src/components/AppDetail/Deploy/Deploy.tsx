@@ -50,7 +50,7 @@ const Content = styled.div`
   padding: 0 40px;
 `
 
-const SubTitle = styled.p<{ mt?: React.CSSProperties['marginTop']}>`
+const SubTitle = styled.p<{ mt?: React.CSSProperties['marginTop'] }>`
   font-weight: 600;
   font-size: 14px;
   line-height: 22px;
@@ -82,7 +82,7 @@ const FilterItem = styled.div<{ bg?: React.CSSProperties['backgroundColor'], oc?
   }
 `
 
-const FilterConent = styled.div<{ color?: React.CSSProperties['color']}>`
+const FilterConent = styled.div<{ color?: React.CSSProperties['color'] }>`
   display: flex;
   flex-direction: column;
   row-gap: 8px;
@@ -211,18 +211,18 @@ const DeviceList: React.FC<{ deviceList: Device.SyncInstance[] }> = (
         {
           deviceList.map(device => (
             <Row key={device.id}>
-              <RowCell title={device.name}>{ device.name }</RowCell>
-              <RowCell title={device.sn}>{ device.sn }</RowCell>
-              <RowCell title={device.chip}>{ device.chip }</RowCell>
+              <RowCell title={device.name}>{device.name}</RowCell>
+              <RowCell title={device.sn}>{device.sn}</RowCell>
+              <RowCell title={device.chip}>{device.chip}</RowCell>
               <RowCell
                 color={groupDeviceStateColorMapping.get(device.state)}
               >
-                { groupDeviceStateNameMapping.get(device.state) || '未知' }
+                {groupDeviceStateNameMapping.get(device.state) || '未知'}
               </RowCell>
               <RowCell>
-                { formatUnixTime(device.create_time) || '--' }
+                {formatUnixTime(device.create_time) || '--'}
               </RowCell>
-              <RowCell>6</RowCell>
+              <RowCell>{device.app_limit ?? '--'}</RowCell>
               <RowCell color={colorMapping[device.sync_state]}>
                 {labelMapping[device.sync_state]}
               </RowCell>

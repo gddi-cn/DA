@@ -1,7 +1,7 @@
 declare namespace Device {
   namespace Chip {
     interface Instance {
-      key : string
+      key: string
       name: string
       type: import('@src/shared/enum/device').DeviceType
       app_count?: number
@@ -17,7 +17,7 @@ declare namespace Device {
       sort?: 'asc' | 'desc'
       detail?: boolean
     }
-    
+
     interface Option {
       key: Instance['key']
       value: Instance['key']
@@ -48,5 +48,7 @@ declare namespace Device {
   interface SyncInstance extends Instance {
     sync_state: 'Done' | 'InProgress' | 'Failure'
     syncs: Array<Sync>
+    app_limit: number
+    app_expire: number
   }
 }

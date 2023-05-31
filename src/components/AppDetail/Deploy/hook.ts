@@ -53,7 +53,7 @@ export const useDeploy = () => {
 
   React.useEffect(
     () => {
-      switch(currentState) {
+      switch (currentState) {
         case 'All':
           setSelected(allRef)
           removeSelected(successRef)
