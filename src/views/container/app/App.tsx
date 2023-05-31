@@ -77,18 +77,19 @@ const App = () => {
 
       {/* {getView()} */}
       <Outlet />
-      <ChatWrap>
-        <GddiChat
-          chatStreamURL='/robot/openai/v1/chat/completions'
-          ratingURL='/robot/openai/v1/mark'
-          getHeaders={() => ({
-            Authentication: `${localStorage.getItem('token')}`,
-            Token: `${localStorage.getItem('token')}`,
-            "X-App-Id": (window as any).globalConfig.app.id,
-            "X-App-Key": (window as any).globalConfig.app.key,
-          })}
-        />
-      </ChatWrap>
+      {/* HOTFIX: HIDE CHAT ROBOT CAUSE BY API BROKEN*/}
+      {/* <ChatWrap> */}
+      {/*   <GddiChat */}
+      {/*     chatStreamURL='/robot/openai/v1/chat/completions' */}
+      {/*     ratingURL='/robot/openai/v1/mark' */}
+      {/*     getHeaders={() => ({ */}
+      {/*       Authentication: `${localStorage.getItem('token')}`, */}
+      {/*       Token: `${localStorage.getItem('token')}`, */}
+      {/*       "X-App-Id": (window as any).globalConfig.app.id, */}
+      {/*       "X-App-Key": (window as any).globalConfig.app.key, */}
+      {/*     })} */}
+      {/*   /> */}
+      {/* </ChatWrap> */}
     </div>
   )
 }
