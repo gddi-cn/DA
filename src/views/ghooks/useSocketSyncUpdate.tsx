@@ -17,7 +17,6 @@ export const useSocketSyncUpdate = () => {
   const wsInstance = useRef<Ws | null>(null)
   const [loginSuccess, setLoginSuccess] = useState(false)
 
-  const setCurrentDataset = useSetAtom(currentDatasetAtom)
   const setCurrentDatasetId = useSetAtom(currentDatasetIdAtom)
   const setCurrentModelId = useSetAtom(currentModelIdAtom)
   const setCurrentModelVersionId = useSetAtom(currentModelVersionIdAtom)
@@ -105,7 +104,6 @@ export const useSocketSyncUpdate = () => {
         if (topic === _topic) {
           setTimeout(
             () => {
-              setCurrentDataset(data?.APP_DATA_SET_INDEX)
               setCurrentDatasetId(data?.APP_DATASET_DETAIL?.id)
               setCurrentModelVersionId(data?.APP_MODEL_TRAIN_DETAIL?.version_id)
               setCurrentModelId(data?.APP_MODEL_TRAIN_DETAIL?.id)

@@ -20,11 +20,6 @@ export const useTrainTypeItem = (scene: DatasetScene) => {
   const handleClick = () => {
     if (selected) return
     setCurrentScene(scene)
-
-    socketPushMsgForProject(activePipeLine, {
-
-      APP_LOCAL_FILE_STEP_1: { activeType: scene }
-    })
   }
 
   React.useEffect(

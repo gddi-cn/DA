@@ -32,8 +32,6 @@ const Home = (props: any): JSX.Element => {
     const time2 = performance.now()
     const jsv = fibjs(30)
     const time3 = performance.now()
-    console.log(time2 - time1, time3 - time2)
-    console.log(cppv, jsv)
     setTimeout(() => {
       disPatch(getUserInfo({ test: '77ssssss7' }))
     }, 2000)

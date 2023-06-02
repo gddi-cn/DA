@@ -77,6 +77,7 @@ const SelectTrainType = (): JSX.Element => {
 
       socketPushMsgForProject(activePipeLine, {
         active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
+        APP_LOCAL_FILE_STEP_1: { activeType }
       })
     }
     return (
