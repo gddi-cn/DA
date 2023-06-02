@@ -44,3 +44,20 @@ export const formatSize = (value?: number): string => {
 
   return `${value} ${uint[idx]}`
 }
+
+export const iframeDownload = (url: string, delay = 1e3, removeDelay = 3e3) => {
+  setTimeout(() => {
+    const $iframe = document.createElement('iframe')
+    $iframe.style.display = 'none'
+    $iframe.src = url
+    document.body.appendChild($iframe)
+    setTimeout(() => {
+      $iframe.remove()
+    }, removeDelay)
+  }, delay)
+}
+export const multiDownload = (urls: string[], interval = 1e3) => {
+  urls.forEach((url, idx) => {
+    iframeDownload(url, idx * interval)
+  })
+}

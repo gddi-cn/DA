@@ -106,6 +106,25 @@ const appAPI = {
     }
   },
 
+  export2: async (
+    appId: App.Instance['id'],
+    data: { device_ids: Array<GroupDevice['id']>, expire_seconds: number, limit?: number },
+  ): Promise<APIResponse<{urls: Array<string>}>> => {
+    try {
+      const { data: _data } = await http.post(`/v3/apps/${appId}/export2`, data )
+
+      return {
+        success: true,
+        data: _data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
   delete: async (
     appId: App.Instance['id']
   ): Promise<APIResponse<void>> => {

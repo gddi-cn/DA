@@ -13,6 +13,7 @@ import {
   expireAtom,
   appInputTypeAtom,
 } from "../store"
+import { multiDownload } from '@src/utils/tools'
 
 export const useOverview = () => {
   const [, setStep] = useAtom(stepAtom)
@@ -61,12 +62,13 @@ export const useOverview = () => {
   }
 
   const handleExport = async () => {
-    const filename = appList.length === 1
-      ? `${appList[0].name || appList[0].id}.gem`
-      : 'export.tar'
     setExporting(true)
-    await syncAPI.export(data, filename)
+    const { success, data: _data } = await syncAPI.export2(data)
     setExporting(false)
+
+    if (!success || !_data?.urls?.length) return
+
+    multiDownload(_data.urls)
   }
 
   return {
