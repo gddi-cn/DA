@@ -38,6 +38,7 @@ import { ReactComponent as DeviceIcon } from '@src/asset/icons/platform/device.s
 import { ReactComponent as DeviceActiveIcon } from '@src/asset/icons/platform/device_active.svg'
 import { ReactComponent as SyncIcon } from '@src/asset/icons/platform/sync.svg'
 import { ReactComponent as SyncActiveIcon } from '@src/asset/icons/platform/sync_active.svg'
+import { multiDownload } from '@src/utils/tools'
 
 const setActive = (ref: React.MutableRefObject<HTMLDivElement | null>) =>
   ref.current?.setAttribute('active', '')
@@ -253,17 +254,18 @@ export const useFooter = () => {
       success = res.success
     }
     if (syncType === 'export') {
-      const res = await appAPI.export(
+      const { success, data } = await appAPI.export2(
         selectedApp.id,
         {
           device_ids: selectedDeviceIdList,
           expire_seconds,
           limit,
         },
-        (selectedApp.name || 'app') + '.gem'
       )
 
-      success = res.success
+      console.log({ data })
+
+      data?.urls && multiDownload(data.urls)
     }
     setDeploying(false)
 

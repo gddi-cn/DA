@@ -52,6 +52,22 @@ const syncAPI = {
     }
   },
 
+  export2: async (
+    data: Sync.SyncParams,
+  ): Promise<APIResponse<{ urls: string[]}>> => {
+    try {
+      const { data: d } = await http.post('/v3/appsync/export2', data, { timeout: 5 * 60E3 } )
+      return {
+        success: true,
+        data: d
+      }
+    } catch (e) {
+      return {
+        success: false,
+      }
+    }
+  },
+
   detail: async (id: Sync.Instance['id']): Promise<APIResponse<Sync.Instance>> => {
     try {
       const { data } = await http.get(`/v3/appsyncs/${id}`)
