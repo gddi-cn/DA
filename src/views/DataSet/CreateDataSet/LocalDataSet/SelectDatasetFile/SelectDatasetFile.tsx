@@ -52,7 +52,7 @@ const SelectDatasetFile = (): JSX.Element => {
     nextLoad: 0
   });
 
-  const handleCancel = useBack2DatasetIndex()
+  const handleBack = useBack2DatasetIndex()
 
   const [loading, setLoading] = useState(false)
   const [percent, setLocalPercent] = useState<any>(0)
@@ -60,6 +60,7 @@ const SelectDatasetFile = (): JSX.Element => {
   const [checking, setChecking] = useState<boolean>(false)
   const [exampleUrl, setExampleUrl] = useState('')
   const [proportion, setProportion] = useState<any>(0.2)
+  const [backing, setBacking] = useState<boolean>(false)
   const [fileInfo, setFileInfo] = useState({
     filename: '',
     size: 0
@@ -103,6 +104,27 @@ const SelectDatasetFile = (): JSX.Element => {
     }
   )
 
+  const handleCancel = async () => {
+    if (backing) return
+    setBacking(true)
+    if (uploadCurrent.current) {
+      try {
+        const res = await uploadCurrent.current.cansel()
+        if (res) {
+          message.success("取消上传")
+        }
+      } catch (e) {
+        console.error(e)
+      }
+      setIsUploading(false)
+      uploadCurrent.current = null
+      handleBack()
+    } else {
+      handleBack()
+    }
+    setBacking(false)
+  }
+
   const goNext = async (s3info: any) => {
     if (isEmpty(s3info)) {
       return
@@ -141,6 +163,7 @@ const SelectDatasetFile = (): JSX.Element => {
         })
       } else {
         setLoading(false)
+        message.warn('创建数据集失败')
       }
     } catch (e) {
       console.log(e)
@@ -148,7 +171,7 @@ const SelectDatasetFile = (): JSX.Element => {
     }
   }
 
-  const handleOnuploadBigData = async (file:File|undefined) => {
+  const handleOnuploadBigData = async (file: File | undefined) => {
     if (!file) return
 
     setIsUploading(true)
@@ -200,6 +223,7 @@ const SelectDatasetFile = (): JSX.Element => {
         callback: async (err: any, data: any) => {
           if (err) {
             console.log(err)
+            return
           }
           if (data) {
             goNext(data)
@@ -315,7 +339,7 @@ const SelectDatasetFile = (): JSX.Element => {
         <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
       </div>
     )
-  }, [handleCnasel ])
+  }, [handleCnasel])
 
   useEffect(() => {
     if (activePipeLine?.APP_LOCAL_FILE_STEP_3?.proportion) {
@@ -358,7 +382,7 @@ const SelectDatasetFile = (): JSX.Element => {
       </div>
       <FooterBar
         leftContent={
-          <SecondaryBtn width={132} onClick={handleCancel}>
+          <SecondaryBtn loading={backing} width={132} onClick={handleCancel}>
             取消
           </SecondaryBtn>
         }

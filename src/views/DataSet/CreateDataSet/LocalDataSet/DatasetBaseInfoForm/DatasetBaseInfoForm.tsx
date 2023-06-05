@@ -18,9 +18,9 @@ const maxSize = 2 * 1024 * 1024
 
 const regExp = /\.(png|jpg|jpeg)$/
 
-type AmazingWrapProps={
+type AmazingWrapProps = {
   Component: any,
-  cusTips:string
+  cusTips: string
 }
 
 const AmazingWrap = (props: AmazingWrapProps) => {
@@ -86,7 +86,7 @@ const DatasetBaseInfoForm = (): JSX.Element => {
     )
   }, [form, navigate, activePipeLine])
 
-  const handleBaseInfoChange = (_:any, all_values:any) => {
+  const handleBaseInfoChange = (_: any, all_values: any) => {
     socketPushMsgForProject(activePipeLine, {
       APP_LOCAL_FILE_STEP_2: all_values
     })
@@ -108,9 +108,7 @@ const DatasetBaseInfoForm = (): JSX.Element => {
             ]
           }
         >
-          {/* <Input autoComplete='off' /> */}
-
-          <AmazingWrap cusTips='最多20个字符' Component={<Input />}/>
+          <AmazingWrap cusTips='最多20个字符' Component={<Input maxLength={20} />} />
         </Form.Item>
 
         <Form.Item

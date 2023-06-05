@@ -1,11 +1,12 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 
 import { currentVersionIdAtom, fetchingVersionList, versionListAtom } from './store'
 import { RootState } from '@reducer'
 import { useSelector } from 'react-redux'
 import modelAPI from '@src/apis/model'
 import { modelVersionStatusNameMapping } from '@src/shared/mapping/model'
+import { currentModelIdAtom, currentModelVersionIdAtom } from '@src/store/dataset'
 
 const getVersionOptionLabel = (label: Model.Version['name'], status: Model.Version['status']) => {
   return (
@@ -101,11 +102,9 @@ export const useVersionSelector = (disabledAutoSelect = false) => {
   const [currentVersionId, setCurrentVersionId] = useAtom(currentVersionIdAtom)
   const [versionList] = useAtom(versionListAtom)
 
-  const initialModelVersionId =
-    useSelector((state: RootState) =>
-    state.tasksSilce?.activePipeLine?.APP_MODEL_TRAIN_DETAIL?.version_id)
+  const initialModelVersionId = useAtomValue(currentModelVersionIdAtom)
 
-  const modelId = useSelector((state: RootState) => state.tasksSilce?.activeTaskInfo?.model?.id)
+  const modelId = useAtomValue(currentModelIdAtom)
 
   const refreshVersion = useRefreshVersionList()
 
@@ -126,6 +125,7 @@ export const useVersionSelector = (disabledAutoSelect = false) => {
     },
     [initialModelVersionId, disabledAutoSelect]
   )
+
 
   React.useEffect(
     () => {

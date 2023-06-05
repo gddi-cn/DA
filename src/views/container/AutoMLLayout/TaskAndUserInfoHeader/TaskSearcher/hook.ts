@@ -1,28 +1,41 @@
 import React from 'react'
 import _ from 'lodash'
-import { useAtom } from "jotai"
+import { useAtom, useSetAtom } from "jotai"
 import { produce } from 'immer'
 import { useDispatch } from 'react-redux'
 
 import projectAPI from "@src/apis/project"
 import {
-    fetchedAllAtom,
+  fetchedAllAtom,
   fetchingTaskListAtom,
+  modelTypeAtom,
+  orderAtom,
   pageAtom,
   PAGE_SIZE,
+  sortAtom,
+  statusAtom,
   taskListAtom,
   taskNameAtom,
   totalAtom
 } from "./store"
-import { modelTrainStatusBgColorMapping, modelTrainStatusColorMapping, modelTrainStatusNameMapping } from '@src/shared/mapping/model'
+import {
+  modelTrainStatusBgColorMapping,
+  modelTrainStatusColorMapping,
+  modelTrainStatusNameMapping
+} from '@src/shared/mapping/model'
 import { Model } from '@src/shared/enum/model'
 import defaultCover from './img/default_cover.png'
 import moment from 'moment'
 import { sceneNameMapping } from '@src/shared/mapping/dataset'
 import { visibleActiveTask } from '@reducer/tasksSilce'
+import { DatasetScene } from '@src/shared/enum/dataset'
 
 export const useFetchTaskList = () => {
   const [name] = useAtom(taskNameAtom)
+  const [model_type] = useAtom(modelTypeAtom)
+  const [sort] = useAtom(sortAtom)
+  const [order] = useAtom(orderAtom)
+  const [model_status] = useAtom(statusAtom)
   const [page, setPage] = useAtom(pageAtom)
 
   const [, setTaskList] = useAtom(taskListAtom)
@@ -35,10 +48,13 @@ export const useFetchTaskList = () => {
     setLoading(true)
     const { success, data } = await projectAPI.list({
       name,
+      model_type,
+      model_status,
+      sort,
+      order,
       page: loadMore ? page + 1 : 1,
       page_size: PAGE_SIZE,
       status: undefined,
-      sort: 'desc',
     })
     loadMore && setPage(p => p + 1)
     setLoading(false)
@@ -55,11 +71,15 @@ export const useFetchTaskList = () => {
 }
 
 const useResetStore = () => {
-  const [, setName] = useAtom(taskNameAtom)
-  const [, setPage] = useAtom(pageAtom)
-  const [, setTaskList] = useAtom(taskListAtom)
-  const [, setTotal] = useAtom(totalAtom)
-  const [, setLoading] = useAtom(fetchingTaskListAtom)
+  const setName = useSetAtom(taskNameAtom)
+  const setPage = useSetAtom(pageAtom)
+  const setTaskList = useSetAtom(taskListAtom)
+  const setTotal = useSetAtom(totalAtom)
+  const setModelType = useSetAtom(modelTypeAtom)
+  const setSort = useSetAtom(sortAtom)
+  const setOrder = useSetAtom(orderAtom)
+  const setStatus = useSetAtom(statusAtom)
+  const setLoading = useSetAtom(fetchingTaskListAtom)
 
   React.useEffect(
     () => () => {
@@ -68,6 +88,10 @@ const useResetStore = () => {
       setName('')
       setTotal(0)
       setTaskList([])
+      setModelType(undefined)
+      setSort('desc')
+      setOrder('updated')
+      setStatus(undefined)
       setLoading(false)
     },
     []
@@ -76,6 +100,10 @@ const useResetStore = () => {
 
 export const useContent = () => {
   const [name] = useAtom(taskNameAtom)
+  const [sort] = useAtom(sortAtom)
+  const [order] = useAtom(orderAtom)
+  const [model_type] = useAtom(modelTypeAtom)
+  const [status] = useAtom(statusAtom)
   const fetchTaskList = useFetchTaskList()
   
   useResetStore()
@@ -84,7 +112,7 @@ export const useContent = () => {
     () => {
       fetchTaskList()
     },
-    [name]
+    [name, sort, order, model_type, status]
   )
 }
 
@@ -143,7 +171,6 @@ const getTime = (eta?: number) => {
 }
 
 export const useTaskItem = (project: Project.Detail) => {
-  console.log({project})
   const { name, additional, created } = project || {}
   const { eta, status, cover: _cover, platform: _platform, model_type } = additional || {}
 
@@ -200,3 +227,87 @@ export const useLoadMore = () => {
   }
 }
 
+// 'desc' = 1, 'asc' = 2
+// created = 4, 'updated' = 8
+export const useSorter = () => {
+  const [sort, setSort] = useAtom(sortAtom)
+  const [order, setOrder] = useAtom(orderAtom)
+
+  const value = React.useMemo(
+    () => {
+      let value = 0
+      if (sort === 'desc')
+        value += 1
+      if (sort === 'asc')
+        value += 2
+      if (order === 'created')
+        value += 4
+      if (order === 'updated')
+        value += 8
+
+      return value
+    },
+    [sort, order]
+  )
+
+  const handleChange = (value: number) => {
+    let sort: 'desc' | 'asc' = 'desc'
+    let order: 'created' | 'updated' = 'updated'
+
+    switch (value) {
+      case 5:
+        sort = 'desc'
+        order = 'created'
+        break
+      case 6:
+        sort = 'asc'
+        order = 'created'
+        break
+      case 9:
+        sort = 'desc'
+        order = 'updated'
+        break
+      case 10:
+        sort = 'asc'
+        order = 'updated'
+        break
+      default:
+        console.error('Invalidated Value.')
+        break
+    }
+
+    setSort(sort)
+    setOrder(order)
+  }
+
+  return {
+    value,
+    handleChange,
+  }
+}
+
+export const useModelTypeFilter = () => {
+  const [modelType, setModelType] = useAtom(modelTypeAtom)
+
+  const handleChange = (value: string) => {
+    setModelType(value as DatasetScene)
+  }
+
+  return {
+    value: modelType,
+    handleChange,
+  }
+}
+
+export const useStatusFilter = () => {
+  const [status, setStatus] = useAtom(statusAtom)
+
+  const handleChange = (value: number) => {
+    setStatus(value as Model.TrainStatus)
+  }
+
+  return {
+    value: status,
+    handleChange,
+  }
+}

@@ -23,6 +23,9 @@ import { message } from 'antd'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 
 import Pending from './Pending'
+import { currentModelIdAtom, currentModelVersionIdAtom } from '@src/store/dataset'
+import { useAtomValue } from 'jotai'
+import produce from 'immer'
 
 // const IconMap: any = {
 //   数据准备: 'https://s3.local.cdn.desauto.net/public/video/8740e037eeba8acf4b009b3e65627c6f.mp4',
@@ -37,12 +40,12 @@ import Pending from './Pending'
 const TrianFlow = (): JSX.Element => {
   // const { id } = props
   const [trainInfo, setTrainInfo] = useState<any>()
+  const { progress, status } = trainInfo || {}
   const dispatch = useDispatch()
   const timer = useRef<any>(null)
 
-  const currentVersion = useSelector((state: RootState) => {
-    return state.modelDetailSlice.currentVersion
-  })
+  const model_id = useAtomValue(currentModelIdAtom)
+  const currentVersionId = useAtomValue(currentModelVersionIdAtom)
 
   const task_id = useSelector((state: RootState) => {
     return state.tasksSilce.activeTaskInfo?.id
@@ -51,19 +54,15 @@ const TrianFlow = (): JSX.Element => {
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
-  const model_id = useSelector((state: RootState) => {
-    if (state.tasksSilce.activePipeLine) {
-      return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.id
-    }
-    return ''
-  })
+
   const initVersionData = useCallback(
     async () => {
       try {
-        if (!currentVersion?.id) {
+        if (!currentVersionId) {
           return
         }
-        const iterInfoRes = await api.get(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+
+        const iterInfoRes = await api.get(`/v2/models/${model_id}/versions/${currentVersionId}`)
         if (iterInfoRes.code === 0) {
           const iterInfo = iterInfoRes.data
           dispatch(setVersionInfo(iterInfo))
@@ -72,25 +71,27 @@ const TrianFlow = (): JSX.Element => {
         console.error(e)
       }
     }, [
-      currentVersion?.id, dispatch, model_id
+      currentVersionId, dispatch, model_id
     ]
   )
 
   const getTrainInfo = useCallback(
     async () => {
-      if (!currentVersion?.id) {
+      if (!currentVersionId) {
         return
       }
+      console.log({ model_id, currentVersionId })
       try {
-        const res = await api.get(`/v3/models/${model_id}/versions/${currentVersion?.id}/progress`)
+        const res = await api.get(`/v3/models/${model_id}/versions/${currentVersionId}/progress`)
         if (res.code === 0) {
-          setTrainInfo(res?.data)
+          setTrainInfo(produce(_ => res?.data))
         }
       } catch (e) {
 
       }
-    }, [currentVersion?.id, model_id]
+    }, [currentVersionId, model_id]
   )
+
   useEffect(() => {
     getTrainInfo()
     timer.current = setInterval(getTrainInfo, 10000)
@@ -128,7 +129,7 @@ const TrianFlow = (): JSX.Element => {
   const handleDetele = async () => {
     // /v2/models/{id}/versions/{version_id}
     try {
-      const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+      const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersionId}`)
       if (res.code === 0) {
         const updateSnapRes = await api.patch(`/v3/projects/${task_id}`, {
           dataset: {
@@ -164,7 +165,7 @@ const TrianFlow = (): JSX.Element => {
   const handleReTrain = async () => {
     // /v3/models/{id}/versions/{version_id}/retry
     try {
-      const res = await api.post(`/v3/models/${model_id}/versions/${currentVersion?.id}/retry`)
+      const res = await api.post(`/v3/models/${model_id}/versions/${currentVersionId}/retry`)
       if (res.code === 0) {
         getTrainInfo()
       } else {
@@ -179,9 +180,8 @@ const TrianFlow = (): JSX.Element => {
     if (!trainInfo) {
       return null
     }
-    const {
-      progress, status
-    } = trainInfo
+
+    console.log({ progress })
 
     if (status === 6) {
       return <Pending />
@@ -205,11 +205,12 @@ const TrianFlow = (): JSX.Element => {
     }
     return (
       <div className='flows_wrap'>
-        <ForceAutoPlayVedio progress={progress} />
+        <ForceAutoPlayVedio progress={progress || 0} />
         {/* {IconMap[flows[current]] || null} */}
       </div>
     )
   }
+
   return (
     <div styleName='TrianFlow'>
       {/* <div className='icon_wrap'>

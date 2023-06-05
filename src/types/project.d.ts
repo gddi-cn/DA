@@ -26,6 +26,8 @@ declare namespace Project {
   interface ListParams extends Partial<Pick<Project.Detail, 'name' | 'status' | 'phase'>>{
     page: number
     page_size: number,
+    model_type?: import('@src/shared/enum/dataset').DatasetScene
+    model_status?: import('@src/shared/enum/model').Model.TrainStatus
     sort?: 'asc' | 'desc'
     order?: 'created' | 'updated'
   }

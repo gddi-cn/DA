@@ -6,12 +6,17 @@ import datasetAPI from '@src/apis/dataset'
 import { currentClassAtom, currentDatasetAtom, currentSubDatasetAtom } from '../../store'
 import produce from 'immer'
 
+// 如果设置过小且标签数过大可能会超出最大迭代数，会导致各种奇怪的 bug
+const step = 10
+
 const useResetStore = () => {
   const [, setClassList] = useAtom(classListAtom)
+  const [, setShowClassList] = useAtom(showClassListAtom)
 
   React.useEffect(
     () => () => {
       setClassList([])
+      setShowClassList([])
     },
     []
   )
@@ -19,22 +24,22 @@ const useResetStore = () => {
 
 const useRefreshClassList = () => {
   const [, setClassList] = useAtom(classListAtom)
-  const [currentSubDataset] = useAtom(currentSubDatasetAtom)
   const [datasetInfo] = useAtom(currentDatasetAtom)
+  const [currentSubDataset] = useAtom(currentSubDatasetAtom)
   const datasetId = datasetInfo?.id
   const subDatasetId = currentSubDataset?.id
 
   return async () => {
-    setClassList([])
     if (!datasetId || !subDatasetId) {
       return
     }
+
+    setClassList([])
 
     const { success, data } = await datasetAPI.classes(datasetId, subDatasetId)
     if (!success || !data) {
       return
     }
-
     setClassList(data)
   }
 }
@@ -47,10 +52,11 @@ const useSmoothPushClassList = () => {
   React.useEffect(
     () => {
       setShowClassList([])
+      const total = classList.length
       let idx = 0
 
       const helper = () => {
-        if (idx >= classList.length) {
+        if (idx >= total) {
           return
         }
 
@@ -59,9 +65,9 @@ const useSmoothPushClassList = () => {
         }
 
         setShowClassList(produce(draft => {
-          draft.push(...classList.splice(idx, 5))
+          draft.push(...classList.slice(idx, idx + step))
         }))
-        idx += 5
+        idx += step
 
         requestAnimationFrame(helper)
       }
@@ -76,9 +82,8 @@ export const useBaseInfo = () => {
   useResetStore()
   useSmoothPushClassList()
 
-  const [currentSubDataset] = useAtom(currentSubDatasetAtom)
   const [datasetInfo] = useAtom(currentDatasetAtom)
-  const datasetId = datasetInfo?.id
+  const [currentSubDataset] = useAtom(currentSubDatasetAtom)
   const subDatasetId = currentSubDataset?.id
 
   const refreshClasses = useRefreshClassList()
@@ -87,7 +92,11 @@ export const useBaseInfo = () => {
     () => {
       refreshClasses()
     },
-    [datasetId, subDatasetId]
+    [subDatasetId]
   )
 
+  return {
+    datasetInfo,
+    currentSubDataset,
+  }
 }

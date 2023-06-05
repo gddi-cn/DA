@@ -28,12 +28,13 @@ export enum ChipBrand {
 export enum ChipType {
   CPU = 'CPU',
   GPU = 'GPU',
-  NPU = 'NUP',
+  NPU = 'NPU',
 }
 
 export enum ChipName {
   AGXXAVIER = "AGXXavier",
   ASCEND310 = "Ascend310",
+  ASCEND310P3 = "Ascend310P3",
   // BM1684 = "BM1684",
   BM1684 = "SE5",
   DIMENSITY820 = "Dimensity820",
@@ -109,6 +110,7 @@ export enum ChipName {
   I711 = 'i711',
   MYRIADX = 'MyriadX',
   T40 = 'T40',
+  T41 = 'T41',
   P4 = 'P4',
   P6 = 'P6',
   P40 = 'P40',

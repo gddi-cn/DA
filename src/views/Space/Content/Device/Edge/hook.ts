@@ -1,12 +1,13 @@
 import React from "react";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
+import { message } from "antd";
 import _ from "lodash";
 
 import deviceGroupAPI from "@src/apis/deviceGroups";
 import { DeviceType } from "@src/shared/enum/device";
 import { DeviceGroupOptions } from "@src/shared/types/deviceGroup";
 import { GroupDevice } from "@src/shared/types/device";
-import { message } from "antd";
+import { sortAtom, sortByAtom } from '../store'
 
 import {
   edgeDeviceListAtom,
@@ -31,6 +32,8 @@ export const useRefreshEdgeDevice = () => {
   const [, setETotal] = useAtom(edgeTotalAtom);
   const [loading, setLoading] = useAtom(fetchingEdgeAtom);
   const [, setSelectedDeviceIdList] = useAtom(selectedEdgeDeviceIdListAtom);
+  const sort = useAtomValue(sortAtom)
+  const sortBy = useAtomValue(sortByAtom)
 
   const groupId = group?.value;
 
@@ -48,6 +51,8 @@ export const useRefreshEdgeDevice = () => {
         page,
         page_size,
         type: DeviceType.EDGE,
+        sort,
+        sort_by: sortBy,
       }
     );
     setLoading(false);
@@ -75,6 +80,14 @@ export const useEdge = () => {
   const [loading, setLoading] = useAtom(fetchingEdgeAtom);
   const [total] = useAtom(edgeTotalAtom);
 
+  const [sort, setSort] = useAtom(sortAtom)
+  const [sortBy, setSortBy] = useAtom(sortByAtom)
+
+  const handleSortChange = (sort: 'asc' | 'desc', sortBy: 'name' | 'registered_time') => {
+    setSort(sort)
+    setSortBy(sortBy)
+  }
+
   const groupId = group?.value;
 
   const refresh = useRefreshEdgeDevice();
@@ -86,7 +99,7 @@ export const useEdge = () => {
 
   React.useEffect(() => {
     refresh(true);
-  }, [groupId, name, page_size]);
+  }, [groupId, name, page_size, sort, sortBy]);
 
   React.useEffect(() => {
     refresh();
@@ -100,6 +113,9 @@ export const useEdge = () => {
     showOperations: selectedDeviceIdList?.length > 0,
     showDeleteGroup: deviceList.length <= 0,
     loading,
+    sort,
+    sortBy,
+    handleSortChange,
   };
 };
 

@@ -1,283 +1,414 @@
-import React from "react";
-import { useAtom } from "jotai";
-import { authUserInfoAtom } from "@src/store/user";
-import { fetchingUsageAtom, usageAtom, currentPageAtom } from "../store";
-import userAPI from "@src/apis/user";
-import { Space } from "../enums";
+import React from 'react'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { authUserInfoAtom } from '@src/store/user'
+import { currentPageAtom } from '../store'
+import { Space } from '../enums'
+import systemAPI from '@src/apis/system'
+import {
+  authUsedAtom,
+  authTotalAtom,
+  channelUsedAtom,
+  channelTotalAtom,
+  trainUsedAtom,
+  trainTotalAtom,
+  storageUsedAtom,
+  storageTotalAtom,
+  loadingAtom,
+  useResetUsageStore,
+  modelTrainUsedAtom,
+  modelTrainTotalAtom,
+  onlineDeviceUsedAtom,
+  onlineDeviceTotalAtom,
+  offlineDeviceUsedAtom,
+  offlineDeviceTotalAtom,
+  balanceAtom,
+} from './store'
+import { formatUnixDate } from '@src/utils/tools'
+import moment from 'moment'
+import userAPI from '@src/apis/user'
 
 const useGreeting = () => {
-  const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
-  const [greeting, setGreeting] = React.useState<string>("上午好!");
+  const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
+  const [greeting, setGreeting] = React.useState<string>('上午好!')
 
   const getGreeting = () => {
-    const hour = new Date().getHours();
+    const hour = new Date().getHours()
 
     if (hour >= 5 && hour < 12) {
-      setGreeting("上午好!");
+      setGreeting('上午好!')
     } else if (hour >= 12 && hour < 18) {
-      setGreeting("下午好!");
+      setGreeting('下午好!')
     } else {
-      setGreeting("晚上好!");
+      setGreeting('晚上好!')
     }
-  };
+  }
 
   React.useEffect(() => {
     if (timerRef.current) {
-      clearInterval(timerRef.current);
+      clearInterval(timerRef.current)
     }
 
-    getGreeting();
+    getGreeting()
 
-    timerRef.current = setInterval(getGreeting, 6e4);
+    timerRef.current = setInterval(getGreeting, 6e4)
 
     return () => {
-      timerRef.current && clearInterval(timerRef.current);
-    };
-  }, []);
+      timerRef.current && clearInterval(timerRef.current)
+    }
+  }, [])
 
-  return greeting;
-};
+  return greeting
+}
 
 export const useLeftContent = () => {
-  const [userInfo] = useAtom(authUserInfoAtom);
-  const greeting = useGreeting();
+  const [userInfo] = useAtom(authUserInfoAtom)
+  const greeting = useGreeting()
 
   return {
-    greeting,
-    username: userInfo?.nick_name || "-",
-  };
-};
+    greeting, username: userInfo?.nick_name || '-'
+  }
+}
 
 export const useRefreshUsage = () => {
-  const [, setUsage] = useAtom(usageAtom);
-  const [loading, setLoading] = useAtom(fetchingUsageAtom);
+  const [loading, setLoading] = useAtom(loadingAtom)
+  const setAuthUsed = useSetAtom(authUsedAtom)
+  const setAuthTotal = useSetAtom(authTotalAtom)
+  const setChannelUsed = useSetAtom(channelUsedAtom)
+  const setChannelTotal = useSetAtom(channelTotalAtom)
+  const setTrainUsed = useSetAtom(trainUsedAtom)
+  const setTrainTotal = useSetAtom(trainTotalAtom)
+  const setStorageUsed = useSetAtom(storageUsedAtom)
+  const setStorageTotal = useSetAtom(storageTotalAtom)
+  const setModelTrainUsed = useSetAtom(modelTrainUsedAtom)
+  const setModelTrainTotal = useSetAtom(modelTrainTotalAtom)
+  const setOnlineDeviceUsed = useSetAtom(onlineDeviceUsedAtom)
+  const setOnlineDeviceTotal = useSetAtom(onlineDeviceTotalAtom)
+  const setOfflineDeviceUsed = useSetAtom(offlineDeviceUsedAtom)
+  const setOfflineDeviceTotal = useSetAtom(offlineDeviceTotalAtom)
+  const setBalance = useSetAtom(balanceAtom)
 
   return async () => {
-    if (loading) return;
+    if (loading) return
 
-    setLoading(true);
-    const { success, data } = await userAPI.usage();
-    setLoading(false);
+    setLoading(true)
+    const { success, data } = await userAPI.usage()
+    setLoading(false)
 
-    if (!success || !data) {
-      setUsage(null);
-      return;
-    }
+    if (!success || !data) return
 
-    setUsage(data);
-  };
-};
+    const {
+      authorization_usage,
+      authorization_limited,
+      channel_usage,
+      channel_limited,
+      train_usage,
+      train_limited,
+      storage_usage,
+      storage_limited,
+      model_usage,
+      model_limited,
+      online_device_usage,
+      online_device_limited,
+      offline_device_usage,
+      offline_device_limited,
+      balance,
+    } = data
+
+    setAuthUsed(authorization_usage)
+    setAuthTotal(authorization_limited)
+    setChannelUsed(channel_usage)
+    setChannelTotal(channel_limited)
+    setTrainUsed(train_usage)
+    setTrainTotal(train_limited)
+    setStorageUsed(storage_usage)
+    setStorageTotal(storage_limited)
+    setModelTrainUsed(model_usage)
+    setModelTrainTotal(model_limited)
+    setOnlineDeviceUsed(online_device_usage)
+    setOnlineDeviceTotal(online_device_limited)
+    setOfflineDeviceUsed(offline_device_usage)
+    setOfflineDeviceTotal(offline_device_limited)
+    setBalance(balance)
+  }
+}
 
 export const useUsage = () => {
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
 
-  const [loading] = useAtom(fetchingUsageAtom);
-  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  const loading = useAtomValue(loadingAtom)
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
 
-  const refresh = useRefreshUsage();
+  useResetUsageStore()
+  const refresh = useRefreshUsage()
 
   const handleClick = () => {
-    setCurrentPage(Space.Page.USAGE);
-  };
+    setCurrentPage(Space.Page.USAGE)
+  }
 
   React.useEffect(() => {
-    refresh();
-  }, []);
+    refresh()
+  }, [])
 
   React.useEffect(() => {
-    const $c = containerRef.current;
-    if (!$c) return;
+    const $c = containerRef.current
+    if (!$c) return
 
     if (currentPage === Space.Page.USAGE) {
-      $c.setAttribute("selected", "");
+      $c.setAttribute('selected', '')
     } else {
-      $c.removeAttribute("selected");
+      $c.removeAttribute('selected')
     }
-  }, [currentPage]);
+  }, [currentPage])
 
   return {
-    containerRef,
-    loading,
-    handleClick,
-  };
-};
-
-export const useTrainTime = () => {
-  const [usage] = useAtom(usageAtom);
-
-  const { train_usage, train_limited } = usage || {
-    train_limited: 1,
-    train_usage: 0,
-  };
-
-  const noLimit = train_limited === 0;
-
-  const progress = noLimit
-    ? 0
-    : (((train_usage / train_limited) * 10000) | 0) / 100;
-
-  const used = ((train_usage / 6) | 0) / 10;
-  const total = noLimit ? "无限制" : ((train_limited / 6) | 0) / 10;
-
-  const tip = `${used} / ${total} 小时`;
-
-  return {
-    tip,
-    progress,
-  };
-};
-
-export const useStorage = () => {
-  const [usage] = useAtom(usageAtom);
-
-  const { storage_limited, storage_usage } = usage || {
-    storage_limited: 1,
-    storage_usage: 0,
-  };
-
-  const noLimit = storage_limited === 0;
-
-  const progress = noLimit
-    ? 0
-    : (((storage_usage / storage_limited) * 10000) | 0) / 100;
-
-  const used = (storage_usage / 2 ** 30).toFixed(1);
-  const limited = noLimit ? "无限制" : (storage_limited / 2 ** 30).toFixed(1);
-
-  const tip = `${used} / ${limited} GB`;
-
-  return {
-    progress,
-    tip,
-  };
-};
-
-export const useAuthModel = () => {
-  const [usage] = useAtom(usageAtom);
-
-  const { authorization_usage: usaged, authorization_limited: limited } =
-    usage || { authorization_usage: 0, authorization_limited: 1 };
-
-  return {
-    usaged,
-    limited: limited === 0 ? "无限制" : limited + "",
-  };
-};
+    containerRef, loading, handleClick
+  }
+}
 
 export const useAccount = () => {
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
 
-  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
 
   const active = currentPage === Space.Page.ACCOUNT
 
   const handleClick = () => {
-    setCurrentPage(Space.Page.ACCOUNT);
-  };
+    setCurrentPage(Space.Page.ACCOUNT)
+  }
 
   React.useEffect(() => {
-    const $c = containerRef.current;
-    if (!$c) return;
+    const $c = containerRef.current
+    if (!$c) return
 
     if (active) {
-      $c.setAttribute("selected", "");
+      $c.setAttribute('selected', '')
     } else {
-      $c.removeAttribute("selected");
+      $c.removeAttribute('selected')
     }
-  }, [currentPage]);
+  }, [currentPage])
 
   return {
-    active,
-    handleClick,
-    containerRef,
-  };
-};
+    active, handleClick, containerRef
+  }
+}
 
 export const useDevice = () => {
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
 
-  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
 
   const active = currentPage === Space.Page.DEVICE
 
   const handleClick = () => {
-    setCurrentPage(Space.Page.DEVICE);
-  };
+    setCurrentPage(Space.Page.DEVICE)
+  }
 
   React.useEffect(() => {
-    const $c = containerRef.current;
-    if (!$c) return;
+    const $c = containerRef.current
+    if (!$c) return
 
     if (active) {
-      $c.setAttribute("selected", "");
+      $c.setAttribute('selected', '')
     } else {
-      $c.removeAttribute("selected");
+      $c.removeAttribute('selected')
     }
-  }, [currentPage]);
+  }, [currentPage])
 
   return {
-    active,
-    handleClick,
-    containerRef,
-  };
-};
+    active, handleClick, containerRef
+  }
+}
+
+export const useApi = () => {
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
+
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
+
+  const active = currentPage === Space.Page.API
+
+  const handleClick = () => {
+    setCurrentPage(Space.Page.API)
+  }
+
+  React.useEffect(() => {
+    const $c = containerRef.current
+    if (!$c) return
+
+    if (active) {
+      $c.setAttribute('selected', '')
+    } else {
+      $c.removeAttribute('selected')
+    }
+  }, [currentPage])
+
+  return {
+    active, handleClick, containerRef
+  }
+}
 
 export const useApp = () => {
-  
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
 
-  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
+
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
 
   const active = currentPage === Space.Page.APP
 
   const handleClick = () => {
-    setCurrentPage(Space.Page.APP);
-  };
+    setCurrentPage(Space.Page.APP)
+  }
 
   React.useEffect(() => {
-    const $c = containerRef.current;
-    if (!$c) return;
+    const $c = containerRef.current
+    if (!$c) return
 
     if (active) {
-      $c.setAttribute("selected", "");
+      $c.setAttribute('selected', '')
     } else {
-      $c.removeAttribute("selected");
+      $c.removeAttribute('selected')
     }
-  }, [currentPage]);
+  }, [currentPage])
 
   return {
-    active,
-    handleClick,
-    containerRef,
-  };
+    active, handleClick, containerRef
+  }
 }
 
 export const useDeploy = () => {
-  
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
 
-  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
+
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
 
   const active = currentPage === Space.Page.DEPLOY
 
   const handleClick = () => {
-    setCurrentPage(Space.Page.DEPLOY);
-  };
+    setCurrentPage(Space.Page.DEPLOY)
+  }
 
   React.useEffect(() => {
-    const $c = containerRef.current;
-    if (!$c) return;
+    const $c = containerRef.current
+    if (!$c) return
 
     if (active) {
-      $c.setAttribute("selected", "");
+      $c.setAttribute('selected', '')
     } else {
-      $c.removeAttribute("selected");
+      $c.removeAttribute('selected')
     }
-  }, [currentPage]);
+  }, [currentPage])
 
   return {
-    active,
-    handleClick,
-    containerRef,
-  };
+    active, handleClick, containerRef
+  }
+}
+
+export const useChannel = () => {
+  const channel = useAtomValue(channelUsedAtom)
+  const channelTotal = useAtomValue(channelTotalAtom)
+  const noLimit = channelTotal === 0
+
+  const progress = noLimit ? 0 : (channel / channelTotal) * 100 | 0
+  const tip = `${channel} / ${noLimit ? '无限制' : channelTotal} 路`
+
+  return {
+    progress, tip
+  }
+}
+
+export const useModel = () => {
+  const model = useAtomValue(authUsedAtom)
+  const modelTotal = useAtomValue(authTotalAtom)
+  const noLimit = modelTotal === 0
+
+  const progress = noLimit ? 0 : (model / modelTotal) * 100 | 0
+  const tip = `${model} / ${noLimit ? '无限制' : modelTotal} 个`
+
+  return {
+    progress, tip
+  }
+}
+
+export const useTrain = () => {
+  const train = useAtomValue(trainUsedAtom)
+  const trainTotal = useAtomValue(trainTotalAtom)
+  const noLimit = trainTotal === 0
+
+  const trainHour = (train / 6 | 0) / 10
+  const trainTotalHour = (trainTotal / 6 | 0) / 10
+
+  const progress = noLimit ? 0 : (train / trainTotal) * 100 | 0
+  const tip = `${trainHour} / ${noLimit ? '无限制' : trainTotalHour} 小时`
+
+  return {
+    progress, tip
+  }
+}
+
+export const useStorage = () => {
+  const storage = useAtomValue(storageUsedAtom)
+  const storageTotal = useAtomValue(storageTotalAtom)
+  const noLimit = storageTotal === 0
+
+  // Byte to GB and round to 1 decimal
+  const storageGB = (storage / 1024 / 1024 / 102.4 | 0) / 10
+  const storageTotalGB = (storageTotal / 1024 / 102.4 | 0) / 10
+
+  const progress = noLimit ? 0 : (storage / storageTotal) * 100 | 0
+  const tip = `${storageGB} / ${noLimit ? '无限制' : storageTotalGB} GB`
+
+  return {
+    progress, tip
+  }
+}
+
+// 应用设备
+export const useEdgeDevice = () => {
+  const device = useAtomValue(onlineDeviceUsedAtom)
+  const deviceTotal = useAtomValue(onlineDeviceTotalAtom)
+  const noLimit = deviceTotal === 0
+
+  const progress = noLimit ? 0 : (device / deviceTotal) * 100 | 0
+  const tip = `${device} / ${noLimit ? '无限制' : deviceTotal} 台`
+
+  return {
+    progress, tip
+  }
+}
+
+// SDK 设备
+export const useTerminalDevice = () => {
+  const device = useAtomValue(offlineDeviceUsedAtom)
+  const deviceTotal = useAtomValue(offlineDeviceTotalAtom)
+  const noLimit = deviceTotal === 0
+
+  const progress = noLimit ? 0 : (device / deviceTotal) * 100 | 0
+  const tip = `${device} / ${noLimit ? '无限制' : deviceTotal} 台`
+
+  return {
+    progress, tip
+  }
+}
+
+// 模型训练
+export const useModelTrain = () => {
+  const model = useAtomValue(modelTrainUsedAtom)
+  const modelTotal = useAtomValue(modelTrainTotalAtom)
+  const noLimit = modelTotal === 0
+
+  const progress = noLimit ? 0 : (model / modelTotal) * 100 | 0
+  const tip = `${model} / ${noLimit ? '无限制' : modelTotal} 个`
+
+  return {
+    progress, tip
+  }
+}
+
+export const useBalance = () => {
+  const _balance = useAtomValue(balanceAtom)
+
+  const balance = _balance + ' 元'
+
+  return {
+    balance
+  }
 }

@@ -93,6 +93,7 @@ const SelectTrainType = (): JSX.Element => {
         <List>
           {
             Object.keys(MODEL_TYPES)
+              .filter(x => x !== 'face_recognition')
               .map(scene => (
                 <TrainTypeItem scene={scene as DatasetScene} key={scene} />
               ))

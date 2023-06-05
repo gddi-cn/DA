@@ -25,6 +25,7 @@ export type Data = {
   is_public:boolean,
   meta: Dataset.Meta,
   reason:string,
+  resolution: Array<number>,
   train_set: {
     annotation_count: number
     class_count: number

@@ -1,9 +1,9 @@
-import flvjs from 'flv.js';
+import flvjs from 'flv.js'
 import { useEffect, useRef, useState } from 'react'
 import FlvJs from 'flv.js/d.ts/flv'
 import StepProgress from '../StepProgress'
-import { RawVideoMap, flows } from './config'
 import type { RawVideoMapTypeItem } from './config'
+import { flows, RawVideoMap } from './config'
 import './ForceAutoPlayVedio.module.less'
 
 let flvplayer: FlvJs.Player | null = null;
@@ -12,14 +12,12 @@ interface Props {
     progress: number
 }
 
-const getSrcPosition = (rawMap: RawVideoMapTypeItem[], progress: number): number => {
-  const index = rawMap.findIndex((o) => {
-    const { weight: [start, end] } = o;
+const getSrcPosition = (rawMap: RawVideoMapTypeItem[], progress: number): number =>
+  rawMap.findIndex((o) => {
+    const {weight: [start, end]} = o;
     return progress >= start && progress < end
   })
 
-  return index
-}
 
 const ForceAutoPlayVedio = (props: Props): JSX.Element => {
   const { progress } = props
@@ -38,7 +36,7 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
 
   const initFlv = (target: RawVideoMapTypeItem) => {
     try {
-      const { url } = target
+      const { url } = target || {}
 
       if (flvplayer) {
         flvplayer.destroy();
@@ -86,8 +84,6 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
     if (!isMount.current) {
       try {
         const index = getSrcPosition(RawVideoMap, progress)
-        console.log('index', index)
-        console.log('progress', progress)
 
         if (progress === 0) {
           setFlowsIndex(0)
@@ -111,6 +107,7 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
     }
   }, [progress])
 
+
   // useEffect(() => {
   //   return () => {
 
@@ -122,11 +119,7 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
 
     // 看看后端返回的实际的到了哪里
     const index = getSrcPosition(RawVideoMap, progress)
-    console.log('handleFuckingEnd', progress)
-    console.log('index', index)
-    console.log('currentIndex.current', currentIndex.current)
     if (index > currentIndex.current) {
-      console.log('中间还有多少个没播放的')
       currentIndex.current += 1
       const _index = currentIndex.current
       setFlowsIndex(_index)
@@ -140,6 +133,11 @@ const ForceAutoPlayVedio = (props: Props): JSX.Element => {
       initFlv(RawVideoMap[index])
     }
   }
+
+  useEffect(() => {
+    handleFuckingEnd()
+  }, [progress])
+
   return (
 
     <div styleName='ForceAutoPlayVedio'>

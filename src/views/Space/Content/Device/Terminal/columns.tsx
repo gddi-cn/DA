@@ -39,9 +39,9 @@ const columns: Array<ColumnType<GroupDevice>> = [
     render: (chip: string) => {
       return (
         <Tooltip title={chip || '-'}>
-      <span>{chip || '-'}</span>
-      </Tooltip>
-    )
+          <span>{chip || '-'}</span>
+        </Tooltip>
+      )
     }
   },
   {
@@ -54,7 +54,22 @@ const columns: Array<ColumnType<GroupDevice>> = [
       return (
         <Tooltip title={time}>
           <span>{time}</span>
-          </Tooltip>
+        </Tooltip>
+      )
+    }
+  },
+  {
+    title: '任务最大并发数',
+    dataIndex: 'max_process',
+    ellipsis: true,
+    width: 2,
+    render: (max: number) => {
+      const limit = max === 0 ? '无限制' : (max ?? '-')
+
+      return (
+        <Tooltip title={limit}>
+          <span>{limit}</span>
+        </Tooltip>
       )
     }
   },

@@ -34,8 +34,15 @@ const Spin = styled(AntSpin)`
 `;
 
 const Painter: React.FC<Painter.ImgMeta> = (props) => {
-  const { rawCanvasRef, resultCanvasRef, open, onClick, onClose, resLoading } =
-    usePainter(props);
+  const {
+    rawCanvasRef,
+    resultCanvasRef,
+    open,
+    onClick,
+    onClose,
+    resLoading
+  } = usePainter(props);
+
   return (
     <Container onClick={onClick}>
       <Canvas ref={rawCanvasRef} />
@@ -49,4 +56,4 @@ const Painter: React.FC<Painter.ImgMeta> = (props) => {
   );
 };
 
-export default Painter;
+export default React.memo(Painter, () => false);

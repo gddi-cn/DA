@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAtom } from "jotai"
-import { ModuleDefinitions, Pipeline } from 'gddi-app-canvas'
+import { ModuleDefinitions, Pipeline } from 'gddi-app-flow-pro'
 
 import { AppDetail } from "../enums"
 import { appAtom, currentPageAtom } from "../store"

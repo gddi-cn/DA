@@ -1,4 +1,5 @@
 import { Dataset, DatasetClass, SubDataset } from '@src/shared/types/dataset'
+import { templateDatasetAtom } from '@src/store/dataset'
 import { atom } from 'jotai'
 
 // 点连线顺序 [开始下标，结束下标]
@@ -30,7 +31,7 @@ export const currentSubDatasetAtom = atom<SubDataset | null>((get) => {
   if (!datasetInfo) return null
 
   const datasetType = get(datasetTypeAtom)
-  
+
   return datasetInfo[datasetType] || null
 })
 

@@ -4,9 +4,14 @@ import { Spin } from "antd";
 
 import { useUsage } from "./hook";
 
-import TrainTime from "./TrainTime";
-import Storage from "./Storage";
-import AuthModel from "./AuthModel";
+import Model from "./Model";
+import Channel from "./Channel";
+import Train from "./Train";
+import Storage from '@views/Space/LeftContent/Storage'
+import ModelTrain from "./ModelTrain";
+import EdgeDevice from "./EdgeDevice";
+import TerminalDevice from "./TeriminalDevice";
+import Balance from "./Balance";
 
 const Container = styled.div`
   margin-top: 20px;
@@ -47,9 +52,14 @@ const Usage: React.FC = () => {
       <Container ref={containerRef} onClick={handleClick}>
         <Title>使用情况</Title>
         <DataDisplay>
-          <TrainTime />
+          <Balance />
+          <Train />
           <Storage />
-          <AuthModel />
+          <Model />
+          <ModelTrain />
+          <Channel />
+          <EdgeDevice />
+          <TerminalDevice />
         </DataDisplay>
       </Container>
     </Spin>

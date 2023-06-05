@@ -4,6 +4,10 @@ export namespace User {
       ALL,
       CALCULATE,
       AUTH,
+      CHANNEL,
+      MODEL_TRAIN,
+      EDGE_DEVICE_REGISTER,
+      TERMINAL_DEVICE_REGISTER,
     }
   }
 }

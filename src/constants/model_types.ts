@@ -14,6 +14,7 @@ export const MODEL_TYPES = {
   // [WARNING] 仅在测试环境开放
   keypoint_detection: '关键点检测',
   image_retrieval: '图像检索',
+  face_recognition: '人脸识别',
 }
 
 export const THIRD_PARTY_MODEL_TYPES = {

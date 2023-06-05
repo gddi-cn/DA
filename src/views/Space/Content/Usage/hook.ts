@@ -110,7 +110,22 @@ const getConsume = (type: User.Consume.Type, amount: number) => {
   }
 
   if (type === User.Consume.Type.AUTH) {
-    return  `${amount} 个`
+    return `${amount} 个`
+  }
+
+  if (type === User.Consume.Type.CHANNEL) {
+    return `${amount} 路`
+  }
+
+  if (type === User.Consume.Type.MODEL_TRAIN) {
+    return `${amount} 个`
+  }
+
+  if (
+    type === User.Consume.Type.EDGE_DEVICE_REGISTER
+    || type === User.Consume.Type.TERMINAL_DEVICE_REGISTER
+  ) {
+    return `${amount} 台`
   }
 
   return '-'

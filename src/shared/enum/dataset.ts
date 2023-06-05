@@ -11,7 +11,7 @@ export enum DatasetDownloadStatus {
 }
 
 export enum DatasetScene {
-  // 目标检测
+  // 目标检
   Detection = 'detection',
   // 图片分类
   Classify = 'classify',
@@ -26,7 +26,11 @@ export enum DatasetScene {
   // 关键点检测
   KeypointsDetection = 'keypoint_detection',
   // 图像检索
-  ImageRetrieval = 'image_retrieval'
+  ImageRetrieval = 'image_retrieval',
+  // 人脸识别
+  FaceRecognition = 'face_recognition',
+  // 未知
+  Unknown = 'unknown'
 }
 
 export enum ScoreClass {

@@ -47,6 +47,7 @@ export interface Dataset {
   is_public:boolean,
   meta: Meta,
   reason:string,
+  resolution: Array<number>,
   train_set: SubDataset,
   val_set: SubDataset,
   assess: Record<string, number>,

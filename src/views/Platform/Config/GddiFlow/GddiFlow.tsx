@@ -1,9 +1,9 @@
 import { useCallback, useRef, useMemo } from 'react'
 import {
-  AppCanvas,
+  AppFlow,
   AIAppType,
   Pipeline,
-} from 'gddi-app-canvas'
+} from 'gddi-app-flow-pro'
 
 import { useDebounceFn } from 'ahooks'
 import api from '@api'
@@ -93,7 +93,7 @@ const GddiFlow = (props: any): JSX.Element => {
   const Flow = useMemo(() => {
     try {
       return (
-        <AppCanvas
+        <AppFlow
           {...flowValue}
           onLoad={handleAppLoad}
           onValueChange={handleValueChange.run}

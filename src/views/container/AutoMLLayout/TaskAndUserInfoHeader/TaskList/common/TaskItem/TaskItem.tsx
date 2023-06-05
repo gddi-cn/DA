@@ -59,7 +59,6 @@ const TaskItem = (props: Props): JSX.Element => {
     name, id, additional,
   } = data
 
-
   const icon = useMemo(
     () => {
       const type = additional?.model_type
@@ -91,7 +90,6 @@ const TaskItem = (props: Props): JSX.Element => {
 
   // 隐藏选项、如果没有了就回到首页
   const handleOnClick = (e:any) => {
-    console.log(e)
     let hasAutoNext = false
 
     if (activeTaskInfo?.id === id) {
@@ -112,6 +110,9 @@ const TaskItem = (props: Props): JSX.Element => {
   }
 
   const handleCheckoutTask = () => {
+    if (activeTaskInfo?.id === id) {
+      return
+    }
     dispatch(saveActivePipeLineLoading(true))
     dispatch(checkoutTask(data))
     const timer = setTimeout(() => {

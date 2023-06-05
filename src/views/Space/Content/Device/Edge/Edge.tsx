@@ -13,6 +13,7 @@ import GenCode from './GenCode'
 import FlowTip from './FlowTip'
 import Register from '../Register'
 import { DeviceType } from '@src/shared/enum/device'
+import SortSelector from '@src/views/Space/components/SortSelector'
 
 const Container = styled.div`
   height: 100%;
@@ -58,7 +59,17 @@ const Footer = styled.div`
 `
 
 const Edge: React.FC = () => {
-  const { page, pageSize, total, handleChange, showOperations, showDeleteGroup } = useEdge()
+  const {
+    page,
+    pageSize,
+    total,
+    handleChange,
+    showOperations,
+    showDeleteGroup,
+    sort,
+    sortBy,
+    handleSortChange,
+  } = useEdge()
 
   return (
     <Container>
@@ -66,6 +77,7 @@ const Edge: React.FC = () => {
         <Left>
           <NameFilter />
           <DeviceGroupSelector />
+          <SortSelector sort={sort} sortBy={sortBy} onChange={handleSortChange} />
         </Left>
         <Right>
           <Register type={DeviceType.EDGE} />
@@ -82,8 +94,8 @@ const Edge: React.FC = () => {
       </ContentWrap>
       <Footer>
         <div>
-          { showOperations ? <Operations /> : null }
-          { showDeleteGroup ? <DeleteGroup /> : null }
+          {showOperations ? <Operations /> : null}
+          {showDeleteGroup ? <DeleteGroup /> : null}
         </div>
         <Pagination
           current={page}

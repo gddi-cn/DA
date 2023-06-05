@@ -1,8 +1,8 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 
 import {
-  cardNumAtom, configConcurrentAtom, configFpsAtom, configTypeAtom, maxChannelAtom, maxFPSAtom, selectedChipAtom
+  cardNumAtom, configConcurrentAtom, configFpsAtom, configTypeAtom, maxChannelAtom, maxFPSAtom, resolutionAtom, selectedChipAtom
 } from '../../store'
 import { message, RadioChangeEvent } from 'antd'
 import { ChipConfigType } from '@src/shared/enum/chip'
@@ -16,13 +16,14 @@ export const useParamsSetting = () => {
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const [cardNum, setCardNum] = useAtom(cardNumAtom)
-  const [configType, setConfigType ] = useAtom(configTypeAtom)
+  const [configType, setConfigType] = useAtom(configTypeAtom)
   const [configFps, setConfigFps] = useAtom(configFpsAtom)
   const [configConcurrent, setConfigConcurrent] = useAtom(configConcurrentAtom)
   const [selectedChip] = useAtom(selectedChipAtom)
   const [maxFPS] = useAtom(maxFPSAtom)
   const [maxChannel] = useAtom(maxChannelAtom)
-  const totalFPS = selectedChip ? (selectedChip.fps_limited) : 0
+  const resolution = useAtomValue(resolutionAtom)
+  const totalFPS = selectedChip ? Math.floor((selectedChip.fps_limited / Math.pow(resolution / 640, 2))) : 0
 
   const [tip, setTip] = React.useState<string>('')
 
@@ -82,6 +83,26 @@ export const useParamsSetting = () => {
       )
     },
     [tip]
+  )
+
+  React.useEffect(
+    () => {
+      if (totalFPS <= 0) return
+      if (configFps * configConcurrent <= totalFPS) return
+
+      let newFPS = Math.floor(totalFPS / configConcurrent)
+      if (newFPS > maxFPS) newFPS = maxFPS
+
+      let newConcurrent = Math.floor(totalFPS / newFPS)
+
+      if (newConcurrent > maxChannel) {
+        newConcurrent = maxChannel
+      }
+
+      setConfigFps(newFPS)
+      setConfigConcurrent(newConcurrent)
+    },
+    [totalFPS]
   )
 
   return {

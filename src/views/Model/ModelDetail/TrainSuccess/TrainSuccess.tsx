@@ -48,6 +48,7 @@ const TrainSuccess = (): JSX.Element => {
 
     return ReactComp[tabIndex] || null;
   }, [tabIndex]);
+
   return (
     <div styleName="TrainSuccess">
       <div className="view_control_wrap">

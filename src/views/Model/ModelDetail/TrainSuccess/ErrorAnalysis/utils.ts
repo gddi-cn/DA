@@ -98,6 +98,16 @@ const poseLineColorList: Array<Painter.Color> = [
   [51, 153, 255],
 ];
 
+const getAdvice = (raw?: string | string[]): [string, string] => {
+  if (!raw) return ['', '']
+
+  if (Array.isArray(raw)) {
+    return raw.concat(['', '']).splice(0, 2) as [string, string]
+  }
+
+  return [raw.toString(), '']
+}
+
 const array2PointList = (arr: Array<number>): Array<Painter.Point> => {
   if (arr.length === 0 || arr.length % 3 !== 0) return [];
   return _.chunk(arr, 3).map((p) => {
@@ -370,7 +380,7 @@ const formatDetection = (
           label:
             modelFalseItemNameMapping.get(analysisItem as ModelFalseItem) ||
             analysisItem,
-          advice: value.advice,
+          advice: getAdvice(value.advice),
         },
         labelTip: {
           correctLabel: "",
@@ -382,23 +392,27 @@ const formatDetection = (
     );
   }
 
-  if (isEmpty(falseAnalysis.confusion_matrix)) return [];
+  const totalWrong = Object.values(falseAnalysis.confusion_matrix)
+    .map(Object.values)
+    .map(x => x.reduce((p, c) => p + c.cnt, 0))
+    .reduce((p, c) => p + c, 0)
 
   return Object.entries(falseAnalysis.confusion_matrix).map(
     ([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum, data }] = isEmpty(value)
-        ? [{ wrongLabel: "", wrongNum: 0, data: undefined }]
+      const [{ wrongLabel, wrongNum, data, score }] = isEmpty(value)
+        ? [{ wrongLabel: "", wrongNum: 0, score: 0, data: undefined }]
         : Object.entries(value).map(([wrongLabel, res]) => ({
             wrongLabel,
             wrongNum: res.cnt,
             data: res.bbox,
+            score: res.score || (totalWrong ? (res.cnt / totalWrong) : 0),
           }));
       return {
         uid: `${scene}_${correctLabel}_${wrongLabel}_${idx}`,
-        score: 100 - wrongNum,
+        score,
         sceneTip: {
           label: "",
-          advice: "",
+          advice: ["", ""],
         },
         labelTip: {
           correctLabel,
@@ -426,7 +440,7 @@ const formatClassify = (
           label:
             modelFalseItemNameMapping.get(analysisItem as ModelFalseItem) ||
             analysisItem,
-          advice: value.advice,
+          advice: getAdvice(value.advice),
         },
         labelTip: {
           correctLabel: "",
@@ -440,21 +454,27 @@ const formatClassify = (
 
   if (isEmpty(falseAnalysis.confusion_matrix)) return [];
 
+  const totalWrong = Object.values(falseAnalysis.confusion_matrix)
+    .map(Object.values)
+    .map(x => x.reduce((p, c) => p + c.cnt, 0))
+    .reduce((p, c) => p + c, 0)
+
   return Object.entries(falseAnalysis.confusion_matrix).map(
     ([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum, data }] = isEmpty(value)
-        ? [{ wrongLabel: "", wrongNum: 0, data: undefined }]
+      const [{ wrongLabel, wrongNum, data, score }] = isEmpty(value)
+        ? [{ wrongLabel: "", wrongNum: 0, score: 0, data: undefined }]
         : Object.entries(value).map(([wrongLabel, res]) => ({
             wrongLabel,
             wrongNum: res.cnt,
             data: res.bbox,
+            score: res.score || (totalWrong ? (res.cnt / totalWrong) : 0),
           }));
       return {
         uid: `${scene}_${correctLabel}_${wrongLabel}_${idx}`,
-        score: 100 - wrongNum,
+        score,
         sceneTip: {
           label: "",
-          advice: "",
+          advice: ["", ""],
         },
         labelTip: {
           correctLabel,
@@ -482,7 +502,7 @@ const formatImageRetrieval = (
           label:
             modelFalseItemNameMapping.get(analysisItem as ModelFalseItem) ||
             analysisItem,
-          advice: value.advice,
+          advice: getAdvice(value.advice),
         },
         labelTip: {
           correctLabel: "",
@@ -496,21 +516,27 @@ const formatImageRetrieval = (
 
   if (isEmpty(falseAnalysis.confusion_matrix)) return []
 
+  const totalWrong = Object.values(falseAnalysis.confusion_matrix)
+    .map(Object.values)
+    .map(x => x.reduce((p, c) => p + c.cnt, 0))
+    .reduce((p, c) => p + c, 0)
+
   return Object.entries(falseAnalysis.confusion_matrix).map(
     ([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum, data }] = isEmpty(value)
-        ? [{ wrongLabel: "", wrongNum: 0, data: undefined }]
+      const [{ wrongLabel, wrongNum, data, score }] = isEmpty(value)
+        ? [{ wrongLabel: "", wrongNum: 0, score: 0, data: undefined }]
         : Object.entries(value).map(([wrongLabel, res]) => ({
             wrongLabel,
             wrongNum: res.cnt,
             data: res.results,
+            score: res.score || (totalWrong ? (res.cnt / totalWrong) : 0),
           }));
       return {
         uid: `${scene}_${correctLabel}_${wrongLabel}_${idx}`,
-        score: 100 - wrongNum,
+        score,
         sceneTip: {
           label: "",
-          advice: "",
+          advice: ["", ""],
         },
         labelTip: {
           correctLabel,
@@ -533,12 +559,12 @@ const formatCarPoseDetection = (
     return Object.entries(falseAnalysis.scene_false).map(
       ([analysisItem, value], idx) => ({
         uid: `${scene}_${analysisItem}_${idx}`,
-        score: value.score,
+        score: value.score || 0,
         sceneTip: {
           label:
             modelFalseItemNameMapping.get(analysisItem as ModelFalseItem) ||
             analysisItem,
-          advice: value.advice,
+          advice: getAdvice(value.advice),
         },
         labelTip: {
           correctLabel: "",
@@ -552,22 +578,28 @@ const formatCarPoseDetection = (
 
   if (isEmpty(falseAnalysis.confusion_matrix)) return [];
 
+  const totalWrong = Object.values(falseAnalysis.confusion_matrix)
+    .map(Object.values)
+    .map(x => x.reduce((p, c) => p + c.cnt, 0))
+    .reduce((p, c) => p + c, 0)
+
   return Object.entries(falseAnalysis.confusion_matrix).map(
     ([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum, data }] = isEmpty(value)
-        ? [{ wrongLabel: "", wrongNum: 0, data: undefined }]
+      const [{ wrongLabel, wrongNum, data, score }] = isEmpty(value)
+        ? [{ wrongLabel: "", wrongNum: 0, data: undefined, score: 0 }]
         : Object.entries(value).map(([wrongLabel, res]) => ({
             wrongLabel,
             wrongNum: res.cnt,
             data: res.results,
+            score: res.score || (totalWrong ? (res.cnt / totalWrong) : 0),
           }));
 
       return {
         uid: `${scene}_${correctLabel}_${wrongLabel}_${idx}`,
-        score: 100 - wrongNum,
+        score,
         sceneTip: {
           label: "",
-          advice: "",
+          advice: ["", ""],
         },
         labelTip: {
           correctLabel,
@@ -591,12 +623,12 @@ const formatKeyPointDetection = (
     return Object.entries(falseAnalysis.scene_false).map(
       ([analysisItem, value], idx) => ({
         uid: `${scene}_${analysisItem}_${idx}`,
-        score: value.score,
+        score: value.score || 0,
         sceneTip: {
           label:
             modelFalseItemNameMapping.get(analysisItem as ModelFalseItem) ||
             analysisItem,
-          advice: value.advice,
+          advice: getAdvice(value.advice),
         },
         labelTip: {
           correctLabel: "",
@@ -608,23 +640,29 @@ const formatKeyPointDetection = (
     );
   }
   if (isEmpty(falseAnalysis.confusion_matrix)) return [];
+  
+  const totalWrong = Object.values(falseAnalysis.confusion_matrix)
+    .map(Object.values)
+    .map(x => x.reduce((p, c) => p + c.cnt, 0))
+    .reduce((p, c) => p + c, 0)
 
   return Object.entries(falseAnalysis.confusion_matrix).map(
     ([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum, data }] = isEmpty(value)
-        ? [{ wrongLabel: "", wrongNum: 0, data: undefined }]
-        : Object.entries(value).map(([wrongLabel, res]) => ({
+      const [{ wrongLabel, wrongNum, data, score }] = isEmpty(value)
+        ? [{ wrongLabel: "", wrongNum: 0, score: 0, data: undefined }]
+        : Object.entries(value).map(([wrongLabel, res,]) => ({
             wrongLabel,
             wrongNum: res.cnt,
             data: res.results,
+            score: res.score || (totalWrong ? (res.cnt / totalWrong) : 0),
           }));
 
       return {
         uid: `${scene}_${correctLabel}_${wrongLabel}_${idx}`,
-        score: 100 - wrongNum,
+        score,
         sceneTip: {
           label: "",
-          advice: "",
+          advice: ["", ""],
         },
         labelTip: {
           correctLabel,
@@ -647,12 +685,12 @@ const formatCityscapesSegment = (
     return Object.entries(falseAnalysis.scene_false).map(
       ([analysisItem, value], idx) => ({
         uid: `${scene}_${analysisItem}_${idx}`,
-        score: value.score,
+        score: value.score || 0,
         sceneTip: {
           label:
             modelFalseItemNameMapping.get(analysisItem as ModelFalseItem) ||
             analysisItem,
-          advice: value.advice,
+          advice: getAdvice(value.advice),
         },
         labelTip: {
           correctLabel: "",
@@ -666,22 +704,28 @@ const formatCityscapesSegment = (
 
   if (isEmpty(falseAnalysis.confusion_matrix)) return [];
 
+  const totalWrong = Object.values(falseAnalysis.confusion_matrix)
+    .map(Object.values)
+    .map(x => x.reduce((p, c) => p + c.cnt, 0))
+    .reduce((p, c) => p + c, 0)
+
   return Object.entries(falseAnalysis.confusion_matrix).map(
     ([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum, data }] = isEmpty(value)
-        ? [{ wrongLabel: "", wrongNum: 0, data: undefined }]
+      const [{ wrongLabel, wrongNum, data, score }] = isEmpty(value)
+        ? [{ wrongLabel: "", wrongNum: 0, data: undefined, score: 0 }]
         : Object.entries(value).map(([wrongLabel, res]) => ({
             wrongLabel,
             wrongNum: res.cnt,
             data: res.results,
+            score: res.score || (totalWrong ? (res.cnt / totalWrong) : 0),
           }));
 
       return {
         uid: `${scene}_${correctLabel}_${wrongLabel}_${idx}`,
-        score: 100 - wrongNum,
+        score,
         sceneTip: {
           label: "",
-          advice: "",
+          advice: ["", ""],
         },
         labelTip: {
           correctLabel,
@@ -704,12 +748,12 @@ const formatPoseDetection = (
     return Object.entries(falseAnalysis.scene_false).map(
       ([analysisItem, value], idx) => ({
         uid: `${scene}_${analysisItem}_${idx}`,
-        score: value.score,
+        score: value.score || 0,
         sceneTip: {
           label:
             modelFalseItemNameMapping.get(analysisItem as ModelFalseItem) ||
             analysisItem,
-          advice: value.advice,
+          advice: getAdvice(value.advice),
         },
         labelTip: {
           correctLabel: "",
@@ -723,22 +767,28 @@ const formatPoseDetection = (
 
   if (isEmpty(falseAnalysis.confusion_matrix)) return [];
 
+  const totalWrong = Object.values(falseAnalysis.confusion_matrix)
+    .map(Object.values)
+    .map(x => x.reduce((p, c) => p + c.cnt, 0))
+    .reduce((p, c) => p + c, 0)
+
   return Object.entries(falseAnalysis.confusion_matrix).map(
     ([correctLabel, value], idx) => {
-      const [{ wrongLabel, wrongNum, data }] = isEmpty(value)
-        ? [{ wrongLabel: "", wrongNum: 0, data: undefined }]
+      const [{ wrongLabel, wrongNum, data, score }] = isEmpty(value)
+        ? [{ wrongLabel: "", wrongNum: 0, data: undefined, score: 0 }]
         : Object.entries(value).map(([wrongLabel, res]) => ({
             wrongLabel,
             wrongNum: res.cnt,
             data: res.results,
+            score: res.score || (totalWrong ? (res.cnt / totalWrong) : 0),
           }));
 
       return {
         uid: `${scene}_${correctLabel}_${wrongLabel}_${idx}`,
-        score: 100 - wrongNum,
+        score,
         sceneTip: {
           label: "",
-          advice: "",
+          advice: ["", ""],
         },
         labelTip: {
           correctLabel,

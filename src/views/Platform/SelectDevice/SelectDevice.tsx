@@ -66,7 +66,16 @@ const Table = styled(AntTable)`
 `
 
 const SelectDevice: React.FC = () => {
-  const { loading, deviceList, page, pageSize, handlePaginationChange, total, handleSelectedChange } = useSelectDevice()
+  const {
+    loading,
+    deviceList,
+    page,
+    pageSize,
+    handlePaginationChange,
+    total,
+    handleSelectedChange,
+    handleSorterChange,
+  } = useSelectDevice()
 
   return (
     <Container>
@@ -83,6 +92,9 @@ const SelectDevice: React.FC = () => {
               disabled: !(value as any).match,
             }
           }
+        }}
+        onChange={(_, __, sorter: any) => {
+          handleSorterChange(sorter.field, sorter.order)
         }}
         pagination={{
           current: page,

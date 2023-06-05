@@ -1,15 +1,17 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import _ from 'lodash'
 
 import {
   fetchingTerminalAtom,
-  selectedTerminalGroupAtom, selectedTerminalDeviceIdListAtom,
+  selectedTerminalGroupAtom,
+  selectedTerminalDeviceIdListAtom,
   terminalDeviceListAtom,
   terminalNameAtom,
   terminalPageAtom,
   terminalPageSizeAtom,
   terminalTotalAtom,
   terminalGroupRemoteSearchRefAtom,
+  sortByAtom,
 } from '@views/Space/Content/Device/store'
 import deviceGroupAPI from '@src/apis/deviceGroups'
 import React from 'react'
@@ -18,6 +20,7 @@ import { DeviceType } from '@src/shared/enum/device'
 import { GroupDevice } from '@src/shared/types/device'
 import { message } from 'antd'
 import { RemoteSearchRef } from '@src/components/RemoteSearch/RemoteSearch'
+import { sortAtom } from '@src/views/container/AutoMLLayout/TaskAndUserInfoHeader/TaskSearcher/store'
 
 export const useRefreshTerminalDevice = () => {
   const [group] = useAtom(selectedTerminalGroupAtom)
@@ -28,6 +31,8 @@ export const useRefreshTerminalDevice = () => {
   const [, setTTotal] = useAtom(terminalTotalAtom)
   const [loading, setLoading] = useAtom(fetchingTerminalAtom)
   const [, setSelectedDeviceIdList] = useAtom(selectedTerminalDeviceIdListAtom)
+  const sort = useAtomValue(sortAtom)
+  const sortBy = useAtomValue(sortByAtom)
 
   const groupId = group?.value
 
@@ -45,6 +50,8 @@ export const useRefreshTerminalDevice = () => {
       page: firstPage ? 1 : page,
       page_size,
       type: DeviceType.TERMINAL,
+      sort,
+      sort_by: sortBy,
     })
     setLoading(false)
 
@@ -71,6 +78,14 @@ export const useTerminal = () => {
   const [loading] = useAtom(fetchingTerminalAtom)
   const [total] = useAtom(terminalTotalAtom)
 
+  const [sort, setSort] = useAtom(sortAtom)
+  const [sortBy, setSortBy] = useAtom(sortByAtom)
+
+  const handleSortChange = (sort: 'asc' | 'desc', sortBy: 'name' | 'registered_time') => {
+    setSort(sort)
+    setSortBy(sortBy)
+  }
+
   const groupId = group?.value
 
   const refresh = useRefreshTerminalDevice()
@@ -82,7 +97,7 @@ export const useTerminal = () => {
 
   React.useEffect(() => {
     refresh(true)
-  }, [groupId, name, page_size])
+  }, [groupId, name, page_size, sort, sortBy])
 
   React.useEffect(() => {
     refresh()
@@ -96,6 +111,9 @@ export const useTerminal = () => {
     showOperations: selectedDeviceIdList?.length > 0,
     showDeleteGroup: deviceList.length <= 0,
     loading,
+    sort,
+    sortBy,
+    handleSortChange,
   }
 }
 
@@ -170,7 +188,6 @@ export const useTerminalList = () => {
   }
 }
 
-
 export const useMoveDevice = () => {
   const [selectedDeviceIdList] = useAtom(selectedTerminalDeviceIdListAtom)
   const [open, setOpen] = React.useState<boolean>(false)
@@ -209,7 +226,7 @@ export const useMoveDevice = () => {
     setLoading(true)
     Promise.all(
       selectedDeviceIdList
-      .map(id => deviceGroupAPI.moveDevice(id, sourceGroupId, targetGroupId))
+        .map(id => deviceGroupAPI.moveDevice(id, sourceGroupId, targetGroupId))
     ).then(resList => {
       setLoading(false)
       const success = resList.every(x => x.success)
@@ -273,7 +290,7 @@ export const useCopyDevice = () => {
     setLoading(true)
     Promise.all(
       selectedDeviceIdList
-      .map(id => deviceGroupAPI.copyDevice(id, sourceGroupId, targetGroupId))
+        .map(id => deviceGroupAPI.copyDevice(id, sourceGroupId, targetGroupId))
     ).then(resList => {
       setLoading(false)
       const success = resList.every(x => x.success)

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { currentModelVersionIdAtom, currentDatasetIdAtom } from '@src/store/dataset'
 
 import Step from './Step'
 import Footer from './Footer'
@@ -10,6 +11,7 @@ import Sync from './Sync'
 import Notify from './Notify'
 
 import { usePlatform } from './hook'
+import { useAtomValue } from 'jotai'
 
 const Container = styled.div`
   display: flex;

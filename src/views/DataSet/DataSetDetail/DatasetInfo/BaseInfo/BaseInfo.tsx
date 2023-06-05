@@ -7,15 +7,12 @@ import EchartBar from './EchartBar'
 import { bytesToSize } from '@src/utils'
 import { IsEchartViewButton } from '@src/UIComponents'
 import './BaseInfo.module.less'
-import { currentDatasetAtom, currentSubDatasetAtom } from '../../store'
 import { useBaseInfo } from './hook'
 
 const BaseInfo = (): JSX.Element => {
-  useBaseInfo()
+  const { datasetInfo, currentSubDataset } = useBaseInfo()
 
   const [checkType, setCheckType] = React.useState('FormView')
-  const [datasetInfo] = useAtom(currentDatasetAtom)
-  const [currentSubDataset] = useAtom(currentSubDatasetAtom)
 
   const handleCheckView = () => {
     if (checkType === 'FormView') {

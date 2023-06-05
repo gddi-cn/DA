@@ -15,11 +15,14 @@ export const useContent = () => {
 
   const showDeploy = currentPage === Space.Page.DEPLOY
 
+  const showApi = currentPage === Space.Page.API
+
   return {
     showUsage,
     showAccount,
     showDevice,
     showApp,
     showDeploy,
+    showApi,
   }
 }

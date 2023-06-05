@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 
 import { APP_SELECT_DEPLOY_TYPE } from '@router'
 import { socketPushMsgForProject } from '@ghooks'
@@ -9,24 +9,24 @@ import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { RootState } from '@reducer'
 import {
   appListAtom,
-  createAppOpenAtom,
   currentStepAtom,
   deviceTypeListAtom,
   expireAtom,
   fetchingAppListAtom,
-  fetchingDeviceTypeListAtom, limitAtom,
+  fetchingDeviceTypeListAtom, hideChannelAtom, limitAtom,
+  maxLimitAtom,
   selectDeviceTypeAtom,
   selectedAppAtom,
-  selectedDeviceGroupAtom,
   selectedDeviceIdListAtom,
-  syncTypeAtom
+  syncTypeAtom,
+  useResetStore,
 } from './store'
 import { Platform } from '@views/Platform/enum'
 import appAPI from '@src/apis/app'
 import deviceAPI from '@src/apis/device'
 import { DeviceType } from '@src/shared/enum/device'
 import http from '@src/utils/http'
-import { ModuleDefinitions, Pipeline } from 'gddi-app-canvas'
+import { ModuleDefinitions, Pipeline } from 'gddi-app-flow-pro'
 import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
 
 import { ReactComponent as TemplateActiveIcon } from '@src/asset/icons/platform/template_active.svg'
@@ -86,9 +86,7 @@ export const useRefreshDeviceTypeList = () => {
   const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
 
   return async () => {
-    console.log({ model_iter_id, loading })
     if (!model_iter_id || loading) return
-    console.log(333)
 
     setLoading(true)
 
@@ -108,43 +106,6 @@ export const useRefreshDeviceTypeList = () => {
 
     setDeviceTypeList(data.items || [])
   }
-}
-
-const useResetStore = () => {
-  const [, setCurrentStep] = useAtom(currentStepAtom)
-  const [, setSelectDeviceType] = useAtom(selectDeviceTypeAtom)
-  const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
-  const [, setFetchingAppList] = useAtom(fetchingAppListAtom)
-  const [, setAppList] = useAtom(appListAtom)
-  const [, setCreateAppOpen] = useAtom(createAppOpenAtom)
-  const [, setFetchingDeviceTypeList] = useAtom(fetchingDeviceTypeListAtom)
-  const [, setSelectedApp] = useAtom(selectedAppAtom)
-  const [, setSelectedDeviceGroup] = useAtom(selectedDeviceGroupAtom)
-  const [, setExpire] = useAtom(expireAtom)
-  const [, setLimit] = useAtom(limitAtom)
-  const [, setSyncType] = useAtom(syncTypeAtom)
-  const [, setSelectedDeviceList] = useAtom(selectedDeviceIdListAtom)
-
-  React.useEffect(
-    () => () => {
-      setFetchingAppList(true)
-      setFetchingDeviceTypeList(true)
-      setCurrentStep(Platform.Step.SELECT_APP)
-      setSelectDeviceType(null)
-      setDeviceTypeList([])
-      setAppList([])
-      setCreateAppOpen(false)
-      setSelectedApp(undefined)
-      setSelectedDeviceGroup(null)
-      setExpire(-1)
-      setLimit(-1)
-      setSyncType('sync')
-      setSelectedDeviceList([])
-      setFetchingDeviceTypeList(false)
-      setFetchingAppList(false)
-    },
-    []
-  )
 }
 
 export const usePlatform = () => {
@@ -236,10 +197,13 @@ export const useFooter = () => {
   const [currentStep, setCurrentStep] = useAtom(currentStepAtom)
   const [syncType] = useAtom(syncTypeAtom)
   const [expire_seconds] = useAtom(expireAtom)
-  const [limit] = useAtom(limitAtom)
+  const _limit = useAtomValue(limitAtom)
+  const hideChannel = useAtomValue(hideChannelAtom)
   const [selectedApp] = useAtom(selectedAppAtom)
   const [selectedDeviceIdList] = useAtom(selectedDeviceIdListAtom)
   const [deploying, setDeploying] = React.useState<boolean>(false)
+
+  const limit = hideChannel ? undefined : _limit
 
   const navigate = useNavigate()
 
@@ -249,7 +213,7 @@ export const useFooter = () => {
 
   const disabledNext =
     (currentStep === Platform.Step.SELECT_APP && !selectedApp)
-  || (currentStep === Platform.Step.SELECT_DEVICE && !selectedDeviceIdList.length)
+    || (currentStep === Platform.Step.SELECT_DEVICE && !selectedDeviceIdList.length)
 
   const loading =
     (currentStep === Platform.Step.SYNC && deploying)
@@ -264,8 +228,8 @@ export const useFooter = () => {
     })
     socketPushMsgForProject(
       activePipeLine, {
-        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
-      }
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
+    }
     )
   }
 
@@ -296,7 +260,7 @@ export const useFooter = () => {
           expire_seconds,
           limit,
         },
-        (selectedApp.name || 'app') +'.gem'
+        (selectedApp.name || 'app') + '.gem'
       )
 
       success = res.success
@@ -415,8 +379,8 @@ export const useNotify = () => {
   const handleClick = () => {
     socketPushMsgForProject(
       activePipeLine, {
-        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE,
-      }
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE,
+    }
     )
     navigate(
       {

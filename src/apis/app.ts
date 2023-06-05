@@ -49,7 +49,7 @@ const appAPI = {
         success: false,
       }
     }
-    
+
   },
 
   create: async (data: App.CreateData): Promise<APIResponse<App.Instance>> => {
@@ -69,7 +69,7 @@ const appAPI = {
 
   sync: async (
     appId: App.Instance['id'],
-    data: { device_ids: Array<GroupDevice['id']>, expire_seconds: number, limit: number }
+    data: { device_ids: Array<GroupDevice['id']>, expire_seconds: number, limit?: number }
   ): Promise<APIResponse<void>> => {
     try {
       await http.post(`/v3/apps/${appId}/syncs2`, data)
@@ -87,7 +87,7 @@ const appAPI = {
 
   export: async (
     appId: App.Instance['id'],
-    data: { device_ids: Array<GroupDevice['id']>, expire_seconds: number, limit: number },
+    data: { device_ids: Array<GroupDevice['id']>, expire_seconds: number, limit?: number },
     filename: string
   ): Promise<APIResponse<void>> => {
     try {
@@ -130,7 +130,7 @@ const appAPI = {
         success: true,
         data,
       }
-    } catch(e) {
+    } catch (e) {
       console.error(e)
 
       return {
@@ -139,35 +139,35 @@ const appAPI = {
     }
   },
 
-  syncList: async(id: App.Instance['id']): Promise<APIListResponse<Sync.Instance>> => {
+  syncList: async (id: App.Instance['id']): Promise<APIListResponse<Sync.Instance>> => {
     try {
       const { data } = await http.get(`/v3/apps/${id}/syncs`)
       return {
         success: true,
         data,
       }
-    } catch(e) {
+    } catch (e) {
       return {
         success: false
       }
     }
   },
 
-  syncDetail: async(appId: App.Instance['id'], syncId: Sync.Instance['id']) => {
+  syncDetail: async (appId: App.Instance['id'], syncId: Sync.Instance['id']) => {
     try {
       const { data } = await http.get(`/v3/apps/${appId}/syncs/${syncId}`)
       return {
         success: true,
         data,
       }
-    } catch(e) {
+    } catch (e) {
       return {
         success: false
       }
     }
   },
 
-  update: async(
+  update: async (
     id: App.Instance['id'],
     data: Partial<Pick<App.Instance, 'name' | 'cover' | 'description'>>
   ): Promise<APIResponse<void>> => {
@@ -176,7 +176,7 @@ const appAPI = {
       return {
         success: true,
       }
-    } catch(e) {
+    } catch (e) {
       console.error(e)
 
       return {
@@ -185,14 +185,14 @@ const appAPI = {
     }
   },
 
-  copy: async(id: App.Instance['id']): Promise<APIResponse<App.Instance>> => {
+  copy: async (id: App.Instance['id']): Promise<APIResponse<App.Instance>> => {
     try {
       const { data } = await http.put(`/v3/apps/${id}/copy`)
       return {
         success: true,
         data,
       }
-    } catch(e) {
+    } catch (e) {
       console.error(e)
       return {
         success: false,

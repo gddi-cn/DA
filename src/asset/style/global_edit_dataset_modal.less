@@ -1,11 +1,12 @@
 .modify_dataset_info {
+    --width: 450px;
     background: #EDF8FF;
     border-radius: 8px;
-    width: 324px !important;
+    width: var(--width) !important;
     padding-bottom: 0;
 
     .ant-modal-content {
-        width: 324px;
+        width: var(--width);
         background: #EDF8FF;
         border-radius: 8px;
     }
@@ -56,6 +57,7 @@
     }
 
     .modal_title {
+        width: 100%;
         display: inline-block !important;
         height: 50px;
         white-space: nowrap;

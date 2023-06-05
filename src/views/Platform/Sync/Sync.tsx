@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import bg from '@src/asset/images/platform/sync_bg.png'
 
-import { useLimit, useExpire, useSyncType } from './hook'
+import { useLimit, useExpire, useSyncType, useMaxLimit } from './hook'
 import { InputNumber, Radio, Space } from 'antd'
 
 const Container = styled.div`
@@ -53,12 +53,17 @@ const Label = styled.p`
   color: #061926;
 `
 
+const ChannelLimit = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #ccc;
+  font-size: 18px;
+`
+
 
 const Sync: React.FC = () => {
-  const {
-    noLimit, disableLimitInput, limitInputValue,
-    handleLimitRadioChange, handleDisableLimitInputChange,
-  } = useLimit()
+  const { limit, hideChannel, handleChange: handleLimitChange } = useLimit()
 
   const {
     noExpire, disableExpireInput, expireInputValue,
@@ -70,29 +75,35 @@ const Sync: React.FC = () => {
     handleChange,
   } = useSyncType()
 
+  const { maxLimit } = useMaxLimit()
+
   return (
     <Container>
       <Content>
         <Img src={bg} />
+        {
+          maxLimit !== 0 && !hideChannel ? (
+            <ChannelLimit>路数额度剩余：{maxLimit}</ChannelLimit>
+          ) : null
+        }
         <Form>
-          <div>
-            <Label>
-              路数设置
-            </Label>
-            <Divider />
-            <Radio.Group  value={noLimit} onChange={handleLimitRadioChange}>
-              <Space direction={'vertical'}>
-                <Radio value={true}>无限制</Radio>
-                <Radio value={false}>自定义</Radio>
-              </Space>
-            </Radio.Group>
-            <InputNumber<number>
-              disabled={disableLimitInput} min={1}
-              addonAfter={'路'} value={limitInputValue}
-              onChange={handleDisableLimitInputChange}
-              style={{ width: '100%', marginTop: 8, padding: '0 24px' }}
-            />
-          </div>
+          {
+            hideChannel ? null : (
+              <div>
+                <Label>
+                  路数设置
+                </Label>
+                <Divider />
+                <InputNumber<number>
+                  addonAfter={'路'}
+                  min={1}
+                  value={limit}
+                  onChange={handleLimitChange}
+                  style={{ width: '100%', marginTop: 8, padding: '0 24px' }}
+                />
+              </div>
+            )
+          }
           <div>
             <Label>
               授权天数

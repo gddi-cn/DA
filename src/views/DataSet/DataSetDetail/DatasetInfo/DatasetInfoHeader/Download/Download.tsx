@@ -12,10 +12,13 @@ const Container = styled.div`
 const Download: React.FC<Dataset & { refresh: () => void }> = (
   {
     id,
+    username,
     download,
     refresh,
   }
 ) => {
+  const hide = username.startsWith("Clone")
+
   const { status, url } = download || {}
 
   const disabled = status === DatasetDownloadStatus.DOWNLOADING
@@ -31,9 +34,12 @@ const Download: React.FC<Dataset & { refresh: () => void }> = (
     if (!url) return
 
     const $a = document.createElement('a')
+
     $a.href = url
     $a.target = '_blank'
+
     document.body.appendChild($a)
+
     $a.click()
     $a.remove()
   }
@@ -54,10 +60,23 @@ const Download: React.FC<Dataset & { refresh: () => void }> = (
     }
   }
 
-  return (
+  React.useEffect(
+    () => {
+      refresh()
+      if (status === DatasetDownloadStatus.DOWNLOADING) {
+        const timer = setInterval(refresh, 5000)
+        return () => {
+          clearInterval(timer)
+        }
+      }
+    },
+    [status]
+  )
+
+  return hide ? null : (
     <Container>
       <SmallButton type={'nomal'} disabled={disabled} onClick={handleClick}>
-        { datasetDownloadStatusNameMapping.get(status) || '重新申请' }
+        {datasetDownloadStatusNameMapping.get(status) || '重新申请'}
       </SmallButton>
     </Container>
   )

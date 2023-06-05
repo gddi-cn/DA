@@ -64,8 +64,21 @@ declare namespace User {
     authorization_limited: number
     // 授权用量
     authorization_usage: number
+    // 余额
+    balance: number
+    channel_limited: number
+    channel_usage: number
     // 并行 GPU 使用数限制，值为0时为无限制
     gpu_limited: number
+    // 模型训练个数限制，值为0时为无限制
+    model_limited: number
+    model_usage: number
+    // SDK 设备数限制，值为0时为无限制
+    offline_device_limited: number
+    offline_device_usage: number
+    // 应用设备数限制，值为0时为无限制
+    online_device_limited: number
+    online_device_usage: number
     // 存储限额(Byte)，值为0时为无限制
     storage_limited: number
     // 存储用量(Byte)

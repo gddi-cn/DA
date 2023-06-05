@@ -43,6 +43,7 @@ declare namespace ModelDetailSlice {
         parent_id: string,
         platform: string,
         reason: string,
+        resolution: number,
         result: any,
         status: number,
         task_info: TaskInfo,

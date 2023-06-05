@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import MoveDevice from './MoveDevice'
 import CopyDevice from './CopyDevice'
 import Unregister from './Unregister'
+import Process from './Process'
 
 const Container = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const Operations: React.FC = () => {
     <Container>
       <MoveDevice />
       <CopyDevice />
+      <Process />
       <Unregister />
     </Container>
   )
