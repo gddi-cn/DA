@@ -6,7 +6,6 @@ export const templateDatasetAtom = atom<Data | null>(null)
 export const currentDatasetIdAtom = atom<Data['id'] | undefined>(undefined)
 export const currentDatasetAtom= atom<Promise<Data | undefined>>(async (get) => {
   const id = get(currentDatasetIdAtom)
-  console.log({ id })
   if (!id) return undefined
 
   const { success, data } = await datasetAPI.detail(id)

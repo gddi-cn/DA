@@ -1,9 +1,10 @@
 // import { ReactComponent as Date } from './icon/date.svg'
 import { useState, useRef, useCallback, useEffect } from "react";
-import { chunk, isEmpty } from "lodash";
+import { chunk } from "lodash";
+import loading from './icon/3dot_loading.gif'
 
 import api from "@api";
-import { RootState } from "@reducer/index";
+import { RootState } from "@reducer";
 import { useSelector } from "react-redux";
 import { transformModelOutputData } from "../../utils";
 import { ImageSlider, UIDatasetVisual, FlvMp4 } from "@src/UIComponents";
@@ -13,8 +14,16 @@ import { DatePicker, Skeleton, Empty } from "antd";
 import "./ForecastResult.module.less";
 import moment from "moment";
 import { DatasetScene } from "@src/shared/enum/dataset";
+import styled from 'styled-components'
 
 const { RangePicker } = DatePicker;
+
+const Loading = styled.img`
+  display: block;
+  width: 20px!important;
+  height: 20px!important;
+  object-fit: contain!important;
+`
 
 const RenderView = (props: any) => {
   const { data, scenes } = props;
@@ -27,7 +36,7 @@ const RenderView = (props: any) => {
   // if (isEmpty(datainfo)) {
   //   return null;
   // }
-  
+
   const { dataSet } = datainfo || {};
   // 这里不能让react复用、我猜是离屏canvas导致的缓存问题~
   return (
@@ -79,8 +88,10 @@ const ForecastResult = (props: any): JSX.Element => {
       if (res.code === 0) {
         const list = res.data;
         settotal(list.length);
+
+
         const _list = chunk(list, 10);
-        setChunkList(_list);
+
 
         setFictitiousList(_list[page.current - 1]);
         setFetching(false);
@@ -92,8 +103,17 @@ const ForecastResult = (props: any): JSX.Element => {
     }
   }, [versionInfo]);
 
+  // 若当前列表存在预测中的数据，则每隔15s刷新一次
+  useEffect(
+    () => {
+      if (fictitiousList.some((item: any) => item.status === 1)) {
+        setTimeout(fetchData, 15e3)
+      }
+    },
+    [fictitiousList]
+  )
+
   useEffect(() => {
-    // react源码还是骚气骚气的
     setFetchResult(() => fetchData);
   }, [setFetchResult, fetchData]);
 
@@ -116,6 +136,9 @@ const ForecastResult = (props: any): JSX.Element => {
     if (!data) {
       return null;
     }
+
+    // data.status = 1
+
     const { url } = data || {};
     const isVideo = /\.mp4$/.test(url);
 
@@ -133,7 +156,10 @@ const ForecastResult = (props: any): JSX.Element => {
       <div className="ForecastResult_item_werap">
         <div className="canvas_wrap">{getView()}</div>
         <div className={`info_wrap ${textClsArr[data.status] || "success"}`}>
-          <p className="thres">状态：{textArr[data.status] || "-"}</p>
+          <p className="thres" style={{ display: 'flex', alignItems: 'center', columnGap: '2px' }}>
+            状态：{textArr[data.status] || "-"}
+            {data.status === 1 ? <Loading src={loading} /> : null}
+          </p>
           <p className="thres">阈值 : {data.thres}</p>
           <p>
             创建时间 :{" "}
@@ -206,7 +232,6 @@ const ForecastResult = (props: any): JSX.Element => {
       const [start, end] = dates;
       const _start = (start as moment.Moment).valueOf() / 1000;
       const _end = (end as moment.Moment).valueOf() / 1000;
-      console.log(_start.toFixed(0), _end);
 
       params.current = {
         begin: _start.toFixed(0),

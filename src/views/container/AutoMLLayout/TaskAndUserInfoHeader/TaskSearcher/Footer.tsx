@@ -16,12 +16,6 @@ const Text = styled.div`
 
 const Footer: React.FC = () => {
   const total = useAtomValue(totalAtom)
-  React.useEffect(
-    () => {
-      console.log(total)
-    },
-    [total]
-  )
 
   return (
     <Text>
