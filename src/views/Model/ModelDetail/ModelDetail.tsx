@@ -18,6 +18,7 @@ import './ModelDetail.module.less'
 import { useAtomValue } from 'jotai'
 import { currentModelVersionIdAtom } from '@src/store/dataset'
 import projectAPI from '@src/apis/project'
+import modelAPI from '@src/apis/model'
 
 // ?id=370695350071697408&cuurentVersionId=370695350075891712&
 const { confirm } = Modal;
@@ -68,6 +69,9 @@ const ModelDetail = (): JSX.Element => {
   const currentVersion = useSelector((state: RootState) => {
     return state.modelDetailSlice.currentVersion
   })
+
+  const currentVersionName = currentVersion?.name || ''
+  const isIter = currentVersionName !== 'v1'
 
   const getModelBaseInfo = useCallback(
     async () => {
@@ -160,7 +164,7 @@ const ModelDetail = (): JSX.Element => {
   }, [versionInfo, model_id])
 
   // 训练失败的时候也有这个，懒得写在saga里边了
-  const handleDetele = useCallback(
+  const handleDelete = useCallback(
     () => {
       const okfn = async () => {
         try {
@@ -211,6 +215,41 @@ const ModelDetail = (): JSX.Element => {
       // /v2/models/{id}/versions/{version_id}
     }, [activePipeLine, currentVersion?.id, dispatch, model_id, taskId]
   )
+
+  const handleCancel = () => {
+    confirm({
+      title: '取消迭代训练?',
+      icon: <ExclamationCircleOutlined />,
+      content: '取消后不可恢复，请谨慎。',
+      onOk: async () => {
+        const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+
+        if (res.code !== 0) {
+          message.error('取消失败')
+          return
+        }
+
+        const { success, data } = await modelAPI.versionList(model_id)
+
+        if (!success || !data?.versions?.length) return
+
+        const laestVersion = data.versions.sort((a, b) => parseInt(a.created) - parseInt(b.created)).reverse()[0]
+
+        const updateSnapRes = await api.patch(`/v3/projects/${taskId}`, {
+          model: {
+            id: model_id,
+            version_id: laestVersion.id
+          },
+        })
+
+        if (updateSnapRes?.code === 0) {
+          dispatch(checkoutTask(updateSnapRes.data))
+          dispatch(setVersionList(data.versions ?? []))
+          dispatch(setCurrentVersion(laestVersion))
+        }
+      },
+    });
+  }
 
   const handlePause = useCallback(async () => {
     try {
@@ -274,7 +313,16 @@ const ModelDetail = (): JSX.Element => {
     return (
       <div className='footer_btn_wrap'>
         {
-          !isTrainsiton && <GButton type='default' className='delete_model' onClick={handleDetele}>删除</GButton>
+          isTrainsiton ? null : (
+            <GButton
+              type='default' className='delete_model'
+              onClick={() => {
+                isIter ? handleCancel() : handleDelete()
+              }}
+            >
+              {isIter ? '取消训练' : '删除'}
+            </GButton>
+          )
         }
         {
           getPauseBtn()
@@ -282,7 +330,7 @@ const ModelDetail = (): JSX.Element => {
         <GButton type='primary' disabled={!isTrainsiton} onClick={goNext}>部署</GButton>
       </div>
     )
-  }, [versionInfo?.iter?.status, handleDetele, activePipeLine, navigate, handleResume, handlePause])
+  }, [versionInfo?.iter?.status, handleDelete, activePipeLine, navigate, handleResume, handlePause])
 
   return (
     <div styleName='ModelDetail'>

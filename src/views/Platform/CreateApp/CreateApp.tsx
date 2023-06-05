@@ -9,7 +9,8 @@ import SelecteTemplate from './SelectTemplate'
 import Footer from './Footer'
 
 const Container = styled.div`
-  height: calc(80vh - 120px);
+  height: 90vh;
+  min-height: 720px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -42,14 +43,16 @@ const CreateApp: React.FC = () => {
       onCancel={handleCancel}
       showCloseBtn
       destroyOnClose
+      width={1600}
+      centered
     >
       <Container>
         <Header>
           {step === 'base' ? '应用信息' : '选择模板'}
         </Header>
         <Content>
-          { step === 'base' ? <BaseForm /> : null }
-          { step === 'template' ? <SelecteTemplate /> : null }
+          {step === 'base' ? <BaseForm /> : null}
+          {step === 'template' ? <SelecteTemplate /> : null}
         </Content>
         <Footer />
       </Container>

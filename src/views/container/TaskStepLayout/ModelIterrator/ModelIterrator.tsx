@@ -5,11 +5,14 @@ import { useMemo } from 'react'
 import api from '@api'
 import { useLocation } from 'react-router-dom'
 import { APP_MODEL_TRAIN_DETAIL } from '@router'
-import { setCurrentVersion } from '@reducer/modelDetailSlice'
+import { setCurrentVersion, setVersionList } from '@reducer/modelDetailSlice'
 import { socketPushMsgForProject } from '@ghooks'
 import { message, Popconfirm } from 'antd'
 import './ModelIterrator.module.less'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import modelAPI from '@src/apis/model'
+import projectAPI from '@src/apis/project'
+import { checkoutTask } from '@src/controller/reducer/tasksSilce'
 
 const ModelIterrator = (): JSX.Element => {
   const location = useLocation()
@@ -17,6 +20,10 @@ const ModelIterrator = (): JSX.Element => {
   const { pathname } = location
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine
+  })
+
+  const taskId = useSelector((state: RootState) => {
+    return state.tasksSilce.activeTaskInfo?.id
   })
 
   const gpu_count = useSelector((state: RootState) => {
@@ -46,10 +53,19 @@ const ModelIterrator = (): JSX.Element => {
       if (!['detection', 'classify'].includes(model_type)) {
         return null
       }
-      const { id, version_id } = activePipeLine.APP_MODEL_TRAIN_DETAIL
+      const { id } = activePipeLine.APP_MODEL_TRAIN_DETAIL
+
       const handleIter = async () => {
+        const { success, data } = await modelAPI.versionList(id)
+        if (!success || !data?.versions?.length) return
+
+        const laestVersion = data.versions.sort((a, b) => parseInt(a.created) - parseInt(b.created)).reverse()[0]
+        const versionId = laestVersion.id
+        if (!versionId) return
+
         try {
-          const res = await api.post(`/v3/models/${id}/versions/${version_id}/increase`, { gpu_count: gpu_count })
+          const res = await api.post(`/v3/models/${id}/versions/${versionId}/increase`, { gpu_count: gpu_count })
+
           if (res?.code === 0) {
             message.success('模型正在迭代')
             const { version_id } = res.data
@@ -61,11 +77,18 @@ const ModelIterrator = (): JSX.Element => {
               })
             }
 
-            dispatch(setCurrentVersion(res.data))
+            // 创建后还要重新获取最新的版本
+            const { success: s, data: d } = await modelAPI.versionList(id)
+            if (!s || !d?.versions?.length) return
+            const l = d.versions.sort((a, b) => parseInt(a.created) - parseInt(b.created)).reverse()[0]
+
+            dispatch(setCurrentVersion(l))
+            dispatch(setVersionList(data?.versions ?? []))
+
           } else {
             message.error(res?.message)
           }
-        } catch (e:any) {
+        } catch (e: any) {
           message.error(e?.message)
         }
       }
