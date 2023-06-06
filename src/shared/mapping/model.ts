@@ -69,7 +69,7 @@ export const modelTrainStatusColorMapping: Map<Model.TrainStatus, string> = new 
   [Model.TrainStatus.TRAINING, /*  */'#48a2df'],
   [Model.TrainStatus.SUCCESS, /*   */'#2ec16b'],
   [Model.TrainStatus.FAILED, /*    */'#ff6177'],
-  [Model.TrainStatus.WAITING, /*   */'#637381'],
+  [Model.TrainStatus.WAITING, /*   */'#fad514'],
 ])
 
 export const modelTrainStatusBgColorMapping: Map<Model.TrainStatus, string> = new Map([
@@ -77,5 +77,5 @@ export const modelTrainStatusBgColorMapping: Map<Model.TrainStatus, string> = ne
   [Model.TrainStatus.TRAINING, /*  */'#edf7fd'],
   [Model.TrainStatus.SUCCESS, /*   */'#edfaf3'],
   [Model.TrainStatus.FAILED, /*    */'#f9eef0'],
-  [Model.TrainStatus.WAITING, /*   */'#e4e5e6'],
+  [Model.TrainStatus.WAITING, /*   */'#fad5141a'],
 ])
