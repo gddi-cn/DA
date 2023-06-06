@@ -106,7 +106,7 @@ const ForecastResult = (props: any): JSX.Element => {
   // 若当前列表存在预测中的数据，则每隔15s刷新一次
   useEffect(
     () => {
-      if (fictitiousList.some((item: any) => item.status === 1)) {
+      if (fictitiousList?.some((item: any) => item.status === 1)) {
         setTimeout(fetchData, 15e3)
       }
     },
