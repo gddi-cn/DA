@@ -15,7 +15,7 @@ const args = require('minimist')(process.argv.slice(2))
 
 const _describetion = args['--d'] || args.d || `${new Date().valueOf()} 更新`
 
-const tag = pj.version
+const tag = args['--t'] || args.t || pj.version
 
 const build = shell.exec(`docker build -t market_web_06:${tag} -f ./docker/Dockerfile .`)
 if (build.code) {
@@ -34,10 +34,10 @@ if (build.code) {
     `);
 
     const remark = _describetion.split('__')
-      .map((d, idx)=> ({
+      .map((d, idx) => ({
         tag: 'text',
         text: `\t${idx + 1}. ${d}\n`
-    }));
+      }));
 
     remark.unshift({
       tag: 'text',

@@ -55,6 +55,13 @@ export const useChatMessageList = (
     autoScroll && scrollToBottom()
   })
 
+  // React.useEffect(
+  //   () => {
+  //     console.table(messageList)
+  //   },
+  //   [messageList]
+  // )
+
   return {
     scrollRef,
     messageList,
