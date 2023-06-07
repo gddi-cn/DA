@@ -1,6 +1,5 @@
 import React from 'react'
 
-// import Markdown from 'components/Markdown'
 import { ChatMessageProps } from './types'
 import { useChatMessage, copyToClipboard } from './hook'
 
@@ -32,7 +31,7 @@ const ChatMessage: React.FC<ChatMessageProps> = (props) => {
   } = useChatMessage(props)
 
   return (
-    <div className={styles[`chat-message${ isUser ? '-user' : ''}`]}>
+    <div className={styles[`chat-message${isUser ? '-user' : ''}`]}>
       <div className={styles['chat-message-container']}>
         <div className={styles['chat-message-acatar']}>
           <div className={styles[avatarClassName]}>
@@ -87,19 +86,18 @@ const ChatMessage: React.FC<ChatMessageProps> = (props) => {
               </div>
             ) : null
           }
-          {
-            <React.Suspense fallback={<h4>...</h4>}>
-              <Markdown
-                content={content}
-                loading={loading}
-                parentRef={parentRef!}
-                fontSize={14}
-                defaultShow={defaultShow}
-                onContextMenu={onRightClick}
-                onDoubleClickCapture={onDoubleClick}
-              />
-            </React.Suspense>
-          }
+          <React.Suspense fallback={<h4>...</h4>}>
+            <Markdown
+              key={content}
+              content={content}
+              loading={loading}
+              parentRef={parentRef!}
+              fontSize={14}
+              defaultShow={defaultShow}
+              onContextMenu={onRightClick}
+              onDoubleClickCapture={onDoubleClick}
+            />
+          </React.Suspense>
         </div>
         {
           showDate ? (

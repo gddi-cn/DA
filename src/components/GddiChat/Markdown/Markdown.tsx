@@ -119,7 +119,8 @@ export function PreCode(props: { children: any }) {
   );
 }
 
-function _MarkDownContent(props: { content: string }) {
+// function _MarkDownContent(props: { content: string }) {
+function _MarkdownContent(props: { content: string }) {
   return (
     <ReactMarkdown
       remarkPlugins={[RemarkMath, RemarkGfm, RemarkBreaks]}
@@ -148,7 +149,7 @@ function _MarkDownContent(props: { content: string }) {
   );
 }
 
-export const MarkdownContent = React.memo(_MarkDownContent);
+export const MarkdownContent = React.memo(_MarkdownContent);
 
 function Markdown(
   props: {
@@ -203,12 +204,13 @@ function Markdown(
       onContextMenu={props.onContextMenu}
       onDoubleClickCapture={props.onDoubleClickCapture}
     >
-      {inView.current &&
-        (props.loading ? (
+      {
+        props.loading ? (
           <h4>...</h4>
         ) : (
           <MarkdownContent content={props.content} />
-        ))}
+        )
+      }
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { ChatMessageProps } from "./types";
 import defaultUserAvatar from './user_avatar.svg'
 import defaultSystemAvatar from './system_avatar.svg'
+import React from "react";
 
 export async function copyToClipboard(
   text: string,
