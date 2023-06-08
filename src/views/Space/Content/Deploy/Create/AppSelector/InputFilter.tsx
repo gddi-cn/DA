@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Select } from 'antd'
+import { Radio, Select } from 'antd'
 
 import { AppTemplateInput } from '@src/shared/enum/application'
 import { useInputFilter } from './hook'
@@ -11,24 +11,25 @@ const Container = styled.div`
 `
 
 const options = [
-  { key: 'image', value: AppTemplateInput.IMAGE, label: '图片服务' },
   { key: 'video', value: AppTemplateInput.VIDEO_STREAM, label: '视频流服务' },
+  { key: 'image', value: AppTemplateInput.IMAGE, label: '图片服务' },
 ]
 
 const InputFilter: React.FC = () => {
-  const { inputOption, handleChange } = useInputFilter()
+  const { input, handleChange } = useInputFilter()
 
   return (
     <Container>
+      {/* <Radio.Group value={input} onChange={(e) => handleChange(e.target.value)}> */}
+      {/*   <Radio value={AppTemplateInput.VIDEO_STREAM}>视频流服务</Radio> */}
+      {/*   <Radio value={AppTemplateInput.IMAGE}>图片服务</Radio> */}
+      {/* </Radio.Group> */}
       <Select
+        style={{ width: '100%' }}
+        value={input}
+        onChange={(value) => handleChange(value)}
+        allowClear={false}
         options={options}
-        onChange={(_, newOptions) => handleChange(newOptions as any)}
-        value={inputOption}
-        allowClear
-        placeholder='全部推理类型'
-        style={{
-          width: '100%'
-        }}
       />
     </Container>
   )

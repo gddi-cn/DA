@@ -107,7 +107,6 @@ const AppItem: React.FC<App.Instance> = (app) => {
   const {
     cover,
     name,
-    disabled,
     handleClick,
     adapter_device,
     inputTip,
@@ -117,7 +116,7 @@ const AppItem: React.FC<App.Instance> = (app) => {
   } = useAppItem(app)
 
   return (
-    <Container onClick={handleClick} disabled={disabled}>
+    <Container onClick={handleClick}>
       <Cover src={cover} alt={'cover'} />
       <Content>
         <Title title={name}>{name}</Title>

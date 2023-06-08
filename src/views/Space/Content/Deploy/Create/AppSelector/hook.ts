@@ -1,5 +1,5 @@
 import appAPI from '@src/apis/app'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useSetAtom, useAtomValue } from 'jotai'
 import React from 'react'
 import produce from 'immer'
 import _ from 'lodash'
@@ -23,7 +23,6 @@ import {
   scrollbarRefAtom,
   selectedAppListAtom,
   stepAtom,
-  appInputTypeAtom,
 } from '../store'
 
 import default_cover from '@src/asset/images/app/default_cover.png'
@@ -43,11 +42,10 @@ export const useRefreshAppList = () => {
   const [name] = useAtom(nameFilterAtom)
   const [selectedDeviceType] = useAtom(deviceTypeAtom)
   const [selectedTemplateLabel] = useAtom(selectedTemplateLabelOptionAtom)
-  const [inputOption] = useAtom(templateInputAtom)
+  const [input] = useAtom(templateInputAtom)
 
   const device = selectedDeviceType?.value
   const label = selectedTemplateLabel?.value
-  const input = inputOption?.value
 
   return async () => {
     if (loading) return
@@ -83,11 +81,10 @@ export const useFetchAppList = () => {
   const [name] = useAtom(nameFilterAtom)
   const [selectedDeviceType] = useAtom(deviceTypeAtom)
   const [selectedTemplateLabel] = useAtom(selectedTemplateLabelOptionAtom)
-  const [inputOption] = useAtom(templateInputAtom)
+  const [input] = useAtom(templateInputAtom)
 
   const device = selectedDeviceType?.value
   const label = selectedTemplateLabel?.value
-  const input = inputOption?.value
 
   return async (page: number) => {
     if (loading) return
@@ -260,9 +257,7 @@ export const useNameFilter = () => {
 
 export const useAppItem = (app: App.Instance) => {
   const [selectedAppList, setSelectedAppList] = useAtom(selectedAppListAtom)
-  const appInputType = useAtomValue(appInputTypeAtom)
-
-  const disabled = appInputType !== undefined && appInputType !== app.input
+  const appInputType = useAtomValue(templateInputAtom)
 
   const {
     cover, name, id,
@@ -273,7 +268,6 @@ export const useAppItem = (app: App.Instance) => {
   const selected = selectedAppList.some(x => x.id === id)
 
   const handleClick = () => {
-    if (disabled) return
 
     setSelectedAppList(produce(draft => {
       const idx = draft.findIndex(x => x.id === id)
@@ -291,7 +285,6 @@ export const useAppItem = (app: App.Instance) => {
   return {
     cover: cover || default_cover,
     name,
-    disabled,
     template_name,
     adapter_device,
     InputIcon,
@@ -326,16 +319,18 @@ export const useTemplateLabelFilter = () => {
 }
 
 export const useInputFilter = () => {
-  const [inputOption, setInputOption] = useAtom(templateInputAtom)
+  const [input, setInput] = useAtom(templateInputAtom)
+  const setSelectedAppList = useSetAtom(selectedAppListAtom)
 
-  const handleChange = (
-    newOption?: { key: string, value: AppTemplateInput, label: string }
-  ) => {
-    setInputOption(newOption)
+  const handleChange = (input: AppTemplateInput) => {
+    if (!input) return
+
+    setInput(input)
+    setSelectedAppList([])
   }
 
   return {
-    inputOption,
+    input,
     handleChange,
   }
 }

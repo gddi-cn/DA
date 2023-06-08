@@ -5,7 +5,7 @@ import {
   limitAtom,
   noExpireAtom,
   expireAtom,
-  appInputTypeAtom,
+  templateInputAtom,
 } from '../../store'
 import React from 'react'
 import { AppTemplateInput } from '@src/shared/enum/application'
@@ -14,7 +14,7 @@ export const useConfig = () => {
   const [limit, setLimit] = useAtom(limitAtom)
   const [expire, setExpire] = useAtom(expireAtom)
   const [noExpire, setNoExpire] = useAtom(noExpireAtom)
-  const inputType = useAtomValue(appInputTypeAtom)
+  const inputType = useAtomValue(templateInputAtom)
 
   const hideLimit = inputType === AppTemplateInput.IMAGE
 

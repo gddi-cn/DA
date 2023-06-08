@@ -26,8 +26,7 @@ export const nameFilterAtom = atom<string | undefined>(undefined)
 export const templateLabelListAtom = atom<Array<string>>([])
 export const selectedTemplateLabelOptionAtom =
   atom<{ key: string, value: string, label: string } | null>(null)
-export const templateInputAtom =
-  atom<{ key: string, value: AppTemplateInput, label: string } | undefined>(undefined)
+export const templateInputAtom = atom<AppTemplateInput>(AppTemplateInput.VIDEO_STREAM)
 
 export const listInitAtom = atom<boolean>(false)
 
@@ -35,12 +34,6 @@ export const scrollbarRefAtom =
   atom<React.MutableRefObject<{ getValues(): positionValues } | null> | undefined>(undefined)
 
 export const selectedAppListAtom = atom<Array<App.Instance>>([])
-
-export const appInputTypeAtom = atom<AppTemplateInput | undefined>(get => {
-  const appList = get(selectedAppListAtom)
-  const firstItem = appList[0]
-  return firstItem?.input
-})
 
 // ============================== App List =====================================
 
@@ -114,7 +107,7 @@ export const useResetStore = () => {
       setSelectedTemplateLabelOption(null)
       setPage(1)
       setPageSize(DEFAULT_PAGE_SIZE)
-      setInput(undefined)
+      setInput(AppTemplateInput.VIDEO_STREAM)
       setStep(Space.Deploy.Create.Step.DEVICE)
       setDeviceType(undefined)
       setSelectedAppList([])

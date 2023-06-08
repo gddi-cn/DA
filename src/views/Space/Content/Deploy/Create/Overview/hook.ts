@@ -11,7 +11,7 @@ import {
   selectedDeviceListAtom,
   limitAtom,
   expireAtom,
-  appInputTypeAtom,
+  templateInputAtom
 } from "../store"
 import { multiDownload } from '@src/utils/tools'
 
@@ -22,7 +22,7 @@ export const useOverview = () => {
   const [deviceList] = useAtom(selectedDeviceListAtom)
   const [expire] = useAtom(expireAtom)
   const _limit = useAtomValue(limitAtom)
-  const inputType = useAtomValue(appInputTypeAtom)
+  const inputType = useAtomValue(templateInputAtom)
 
   const limit = inputType === AppTemplateInput.IMAGE ? undefined : _limit
 
