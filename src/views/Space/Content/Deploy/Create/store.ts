@@ -5,6 +5,7 @@ import { positionValues } from 'react-custom-scrollbars'
 import { Space } from '../../../enums'
 import { GroupDevice } from '@src/shared/types/device'
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
+import appAPI from '@src/apis/app'
 
 export const DEFAULT_PAGE_SIZE = 32
 
@@ -23,7 +24,11 @@ export const deviceTypeListAtom = atom<Device.Chip.Instance[]>([])
 export const pageFilterAtom = atom<number>(1)
 export const pageSizeFilterAtom = atom<number>(DEFAULT_PAGE_SIZE)
 export const nameFilterAtom = atom<string | undefined>(undefined)
-export const templateLabelListAtom = atom<Array<string>>([])
+export const templateLabelListAtom = atom<Promise<Array<string>>>(async () => {
+  const { success, data } = await appAPI.templateLabelList()
+  if (!success || !data) return []
+  return data ?? []
+})
 export const selectedTemplateLabelOptionAtom =
   atom<{ key: string, value: string, label: string } | null>(null)
 export const templateInputAtom = atom<AppTemplateInput>(AppTemplateInput.VIDEO_STREAM)
@@ -74,7 +79,6 @@ export const useResetStore = () => {
   const [, setLoading] = useAtom(fetchingAppAtom)
   const [, setName] = useAtom(nameFilterAtom)
   const [, setDeviceTypeList] = useAtom(deviceTypeListAtom)
-  const [, setTemplateLabelList] = useAtom(templateLabelListAtom)
   const [, setSelectedTemplateLabelOption] = useAtom(selectedTemplateLabelOptionAtom)
   const [, setPage] = useAtom(pageFilterAtom)
   const [, setPageSize] = useAtom(pageSizeFilterAtom)
@@ -103,7 +107,6 @@ export const useResetStore = () => {
       setTotal(0)
       setName(undefined)
       setDeviceTypeList([])
-      setTemplateLabelList([])
       setSelectedTemplateLabelOption(null)
       setPage(1)
       setPageSize(DEFAULT_PAGE_SIZE)
