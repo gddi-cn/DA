@@ -14,6 +14,7 @@ import 'antd/dist/antd.variable.min.css'
 import './asset/style/appCustom.less'
 
 import 'swiper/css/bundle'
+import DynamicTheme from './components/DynamicTheme';
 
 // 自定义主题
 cusTheme()
@@ -29,7 +30,9 @@ ReactDOM
 
         <HistoryRouter history={history}>
           <ErrorBoundaries>
-            <Routes />
+            <DynamicTheme>
+              <Routes />
+            </DynamicTheme>
           </ErrorBoundaries>
         </HistoryRouter>
 

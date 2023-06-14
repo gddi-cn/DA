@@ -21,7 +21,7 @@ import {
   APP_UNREMARKED_CREATE,
   APP_ORDER_PROCESS,
   APP_EXPERIENCE,
-  APP_PLATFORM, APP_SPACE
+  APP_PLATFORM, SPACE, SPACE_ACCOUNT, SPACE_API, SPACE_DEVICE, SPACE_DEPLOY
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -74,6 +74,10 @@ const Experience = lazy(() => import('@src/views/Experience'))
 const Platform = lazy(() => import('@src/views/Platform'))
 
 const Space = lazy(() => import('@src/views/Space'))
+const Account = lazy(() => import('@src/views/Account'))
+const ApiKey = lazy(() => import('@src/views/ApiKey'))
+const Device = lazy(() => import('@src/views/SpaceDevice'))
+const SpaceDeploy = lazy(() => import('@src/views/SpaceDeploy'))
 
 export default {
   path: '/app',
@@ -89,9 +93,27 @@ export default {
         //   element: SuspenseFn(DeviceIndex),
         // },
         {
-          path: APP_SPACE,
+          path: SPACE,
           element: SuspenseFn(Space),
-        },
+          children: [
+            {
+              path: SPACE_ACCOUNT,
+              element: SuspenseFn(Account),
+            },
+            {
+              path: SPACE_API,
+              element: SuspenseFn(ApiKey),
+            },
+            {
+              path: SPACE_DEVICE,
+              element: SuspenseFn(Device),
+            },
+            {
+              path: SPACE_DEPLOY,
+              element: SuspenseFn(SpaceDeploy),
+            },
+          ],
+        }
       ]
 
     },

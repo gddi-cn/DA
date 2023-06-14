@@ -19,6 +19,22 @@ export const userAPI = {
     }
   },
 
+  detail: async (signal?: AbortSignal): Promise<APIResponse<User.Detail.Response>> => {
+    try {
+      const { data } = await http.get('/v1/users/info', { signal })
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
+
   usage: async (): Promise<APIResponse<User.Usage>> => {
     try {
       const { data } = await http.get('/v3/user/usage')
@@ -78,7 +94,21 @@ export const userAPI = {
         success: false,
       }
     }
-  }
+  },
+
+  changePassword: async (data: User.ChangePassword.Props, signal?: AbortSignal): Promise<APIResponse<void>> => {
+    try {
+      await http.patch('/v1/users/chpwd', data, { signal })
+      return {
+        success: true,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
 }
 
 export default userAPI

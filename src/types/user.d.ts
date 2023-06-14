@@ -58,6 +58,28 @@ declare namespace User {
     username: string
   }
 
+  namespace Detail {
+    interface Response extends Instance { }
+  }
+
+  namespace ChangePassword {
+    type Form = {
+      // 旧密码
+      oldPwd: string
+      // 新密码
+      newPwd: string
+      // 确认密码
+      confirmPwd: string
+    }
+
+    interface Props {
+      // 新密码
+      new_password: string
+      // 旧密码
+      old_password: string
+    }
+  }
+
   // 用户资源用量
   interface Usage {
     // 授权数量限额，值为0时为无限制
@@ -109,6 +131,24 @@ declare namespace User {
       sort?: 'asc' | 'desc'
       begin?: number
       end?: number
+    }
+    namespace List {
+      interface Params {
+        page: number
+        page_size: number
+        sort?: 'asc' | 'desc'
+        begin?: number
+        end?: number
+        consume_type?: import('@src/shared/enum/user').User.Consume.Type
+      }
+
+      type Response = Promise<{
+        success: boolean,
+        data: {
+          items: Array<API.ListResponse<Instance>>,
+          total: number
+        }
+      }>
     }
   }
 }

@@ -1,84 +1,77 @@
 import React from 'react'
-import styled from 'styled-components'
+import { Box, Container, Typography, styled } from '@mui/material'
 
-import { useSpace } from './hook'
-import Scrollbar from '@src/components/Scrollbar'
+import Nav from './components/Nav'
+import { Outlet, useMatch, useNavigate } from 'react-router-dom'
+import { Paths } from '@src/shared/enum/paths'
+import Scrollbars from 'react-custom-scrollbars'
 
-import LeftContent from './LeftContent'
-import MainContent from './Content'
-
-const Container = styled.div`
+const Wrap = styled(Box)`
   height: calc(100vh - 50px);
-  background-color: #F6F9FB;
+  background-color: #f5f5f5;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 `
 
-const Title = styled.div`
+const Header = styled(Box)`
+  height: 48px;
   background-color: #fff;
-  display: flex;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 20px;
-  color: #202223;
-  padding: 10px 0;
+  display: grid;
+  place-items: center;
 `
 
-const ContentWrap = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-`
-
-const Content = styled.div`
-  flex: 1;
-  max-width: 1920px;
-  height: 100%;
+const Content = styled(Container)`
+  flex-grow: 1;
+  /* padding: 20px 0 20px 38px; */
   display: flex;
   column-gap: 56px;
-  padding: 20px 40px;
-  overflow: hidden;
+  align-items: stretch;
 `
 
-const Left = styled.div`
-  background-color: #fff;
+const ContainWrap = styled(Box)`
   height: 100%;
-  width: 248px;
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 16px 0;
-`
-
-
-const Right = styled.div`
-  height: 100%;
-  flex: 1;
   overflow: hidden;
 `
+
+const useSpace = () => {
+  const match = useMatch(Paths.Layout.SPACE)
+  const navigate = useNavigate()
+
+  React.useEffect(
+    () => {
+      if (!match) return
+      navigate(Paths.Space.ACCOUNT)
+    },
+    [match]
+  )
+}
 
 const Space: React.FC = () => {
   useSpace()
 
   return (
-    <Container>
-      <Title>个人中心</Title>
-      <ContentWrap>
-        <Content>
-          <Left>
-            <Scrollbar autoHide>
-              <LeftContent />
-            </Scrollbar>
-          </Left>
-          <Right>
-            <MainContent />
-          </Right>
-        </Content>
-      </ContentWrap>
-    </Container>
+    <Wrap>
+      <Header>
+        <Typography variant="h6" component={'h2'}>个人中心</Typography>
+      </Header>
+      <Content maxWidth='hd' disableGutters>
+        <Box sx={{ pl: '38px', py: '20px' }}>
+          <Nav />
+        </Box>
+        <Box sx={{ flexGrow: 1 }}>
+          <ContainWrap>
+            <Scrollbars autoHide>
+              <Box sx={{ py: '20px', pr: '38px' }}>
+                <Outlet />
+              </Box>
+            </Scrollbars>
+          </ContainWrap>
+        </Box>
+      </Content>
+    </Wrap>
   )
 }
 
 export default Space
+

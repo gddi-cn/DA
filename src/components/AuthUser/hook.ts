@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
 import { authUserInfoAtom } from '@src/store/user'
 import { useNavigate } from 'react-router-dom'
-import { APP_LOGIN, APP_SPACE } from '@router'
+import { APP_LOGIN, SPACE } from '@router'
 
 export const useAuthUser = () => {
   const [authUser] = useAtom(authUserInfoAtom)
@@ -12,7 +12,7 @@ export const useAuthUser = () => {
   const mobile = _m || '请至账户中心填写联系方式'
 
   const toSpace = () => {
-    navigate({ pathname: APP_SPACE })
+    navigate({ pathname: SPACE })
   }
 
   const logout = () => {
