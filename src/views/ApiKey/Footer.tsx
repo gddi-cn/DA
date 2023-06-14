@@ -43,7 +43,6 @@ const Inner: React.FC = () => {
   if (total <= 0) return null
 
   return (
-
     <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
       <Typography px={2} sx={{ display: { xs: 'none', lg: 'block' } }}>
         共 {total} 条记录

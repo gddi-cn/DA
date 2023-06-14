@@ -4,33 +4,57 @@ import React from 'react';
 import Actions from './Actions'
 import APIKeyList from './APIKeyList'
 import Footer from './Footer';
+import Scrollbars from 'react-custom-scrollbars';
 
 const ApiKey: React.FC = () => {
   return (
     <Box
       sx={{
-        bgcolor: 'white.main',
-        p: '20px',
-        borderRadius: '8px',
-        display: 'flex',
-        flexDirection: 'column',
-        rowGap: '20px',
+        py: '20px', pr: '38px',
+        height: '100%', overflow: 'hidden'
       }}
     >
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          bgcolor: 'white.main',
+          borderRadius: '8px',
+          height: '100%',
+          py: '20px',
         }}
       >
-        <Typography variant="subtitle1" component={'h5'} color='primary' fontWeight={'bold'}>
-          API Key 管理
-        </Typography>
-        <Actions />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            rowGap: '20px',
+            height: '100%'
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              px: '20px',
+            }}
+          >
+            <Typography variant="subtitle1" component={'h5'} color='primary' fontWeight={'bold'}>
+              API Key 管理
+            </Typography>
+            <Actions />
+          </Box>
+          <Box flex={1}>
+            <Scrollbars>
+              <Box px='20px'>
+                <APIKeyList />
+              </Box>
+            </Scrollbars>
+          </Box>
+          <Box px='20px'>
+            <Footer />
+          </Box>
+        </Box>
       </Box>
-      <APIKeyList />
-      <Footer />
     </Box>
   )
 }

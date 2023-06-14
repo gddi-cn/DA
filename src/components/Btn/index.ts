@@ -1,1 +1,9 @@
-export { default, LoadingButton as LoadingBtn, IconButton as IconBtn } from './Btn'
+export {
+  default,
+  LoadingButton as LoadingBtn,
+  IconButton as IconBtn,
+  PrimaryBtn,
+  SecondaryBtn,
+  PrimaryLoadingBtn,
+  SecondaryLoadingBtn,
+} from './Btn'

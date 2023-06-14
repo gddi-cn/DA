@@ -22,6 +22,7 @@ declare namespace App {
     template_name: string
     type: import('@src/shared/enum/device').DeviceType
     update_time: number
+    invalid: boolean
   }
 
   interface Model {

@@ -1,5 +1,9 @@
-import Btn, { LoadingBtn } from '@src/components/Btn'
-import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
+import {
+  PrimaryBtn,
+  SecondaryBtn,
+  PrimaryLoadingBtn,
+} from '@src/components/Btn'
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
 import DialogTransition from '@src/components/DialogTransition'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -86,9 +90,9 @@ const CreateAPIKey: React.FC = () => {
 
   return (
     <>
-      <Btn color='black' variant='contained' size='small' onClick={handleOpen}>
+      <PrimaryBtn onClick={handleOpen}>
         新增 API Key
-      </Btn>
+      </PrimaryBtn>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -168,23 +172,16 @@ const CreateAPIKey: React.FC = () => {
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 0, columnGap: 3 }} disableSpacing>
-          <Btn
-            variant='outlined' color='black'
-            sx={{ width: 97 }} size='small'
-            onClick={handleClose}
-          >
+          <SecondaryBtn onClick={handleClose}>
             取消
-          </Btn>
-          <LoadingBtn
+          </SecondaryBtn>
+          <PrimaryLoadingBtn
             loading={creating}
             type='submit' form={FORM_ID}
-            variant='contained'
-            color='black'
-            sx={{ width: 97 }} size='small'
             onClick={handleSubmitClick}
           >
             添加
-          </LoadingBtn>
+          </PrimaryLoadingBtn>
         </DialogActions>
       </Dialog>
     </>
@@ -200,9 +197,22 @@ const Actions: React.FC = () => {
         columnGap: 2,
       }}
     >
-      <Btn color='black' variant='outlined' size='small' href={DOCS_HREF} target='_blank'>
+      <SecondaryBtn
+        color='black'
+        variant='outlined'
+        size='small'
+        href={DOCS_HREF}
+        target='_blank'
+        sx={{
+          minWidth: 97,
+          color: '#000',
+          '&:hover': {
+            color: "#000"
+          }
+        }}
+      >
         查看文档
-      </Btn>
+      </SecondaryBtn>
       <CreateAPIKey />
     </Box>
   )

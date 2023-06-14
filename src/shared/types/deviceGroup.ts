@@ -30,6 +30,7 @@ export interface DeviceGroupListParams extends APIListParams {
   sort?: 'asc' | 'desc',
   sort_by_device_count?: string,
   sort_by_update_time?: boolean;
+  device_chip_id?: Device.Chip.Instance['key']
 }
 
 // 组设备列表参数

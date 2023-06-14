@@ -4,10 +4,9 @@ import {
   Box, Button, IconButton,
   Dialog, DialogActions, DialogContent, DialogTitle,
   TextField,
-  Typography,
 } from '@mui/material'
 import DialogTransition from '@src/components/DialogTransition'
-import Btn, { LoadingBtn } from '@src/components/Btn'
+import { SecondaryBtn, PrimaryLoadingBtn } from '@src/components/Btn'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useFormik } from 'formik'
@@ -319,23 +318,18 @@ const UpdatePwd: React.FC = () => {
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 0, columnGap: 3 }} disableSpacing>
-          <Btn
+          <SecondaryBtn
             onClick={handleClose} disabled={updating}
-            variant='outlined' color='black'
-            sx={{ width: 97 }} size='small'
           >
             取消
-          </Btn>
-          <LoadingBtn
+          </SecondaryBtn>
+          <PrimaryLoadingBtn
             loading={updating}
             type='submit' form={FORM_ID}
-            variant='contained'
-            color='black'
-            sx={{ width: 97 }} size='small'
             onClick={handleSubmitClick}
           >
             修改
-          </LoadingBtn>
+          </PrimaryLoadingBtn>
         </DialogActions>
       </Dialog>
     </>

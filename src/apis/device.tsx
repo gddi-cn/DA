@@ -12,7 +12,7 @@ const getDeviceChipLabel = (label: string, appCount?: number) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         overflow: 'hidden',
-    }}
+      }}
     >
       <div
         style={{
@@ -39,7 +39,7 @@ const deviceAPI = {
       const { data } = await http.post(
         '/v3/device/offline_register',
         formData,
-        { params: { group: groupId, device_type, device_type_id  }}
+        { params: { group: groupId, device_type, device_type_id } }
       )
       return {
         success: true,
@@ -94,6 +94,21 @@ const deviceAPI = {
       return []
     }
   },
+
+  fetchChipTypeByNameOrderByAppCount: async (name: string): Promise<Array<Device.Chip.Option>> => {
+    try {
+      const { success, data } = await deviceAPI.chipTypeList({ name, page: 1, page_size: 999, detail: true })
+      if (!success || !data?.items) return []
+
+      return data.items
+        .sort((a, b) => Number(b.app_count) - Number(a.app_count))
+        .map(item => ({ key: item.key, value: item.key, label: item.name }))
+    } catch (e) {
+      console.error(e)
+      return []
+    }
+  },
+
   fetchChipTypeDetailByName: async (name: string): Promise<Array<Device.Chip.Option & { disabled?: boolean }>> => {
     try {
       const { success, data } = await deviceAPI.chipTypeList({
@@ -103,7 +118,7 @@ const deviceAPI = {
       })
       if (!success || !data?.items) return []
 
-      return data.items.map(({key, name, app_count}) => ({
+      return data.items.map(({ key, name, app_count }) => ({
         key,
         value: key,
         label: getDeviceChipLabel(name, app_count),

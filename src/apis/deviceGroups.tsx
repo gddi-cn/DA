@@ -9,7 +9,7 @@ import { GroupDevice } from '@src/shared/types/device'
 import { DeviceType } from '@src/shared/enum/device'
 
 const getDeviceLabel = (group: DeviceGroup) => {
-  const { name, online_device_count, device_count  } = group
+  const { name, online_device_count, device_count } = group
 
   return (
     <div
@@ -18,7 +18,7 @@ const getDeviceLabel = (group: DeviceGroup) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         overflow: 'hidden',
-    }}
+      }}
     >
       <div
         style={{
@@ -61,28 +61,28 @@ const deviceGroupAPI = {
       return success && data?.items ? data.items.map(d => ({ key: d.id, value: d.id, label: getDeviceLabel(d) })) : []
     } catch (e) {
       console.error(e)
-        return []
+      return []
     }
   },
 
   fetchEdgeDeviceGroupByNameWithNoExtend:
     async (name: string): Promise<Array<DeviceGroupOptions>> => {
-    try {
-      const { data, success } = await deviceGroupAPI.list({
-        page: 1,
-        page_size: 999,
-        name,
-        type: DeviceType.EDGE,
-      })
-      return success && data?.items
-        ? data.items.map(d => ({ key: d.id, value: d.id, label: d.name }))
-        : []
-    } catch (e) {
-      console.error(e)
+      try {
+        const { data, success } = await deviceGroupAPI.list({
+          page: 1,
+          page_size: 999,
+          name,
+          type: DeviceType.EDGE,
+        })
+        return success && data?.items
+          ? data.items.map(d => ({ key: d.id, value: d.id, label: d.name }))
+          : []
+      } catch (e) {
+        console.error(e)
         return []
-    }
-  },
-  
+      }
+    },
+
   fetchTerminalDeviceGroupByName: async (name: string): Promise<Array<DeviceGroupOptions>> => {
     try {
       const { data, success } = await deviceGroupAPI.list({
@@ -94,17 +94,24 @@ const deviceGroupAPI = {
       return success && data?.items ? data.items.map(d => ({ key: d.id, value: d.id, label: d.name })) : []
     } catch (e) {
       console.error(e)
-        return []
+      return []
     }
   },
 
-  fetchDeviceGroupByName: async (name: string): Promise<Array<DeviceGroupOptions>> => {
+  fetchDeviceGroupByName: async (
+    name: string,
+    device_chip_id?: Device.Chip.Instance['key']
+  ): Promise<Array<DeviceGroupOptions>> => {
     try {
-      const { data, success } = await deviceGroupAPI.list({ page: 1, page_size: 999, name })
+      const { data, success } = await deviceGroupAPI.list({
+        page: 1, page_size: 999,
+        device_chip_id,
+        name
+      })
       return success && data?.items ? data.items.map(d => ({ key: d.id, value: d.id, label: getDeviceLabel(d) })) : []
     } catch (e) {
       console.error(e)
-        return []
+      return []
     }
   },
 
@@ -113,7 +120,7 @@ const deviceGroupAPI = {
   fetchGroupDeviceList: async (
     groupId: number,
     params?: GroupDeviceListParams
-            & { type?: DeviceType, device_chip_id?: Device.Chip.Instance['key'] }
+      & { type?: DeviceType, device_chip_id?: Device.Chip.Instance['key'] }
   ): Promise<APIListResponse<GroupDevice>> => {
     try {
       const { data } = await http.get(`/v3/devicegroups/${groupId}/devices`, { params })

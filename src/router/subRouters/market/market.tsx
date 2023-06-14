@@ -65,8 +65,6 @@ const DeployTypeSelector = lazy(() => import('@src/views/Deployment/TypeSelector
 
 const Documents = lazy(() => import('@src/views/Deployment/BySDK/Documents'));
 
-const DeviceIndex = lazy(() => import('@src/views/Device/DeviceIndex'));
-
 // 部署
 // 体验
 const Experience = lazy(() => import('@src/views/Experience'))
@@ -88,10 +86,6 @@ export default {
     {
       element: SuspenseFn(NoScoketLayout),
       children: [
-        // {
-        //   path: APP_DEVICE_INDEX,
-        //   element: SuspenseFn(DeviceIndex),
-        // },
         {
           path: SPACE,
           element: SuspenseFn(Space),

@@ -4,7 +4,6 @@ import { Box, Container, Typography, styled } from '@mui/material'
 import Nav from './components/Nav'
 import { Outlet, useMatch, useNavigate } from 'react-router-dom'
 import { Paths } from '@src/shared/enum/paths'
-import Scrollbars from 'react-custom-scrollbars'
 
 const Wrap = styled(Box)`
   height: calc(100vh - 50px);
@@ -27,11 +26,6 @@ const Content = styled(Container)`
   display: flex;
   column-gap: 56px;
   align-items: stretch;
-`
-
-const ContainWrap = styled(Box)`
-  height: 100%;
-  overflow: hidden;
 `
 
 const useSpace = () => {
@@ -60,13 +54,7 @@ const Space: React.FC = () => {
           <Nav />
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          <ContainWrap>
-            <Scrollbars autoHide>
-              <Box sx={{ py: '20px', pr: '38px' }}>
-                <Outlet />
-              </Box>
-            </Scrollbars>
-          </ContainWrap>
+          <Outlet />
         </Box>
       </Content>
     </Wrap>

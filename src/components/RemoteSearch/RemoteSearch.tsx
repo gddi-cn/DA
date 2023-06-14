@@ -38,7 +38,6 @@ function RemoteSearchInner<T extends ValueType = any> (
   const [canSet, setCanSet] = useState<boolean>(true)
   const fetchRef = React.useRef(0)
 
-  
   const debounceFetcher = React.useMemo(() => {
     const loadOptions = (value: string) => {
       fetchRef.current += 1;
@@ -81,6 +80,10 @@ function RemoteSearchInner<T extends ValueType = any> (
   }, [debounceFetcher])
 
   useEffect(() => {
+    debounceFetcher('')
+  }, [debounceFetcher])
+
+  useEffect(() => {
     return () => {
       setCanSet(false)
     }
@@ -93,6 +96,7 @@ function RemoteSearchInner<T extends ValueType = any> (
       onSearch={debounceFetcher}
       notFoundContent={fetching ? <Spin size="small" /> : null}
       options={options}
+      optionLabelProp='label'
       dropdownRender={menu => (
         <>
           {

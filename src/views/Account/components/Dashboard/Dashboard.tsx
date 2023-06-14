@@ -45,8 +45,8 @@ const ProgressList: React.FC = () => {
     appDeviceLimited,
     modelTrainUsed,
     modelTrainLimited,
-    SDKDeviceUsed,
-    SDKDeviceLimited,
+    // SDKDeviceUsed,
+    // SDKDeviceLimited,
     appAuthUsed,
     appAuthLimited,
   } = useProgressList()
