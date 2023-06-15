@@ -143,20 +143,32 @@ export const useFooter = () => {
   }
 
   const handleNext = async () => {
-    if (step === 'template') return
-    if (!form || formLoading) return
+    if (step === 'template') {
+      console.log({ step })
+      return
+    }
+    if (!form || formLoading) {
+      console.log({ form, formLoading })
+      return
+    }
 
-    setFormLoading(true)
-    const baseFormValue = await form.validateFields()
-    setFormLoading(false)
+    try {
+      setFormLoading(true)
+      const baseFormValue = await form.validateFields()
+      console.log(baseFormValue)
+      setFormLoading(false)
 
-    setFormValue(baseFormValue)
+      setFormValue(baseFormValue)
 
-    setStep('template')
+      setStep('template')
+    } catch (e) {
+      setFormLoading(false)
+      console.error(e)
+    }
   }
 
   const handleCreate = async () => {
-   try {
+    try {
       if (!model_iter_id || !formValue) return
       if (!selectedTemplate) {
         message.warn('请选择模板')
