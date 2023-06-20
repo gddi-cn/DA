@@ -5,42 +5,35 @@ import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
 import { getBase64 } from '@src/utils'
 import s3API from '@src/apis/s3'
-import { Platform } from '@views/Platform/enum'
-import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
-import {
-  createAppOpenAtom,
-  currentStepAtom,
-  deviceTypeListAtom,
-  selectedAppAtom
-} from '../store'
+
 import appAPI from '@src/apis/app'
-import { baseFormAtom, baseFormValueAtom, creatingAppAtom, selectedTemplateAtom, stepAtom } from './store'
+import {
+  baseFormAtom,
+  baseFormValueAtom,
+  creatingAppAtom,
+  selectedTemplateAtom,
+  stepAtom,
+} from './store'
 
 export const useResetStore = () => {
-  const [open] = useAtom(createAppOpenAtom)
   const [, setLoading] = useAtom(creatingAppAtom)
   const [, setbaseFormValue] = useAtom(baseFormValueAtom)
   const [, setSelectedTemplate]= useAtom(selectedTemplateAtom)
   const [, setStep] = useAtom(stepAtom)
   const [, setForm] = useAtom(baseFormAtom)
 
-  React.useEffect(
-    () => () => {
-      if (open) return
-      setLoading(true)
-      setForm(null)
-      setbaseFormValue(null)
-      setSelectedTemplate(null)
-      setStep('base')
-      setLoading(false)
-    },
-    [open]
-  )
+  return () => {
+    setLoading(true)
+    setForm(null)
+    setbaseFormValue(null)
+    setSelectedTemplate(null)
+    setStep('base')
+    setLoading(false)
+  }
 }
 
 export const useBaseForm = () => {
   const [form] = Form.useForm<App.CreateForm>()
-  const [deviceTypeList] = useAtom(deviceTypeListAtom)
   const [formValue] = useAtom(baseFormValueAtom)
   const [, setForm] = useAtom(baseFormAtom)
 
@@ -60,10 +53,6 @@ export const useBaseForm = () => {
     setPreviewSrc(await getBase64(info.file as RcFile))
     setPreviewTitle(info.file.name)
   }
-
-  const options = deviceTypeList.map(
-    type => ({ key: type.key, label: type.name, value: type.key })
-  )
 
   React.useEffect(
     () => {
@@ -99,7 +88,6 @@ export const useBaseForm = () => {
 
   return {
     form,
-    options,
     handleCoverChange,
     showUploadBtn,
     previewSrc,
@@ -120,21 +108,21 @@ export const useTemplate = () => {
   }
 }
 
-export const useFooter = () => {
+export const useFooter = (
+  onCreate: (app: App.Instance) => void,
+  onCancel: () => void
+) => {
   const [step, setStep] = useAtom(stepAtom)
-  const [, setOpen] = useAtom(createAppOpenAtom)
   const [form] = useAtom(baseFormAtom)
   const [formValue] = useAtom(baseFormValueAtom)
   const [loading, setLoading] = useAtom(creatingAppAtom)
   const [formLoading, setFormLoading] = React.useState<boolean>(false)
   const [, setFormValue] = useAtom(baseFormValueAtom)
-  const [model_iter_id] = useAtom(currentVersionIdAtom)
-  const [, setSelectedApp] = useAtom(selectedAppAtom)
-  const [, setCurrentStep] = useAtom(currentStepAtom)
   const [selectedTemplate] = useAtom(selectedTemplateAtom)
 
   const handleCancel = () => {
-    setOpen(false)
+    form?.resetFields()
+    onCancel()
   }
 
   const handlePre = () => {
@@ -156,8 +144,8 @@ export const useFooter = () => {
   }
 
   const handleCreate = async () => {
-   try {
-      if (!model_iter_id || !formValue) return
+    try {
+      if (!formValue) return
       if (!selectedTemplate) {
         message.warn('请选择模板')
         return
@@ -185,18 +173,13 @@ export const useFooter = () => {
         adapter_device: adapter_device.value,
         cover,
         description,
-        model_iter_id,
       })
 
       setLoading(false)
 
       if (!success || !data) return
+      onCreate(data)
 
-      setOpen(false)
-
-      setSelectedApp(data)
-
-      setCurrentStep(Platform.Step.CONFIG)
     } catch (e) {
       console.error(e)
       setLoading(false)
@@ -216,17 +199,9 @@ export const useFooter = () => {
 
 export const useCreateApp = () => {
   useResetStore()
-  const [open, setOpen] = useAtom(createAppOpenAtom)
   const [step] = useAtom(stepAtom)
 
-  const handleCancel = () => {
-    setOpen(false)
-  }
-
-
   return {
-    open,
-    handleCancel,
     step,
   }
 }

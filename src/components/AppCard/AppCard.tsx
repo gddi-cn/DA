@@ -269,36 +269,40 @@ const AppCard: React.FC<AppCardProps> = (
           </Typography>
         </Box>
       </Box>
-      <Box
-        sx={{
-          position: 'absolute',
-          left: 0, right: 0, bottom: 0,
-        }}
-      >
-        <Slide
-          in={hover}
-          direction='up'
-        >
+      {
+        onDetail ? (
           <Box
-            height={48}
             sx={{
-              display: 'grid',
-              placeItems: 'center',
-              bgcolor: 'white.main'
+              position: 'absolute',
+              left: 0, right: 0, bottom: 0,
             }}
           >
-            <Button
-              variant='outlined' sx={{ width: 97 }} size='small'
-              onClick={e => {
-                e.stopPropagation()
-                onDetail && onDetail(id)
-              }}
+            <Slide
+              in={hover}
+              direction='up'
             >
-              查看
-            </Button>
+              <Box
+                height={48}
+                sx={{
+                  display: 'grid',
+                  placeItems: 'center',
+                  bgcolor: 'white.main'
+                }}
+              >
+                <Button
+                  variant='outlined' sx={{ width: 97 }} size='small'
+                  onClick={e => {
+                    e.stopPropagation()
+                    onDetail && onDetail(id)
+                  }}
+                >
+                  查看
+                </Button>
+              </Box>
+            </Slide>
           </Box>
-        </Slide>
-      </Box>
+        ) : null
+      }
     </Box>
   )
 }

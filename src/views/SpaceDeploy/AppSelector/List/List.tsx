@@ -12,6 +12,7 @@ const List: React.FC = () => {
     appList,
     getSelect,
     handleSelectChange,
+    handleDetail,
   } = useList()
 
   return (
@@ -62,6 +63,7 @@ const List: React.FC = () => {
                             mutiple
                             selected={getSelect(app.id)}
                             onSelectedChange={handleSelectChange}
+                            onDetail={handleDetail}
                           />
                         </Box>
                       </Zoom>

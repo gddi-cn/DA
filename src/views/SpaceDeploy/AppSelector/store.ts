@@ -1,11 +1,9 @@
 import { atom, useSetAtom } from "jotai";
 import { AppSelector } from "./enums";
-import React from "react";
 import { selectedAppListAtom, selectedChipAtom } from '../store'
 import { AppTemplateInput } from "@src/shared/enum/application";
 
-export const currentPageAtom = atom<AppSelector.Page>(AppSelector.Page.LIST)
-
+export const detailOpenAtom = atom<boolean>(false)
 export const currentAppIdAtom = atom<App.Instance['id'] | undefined>(undefined)
 
 const defaultFilter: App.ListParams = {
@@ -96,7 +94,7 @@ export const appListAtom = atom<App.Instance[]>([])
 export const fetchingAppListAtom = atom<boolean>(false)
 
 export const useResetAppSelectorStore = () => {
-  const setCurrentPage = useSetAtom(currentPageAtom)
+  const setDetailOpen = useSetAtom(detailOpenAtom)
   const setCurrentAppId = useSetAtom(currentAppIdAtom)
   const setFilter = useSetAtom(filterAtom)
   const setTotal = useSetAtom(totalAtom)
@@ -106,7 +104,7 @@ export const useResetAppSelectorStore = () => {
 
   return () => {
     setFetchingAppList(true)
-    setCurrentPage(AppSelector.Page.LIST)
+    setDetailOpen(false)
     setCurrentAppId(undefined)
     setFilter({...defaultFilter})
     setTotal(0)

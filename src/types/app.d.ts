@@ -41,7 +41,7 @@ declare namespace App {
   }
 
   interface CreateForm {
-    adapter_device: Device.Chip.Instance['key']
+    adapter_device: Device.Chip.Option
     cover?: import('antd').UploadFile[]
     description?: string
     name: string

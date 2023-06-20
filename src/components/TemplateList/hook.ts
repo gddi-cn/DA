@@ -240,7 +240,6 @@ export const useTemplateList = (
   
   React.useEffect(
     () => {
-      console.log({ selectedTemplate })
       setSelectedTemplate(selectedTemplate)
     },
     [selectedTemplate]

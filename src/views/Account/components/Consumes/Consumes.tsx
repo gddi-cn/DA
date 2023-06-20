@@ -6,15 +6,6 @@ import Record from './Record'
 import Footer from './Footer'
 
 const Consumes: React.FC = () => {
-  React.useEffect(
-    () => {
-      return () => {
-        console.log('Consumes unmount')
-      }
-    },
-    []
-  )
-
   return (
     <Box
       sx={{

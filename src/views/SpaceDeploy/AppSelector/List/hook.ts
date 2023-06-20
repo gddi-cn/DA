@@ -1,8 +1,9 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { appListAtom, fetchingAppListAtom, filterAtom, totalAtom } from "../store"
+import { appListAtom, currentAppIdAtom, detailOpenAtom, fetchingAppListAtom, filterAtom, totalAtom } from "../store"
 import { selectedAppListAtom } from '../../store'
 import appAPI from "@src/apis/app"
 import React from "react"
+import { AppSelector } from '../enums'
 
 export const useRefreshAppList = () => {
   const filter = useAtomValue(filterAtom)
@@ -31,6 +32,8 @@ export const useList = () => {
   const filter = useAtomValue(filterAtom)
   const refresh = useRefreshAppList()
   const appList = useAtomValue(appListAtom)
+  const setCurrentAppId = useSetAtom(currentAppIdAtom)
+  const setDetailOpen = useSetAtom(detailOpenAtom)
   const [selectedAppList, setSelectedAppList] = useAtom(selectedAppListAtom)
 
   const getSelect = (id: App.Instance['id']) => selectedAppList.some(x => x.id === id)
@@ -41,6 +44,11 @@ export const useList = () => {
     } else {
       setSelectedAppList(pre => pre.filter(x => x.id !== app.id))
     }
+  }
+
+  const handleDetail = (id: App.Instance['id']) => {
+    setCurrentAppId(id)
+    setDetailOpen(true)
   }
 
   React.useEffect(
@@ -54,5 +62,6 @@ export const useList = () => {
     appList,
     getSelect,
     handleSelectChange,
+    handleDetail,
   }
 }

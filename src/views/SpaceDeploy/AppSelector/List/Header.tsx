@@ -1,17 +1,19 @@
-import { Box, Typography, Button } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { Input as AntInput } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import debounce from 'lodash/debounce'
 
-import { SecondaryBtn } from '@src/components/Btn'
 import { deviceChipOptionAtom, deviceFilterAtom, inputFilterAtom, labelFilterAtom, nameFilterAtom } from '../store'
 import DeviceChipSelector from '@src/components/DeviceChipSelector/DeviceChipSelector'
 import { AppTemplateInput } from '@src/shared/enum/application'
 import AppInputFilter from '@src/components/AppInputFilter/AppInputFilter'
 import TemplateLabelFilter from '@src/components/TemplateLabelFilter'
+import { selectedAppListAtom } from '../../store'
+import DeployRecord from '@src/components/DeployRecord'
+import Create from '../Create'
 
 const Input = styled(AntInput)`
   width: 276px;
@@ -118,6 +120,7 @@ const LabelFilter: React.FC = () => {
 }
 
 const Header: React.FC = () => {
+  const selectedAppList = useAtomValue(selectedAppListAtom)
   return (
     <>
       <Box
@@ -127,12 +130,15 @@ const Header: React.FC = () => {
           justifyContent: 'space-between'
         }}
       >
-        <Typography variant="subtitle1" component={'h5'} color='primary' fontWeight={'bold'}>
-          推理应用
-        </Typography>
-        <Button size='small'>
-          查看授权记录 &gt;
-        </Button>
+        <Box>
+          <Typography variant="subtitle1" component={'h5'} color='primary' fontWeight={'bold'}>
+            推理应用
+          </Typography>
+          <Typography sx={{ color: '#62b0e5', fontSize: 14, fontWeight: 400 }}>
+            已选应用： {selectedAppList.length}
+          </Typography>
+        </Box>
+        <DeployRecord />
       </Box>
       <Box
         sx={{
@@ -154,9 +160,7 @@ const Header: React.FC = () => {
           <InputFilter />
           <LabelFilter />
         </Box>
-        <SecondaryBtn>
-          创建应用
-        </SecondaryBtn>
+        <Create />
       </Box>
     </>
   )

@@ -3,7 +3,7 @@ import RemoteSearch from '@src/components/RemoteSearch'
 import deviceAPI from '@src/apis/device'
 
 export interface DeviceChipSelectorProps {
-  onChange: (newValue?: Device.Chip.Option) => void
+  onChange?: (newValue?: Device.Chip.Option) => void
   value?: Device.Chip.Option
   allClear?: boolean
   placeholder?: string
@@ -24,7 +24,7 @@ const DeviceChipSelector: React.FC<DeviceChipSelectorProps> = (
       if (value) return
       if (!defaultMostApp) return
       if (!o.length) return
-      onChange(o[0])
+      onChange  && onChange(o[0])
     },
     [defaultMostApp, onChange, value]
   )

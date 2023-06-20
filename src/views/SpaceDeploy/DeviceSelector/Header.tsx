@@ -1,9 +1,9 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import React from 'react'
 import { groupSelectorRefAtom, nameAtom, selectedDeviceGroupAtom, sortFilterAtom } from './store'
 
-import { Input as AntInput } from 'antd'
+import { Input as AntInput  } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
@@ -13,7 +13,7 @@ import GroupSelector from '@src/components/GroupSelector/GroupSelector'
 import { RemoteSearchRef } from '@src/components/RemoteSearch/RemoteSearch'
 import Register from './Register'
 import GenCode from '@src/components/GenCode'
-import { selectedChipAtom } from '../store'
+import { selectedChipAtom, selectedDeviceListAtom } from '../store'
 
 const Input = styled(AntInput)`
   width: 208px;
@@ -132,12 +132,23 @@ const DeviceSorter: React.FC = () => {
 }
 
 const Header: React.FC = () => {
+  const selectedDeviceList = useAtomValue(selectedDeviceListAtom)
   return (
+    <>
+    <Box>
+      <Typography variant="subtitle1" component={'h5'} color='primary' fontWeight={'bold'}>
+        选择设备
+      </Typography>
+      <Typography sx={{ color: '#62b0e5', fontSize: 14, fontWeight: 400 }}>
+        已选设备： {selectedDeviceList.length}
+      </Typography>
+    </Box>
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        mt: '20px',
       }}
     >
       <Box
@@ -162,6 +173,7 @@ const Header: React.FC = () => {
         <GenCode />
       </Box>
     </Box>
+    </>
   )
 }
 
