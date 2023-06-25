@@ -27,9 +27,9 @@ const AppDetail: React.FC<AppDetailProps> = (
 
   return (
     <>
-      { currentPage === Detail.Page.INFO ? <Info /> : null }
-      { currentPage === Detail.Page.CONFIG ? <Config /> : null }
-      { currentPage === Detail.Page.DEPLOY ? <Deploy /> : null }
+      {currentPage === Detail.Page.INFO ? <Info /> : null}
+      {currentPage === Detail.Page.CONFIG ? <Config onClose={onClose} /> : null}
+      {currentPage === Detail.Page.DEPLOY ? <Deploy /> : null}
     </>
   )
 }

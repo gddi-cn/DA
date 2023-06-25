@@ -1,13 +1,18 @@
 import { Dialog } from '@mui/material'
+import { AppDetail } from '@src/components/AppDetail/enums'
 import { SecondaryBtn } from '@src/components/Btn'
 import CreateApp from '@src/components/CreateApp/CreateApp'
-import DialogTransition from '@src/components/DialogTransition'
+import { useSetAtom } from 'jotai'
 import React from 'react'
 import { useRefreshAppList } from '../List/hook'
+import { currentAppIdAtom, defaultPageAtom, detailOpenAtom } from '../store'
 
 const useCreate = () => {
   const [open, setOpen] = React.useState<boolean>(false)
   const refresh = useRefreshAppList()
+  const setDetaailOpen = useSetAtom(detailOpenAtom)
+  const setDefailtpage = useSetAtom(defaultPageAtom)
+  const setCurrentApp = useSetAtom(currentAppIdAtom)
 
   const handleOpen = () => {
     setOpen(true)
@@ -17,9 +22,12 @@ const useCreate = () => {
     setOpen(false)
   }
 
-  const onCreate = () => {
+  const onCreate = (app: App.Instance) => {
     refresh()
     setOpen(false)
+    setDefailtpage(AppDetail.Page.CONFIG)
+    setCurrentApp(app.id)
+    setTimeout(() => setDetaailOpen(true))
   }
 
   return {
@@ -43,26 +51,11 @@ const Create: React.FC = () => {
       <SecondaryBtn onClick={handleOpen}>
         创建应用
       </SecondaryBtn>
-      <Dialog
-        open={open} onClose={handleClose}
-        TransitionComponent={DialogTransition}
-        fullWidth maxWidth={'ll'}
-        sx={{
-          zIndex: 1009,
-        }}
-        PaperProps={{
-          sx: {
-            background: theme => theme.palette.blue.main,
-            outline: theme => `2px solid ${theme.palette.primary.main}`,
-            borderRadius: '12px',
-          }
-        }}
-      >
-        <CreateApp
-          onCancel={handleClose}
-          onCreate={onCreate}
-        />
-      </Dialog>
+      <CreateApp
+        open={open}
+        onCancel={handleClose}
+        onCreate={onCreate}
+      />
     </>
   )
 }

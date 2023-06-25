@@ -55,7 +55,7 @@ declare namespace App {
     page_size: number
     sort?: 'asc' | 'desc'
     label?: string
-    input?: import ('@src/shared/enum/application').AppTemplateInput
+    input?: import('@src/shared/enum/application').AppTemplateInput
   }
 
   namespace Template {
@@ -71,6 +71,7 @@ declare namespace App {
       name: string
       sample: string
       samples: Array<string>
+      is_build_in: boolean
     }
 
     interface ListParams {
@@ -83,6 +84,14 @@ declare namespace App {
       page_size: number
       page: number
       sort?: 'asc' | 'desc'
+    }
+
+    interface CreateData {
+      config: string
+      cover?: string
+      description?: string
+      module_version: string
+      name: string
     }
   }
 }

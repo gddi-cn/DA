@@ -51,14 +51,14 @@ export const useTemplateLabelFilter = () => {
     useAtom(labelOptionAtom)
 
   const getOptions = (name: string):
-    Promise<Array<{key: string, value: string, label: string}>> =>
+    Promise<Array<{ key: string, value: string, label: string }>> =>
     Promise.resolve(
       templateLabelList
         .filter(x => x && x.includes(name))
         .map(x => ({ key: x, value: x, label: x }))
     )
 
-  const handleChange = (newOptions?: {key: string, value: string, label: string}) => {
+  const handleChange = (newOptions?: { key: string, value: string, label: string }) => {
     setSelectedTemplateLabelOption(newOptions || null)
   }
 
@@ -122,9 +122,19 @@ export const useRefreshTemplate = () => {
 
 export const useList = () => {
   const [templateList] = useAtom(templateListAtom)
+  const [selectedTemplate, setSelectedTemplate] = useAtom(selectedTemplateAtom)
+  const refresh = useRefreshTemplate()
+
+  const onDelete = (id: App.Template.Instance['id']) => {
+    refresh()
+    if (selectedTemplate?.id === id) {
+      setSelectedTemplate(undefined)
+    }
+  }
 
   return {
     templateList,
+    onDelete,
   }
 }
 
@@ -154,7 +164,7 @@ export const useTemplateItem = (template: App.Template.Instance) => {
     () => {
       const $c = containerRef.current
       if (!$c) return
-      
+
       if (selected) {
         $c.setAttribute('selected', '')
       } else {
@@ -165,6 +175,7 @@ export const useTemplateItem = (template: App.Template.Instance) => {
   )
 
   return {
+    buildIn: template.is_build_in,
     cover,
     name,
     InputIcon,
@@ -231,13 +242,17 @@ export const useTemplateList = (
   const [labelOption] = useAtom(labelOptionAtom)
   const [inputOption] = useAtom(inputOptionAtom)
 
+  const onCreate = () => {
+    refresh()
+  }
+
   React.useEffect(
     () => {
       refresh()
     },
     [name, labelOption, inputOption]
   )
-  
+
   React.useEffect(
     () => {
       setSelectedTemplate(selectedTemplate)
@@ -259,5 +274,9 @@ export const useTemplateList = (
     },
     []
   )
+
+  return {
+    onCreate,
+  }
 }
 

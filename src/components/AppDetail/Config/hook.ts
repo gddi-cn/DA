@@ -80,12 +80,12 @@ export const useConfig = () => {
   )
 
 
-  const handleClose = () => {
+  const handleBack = () => {
     setCurrentPage(AppDetail.Page.INFO)
   }
 
   return {
-    handleClose,
+    handleBack,
     flowValue: {
       defaultValue,
       moduleDefinitions,

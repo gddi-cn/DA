@@ -1,47 +1,69 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Box from '@src/components/Box'
-import { SecondaryBtn } from '@src/components/Button'
 
 import { useConfig } from './hook'
 import GddiFlow from '@src/views/Platform/Config/GddiFlow'
+import {
+  Dialog,
+  IconButton, Box
+} from '@mui/material'
+import { SecondaryBtn, PrimaryBtn } from '@src/components/Btn'
+import CloseIcon from '@mui/icons-material/Close'
 
 const Title = styled.p`
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
   color: #2582C1;
+  flex: 1;
 `
 
-const Footer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const Content = styled.div`
-  height: 100%;
-  overflow: hidden;
-  padding: 0 40px;
-`
-
-const Config: React.FC = () => {
-  const { handleClose, flowValue, appBaseInfo } = useConfig()
+const Config: React.FC<{ onClose?(): void }> = ({
+  onClose,
+}) => {
+  const { handleBack, flowValue, appBaseInfo } = useConfig()
 
   return (
-    <Box
-      noScroll
-      header={<Title>参数配置</Title>}
-      footer={(
-        <Footer>
-          <SecondaryBtn width={97} onClick={handleClose}>返回详情</SecondaryBtn>
-        </Footer>
-      )}
+    <Dialog
+      open={true}
+      fullScreen
+      PaperProps={{
+        sx: {
+          bgcolor: theme => theme.palette.blue.main,
+        }
+      }}
     >
-      <Content>
-        <GddiFlow flowValue={flowValue} appBaseInfo={appBaseInfo} />
-      </Content>
-    </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          jusitfyContent: 'space-between',
+          py: 2,
+          px: 3,
+        }}
+      >
+        <Title>
+          参数配置
+        </Title>
+        <IconButton onClick={onClose} size='small' color='primary'>
+          <CloseIcon fontSize='small' />
+        </IconButton>
+      </Box>
+      <GddiFlow flowValue={flowValue} appBaseInfo={appBaseInfo} />
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          columnGap: 2,
+          padding: '20px 20px',
+        }}
+      >
+        <SecondaryBtn onClick={handleBack}>返回详情</SecondaryBtn>
+        <PrimaryBtn onClick={onClose}>确定</PrimaryBtn>
+      </Box>
+    </Dialog>
   )
 }
 

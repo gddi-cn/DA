@@ -1,7 +1,27 @@
+import { Box, IconButton, Typography } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
+import { Button, message, Modal, Popover } from 'antd'
+import { ReactComponent as MoreIcon } from './more.svg'
+import { ReactComponent as DeleteIcon } from './delete.svg'
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import { useTemplateItem } from './hook'
+import appAPI from '@src/apis/app'
+
+const Btn = styled(Button) <{
+  gap?: React.CSSProperties['columnGap'],
+  color?: React.CSSProperties['color']
+}
+  >`
+  display: flex;
+  align-items: center;
+  column-gap: ${props => props.gap || '6px'};
+  color: ${props => props.color || 'rgba(0, 0, 0, .85)'};
+  &:hover, &:active, &:focus {
+    color: ${props => props.color || 'rgba(0, 0, 0, .85)'};
+  }
+`
 
 const Container = styled.div`
   background-color: #EDF8FF;
@@ -19,6 +39,7 @@ const Container = styled.div`
     outline: 2px solid #62b0e5;
   }
   overflow: hidden;
+  position: relative;
 `
 
 const Img = styled.img`
@@ -104,16 +125,113 @@ const Description = styled.div`
   -webkit-box-orient: vertical
 `
 
-const TemplateItem: React.FC<App.Template.Instance> = (template) => {
+const DropdownContent: React.FC<{
+  id: App.Template.Instance['id'],
+  onDelete?(id: App.Template.Instance['id']): void
+}> = ({ id, onDelete }) => {
+  const [loading, setLoading] = React.useState<boolean>(false)
+
+  const handleDelete = () => {
+    Modal.confirm({
+      title: '删除模板',
+      icon: <ExclamationCircleOutlined />,
+      content: '确定要删除该模板吗？',
+      okText: '确定',
+      okButtonProps: {
+        danger: true,
+      },
+      onOk: async () => {
+        setLoading(true)
+        const { success } = await appAPI.deleteTemplate(id)
+        setLoading(false)
+
+        if (!success) return
+
+        message.success('删除成功')
+        onDelete?.(id)
+      },
+    })
+  }
+
+  return (
+    <Box>
+      <Btn
+        icon={<DeleteIcon />} type='text' gap='4px' color='#FF6177'
+        onClick={handleDelete} disabled={loading}
+      >
+        删除
+      </Btn>
+    </Box>
+  )
+}
+
+interface TemplateItemProps {
+  template: App.Template.Instance
+  onDelete?(id: App.Template.Instance['id']): void
+}
+
+const TemplateItem: React.FC<TemplateItemProps> = ({
+  template,
+  onDelete,
+}) => {
   const {
     containerRef, cover, name,
     InputIcon, inputTip, tagList,
     description, handleClick,
-    format,
+    format, buildIn,
   } = useTemplateItem(template)
 
   return (
     <Container ref={containerRef} onClick={handleClick}>
+      {
+        buildIn ? null : (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              borderTopLeftRadius: 4,
+              borderBottomRightRadius: 4,
+              backgroundColor: '#edf8ff',
+              padding: '3px 6px',
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: '14px',
+                fontWeight: 400,
+                color: '#2582C1',
+              }}
+            >
+              私有模板
+            </Typography>
+          </Box>
+        )
+      }
+      {
+        buildIn ? null : (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+            }}
+          >
+            <Popover
+              trigger={['click']}
+              placement='bottomRight'
+              getPopupContainer={(el: HTMLElement) => (el as any).parentNode}
+              content={<DropdownContent id={template.id} onDelete={onDelete} />}
+            >
+              <div>
+                <IconButton>
+                  <MoreIcon />
+                </IconButton>
+              </div>
+            </Popover>
+          </Box>
+        )
+      }
       <Img src={cover} alt={'cover'} />
       <Content>
         <Header>

@@ -6,6 +6,8 @@ import { useCreateApp } from './hook'
 import BaseForm from './BaseForm'
 import SelecteTemplate from './SelectTemplate'
 import Footer from './Footer'
+import { Dialog } from '@mui/material'
+import DialogTransition from '../DialogTransition'
 
 const Container = styled.div`
   height: 90vh;
@@ -30,32 +32,52 @@ const Content = styled.div`
 `
 
 export interface CreateAppProps {
+  open: boolean,
   onCancel: () => void
   onCreate: (app: App.Instance) => void
 }
 
 const CreateApp: React.FC<CreateAppProps> = (
   {
+    open,
     onCancel,
     onCreate,
   }
 ) => {
   const {
     step,
-  } = useCreateApp()
+    handleClose
+  } = useCreateApp(onCancel)
 
   return (
-    <Container>
-      <Header>
-        {step === 'base' ? '应用信息' : '选择模板'}
-      </Header>
-      <Content>
-        {step === 'base' ? <BaseForm /> : null}
-        {step === 'template' ? <SelecteTemplate /> : null}
-      </Content>
-      <Footer onCreate={onCreate} onCancel={onCancel} />
-    </Container>
+    <Dialog
+      open={open} onClose={handleClose}
+      TransitionComponent={DialogTransition}
+      fullWidth maxWidth={'ll'}
+      sx={{
+        zIndex: 999,
+      }}
+      PaperProps={{
+        sx: {
+          background: theme => theme.palette.blue.main,
+          outline: theme => `2px solid ${theme.palette.primary.main}`,
+          borderRadius: '12px',
+        }
+      }}
+    >
+      <Container>
+        <Header>
+          {step === 'base' ? '应用信息' : '选择模板'}
+        </Header>
+        <Content>
+          {step === 'base' ? <BaseForm /> : null}
+          {step === 'template' ? <SelecteTemplate /> : null}
+        </Content>
+        <Footer onCreate={onCreate} onCancel={onCancel} />
+      </Container>
+    </Dialog>
   )
 }
 
 export default CreateApp
+

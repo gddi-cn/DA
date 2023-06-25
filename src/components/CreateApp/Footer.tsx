@@ -28,7 +28,7 @@ const Footer: React.FC<FooterProps> = (
   }
 ) => {
   const {
-    base, loading,
+    base, loading, formLoading,
     handleCancel, handlePre,
     handleNext, handleCreate,
   } = useFooter(onCreate, onCancel)
@@ -39,7 +39,7 @@ const Footer: React.FC<FooterProps> = (
       <FooterRight>
         {
           base ? (
-            <PrimaryBtn width={97} onClick={handleNext}>下一步</PrimaryBtn>
+            <PrimaryBtn loading={formLoading} width={97} onClick={handleNext}>下一步</PrimaryBtn>
           ) : (
             <>
               <SecondaryBtn width={97} onClick={handlePre}>上一步</SecondaryBtn>

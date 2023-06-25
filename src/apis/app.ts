@@ -34,6 +34,34 @@ const appAPI = {
     }
   },
 
+  createTemplate: async (data: App.Template.CreateData): Promise<APIResponse<void>> => {
+    try {
+      await http.post('/v3/apptemplates', data)
+      return {
+        success: true,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
+  deleteTemplate: async (id: App.Template.Instance['id']): Promise<APIResponse<void>> => {
+    try {
+      await http.delete(`/v3/apptemplates/${id}`)
+      return {
+        success: true,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
   templateLabelList: async ():
     Promise<APIResponse<Array<string>>> => {
     try {
@@ -109,9 +137,9 @@ const appAPI = {
   export2: async (
     appId: App.Instance['id'],
     data: { device_ids: Array<GroupDevice['id']>, expire_seconds: number, limit?: number },
-  ): Promise<APIResponse<{urls: Array<string>}>> => {
+  ): Promise<APIResponse<{ urls: Array<string> }>> => {
     try {
-      const { data: _data } = await http.post(`/v3/apps/${appId}/export2`, data )
+      const { data: _data } = await http.post(`/v3/apps/${appId}/export2`, data)
 
       return {
         success: true,

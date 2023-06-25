@@ -9,7 +9,9 @@ import Scrollbar from '../Scrollbar'
 
 interface TemplateListProps {
   template?: App.Template.Instance
-  onChange?: (selected: App.Template.Instance | null) => void,
+  onChange?: (selected: App.Template.Instance | null) => void
+  onTemplateCreateOpen?(): void
+  onTemplateCreateClose?(): void
 }
 
 const Container = styled.div`
@@ -28,13 +30,19 @@ const TemplateList: React.FC<TemplateListProps> = (
   {
     template,
     onChange,
+    onTemplateCreateOpen,
+    onTemplateCreateClose,
   }
 ) => {
-  useTemplateList(template, onChange)
+  const { onCreate } = useTemplateList(template, onChange)
 
   return (
     <Container>
-      <Header />
+      <Header
+        onTemplateCreateOpen={onTemplateCreateOpen}
+        onTemplateCreateClose={onTemplateCreateClose}
+        onTemplateCreated={onCreate}
+      />
       <Content>
         <Scrollbar autoHide>
           <List />

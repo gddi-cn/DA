@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form as AntForm, Input, Select, Upload } from 'antd'
+import { Form as AntForm, Input, Upload } from 'antd'
 import styled from 'styled-components'
 
 import { ReactComponent as UploadIcon } from '@src/asset/icons/upload-cloud.svg'
@@ -8,7 +8,7 @@ import { useBaseForm } from './hook'
 import DeviceChipSelector from '../DeviceChipSelector/DeviceChipSelector'
 
 const Container = styled.div`
-  padding-top: 20px;
+  padding-top: 40px;
   height: 100%;
 `
 
@@ -85,7 +85,7 @@ const BaseForm: React.FC = () => {
                     const suffix = file.name.match(/\.(\w)*$/)
 
                     if (!namePass)
-                      return Promise.reject(`不支持 ${suffix? suffix[0] : '该'} 类型文件`)
+                      return Promise.reject(`不支持 ${suffix ? suffix[0] : '该'} 类型文件`)
 
                     const sizePass = file.size <= maxSize
 

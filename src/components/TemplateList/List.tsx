@@ -12,13 +12,13 @@ const Container = styled.div`
 `
 
 const List: React.FC = () => {
-  const { templateList } = useList()
+  const { templateList, onDelete } = useList()
 
   return (
     <Container>
       {
         templateList.map(template => (
-          <TemplateItem {...template} key={template.id} />
+          <TemplateItem template={template} onDelete={onDelete} key={template.id} />
         ))
       }
     </Container>

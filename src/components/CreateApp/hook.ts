@@ -13,12 +13,13 @@ import {
   creatingAppAtom,
   selectedTemplateAtom,
   stepAtom,
+  useCancel,
 } from './store'
 
 export const useResetStore = () => {
   const [, setLoading] = useAtom(creatingAppAtom)
   const [, setbaseFormValue] = useAtom(baseFormValueAtom)
-  const [, setSelectedTemplate]= useAtom(selectedTemplateAtom)
+  const [, setSelectedTemplate] = useAtom(selectedTemplateAtom)
   const [, setStep] = useAtom(stepAtom)
   const [, setForm] = useAtom(baseFormAtom)
 
@@ -73,7 +74,7 @@ export const useBaseForm = () => {
           setPreviewSrc(previewSrc)
           setPreviewTitle(cover.name)
         })
-      
+
     },
     []
   )
@@ -114,16 +115,12 @@ export const useFooter = (
 ) => {
   const [step, setStep] = useAtom(stepAtom)
   const [form] = useAtom(baseFormAtom)
-  const [formValue] = useAtom(baseFormValueAtom)
+  const [formValue, setFormValue] = useAtom(baseFormValueAtom)
   const [loading, setLoading] = useAtom(creatingAppAtom)
   const [formLoading, setFormLoading] = React.useState<boolean>(false)
-  const [, setFormValue] = useAtom(baseFormValueAtom)
-  const [selectedTemplate] = useAtom(selectedTemplateAtom)
+  const [selectedTemplate, setSelectedTemplate] = useAtom(selectedTemplateAtom)
 
-  const handleCancel = () => {
-    form?.resetFields()
-    onCancel()
-  }
+  const handleCancel = useCancel(onCancel)
 
   const handlePre = () => {
     if (step === 'base') return
@@ -133,14 +130,17 @@ export const useFooter = (
   const handleNext = async () => {
     if (step === 'template') return
     if (!form || formLoading) return
-
     setFormLoading(true)
-    const baseFormValue = await form.validateFields()
-    setFormLoading(false)
 
-    setFormValue(baseFormValue)
-
-    setStep('template')
+    try {
+      const baseFormValue = await form.validateFields()
+      setFormValue(baseFormValue)
+      setStep('template')
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setFormLoading(false)
+    }
   }
 
   const handleCreate = async () => {
@@ -183,7 +183,7 @@ export const useFooter = (
     } catch (e) {
       console.error(e)
       setLoading(false)
-    } 
+    }
   }
 
   return {
@@ -197,11 +197,13 @@ export const useFooter = (
   }
 }
 
-export const useCreateApp = () => {
+export const useCreateApp = (onCancel?: () => void) => {
   useResetStore()
   const [step] = useAtom(stepAtom)
+  const handleClose = useCancel(onCancel)
 
   return {
     step,
+    handleClose,
   }
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Box } from '@mui/material'
 
 import NameFilter from './NameFilter'
@@ -7,14 +6,19 @@ import TemplateLabelFilter from './TemplateLabelFilter'
 import InputFilter from './InputFilter'
 import CreateTemplate from '../CreateTemplate'
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 20px;
-  padding: 0 40px;
-`
+interface HeaderProps {
+  onTemplateCreateOpen?(): void
+  onTemplateCreateClose?(): void
+  onTemplateCreated?(): void
+}
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = (
+  {
+    onTemplateCreateOpen,
+    onTemplateCreateClose,
+    onTemplateCreated,
+  }
+) => {
   return (
     <Box
       sx={{
@@ -35,7 +39,11 @@ const Header: React.FC = () => {
         <TemplateLabelFilter />
         <InputFilter />
       </Box>
-      <CreateTemplate />
+      <CreateTemplate
+        onOpen={onTemplateCreateOpen}
+        onClose={onTemplateCreateClose}
+        onCreated={onTemplateCreated}
+      />
     </Box>
   )
 }
