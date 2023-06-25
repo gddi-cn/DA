@@ -9,10 +9,12 @@ import Footer from './Footer'
 
 const List: React.FC = () => {
   const {
+    scrollbarRef,
     appList,
     getSelect,
     handleSelectChange,
     handleDetail,
+    handleScroll,
   } = useList()
 
   return (
@@ -42,7 +44,11 @@ const List: React.FC = () => {
             <Header />
           </Box>
           <Box flexGrow={1} sx={{ mt: '20px' }}>
-            <Scrollbars autoHide>
+            <Scrollbars
+              autoHide
+              onScrollFrame={({ top }) => handleScroll(top)}
+              ref={scrollbarRef}
+            >
               <Box
                 sx={{
                   px: '20px',

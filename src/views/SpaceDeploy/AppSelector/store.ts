@@ -7,11 +7,13 @@ export const detailOpenAtom = atom<boolean>(false)
 export const currentAppIdAtom = atom<App.Instance['id'] | undefined>(undefined)
 export const defaultPageAtom = atom<AppDetail.Page | undefined>(undefined)
 
+export const defaultPageSize = 40
+
 const defaultFilter: App.ListParams = {
   name: '',
   device: undefined,
   page: 1,
-  page_size: 20,
+  page_size: defaultPageSize,
   input: AppTemplateInput.VIDEO_STREAM,
   label: undefined,
 }
@@ -24,6 +26,7 @@ export const nameFilterAtom = atom(
     set(filterAtom, (prev) => ({
       ...prev,
       page: 1,
+      page_size: defaultPageSize,
       name: update,
     }))
   }
@@ -35,6 +38,7 @@ export const deviceFilterAtom = atom(
     set(filterAtom, (prev) => ({
       ...prev,
       page: 1,
+      page_size: defaultPageSize,
       device: update
     }))
     set(selectedChipAtom, update || null)
@@ -48,6 +52,7 @@ export const pageFilterAtom = atom(
     set(filterAtom, (prev) => ({
       ...prev,
       page: update,
+      page_size: defaultPageSize,
     }))
   }
 )
@@ -69,6 +74,7 @@ export const inputFilterAtom = atom(
     set(filterAtom, (prev) => ({
       ...prev,
       page: 1,
+      page_size: defaultPageSize,
       input: update,
     }))
     set(selectedAppListAtom, [])
@@ -81,6 +87,7 @@ export const labelFilterAtom = atom(
     set(filterAtom, (prev) => ({
       ...prev,
       page: 1,
+      page_size: defaultPageSize,
       label: update
     }))
   }
