@@ -5,6 +5,7 @@ import { Fade } from '@mui/material'
 import { Box } from '@mui/material'
 import { SecondaryBtn, PrimaryBtn } from '@src/components/Btn'
 import { useToDevice } from '../../hook'
+import CloudDeploy from './CloudDeploy'
 
 const Footer: React.FC = () => {
   const [selectedAppList, setSelectedAppList] = useAtom(selectedAppListAtom)
@@ -15,7 +16,7 @@ const Footer: React.FC = () => {
     toDevice()
   }
 
-  return  (
+  return (
     <Fade in={selectedAppList.length > 0}>
       <Box
         sx={{
@@ -36,7 +37,7 @@ const Footer: React.FC = () => {
             columnGap: '20px',
           }}
         >
-          <SecondaryBtn>云授权</SecondaryBtn>
+          <CloudDeploy />
           <PrimaryBtn onClick={handleDevice}>设备授权</PrimaryBtn>
         </Box>
       </Box>
