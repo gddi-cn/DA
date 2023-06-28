@@ -20,7 +20,7 @@ export const useResetStore = () => {
   const [open] = useAtom(createAppOpenAtom)
   const [, setLoading] = useAtom(creatingAppAtom)
   const [, setbaseFormValue] = useAtom(baseFormValueAtom)
-  const [, setSelectedTemplate]= useAtom(selectedTemplateAtom)
+  const [, setSelectedTemplate] = useAtom(selectedTemplateAtom)
   const [, setStep] = useAtom(stepAtom)
   const [, setForm] = useAtom(baseFormAtom)
 
@@ -84,7 +84,7 @@ export const useBaseForm = () => {
           setPreviewSrc(previewSrc)
           setPreviewTitle(cover.name)
         })
-      
+
     },
     []
   )
@@ -144,18 +144,15 @@ export const useFooter = () => {
 
   const handleNext = async () => {
     if (step === 'template') {
-      console.log({ step })
       return
     }
     if (!form || formLoading) {
-      console.log({ form, formLoading })
       return
     }
 
     try {
       setFormLoading(true)
       const baseFormValue = await form.validateFields()
-      console.log(baseFormValue)
       setFormLoading(false)
 
       setFormValue(baseFormValue)
@@ -212,7 +209,7 @@ export const useFooter = () => {
     } catch (e) {
       console.error(e)
       setLoading(false)
-    } 
+    }
   }
 
   return {
