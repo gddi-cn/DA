@@ -15,6 +15,7 @@ import {
   stepAtom,
   useCancel,
 } from './store'
+import { FooterProps } from './Footer'
 
 export const useResetStore = () => {
   const [, setLoading] = useAtom(creatingAppAtom)
@@ -110,8 +111,11 @@ export const useTemplate = () => {
 }
 
 export const useFooter = (
-  onCreate: (app: App.Instance) => void,
-  onCancel: () => void
+  {
+    onCreate,
+    onCancel,
+    modelIterId: model_iter_id,
+  }: FooterProps
 ) => {
   const [step, setStep] = useAtom(stepAtom)
   const [form] = useAtom(baseFormAtom)
@@ -171,6 +175,7 @@ export const useFooter = (
         name,
         app_template_id: selectedTemplate.id,
         adapter_device: adapter_device.value,
+        model_iter_id,
         cover,
         description,
       })
@@ -178,6 +183,7 @@ export const useFooter = (
       setLoading(false)
 
       if (!success || !data) return
+      console.log({ data })
       onCreate(data)
 
     } catch (e) {

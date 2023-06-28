@@ -19,19 +19,15 @@ const FooterRight = styled.div`
 export interface FooterProps {
   onCancel: () => void
   onCreate: (app: App.Instance) => void
+  modelIterId?: string
 }
 
-const Footer: React.FC<FooterProps> = (
-  {
-    onCreate,
-    onCancel,
-  }
-) => {
+const Footer: React.FC<FooterProps> = (props) => {
   const {
     base, loading, formLoading,
     handleCancel, handlePre,
     handleNext, handleCreate,
-  } = useFooter(onCreate, onCancel)
+  } = useFooter(props)
 
   return (
     <Container>

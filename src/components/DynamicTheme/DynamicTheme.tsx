@@ -15,6 +15,7 @@ import {
   whiteColorAtom,
   hoverBlueAtom,
   selectedBlueAtom,
+  primaryBlueAtom,
 } from "@src/store/theme";
 
 export interface DynamicThemeProps {
@@ -28,6 +29,7 @@ declare module '@mui/material/styles' {
     white: Palette['primary'];
     hoverBlue: Palette['primary'];
     selectedBlue: Palette['primary'];
+    primaryBlue: Palette['primary'];
   }
 
   interface PaletteOptions {
@@ -36,6 +38,7 @@ declare module '@mui/material/styles' {
     white: Palette['primary'];
     hoverBlue: Palette['primary'];
     selectedBlue: Palette['primary'];
+    primaryBlue: Palette['primary'];
   }
 
   interface BreakpointOverrides {
@@ -66,6 +69,7 @@ const useTheme = () => {
   const whiteColor = useAtomValue(whiteColorAtom)
   const hoverBlueColor = useAtomValue(hoverBlueAtom)
   const selectedBlueColor = useAtomValue(selectedBlueAtom)
+  const primaryBlueColor = useAtomValue(primaryBlueAtom)
 
   return React.useMemo(() => createTheme({
     palette: {
@@ -80,6 +84,7 @@ const useTheme = () => {
       white: createColor(whiteColor),
       hoverBlue: createColor(hoverBlueColor),
       selectedBlue: createColor(selectedBlueColor),
+      primaryBlue: createColor(primaryBlueColor),
     },
     breakpoints: {
       values: {

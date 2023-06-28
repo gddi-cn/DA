@@ -5,10 +5,12 @@ declare module '@mui/material' {
   interface ButtonPropsColorOverrides {
     black: true,
     blue: true,
+    primaryBlue: true,
   }
   interface IconButtonPropsColorOverrides {
     black: true,
     blue: true,
+    primaryBlue: true,
   }
 }
 

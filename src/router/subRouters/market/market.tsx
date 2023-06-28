@@ -68,8 +68,8 @@ const Documents = lazy(() => import('@src/views/Deployment/BySDK/Documents'));
 // 部署
 // 体验
 const Experience = lazy(() => import('@src/views/Experience'))
-// 平台
-const Platform = lazy(() => import('@src/views/Platform'))
+// 正式部署
+const Deploy = lazy(() => import('@src/views/Deploy'))
 
 const Space = lazy(() => import('@src/views/Space'))
 const Account = lazy(() => import('@src/views/Account'))
@@ -187,7 +187,7 @@ export default {
             },
             {
               path: APP_PLATFORM,
-              element: SuspenseFn(Platform)
+              element: SuspenseFn(Deploy)
             },
             {
               path: APP_SDK_Documents,

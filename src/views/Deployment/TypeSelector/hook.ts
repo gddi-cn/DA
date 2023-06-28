@@ -120,7 +120,7 @@ export const useFooter = () => {
     )
   }
 
-  const toPlatform = () => {
+  const toFormal = () => {
     socketPushMsgForProject(
       activePipeLine, {
         active_page: SNAPSHOT_KEY_OF_ROUTER.APP_PLATFORM,
@@ -142,14 +142,11 @@ export const useFooter = () => {
     }
 
     switch (selectedType) {
-      case DeployType.SDK:
-        toSdk()
-        break
       case DeployType.EXPERIENCE:
         toExperience()
         break
-      case DeployType.PLATFORM:
-        toPlatform()
+      case DeployType.FORMAL:
+        toFormal()
         break
       default:
         break

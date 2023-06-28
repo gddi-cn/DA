@@ -26,8 +26,7 @@ const Production: React.FC = () => {
     <Container>
       <Content>
         <ItemCard type={DeployType.EXPERIENCE} disabled={disabledTrial} />
-        <ItemCard type={DeployType.PLATFORM} />
-        <ItemCard type={DeployType.SDK} />
+        <ItemCard type={DeployType.FORMAL} />
       </Content>
     </Container>
   )

@@ -22,3 +22,5 @@ export const whiteColorAtom = atom<string>('#ffffff')
 export const hoverBlueAtom = atom<string>('#EDF8FF')
 
 export const selectedBlueAtom = atom<string>('#48A2DF')
+
+export const primaryBlueAtom = atom<string>('#2582c1')

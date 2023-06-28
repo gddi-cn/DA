@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 
 import { useConfig } from './hook'
-import GddiFlow from '@src/views/Platform/Config/GddiFlow'
+import GddiFlow from '@src/components/GddiFlow'
 import {
   Dialog,
   IconButton, Box

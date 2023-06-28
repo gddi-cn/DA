@@ -32,7 +32,8 @@ const Content = styled.div`
 `
 
 export interface CreateAppProps {
-  open: boolean,
+  open: boolean
+  modelIterId?: string
   onCancel: () => void
   onCreate: (app: App.Instance) => void
 }
@@ -40,6 +41,7 @@ export interface CreateAppProps {
 const CreateApp: React.FC<CreateAppProps> = (
   {
     open,
+    modelIterId,
     onCancel,
     onCreate,
   }
@@ -73,7 +75,7 @@ const CreateApp: React.FC<CreateAppProps> = (
           {step === 'base' ? <BaseForm /> : null}
           {step === 'template' ? <SelecteTemplate /> : null}
         </Content>
-        <Footer onCreate={onCreate} onCancel={onCancel} />
+        <Footer modelIterId={modelIterId} onCreate={onCreate} onCancel={onCancel} />
       </Container>
     </Dialog>
   )
