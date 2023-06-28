@@ -60,6 +60,8 @@ declare namespace User {
 
   // 用户资源用量
   interface Usage {
+    // 授权类型
+    authorization_type: 'OEM' | 'Unlimited',
     // 授权数量限额，值为0时为无限制
     authorization_limited: number
     // 授权用量
@@ -68,6 +70,8 @@ declare namespace User {
     balance: number
     channel_limited: number
     channel_usage: number
+    // 过期时间
+    expire: number
     // 并行 GPU 使用数限制，值为0时为无限制
     gpu_limited: number
     // 模型训练个数限制，值为0时为无限制

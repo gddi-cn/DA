@@ -1,5 +1,4 @@
 import React from "react"
-jj
 
 export const useRating = (onRating?: (value: number) => void) => {
   const [value, setValue] = React.useState<number | null>(null)

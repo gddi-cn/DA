@@ -1,6 +1,11 @@
 import { atom, useSetAtom } from 'jotai'
 import React from 'react'
 
+// 授权类型
+// OEM: 显示 Expire 隐藏 Balance
+// Unlimited: 显示 Balance 隐藏 Expire
+export const authTypeAtom = atom<'OEM' | 'Unlimited'>('OEM')
+
 // 模型授权
 export const authUsedAtom = atom<number>(0);
 export const authTotalAtom = atom<number>(0);
@@ -33,8 +38,10 @@ export const loadingAtom = atom<boolean>(false)
 
 // 余额
 export const balanceAtom = atom<number>(0)
+export const expireAtom = atom<number>(0)
 
 export const useResetUsageStore = () => {
+  const setAuthType = useSetAtom(authTypeAtom)
   const setAuthUsed = useSetAtom(authUsedAtom)
   const setAuthTotal = useSetAtom(authTotalAtom)
   const setChannelUsed = useSetAtom(channelUsedAtom)
@@ -51,10 +58,13 @@ export const useResetUsageStore = () => {
   const setOfflineDeviceUsed = useSetAtom(offlineDeviceUsedAtom)
   const setOfflineDeviceTotal = useSetAtom(offlineDeviceTotalAtom)
   const setBalance = useSetAtom(balanceAtom)
+  const setExpire = useSetAtom(expireAtom)
 
   React.useEffect(
     () => () => {
       setLoading(true)
+      setAuthType('OEM')
+      setExpire(0)
       setAuthUsed(0)
       setAuthTotal(0)
       setChannelUsed(0)

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+
 import { authUserInfoAtom } from '@src/store/user'
 import { currentPageAtom } from '../store'
 import { Space } from '../enums'
-import systemAPI from '@src/apis/system'
 import {
   authUsedAtom,
   authTotalAtom,
@@ -22,10 +22,11 @@ import {
   offlineDeviceUsedAtom,
   offlineDeviceTotalAtom,
   balanceAtom,
+  authTypeAtom,
+  expireAtom,
 } from './store'
-import { formatUnixDate } from '@src/utils/tools'
-import moment from 'moment'
 import userAPI from '@src/apis/user'
+import { formatUnixTime } from '@src/utils/tools'
 
 const useGreeting = () => {
   const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
@@ -71,6 +72,7 @@ export const useLeftContent = () => {
 
 export const useRefreshUsage = () => {
   const [loading, setLoading] = useAtom(loadingAtom)
+  const setAuthType = useSetAtom(authTypeAtom)
   const setAuthUsed = useSetAtom(authUsedAtom)
   const setAuthTotal = useSetAtom(authTotalAtom)
   const setChannelUsed = useSetAtom(channelUsedAtom)
@@ -86,6 +88,7 @@ export const useRefreshUsage = () => {
   const setOfflineDeviceUsed = useSetAtom(offlineDeviceUsedAtom)
   const setOfflineDeviceTotal = useSetAtom(offlineDeviceTotalAtom)
   const setBalance = useSetAtom(balanceAtom)
+  const setExpire = useSetAtom(expireAtom)
 
   return async () => {
     if (loading) return
@@ -97,10 +100,12 @@ export const useRefreshUsage = () => {
     if (!success || !data) return
 
     const {
+      authorization_type,
       authorization_usage,
       authorization_limited,
       channel_usage,
       channel_limited,
+      expire,
       train_usage,
       train_limited,
       storage_usage,
@@ -114,6 +119,7 @@ export const useRefreshUsage = () => {
       balance,
     } = data
 
+    setAuthType(authorization_type)
     setAuthUsed(authorization_usage)
     setAuthTotal(authorization_limited)
     setChannelUsed(channel_usage)
@@ -129,11 +135,14 @@ export const useRefreshUsage = () => {
     setOfflineDeviceUsed(offline_device_usage)
     setOfflineDeviceTotal(offline_device_limited)
     setBalance(balance)
+    setExpire(expire)
   }
 }
 
 export const useUsage = () => {
   const containerRef = React.useRef<HTMLDivElement | null>(null)
+  const authType = useAtomValue(authTypeAtom)
+  const isOEM = authType === 'OEM'
 
   const loading = useAtomValue(loadingAtom)
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
@@ -161,7 +170,10 @@ export const useUsage = () => {
   }, [currentPage])
 
   return {
-    containerRef, loading, handleClick
+    isOEM,
+    containerRef,
+    loading,
+    handleClick,
   }
 }
 
@@ -188,7 +200,9 @@ export const useAccount = () => {
   }, [currentPage])
 
   return {
-    active, handleClick, containerRef
+    active,
+    handleClick,
+    containerRef
   }
 }
 
@@ -410,5 +424,15 @@ export const useBalance = () => {
 
   return {
     balance
+  }
+}
+
+export const useExpire = () => {
+  const expire = useAtomValue(expireAtom)
+
+  const expireString = expire ? formatUnixTime(expire) : '--'
+
+  return {
+    expire: expireString,
   }
 }

@@ -13,6 +13,7 @@ import ModelTrain from "./ModelTrain";
 import EdgeDevice from "./EdgeDevice";
 import TerminalDevice from "./TeriminalDevice";
 import Balance from "./Balance";
+import Expire from './Expire'
 
 const Container = styled.div`
   margin-top: 20px;
@@ -56,7 +57,7 @@ const DataDisplay = styled.div`
 `;
 
 const Usage: React.FC = () => {
-  const { loading, containerRef, handleClick } = useUsage();
+  const { isOEM, loading, containerRef, handleClick } = useUsage();
 
   return (
     <Spin spinning={loading}>
@@ -64,7 +65,9 @@ const Usage: React.FC = () => {
         <Watermark src={watermark} alt={"watermark"} />
         <Title>使用情况</Title>
         <DataDisplay>
-          <Balance />
+          {
+            isOEM ? <Expire /> : <Balance />
+          }
           <Train />
           <Storage />
           <Model />
