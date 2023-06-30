@@ -33,13 +33,6 @@ const useList = () => {
     setSelectedDeviceIdList(idList)
   }
 
-  React.useEffect(
-    () => () => {
-      setSelectedDeviceIdList([])
-    },
-    []
-  )
-
   return {
     deviceList,
     selectedDeviceIdList,

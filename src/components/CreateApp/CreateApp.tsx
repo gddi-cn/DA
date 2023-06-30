@@ -33,6 +33,7 @@ const Content = styled.div`
 
 export interface CreateAppProps {
   open: boolean
+  defaultDeviceId?: Device.Chip.Instance['key']
   modelIterId?: string
   onCancel: () => void
   onCreate: (app: App.Instance) => void
@@ -41,6 +42,7 @@ export interface CreateAppProps {
 const CreateApp: React.FC<CreateAppProps> = (
   {
     open,
+    defaultDeviceId,
     modelIterId,
     onCancel,
     onCreate,
@@ -72,7 +74,7 @@ const CreateApp: React.FC<CreateAppProps> = (
           {step === 'base' ? '应用信息' : '选择模板'}
         </Header>
         <Content>
-          {step === 'base' ? <BaseForm /> : null}
+          {step === 'base' ? <BaseForm defaultDeviceId={defaultDeviceId} modelIterId={modelIterId} /> : null}
           {step === 'template' ? <SelecteTemplate /> : null}
         </Content>
         <Footer modelIterId={modelIterId} onCreate={onCreate} onCancel={onCancel} />

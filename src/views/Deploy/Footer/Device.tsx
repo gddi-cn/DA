@@ -1,13 +1,13 @@
 import { PrimaryBtn } from '@src/components/Btn'
 import { useAtomValue, useSetAtom } from 'jotai'
 import React from 'react'
-import { currentStepAtom, selectedAppListAtom } from '../store'
+import { currentStepAtom, selectedAppAtom } from '../store'
 import { Deploy } from '../enums'
 
 const useDevice = () => {
   const setCurrentStep = useSetAtom(currentStepAtom)
-  const selectedAppList = useAtomValue(selectedAppListAtom)
-  const disabled = selectedAppList.length <= 0
+  const selectedApp = useAtomValue(selectedAppAtom)
+  const disabled = !selectedApp
 
   const handleClick = () => {
     setCurrentStep(Deploy.Step.SELECT_DEVICE)

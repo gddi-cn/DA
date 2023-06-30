@@ -30,7 +30,6 @@ export const useResolution = () => {
 
   React.useEffect(
     () => {
-      console.log({ defaultResolution })
       if (!selectedChipAtom) {
         setResolution(0)
         return

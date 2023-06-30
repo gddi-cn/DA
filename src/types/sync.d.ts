@@ -2,6 +2,7 @@ declare namespace Sync {
   interface ListParams {
     page: number,
     page_size: number,
+    aimodel_version_id?: Model.Version['id'],
     state?: import('@src/shared/enum/sync').Sync.State,
   }
 

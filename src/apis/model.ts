@@ -45,7 +45,7 @@ const modelAPI = {
     }
   },
 
-  downloadLicense: async(id: License['id'], modelId: string, version_id: string): Promise<APIResponse<Blob>> => {
+  downloadLicense: async (id: License['id'], modelId: string, version_id: string): Promise<APIResponse<Blob>> => {
     try {
       const data = await http.get(
         `/v3/models/${modelId}/versions/${version_id}/license/${id}`,
@@ -64,7 +64,7 @@ const modelAPI = {
     }
   },
 
-  downloadModel: async(modelId: string, version_id: string): Promise<APIResponse<Blob>> => {
+  downloadModel: async (modelId: string, version_id: string): Promise<APIResponse<Blob>> => {
     try {
       const res: { data: { url: string, size: number, hash: string }} = await http.get(
         `/v3/models/${modelId}/versions/${version_id}/download`,

@@ -15,10 +15,10 @@ import { APP_SELECT_DEPLOY_TYPE } from '@router'
 import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import './ModelDetail.module.less'
-import { useAtomValue } from 'jotai'
-import { currentModelVersionIdAtom } from '@src/store/dataset'
+import { useSetAtom } from 'jotai'
 import projectAPI from '@src/apis/project'
 import modelAPI from '@src/apis/model'
+import { currentModelVersionIdAtom } from '@src/store/dataset'
 
 // ?id=370695350071697408&cuurentVersionId=370695350075891712&
 const { confirm } = Modal;
@@ -26,6 +26,7 @@ const TrainSuccess = lazy(() => import('@src/views/Model/ModelDetail/TrainSucces
 const TrainingOrFailed = lazy(() => import('@src/views/Model/ModelDetail/TrainingOrFailed'));
 
 const ModelDetail = (): JSX.Element => {
+  const setCurrentVersionId = useSetAtom(currentModelVersionIdAtom)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const model_id = useSelector((state: RootState) => {
@@ -49,7 +50,8 @@ const ModelDetail = (): JSX.Element => {
   useEffect(
     () => {
       if (!taskId) return
-      projectAPI.detail(taskId)
+      projectAPI
+        .detail(taskId)
         .then(({ success, data }) => {
           if (!success || !data) return
           const { model } = data
@@ -60,7 +62,6 @@ const ModelDetail = (): JSX.Element => {
     },
     [taskId]
   )
-
 
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
@@ -283,7 +284,11 @@ const ModelDetail = (): JSX.Element => {
     const goNext = async () => {
       socketPushMsgForProject(
         activePipeLine, {
-        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE
+        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE,
+        APP_MODEL_TRAIN_DETAIL: {
+          id: model_id,
+          version_id: currentVersion?.id
+        },
       }
       )
       navigate({
@@ -330,7 +335,7 @@ const ModelDetail = (): JSX.Element => {
         <GButton type='primary' disabled={!isTrainsiton} onClick={goNext}>部署</GButton>
       </div>
     )
-  }, [versionInfo?.iter?.status, handleDelete, activePipeLine, navigate, handleResume, handlePause])
+  }, [versionInfo?.iter?.status, handleDelete, activePipeLine, navigate, handleResume, handlePause, currentVersion, model_id])
 
   return (
     <div styleName='ModelDetail'>

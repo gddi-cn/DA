@@ -3,16 +3,17 @@ import React from 'react'
 import { selectedDeviceGroupAtom } from '../../views/SpaceDevice/store'
 import { DeviceGroupOptions } from '@src/shared/types/deviceGroup'
 import { message } from 'antd'
-import { SecondaryBtn, PrimaryBtn, PrimaryLoadingBtn } from '@src/components/Btn'
-import deviceAPI from '@src/apis/device'
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import DialogTransition from '@src/components/DialogTransition'
-
-import group from "@src/asset/images/space/gen_code_group.png";
-import done from "@src/asset/images/space/gen_code_done.png";
 import styled from 'styled-components'
 import Scrollbars from 'react-custom-scrollbars'
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+
+import { SecondaryBtn, PrimaryBtn, PrimaryLoadingBtn } from '@src/components/Btn'
+import deviceAPI from '@src/apis/device'
+import DialogTransition from '@src/components/DialogTransition'
+import group from "@src/asset/images/space/gen_code_group.png";
+import done from "@src/asset/images/space/gen_code_done.png";
 import GroupSelector from '@src/components/GroupSelector/GroupSelector'
+import FlowTip from './FlowTip'
 
 const GroupImg = styled.img`
   display: block;
@@ -153,6 +154,7 @@ const GenCode: React.FC = () => {
       <SecondaryBtn onClick={handleOpen}>
         盒子注册码
       </SecondaryBtn>
+      <FlowTip />
       <Dialog
         open={open} onClose={handleClose}
         fullWidth maxWidth='md'

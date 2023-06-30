@@ -1,13 +1,24 @@
 import { SecondaryBtn } from '@src/components/Btn'
 import CloudAuth from '@src/components/CloudAuth/CloudAuth'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import React from 'react'
-import { selectedAppListAtom } from '../store'
+import { recordOpenAtom, recoredDefaultTabAtom, selectedAppAtom } from '../store'
+import { AuthRecordTab } from '@src/components/AuthRecord'
 
 const useCloud = () => {
   const [open, setOpen] = React.useState<boolean>(false)
-  const selectedAppList = useAtomValue(selectedAppListAtom)
-  const disabled = selectedAppList.length <= 0
+  const setRecordOpen = useSetAtom(recordOpenAtom)
+  const setDefaultTab = useSetAtom(recoredDefaultTabAtom)
+  const selectedApp = useAtomValue(selectedAppAtom)
+  const disabled = !selectedApp
+
+  const onAuth = () => {
+    setOpen(false)
+    setDefaultTab(AuthRecordTab.CLOUD)
+    setTimeout(() => {
+      setRecordOpen(true) 
+    });
+  }
 
   const handleOpen = () => {
     setOpen(true)
@@ -19,18 +30,22 @@ const useCloud = () => {
 
   return {
     open,
+    appIds: selectedApp?.id ? [selectedApp.id] : [],
     disabled,
     handleOpen,
     handleClose,
+    onAuth,
   }
 }
 
 const Cloud: React.FC = () => {
   const {
     open,
+    appIds,
     disabled,
     handleOpen,
     handleClose,
+    onAuth,
   } = useCloud()
 
   return (
@@ -38,7 +53,12 @@ const Cloud: React.FC = () => {
       <SecondaryBtn disabled={disabled} onClick={handleOpen}>
         云授权
       </SecondaryBtn>
-      <CloudAuth open={open} onClose={handleClose} />
+      <CloudAuth
+        open={open}
+        onClose={handleClose}
+        onAuth={onAuth}
+        appIds={appIds}
+      />
     </>
   )
 }

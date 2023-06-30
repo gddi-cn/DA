@@ -37,7 +37,12 @@ const PreviewImg = styled.img`
 const maxSize = 2 * 1024 * 1024
 const regExp = /\.(png|jpg|jpeg)$/
 
-const BaseForm: React.FC = () => {
+const BaseForm: React.FC<{ modelIterId?: string, defaultDeviceId?: Device.Chip.Instance['key'] }> = (
+  {
+    modelIterId,
+    defaultDeviceId,
+  }
+) => {
   const {
     form,
     showUploadBtn, previewSrc,
@@ -67,7 +72,7 @@ const BaseForm: React.FC = () => {
                 { required: true, message: '请选择设备类型' }
               ]}
             >
-              <DeviceChipSelector />
+              <DeviceChipSelector defaultDeviceId={defaultDeviceId} modelIterId={modelIterId} />
             </Form.Item>
             <Form.Item
               name={'cover'}

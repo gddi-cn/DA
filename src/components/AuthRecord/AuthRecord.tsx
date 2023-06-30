@@ -1,10 +1,11 @@
 import { Tabs, Tab, Dialog, DialogActions, DialogContent, DialogTitle, Box } from '@mui/material'
 import React from 'react'
-import Scrollbars from 'react-custom-scrollbars'
 import { SecondaryBtn } from '../Btn'
 import DialogTransition from '../DialogTransition'
 import Cloud from './Cloud'
 import Device from './Device'
+import { Provider, useSetAtom } from 'jotai'
+import { modelIdAtom, modelVersionIdAtom } from './store'
 
 export enum AuthRecordTab {
   DEVICE = 'device',
@@ -14,15 +15,21 @@ export enum AuthRecordTab {
 export interface AuthRecordProps {
   open: boolean
   defaultTab?: AuthRecordTab
+  modelId?: string
+  modelVersionId?: Model.Version['id']
   onClose?: () => void
 }
 
 const useAuthRecord = ({
   open,
   defaultTab = AuthRecordTab.DEVICE,
+  modelId,
+  modelVersionId,
   onClose,
 }: AuthRecordProps) => {
   const [currentTab, setCurrentTab] = React.useState<AuthRecordTab>(defaultTab)
+  const setModelId = useSetAtom(modelIdAtom)
+  const setModelVersionId = useSetAtom(modelVersionIdAtom)
 
   const handleClose = () => {
     onClose?.()
@@ -47,6 +54,20 @@ const useAuthRecord = ({
     [open]
   )
 
+  React.useEffect(
+    () => {
+      setModelVersionId(modelVersionId ?? undefined)
+    },
+    [modelVersionId]
+  )
+
+  React.useEffect(
+    () => {
+      setModelId(modelId ?? undefined)
+    },
+    [modelId]
+  )
+
   return {
     open,
     currentTab,
@@ -55,7 +76,7 @@ const useAuthRecord = ({
   }
 }
 
-const AuthRecord: React.FC<AuthRecordProps> = (props) => {
+const Inner: React.FC<AuthRecordProps> = (props) => {
   const {
     open,
     currentTab,
@@ -124,6 +145,14 @@ const AuthRecord: React.FC<AuthRecordProps> = (props) => {
         <SecondaryBtn onClick={handleClose}>关闭</SecondaryBtn>
       </DialogActions>
     </Dialog>
+  )
+}
+
+const AuthRecord: React.FC<AuthRecordProps> = (props) => {
+  return (
+    <Provider>
+      <Inner {...props} />
+    </Provider>
   )
 }
 

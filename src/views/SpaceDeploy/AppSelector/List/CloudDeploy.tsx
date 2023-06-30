@@ -2,9 +2,13 @@ import React from 'react'
 
 import { SecondaryBtn } from '@src/components/Btn'
 import CloudAuth from '@src/components/CloudAuth'
+import { useAtomValue } from 'jotai'
+import { selectedAppListAtom } from '../../store'
 
 const useCloudDeploy = () => {
   const [open, setOpen] = React.useState<boolean>(false)
+  const selectedAppList = useAtomValue(selectedAppListAtom)
+  const appIds = selectedAppList.map(x => x.id)
 
   const handleOpen = () => {
     setOpen(true)
@@ -16,6 +20,7 @@ const useCloudDeploy = () => {
 
   return {
     open,
+    appIds,
     handleOpen,
     onClose,
   }
@@ -24,6 +29,7 @@ const useCloudDeploy = () => {
 const CloudDeploy: React.FC = () => {
   const {
     open,
+    appIds,
     handleOpen,
     onClose,
   } = useCloudDeploy()
@@ -36,6 +42,7 @@ const CloudDeploy: React.FC = () => {
       <CloudAuth
         open={open}
         onClose={onClose}
+        appIds={appIds}
       />
     </>
   )

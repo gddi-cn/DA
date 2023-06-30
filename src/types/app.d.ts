@@ -5,6 +5,7 @@ declare namespace App {
     adapter_device: string
     // 配置链接
     config_url: string
+    device_chip_id?: Model.Version['id']
     // 应用已配置
     configured: boolean
     // 封面

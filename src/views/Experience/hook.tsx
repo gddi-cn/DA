@@ -20,7 +20,7 @@ import experienceAPI from '@src/apis/experience'
 import { ExperienceState } from '@src/shared/enum/experience'
 import { Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { currentVersionIdAtom } from '@src/components/ModelVersionSelector/store'
+import { currentModelVersionIdAtom } from '@src/store/dataset'
 
 export const useFooter = () => {
   const navigate = useNavigate()
@@ -86,7 +86,7 @@ export const useExperience = () => {
   const [, setLeftTime] = useAtom(leftTimeAtom)
 
   const [mId] =
-    useAtom(currentVersionIdAtom)
+    useAtom(currentModelVersionIdAtom)
 
   const refreshDetail = useRefreshDetail()
 

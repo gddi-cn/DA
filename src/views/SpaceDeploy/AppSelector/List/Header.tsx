@@ -88,7 +88,7 @@ const _DeviceChipFilter: React.FC = () => {
 const DeviceChipFilter = React.memo(_DeviceChipFilter)
 
 const InputFilter: React.FC = () => {
-  const [input, setInput] = useAtom(inputFilterAtom) 
+  const [input, setInput] = useAtom(inputFilterAtom)
 
   const handleChange = (newValue: AppTemplateInput) => {
     setInput(newValue)
@@ -121,6 +121,7 @@ const LabelFilter: React.FC = () => {
 
 const Header: React.FC = () => {
   const selectedAppList = useAtomValue(selectedAppListAtom)
+
   return (
     <>
       <Box
@@ -149,11 +150,11 @@ const Header: React.FC = () => {
         }}
       >
         <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          columnGap: '20px',
-        }}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            columnGap: '20px',
+          }}
         >
           <NameFilter />
           <DeviceChipFilter />

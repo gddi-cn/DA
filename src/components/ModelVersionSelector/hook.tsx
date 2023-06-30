@@ -1,12 +1,8 @@
 import React from 'react'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 
-import { currentVersionIdAtom, fetchingVersionList, versionListAtom } from './store'
-import { RootState } from '@reducer'
-import { useSelector } from 'react-redux'
-import modelAPI from '@src/apis/model'
 import { modelVersionStatusNameMapping } from '@src/shared/mapping/model'
-import { currentModelIdAtom, currentModelVersionIdAtom } from '@src/store/dataset'
+import { currentModelVersionIdAtom, modelVersionListAtom } from '@src/store/dataset'
 
 const getVersionOptionLabel = (label: Model.Version['name'], status: Model.Version['status']) => {
   return (
@@ -32,51 +28,10 @@ const getVersionOptionLabel = (label: Model.Version['name'], status: Model.Versi
   )
 }
 
-const useResetStore = () => {
-  const [, setCurrentVersionId] = useAtom(currentVersionIdAtom)
-  const [, setVerisonList] = useAtom(versionListAtom)
-  const [, setLoading] = useAtom(fetchingVersionList)
-
-  React.useEffect(
-    () => () => {
-      setLoading(true)
-      setCurrentVersionId(undefined)
-      setVerisonList([])
-      setLoading(false)
-    },
-    []
-  )
-}
-
-export const useRefreshVersionList = () => {
-  const [, setVersionList] = useAtom(versionListAtom)
-  const [loading, setLoading] = useAtom(fetchingVersionList)
-
-  const modelId = useSelector((state: RootState) => state.tasksSilce?.activeTaskInfo?.model?.id)
-
-  return async () => {
-    if (loading) return
-
-    if (!modelId) {
-      setVersionList([])
-      return
-    }
-
-    setLoading(true)
-    const { success, data } = await modelAPI.versionList(modelId)
-    setLoading(false)
-
-    if (!success || !data) {
-      setVersionList([])
-    }
-
-    setVersionList(data?.versions || [])
-  }
-}
 
 export const useIntervalRefreshVersionList = (interval: number) => {
   const timerRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
-  const refresh = useRefreshVersionList()
+  const refresh = useSetAtom(modelVersionListAtom)
 
   React.useEffect(
     () => {
@@ -96,17 +51,14 @@ export const useIntervalRefreshVersionList = (interval: number) => {
   )
 }
 
-export const useVersionSelector = (disabledAutoSelect = false) => {
-  useResetStore()
+export const useVersionSelector = () => {
   useIntervalRefreshVersionList(5e3)
-  const [currentVersionId, setCurrentVersionId] = useAtom(currentVersionIdAtom)
-  const [versionList] = useAtom(versionListAtom)
+  const [_currentVersionId, setCurrentVersionId] = useAtom(currentModelVersionIdAtom)
+  const versionList = useAtomValue(modelVersionListAtom)
 
-  const initialModelVersionId = useAtomValue(currentModelVersionIdAtom)
-
-  const modelId = useAtomValue(currentModelIdAtom)
-
-  const refreshVersion = useRefreshVersionList()
+  const currentVersionId = versionList.some(x => x.id === _currentVersionId)
+    ? _currentVersionId
+    : versionList[0]?.id
 
   const optionsList = versionList.map(({ id, name ,status }) => ({
     key: id,
@@ -117,22 +69,6 @@ export const useVersionSelector = (disabledAutoSelect = false) => {
   const handleChange = (newValue: Model.Version['id']) => {
     setCurrentVersionId(newValue)
   }
-
-  React.useEffect(
-    () => {
-      if (disabledAutoSelect) return
-      setCurrentVersionId(initialModelVersionId)
-    },
-    [initialModelVersionId, disabledAutoSelect]
-  )
-
-
-  React.useEffect(
-    () => {
-      refreshVersion()
-    },
-    [modelId]
-  )
 
   return {
     currentVersionId,

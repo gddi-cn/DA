@@ -14,16 +14,15 @@ const Select = styled(AntSelect)`
   }
 `
 
-const ModelVersionSelector: React.FC<{
+const Inner: React.FC<{
   disabled?: boolean,
   disabledAutoSelect?: boolean;
 }> = (
   {
     disabled = false,
-    disabledAutoSelect = false,
   }
 ) => {
-  const { currentVersionId, optionsList, handleChange } = useVersionSelector(disabledAutoSelect)
+  const { currentVersionId, optionsList, handleChange } = useVersionSelector()
 
   return (
     <Label>
@@ -36,6 +35,17 @@ const ModelVersionSelector: React.FC<{
         disabled={disabled}
       />
     </Label>
+  )
+}
+
+const ModelVersionSelector: React.FC<{
+  disabled?: boolean,
+  disabledAutoSelect?: boolean;
+}> = (props) => {
+  return (
+    <React.Suspense>
+      <Inner {...props} />
+    </React.Suspense>
   )
 }
 

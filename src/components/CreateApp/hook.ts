@@ -87,7 +87,6 @@ export const useBaseForm = () => {
     []
   )
 
-
   return {
     form,
     handleCoverChange,

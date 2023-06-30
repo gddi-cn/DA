@@ -27,7 +27,6 @@ ReactDOM
     <ConfigProvider locale={zhCN}>
 
       <Provider store={core}>
-
         <HistoryRouter history={history}>
           <ErrorBoundaries>
             <DynamicTheme>
@@ -35,7 +34,6 @@ ReactDOM
             </DynamicTheme>
           </ErrorBoundaries>
         </HistoryRouter>
-
       </Provider>
 
     </ConfigProvider>

@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import { pageAtom, pageSizeAtom, deployListAtom, deployTotalAtom } from './store'
+import { deployListAtom } from './store'
 
 export const useDeployList = () => {
   const deployList = useAtomValue(deployListAtom)

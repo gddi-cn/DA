@@ -2,13 +2,14 @@ import { Dialog } from '@mui/material'
 import { AppDetail } from '@src/components/AppDetail/enums'
 import { SecondaryBtn } from '@src/components/Btn'
 import CreateApp from '@src/components/CreateApp/CreateApp'
-import { useSetAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import React from 'react'
 import { useRefreshAppList } from '../List/hook'
-import { currentAppIdAtom, defaultPageAtom, detailOpenAtom } from '../store'
+import { currentAppIdAtom, defaultPageAtom, detailOpenAtom, deviceFilterAtom } from '../store'
 
 const useCreate = () => {
   const [open, setOpen] = React.useState<boolean>(false)
+  const defaultDeviceId = useAtomValue(deviceFilterAtom)
   const refresh = useRefreshAppList()
   const setDetaailOpen = useSetAtom(detailOpenAtom)
   const setDefailtpage = useSetAtom(defaultPageAtom)
@@ -32,6 +33,7 @@ const useCreate = () => {
 
   return {
     open,
+    defaultDeviceId,
     handleOpen,
     handleClose,
     onCreate,
@@ -41,6 +43,7 @@ const useCreate = () => {
 const Create: React.FC = () => {
   const {
     open,
+    defaultDeviceId,
     handleOpen,
     handleClose,
     onCreate,
@@ -55,6 +58,7 @@ const Create: React.FC = () => {
         open={open}
         onCancel={handleClose}
         onCreate={onCreate}
+        defaultDeviceId={defaultDeviceId}
       />
     </>
   )

@@ -7,14 +7,17 @@ import { SecondaryBtn, PrimaryLoadingBtn } from '@src/components/Btn'
 import { ApplyModel } from '@src/shared/types/license'
 import { LicenseType } from '@src/shared/enum/license'
 import DialogTransition from '../DialogTransition'
+import cloudAuthAPI from '@src/apis/cloudAuth'
+import { message } from 'antd'
 
 export interface CloudAuthProps {
   open: boolean
+  appIds: Array<CloudAuth.Instance['app_id']>
   onClose?: () => void
   onAuth?: () => void
 }
 
-const useCloudAuth = ({ open, onClose, onAuth }: CloudAuthProps) => {
+const useCloudAuth = ({ open, onClose, onAuth, appIds }: CloudAuthProps) => {
   const [loading, setLoading] = React.useState<boolean>(false)
   const formRef = React.useRef<DaySelectorRef>(null)
 
@@ -31,14 +34,21 @@ const useCloudAuth = ({ open, onClose, onAuth }: CloudAuthProps) => {
     try {
       setLoading(true)
       const { day, custom } = await form.form.validateFields()
+      if (!appIds.length) return
       if (day === 0 && !custom) return
 
       const request_days = day === 0 ? custom! : day
 
-      const model: ApplyModel = {
-        apply_type: LicenseType.CLOUD,
+      const res = await Promise.all(appIds.map((app_id) => cloudAuthAPI.create({
+        app_id,
         request_days,
-      }
+      })))
+
+      const success = res.every(x => x.success)
+
+      if (!success) return
+
+      message.success('申请成功')
 
       onAuth?.()
     } catch (_) {

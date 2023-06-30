@@ -1,7 +1,7 @@
-import { atom, useSetAtom } from 'jotai'
+import { atom } from 'jotai'
 import { atomWithRefresh } from "@src/utils/atomCreators";
 import syncAPI from '@src/apis/sync';
-import React from 'react';
+import { modelVersionIdAtom } from '../store'
 
 export const filterAtom = atom({
   page: 1,
@@ -20,8 +20,13 @@ export const pageSizeAtom = atom(
 export const deployDataAtom = atomWithRefresh(async (get) => {
   const page = get(pageAtom)
   const page_size = get(pageSizeAtom)
+  const aimodel_version_id = get(modelVersionIdAtom)
 
-  const { success, data } = await syncAPI.list({ page, page_size })
+  const { success, data } = await syncAPI.list({
+    page,
+    page_size,
+    aimodel_version_id
+  })
 
   if (!success || !data) {
     return {

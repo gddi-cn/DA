@@ -1,11 +1,12 @@
 import { Box, MenuItem, Button, Typography, Pagination, Select } from '@mui/material'
 import { formatUinxTime } from '@src/utils';
-import { Provider, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import React from 'react'
 import Scrollbars from 'react-custom-scrollbars';
 import styled from 'styled-components'
-import { currentDeployAtom, deployListAtom, deployTotalAtom, detailOpenAtom, pageAtom, pageSizeAtom } from './store';
+import { currentDeployAtom, deployDataAtom, deployListAtom, deployTotalAtom, detailOpenAtom, pageAtom, pageSizeAtom } from './store';
 import Detail from './Detail'
+import empty from '@src/asset/images/empty/chipEmpty.png'
 
 const gridTemplate = '2fr 2fr 3fr 1fr';
 
@@ -41,6 +42,28 @@ const bgMapping = {
   InProgress: '#2582c1',
   Failure: '#ff6177',
 }
+
+const NoDataWrap = styled.div`
+  padding-top: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const EmptyPic = styled.img`
+  display: block;
+  width: 267px;
+  height: 200px;
+  object-fit: cover;
+`
+
+const EmptyTip = styled.p`
+  margin: 40px 0 20px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+`
 
 const pageSizeList = [10, 20, 50, 100]
 
@@ -143,8 +166,21 @@ const RecordItem: React.FC<Sync.Instance> = (deploy) => {
   )
 }
 
-const List: React.FC = () => {
-  const deplopyList = useAtomValue(deployListAtom)
+const NoData: React.FC = () => {
+  return (
+    <NoDataWrap>
+      <EmptyPic src={empty} alt='No Deploy' />
+      <EmptyTip>抱歉，目前暂无任何部署记录</EmptyTip>
+    </NoDataWrap>
+  )
+}
+
+const List: React.FC<{deployList: Array<Sync.Instance>}> = (
+  {
+    deployList,
+  }
+) => {
+
   return (
     <Box
       sx={{
@@ -154,7 +190,7 @@ const List: React.FC = () => {
       }}
     >
       {
-        deplopyList.map(deploy => (
+        deployList.map(deploy => (
           <RecordItem {...deploy} key={deploy.id} />
         ))
       }
@@ -163,6 +199,17 @@ const List: React.FC = () => {
 }
 
 const DeviceList: React.FC = () => {
+  const deployList = useAtomValue(deployListAtom)
+  const refresh = useSetAtom(deployDataAtom)
+
+  React.useEffect(
+    () => {
+      refresh()
+    },
+    []
+  )
+
+  if (deployList.length <= 0) return <NoData />
 
   return (
     <Box sx={{
@@ -181,18 +228,17 @@ const DeviceList: React.FC = () => {
         }}
       >
         <Scrollbars autoHide>
-          <React.Suspense>
-            <List />
-          </React.Suspense>
+          <List deployList={deployList} />
         </Scrollbars>
       </Box>
     </Box>
   )
 }
 
+
 const Device: React.FC = () => {
   return (
-    <Provider>
+    <React.Suspense>
       <Box
         sx={{
           display: 'flex',
@@ -206,12 +252,14 @@ const Device: React.FC = () => {
             flex: 1,
           }}
         >
-          <DeviceList />
+          <React.Suspense>
+            <DeviceList />
+          </React.Suspense>
         </Box>
         <Footer />
       </Box>
       <Detail />
-    </Provider>
+    </React.Suspense>
   )
 }
 

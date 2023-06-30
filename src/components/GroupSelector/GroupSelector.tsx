@@ -13,7 +13,7 @@ export interface GroupSelectorProps {
   value: DeviceGroupOptions | null
   onChange: (value: DeviceGroupOptions) => void
   remoteSearchRef?: React.ForwardedRef<RemoteSearchRef>
-  width?: number
+  width?: React.CSSProperties['width']
   borderRadius?: number
   selectDefault?: boolean
   chipId?: Device.Chip.Instance['key']

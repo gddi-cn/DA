@@ -44,7 +44,6 @@ const IncreaseData = lazy(() => import('@src/views/DataSet/IncreaseData'));
 
 const DataSetDetail = lazy(() => import('@src/views/DataSet/DataSetDetail'));
 
-const ModelIndex = lazy(() => import('@src/views/Model/ModelIndex'));
 
 // const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/SelectCreateType'));
 const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/CreateTypeSelector'));
@@ -145,11 +144,6 @@ export default {
           strict: true,
           element: SuspenseFn(TaskStepLayout),
           children: [
-            {
-              path: APP_MODEL_INDEX,
-              element: SuspenseFn(ModelIndex),
-
-            },
             {
               path: APP_DATA_SET_INDEX,
               element: SuspenseFn(DataSetIndex),

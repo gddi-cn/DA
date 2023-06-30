@@ -105,8 +105,8 @@ export const useSocketSyncUpdate = () => {
           setTimeout(
             () => {
               setCurrentDatasetId(data?.APP_DATASET_DETAIL?.id)
-              setCurrentModelVersionId(data?.APP_MODEL_TRAIN_DETAIL?.version_id)
-              setCurrentModelId(data?.APP_MODEL_TRAIN_DETAIL?.id)
+              setCurrentModelId(id)
+              setCurrentModelVersionId(version_id)
             },
             100
           )

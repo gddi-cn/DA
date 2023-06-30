@@ -11,10 +11,10 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
 import { useNavigate } from 'react-router-dom'
 import experienceAPI from '@src/apis/experience'
-import { currentVersionStatusAtom } from '@src/components/ModelVersionSelector/store'
 import { Model } from '@src/shared/enum/model'
 import { message } from 'antd'
 import { modelVersionTipMapping } from '@src/shared/mapping/model'
+import { modelVersionStatusAtom } from '@src/store/dataset'
 
 export const useItemCard = (deployType: DeployType, disabled: boolean) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null)
@@ -90,7 +90,7 @@ export const useItemCard = (deployType: DeployType, disabled: boolean) => {
 }
 
 export const useFooter = () => {
-  const [modelStatus] = useAtom(currentVersionStatusAtom)
+  const [modelStatus] = useAtom(modelVersionStatusAtom)
   const [selectedType] = useAtom(selectedTypeAtom)
   const navigate = useNavigate()
 
@@ -136,8 +136,13 @@ export const useFooter = () => {
   const handleClick = () => {
     if (!selectedType) return
 
+    if (!modelStatus) {
+      message.warn('选择模型状态未知')
+      return
+    }
+
     if (modelStatus !== Model.TrainStatus.SUCCESS) {
-      message.warn(modelVersionTipMapping.get(modelStatus as Model.TrainStatus) || '--')
+      message.warn(modelVersionTipMapping.get(modelStatus))
       return
     }
 

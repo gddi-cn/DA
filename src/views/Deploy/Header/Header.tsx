@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import React from 'react'
+
 import Step from './Step'
 
 const Header: React.FC = () => {

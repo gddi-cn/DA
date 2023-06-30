@@ -95,9 +95,10 @@ const deviceAPI = {
     }
   },
 
-  fetchChipTypeByNameOrderByAppCount: async (name: string): Promise<Array<Device.Chip.Option>> => {
+  fetchChipTypeByNameOrderByAppCount: async (name: string, model_iter_id?: string):
+    Promise<Array<Device.Chip.Option>> => {
     try {
-      const { success, data } = await deviceAPI.chipTypeList({ name, page: 1, page_size: 999, detail: true })
+      const { success, data } = await deviceAPI.chipTypeList({ name, page: 1, page_size: 999, detail: true, model_iter_id })
       if (!success || !data?.items) return []
 
       return data.items
