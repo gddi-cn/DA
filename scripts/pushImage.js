@@ -17,7 +17,7 @@ const _describetion = args['--d'] || args.d || `${new Date().valueOf()} 更新`
 
 const tag = pj.version
 
-const build = shell.exec(`docker build -t market_web_06:${tag} -f ./docker/Dockerfile .`)
+const build = shell.exec(`docker build --build-arg BUILD=${gitVersion} -t market_web_06:${tag} -f ./docker/Dockerfile .`)
 if (build.code) {
   utils.error('npm run build failed……\n意外总比惊喜来得快~这就是生活吧\n我猜是你的小鲸鱼跪了')
 } else {

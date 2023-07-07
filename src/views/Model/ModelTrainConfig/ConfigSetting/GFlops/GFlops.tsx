@@ -19,7 +19,6 @@ const GFlops = (): JSX.Element => {
   const task_scene = useSelector((state: RootState) => {
     return state.tasksSilce?.activePipeLine?.APP_DATA_SET_INDEX?.scene || ''
   })
-  console.log(activePipeLine, 22)
   const fetchFn = useCallback(async () => {
     try {
       // 其实这一块都没意义了的，懒得删除了，就留着把，因为fps和chanel是写死的

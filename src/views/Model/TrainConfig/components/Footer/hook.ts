@@ -43,10 +43,10 @@ export const useFooter = () => {
     navigate({ pathname: APP_DATASET_ANALYSE })
   }
 
-  const handleTrain = async () =>{
+  const handleTrain = async () => {
     if (!fps || !selectedChip || !channel || !gpu_count || loading || !activeTaskInfo) return
 
-    const mode = configType === ChipConfigType.RECOMMEND ? ModelTrainMode.SPEED : ModelTrainMode.CUSTOM
+    const mode = configType === ChipConfigType.RECOMMEND ? ModelTrainMode.ACC : ModelTrainMode.CUSTOM
 
     const { APP_DATA_SET_INDEX } = activePipeLine
 
@@ -86,12 +86,12 @@ export const useFooter = () => {
 
     socketPushMsgForProject(
       activePipeLine, {
-        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_MODEL_TRAIN_DETAIL,
-        APP_MODEL_TRAIN_DETAIL: {
-          id: data?.id,
-          version_id: data?.version_id,
-        }
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_MODEL_TRAIN_DETAIL,
+      APP_MODEL_TRAIN_DETAIL: {
+        id: data?.id,
+        version_id: data?.version_id,
       }
+    }
     )
     navigate({ pathname: APP_MODEL_TRAIN_DETAIL })
     dispatch(checkoutTask(res))

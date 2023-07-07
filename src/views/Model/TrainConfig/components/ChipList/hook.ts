@@ -46,7 +46,7 @@ export const useChipList = () => {
     const { name, chip_type, brand } = selectedChip
 
     chipAPI
-      .fetchRecommendConfig(application, { task_type, chip_type, name, mode: ModelTrainMode.SPEED, brand })
+      .fetchRecommendConfig(application, { task_type, chip_type, name, mode: ModelTrainMode.ACC, brand })
       .then(({ success, data }) => {
         if (!success || !data) {
           setFps(5)
