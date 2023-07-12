@@ -1,13 +1,12 @@
 import React from 'react'
 import {
   AppFlow,
-  AIAppType,
-  Pipeline,
   ModuleDefinitions,
-} from 'gddi-app-flow-pro'
+} from 'gddi-app-flow'
 import appFlowAPI from '@src/apis/appFlow'
 import { pipelineAtom } from './store'
 import { useSetAtom } from 'jotai'
+import modelAPI from '@src/apis/model'
 
 const useConfig = () => {
   const [version, setVersion] = React.useState<AppFlow.ModuleDefinition.Version['version'] | undefined>(undefined)
@@ -25,6 +24,12 @@ const useConfig = () => {
           setVersion(version || '')
           setModuleDefinitions(moduleDefinitions || {})
         })
+
+      return () => {
+        setVersion(undefined)
+        setModuleDefinitions(undefined)
+        setPipeline(undefined)
+      }
     },
     []
   )
@@ -50,6 +55,8 @@ const Config: React.FC = () => {
       onValueChange={handleChange}
       propEditingDisabled={false}
       graphEditingDisabled={false}
+      version={version || 'v1'}
+      layoutVertically
     />
   )
 }

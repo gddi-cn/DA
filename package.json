@@ -47,7 +47,7 @@
     "fabric": "^5.2.1",
     "flv.js": "^1.6.2",
     "formik": "^2.4.1",
-    "gddi-app-flow-pro": "^0.0.6",
+    "gddi-app-flow": "^0.1.3",
     "gddi-chat": "link:./src/local_modules/gddi-chat",
     "gsap": "^3.10.4",
     "immer": "^9.0.16",

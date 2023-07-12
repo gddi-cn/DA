@@ -59,6 +59,7 @@ const Detail: React.FC = () => {
         id={currentAppId}
         onClose={handleClose}
         defaultPage={defaultPage}
+        onDelete={handleClose}
       />
     </Dialog>
   )

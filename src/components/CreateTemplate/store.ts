@@ -1,5 +1,5 @@
 import { FormInstance } from 'antd'
-import { Pipeline } from 'gddi-app-flow-pro'
+import { Pipeline } from 'gddi-app-flow'
 import { atom } from 'jotai'
 
 export const openAtom = atom<boolean>(false)

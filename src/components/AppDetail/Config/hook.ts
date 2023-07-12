@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAtom } from "jotai"
-import { ModuleDefinitions, Pipeline } from 'gddi-app-flow-pro'
+import { ModuleDefinitions, Pipeline } from 'gddi-app-flow'
 
 import { AppDetail } from "../enums"
 import { appAtom, currentPageAtom } from "../store"
@@ -12,6 +12,7 @@ export const useConfig = () => {
   const [, setCurrentPage] = useAtom(currentPageAtom)
 
   const [defaultValue, setDefaultValue] = React.useState<Pipeline>({} as Pipeline)
+  const [init, setInit] = React.useState<boolean>(false)
   const [moduleDefinitions, setModuleDefinitions] =
     React.useState<ModuleDefinitions>({} as ModuleDefinitions)
 
@@ -66,6 +67,9 @@ export const useConfig = () => {
   React.useEffect(
     () => {
       fetchConfig()
+      .then(() => setTimeout(() => {
+        setInit(true) 
+      }))
     },
     [id, config_url]
   )
@@ -74,6 +78,9 @@ export const useConfig = () => {
     () => {
       return () => {
         id && refresh(id)
+        setModuleDefinitions({})
+        setInit(false)
+        setDefaultValue({} as Pipeline)
       }
     },
     []
@@ -85,6 +92,7 @@ export const useConfig = () => {
   }
 
   return {
+    init,
     handleBack,
     flowValue: {
       defaultValue,

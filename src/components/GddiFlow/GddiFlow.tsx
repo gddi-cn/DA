@@ -3,12 +3,12 @@ import {
   AppFlow,
   AIAppType,
   Pipeline,
-} from 'gddi-app-flow-pro'
+} from 'gddi-app-flow'
 
 import { useDebounceFn } from 'ahooks'
 import api from '@api'
-import { isNil } from 'lodash'
 import './GddiFlow.module.less'
+import modelAPI from '@src/apis/model'
 
 const GddiFlow = (props: any): JSX.Element => {
   const { flowValue, appBaseInfo } = props
@@ -16,63 +16,30 @@ const GddiFlow = (props: any): JSX.Element => {
   const daisyEntityTag = useRef<any>(null)
   const { adapter_device, id } = appBaseInfo
 
-  const fetchModelList = useCallback(
-    (
-      pageOffset: number,
-      pageSize: number,
-      queryModelName: string
-    ): Promise<any> => new Promise((resolve, reject) => {
-      (
-        async () => {
-          try {
-            const res = await api.get('/v2/model/list', {
-              params: {
-                page: pageOffset,
-                page_size: pageSize,
-                adapter_device: adapter_device,
-                appId: id,
-                name: queryModelName
-              }
-            })
-            if (res.code === 0) {
-              const { items } = res.data
-              if (isNil(items)) {
-                resolve({
-                  models: [],
-                  totalCnt: res.data.total
-                })
-              } else {
-                const _temp = items.map((o: any) => {
-                  o.mod_created_at = new Date(o.mod_created_at * 1000)
-                  return o
-                })
-                resolve({
-                  models: _temp,
-                  totalCnt: res.data.total
-                })
-              }
-            } else {
-              reject(res)
-            }
-          } catch (e) {
-            console.log(e)
-            reject(e)
-          }
-        }
-      )()
-    }
-    ),
-    [adapter_device, id]
-  )
+  const fetchModelList = ({
+    name,
+    page,
+    page_size,
+  }: {
+    page: number,
+    page_size: number,
+    name?: string
+  }): Promise<any> => {
+    console.log({ page, page_size, name })
+    return modelAPI.modelList({ page, page_size, name, appId: id })
+  }
 
-  const handleAppLoad = useCallback((app: AIAppType) => {
-    app.fitView()
-    app.layoutGraph()
+  const handleAppLoad = (app: AIAppType) => {
+    setTimeout(() => {
+      app.fitView()
+      app.layoutGraph()
+    }, 100);
     daisyEntity.current = app
-  }, [])
+  }
 
   const updateFn = async (val: any) => {
     try {
+      console.log({ val })
       await api.put(`/v3/apps/${id}`, {
         config: JSON.stringify(val),
       })
@@ -81,36 +48,30 @@ const GddiFlow = (props: any): JSX.Element => {
     }
   }
 
-  // 这个东西改变的应该比较高频率
-
   const handleValueChange = useDebounceFn((val: Pipeline) => {
     updateFn(val)
   }, {
     wait: 500
   })
 
-  const Flow = useMemo(() => {
-    try {
-      return (
-        <AppFlow
-          {...flowValue}
-          onLoad={handleAppLoad}
-          onValueChange={handleValueChange.run}
-          graphEditingDisabled={true}
-          propEditingDisabled={false}
-          hideDarkModeButton={true}
-          fetchModelList={fetchModelList}
-        />
-      )
-    } catch (e) {
-      console.log(e)
-    }
-  }, [fetchModelList, flowValue, handleAppLoad, handleValueChange.run])
-
   return (
-    <div styleName='GddiFlow' >
+    <div styleName='GddiFlow'>
       <div className="AppCanvas_wrap" ref={daisyEntityTag} >
-        {Flow}
+        {
+          !flowValue?.moduleDefinitions ? null : (
+            <AppFlow
+              {...flowValue}
+              onLoad={handleAppLoad}
+              onValueChange={handleValueChange.run}
+              graphEditingDisabled={true}
+              propEditingDisabled={false}
+              hideDarkModeButton={true}
+              fetchModels={fetchModelList}
+              version='v1'
+              layoutVertically
+            />
+          )
+        }
       </div>
     </div>
   )

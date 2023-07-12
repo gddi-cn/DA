@@ -80,7 +80,7 @@ const useGenCode = () => {
   };
 
   const handleGen = async () => {
-    if (!groupId || loading) return;
+    if ((!groupId && groupId !== 0) || loading) return;
 
     setLoading(true);
     const { success, data } = await deviceAPI.genAuthCode(groupId);

@@ -45,6 +45,24 @@ const modelAPI = {
     }
   },
 
+  modelList: async (params: {
+    name?: string,
+    appId?: string,
+    page: number,
+    page_size: number
+  }): Promise<{ items: Array<any>, total: number }> => {
+    try {
+      const { data } = await http.get('/v2/model/list2', { params })
+      return data
+    } catch (e) {
+      console.error(e)
+      return {
+        items: [],
+        total: 0,
+      }
+    }
+  },
+
   downloadLicense: async (id: License['id'], modelId: string, version_id: string): Promise<APIResponse<Blob>> => {
     try {
       const data = await http.get(

@@ -22,7 +22,9 @@ const Title = styled.p`
 const Config: React.FC<{ onClose?(): void }> = ({
   onClose,
 }) => {
-  const { handleBack, flowValue, appBaseInfo } = useConfig()
+  const { handleBack, flowValue, appBaseInfo, init } = useConfig()
+
+  console.log({ flowValue })
 
   return (
     <Dialog
@@ -50,7 +52,11 @@ const Config: React.FC<{ onClose?(): void }> = ({
           <CloseIcon fontSize='small' />
         </IconButton>
       </Box>
-      <GddiFlow flowValue={flowValue} appBaseInfo={appBaseInfo} />
+      {
+        init ? (
+          <GddiFlow flowValue={{...flowValue}} appBaseInfo={{...appBaseInfo}} />
+        ) : null
+      }
       <Box
         sx={{
           display: 'flex',

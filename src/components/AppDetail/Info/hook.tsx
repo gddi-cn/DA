@@ -203,6 +203,7 @@ export const useMore = () => {
         }
 
         const onDelete = onDeleteRef?.current
+        console.log({ onDelete })
         onDelete && onDelete()
 
         message.success('删除成功')

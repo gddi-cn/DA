@@ -17,6 +17,7 @@ const Detail: React.FC = () => {
   } = useDetail()
 
   if (!currentAppId) return null
+  console.log({ handleClose })
 
   return (
     <Dialog
@@ -36,8 +37,10 @@ const Detail: React.FC = () => {
       }}
     >
       <AppDetail
+        key={currentAppId}
         id={currentAppId}
         onClose={handleClose}
+        onDelete={handleClose}
       />
     </Dialog>
   )
