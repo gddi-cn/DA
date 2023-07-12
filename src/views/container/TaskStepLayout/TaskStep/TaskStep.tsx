@@ -25,11 +25,7 @@ import {
   APP_ForecastModule,
   APP_SelectModule,
   APP_SetModuleConfig,
-  APP_LOCAL_FILE,
-  APP_LOCAL_FILE_STEP_1,
-  APP_LOCAL_FILE_STEP_2,
-  APP_LOCAL_FILE_STEP_3,
-  APP_LOCAL_FILE_STEP_4,
+  CREATE_DATASET_WITH_MARKED,
   APP_THIRDPARTY,
   APP_THIRDPARTY_STEP_1,
   APP_THIRDPARTY_STEP_2,
@@ -54,11 +50,7 @@ const DATASET_ACTIVE = [
   APP_DATASET_ANALYSE,
   APP_MODEL_TRAIN_CONFIG,
 
-  APP_LOCAL_FILE,
-  APP_LOCAL_FILE_STEP_1,
-  APP_LOCAL_FILE_STEP_2,
-  APP_LOCAL_FILE_STEP_3,
-  APP_LOCAL_FILE_STEP_4,
+  CREATE_DATASET_WITH_MARKED,
   APP_THIRDPARTY,
   APP_THIRDPARTY_STEP_1,
   APP_THIRDPARTY_STEP_2,
@@ -174,7 +166,7 @@ const TaskStep: React.FC = () => {
     }
   }
 
-  const getDataCls = ():string => {
+  const getDataCls = (): string => {
     if (activeTaskInfo?.model?.id) {
       return 'active_step_item'
     }
@@ -198,7 +190,7 @@ const TaskStep: React.FC = () => {
     return ''
   }
 
-  const getCls = (active_paths:any[], atvcls:string) => {
+  const getCls = (active_paths: any[], atvcls: string) => {
     if (active_paths.includes(pathname)) {
       return `step_item step_item_router_active ${atvcls}`
     }
@@ -214,11 +206,11 @@ const TaskStep: React.FC = () => {
         </div>
         <span className='arrow_wrap'><Arrow /></span>
         <div className={getCls(MODEL_ACTIVE, getModelCls())} onClick={handleModelClick}>
-          <Moxing className='step_svg'/> 模型
+          <Moxing className='step_svg' /> 模型
         </div>
         <span className='arrow_wrap'><Arrow /></span>
         <div className={getCls(PUBLISH_ACTIVE, getDeployCls())} onClick={handleDeployClick}>
-          <Bushu className='step_svg'/> 部署
+          <Bushu className='step_svg' /> 部署
         </div>
       </div>
 

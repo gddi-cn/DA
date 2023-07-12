@@ -21,11 +21,11 @@ import {
   APP_UNREMARKED_CREATE,
   APP_ORDER_PROCESS,
   APP_EXPERIENCE,
-  APP_PLATFORM, SPACE, SPACE_ACCOUNT, SPACE_API, SPACE_DEVICE, SPACE_DEPLOY
+  APP_PLATFORM, SPACE, SPACE_ACCOUNT, SPACE_API, SPACE_DEVICE, SPACE_DEPLOY,
+  CREATE_DATASET_WITH_MARKED,
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
-import localfile from '../localfile';
 import thirdparty from '../thirdparty';
 
 const NotFound = lazy(() => import('@src/views/NotFound'));
@@ -43,6 +43,8 @@ const DataSetIndex = lazy(() => import('@src/views/DataSet/DataSetIndex'));
 const IncreaseData = lazy(() => import('@src/views/DataSet/IncreaseData'));
 
 const DataSetDetail = lazy(() => import('@src/views/DataSet/DataSetDetail'));
+const CreateDatasetWithMark = lazy(() => import("@src/views/DataSet/CreateDataSet/Marked"))
+
 
 
 // const SelectCreateType = lazy(() => import('@src/views/DataSet/CreateDataSet/SelectCreateType'));
@@ -133,7 +135,10 @@ export default {
         },
         // 本地文件上传
 
-        localfile,
+        {
+          path: CREATE_DATASET_WITH_MARKED,
+          element: SuspenseFn(CreateDatasetWithMark),
+        },
 
         // 第三方
         thirdparty,

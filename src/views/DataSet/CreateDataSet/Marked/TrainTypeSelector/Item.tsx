@@ -12,7 +12,8 @@ import imageRetrieval from './icon/imageRetrieval.png'
 import { sceneNameMapping } from '@src/shared/mapping/dataset'
 
 import { DatasetScene } from '@src/shared/enum/dataset'
-import { useTrainTypeItem } from './hook'
+import { useAtom } from 'jotai'
+import { trainTypeAtom } from '../store'
 
 const sceneImgMapping: Map<DatasetScene, any> = new Map([
   [DatasetScene.Detection, /*            */detection],
@@ -24,6 +25,38 @@ const sceneImgMapping: Map<DatasetScene, any> = new Map([
   [DatasetScene.KeypointsDetection, /*   */keypointsDetection],
   [DatasetScene.ImageRetrieval, /*       */imageRetrieval],
 ])
+
+export const useTrainTypeItem = (scene: DatasetScene) => {
+  const containerRef = React.useRef<HTMLDivElement | null>(null)
+  const [currentScene, setCurrentScene] = useAtom(trainTypeAtom)
+
+  const selected = (currentScene as DatasetScene) === scene
+
+  const handleClick = () => {
+    if (selected) return
+    setCurrentScene(scene)
+  }
+
+  React.useEffect(
+    () => {
+      const $c = containerRef.current
+      if (!$c) return
+
+      if (selected) {
+        $c.setAttribute('selected', '')
+      } else {
+        $c.removeAttribute('selected')
+      }
+    },
+    [selected]
+  )
+
+  return {
+    containerRef,
+    handleClick,
+  }
+}
+
 
 const Container = styled.div<{ scene: DatasetScene }>`
   width: 284px;
@@ -53,11 +86,7 @@ const Title = styled.p`
   color: #2582C1;
 `
 
-const TrainTypeItem: React.FC<{ scene: DatasetScene }> = (
-  {
-    scene,
-  }
-) => {
+const Item: React.FC<{ scene: DatasetScene }> = ({ scene }) => {
   const { containerRef, handleClick } = useTrainTypeItem(scene)
 
   return (
@@ -67,4 +96,4 @@ const TrainTypeItem: React.FC<{ scene: DatasetScene }> = (
   )
 }
 
-export default TrainTypeItem
+export default Item

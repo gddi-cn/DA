@@ -1,49 +1,41 @@
-import { FooterBar, UploadFile, GButton, GSelect } from '@src/UIComponents'
-import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react'
+import { FooterBar, UploadFile, GSelect } from '@src/UIComponents'
+import React, { useState, useRef, useMemo } from 'react'
 import { Select, message } from 'antd';
 import api from '@api'
 import { S3Uploader } from '@src/components'
 
 import UploadingView from './UploadingView'
 import { useNavigate } from 'react-router-dom'
-import { APP_LOCAL_FILE_STEP_4, APP_LOCAL_FILE_STEP_2, APP_LOCAL_FILE_STEP_1 } from '@router'
 import { useDebounceFn } from 'ahooks'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
-import { socketPushMsgForProject } from '@ghooks'
-import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
-import './SelectDatasetFile.module.less'
+import './DatasetSelector.module.less'
 import { isEmpty } from 'lodash';
 import { useBack2DatasetIndex } from '@src/hooks/task';
 import { SecondaryBtn } from '@src/components/Button';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { baseFormAtom, currentStepAtom, exampleURLAtom, proportionAtom, trainTypeAtom, uploadingAtom } from '../store';
+import { EMarked } from '../enums';
 
 const { Option } = Select;
 
 const regExp = /\.(zip|tar|gz)$/
 
-enum DatasetType {
-  DETECTION = 'detection', // 目标检测
-  CLASSIFY = 'classify', // 图片分类
-  CITYSCAPES_SEGMENT = 'cityscapes_segment', // 通用分割
-  POSE_DETECTION = 'pose_detection', // 姿态检测
-  CAR_POSE_DETECTION = 'car_pose_detection', // 单目 3D
-  KEYPOINTS_BASED_ACTION = 'keypoints_based_action', // 动作识别
-  KEYPOINT_DETECTION = 'keypoint_detection', // 关键点检测
-  IMAGE_RETRIEVAL = 'image_retrieval', // 图像检索
+const RightActions: React.FC = () => {
+  const uploading = useAtomValue(uploadingAtom)
+  const setCurrentStep = useSetAtom(currentStepAtom)
+  const handleClick = () => {
+    setCurrentStep(EMarked.Step.BASE_FORM)
+  }
+
+  return (
+    <SecondaryBtn onClick={handleClick} disabled={uploading}>
+      上一步
+    </SecondaryBtn>
+  )
 }
 
-const typeURLMapping: Map<DatasetType, string> = new Map([
-  [DatasetType.DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/detection_example/detection_example.zip'],
-  [DatasetType.CLASSIFY, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/classify_example/classify_example.zip'],
-  [DatasetType.CITYSCAPES_SEGMENT, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/segmentation_example/segmentation_example.zip'],
-  [DatasetType.POSE_DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/pose_example/pose_example.zip'],
-  [DatasetType.CAR_POSE_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/detection_3d_example.zip'],
-  [DatasetType.KEYPOINTS_BASED_ACTION, 'https://s3.local.cdn.desauto.net/public/example/action_detection_example.zip'],
-  [DatasetType.KEYPOINT_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/keypoint_detection_example.zip'],
-  [DatasetType.IMAGE_RETRIEVAL, 'https://s3.local.cdn.desauto.net/public/example/image_retrieval.zip']
-])
-
-const SelectDatasetFile = (): JSX.Element => {
+const DatasetSelector = (): JSX.Element => {
   const uploadCurrent = useRef<any>(null)
   const timeRef = useRef<any>({
     pre: 0,
@@ -58,45 +50,17 @@ const SelectDatasetFile = (): JSX.Element => {
   const [percent, setLocalPercent] = useState<any>(0)
   const [isUploading, setIsUploading] = useState(false)
   const [checking, setChecking] = useState<boolean>(false)
-  const [exampleUrl, setExampleUrl] = useState('')
-  const [proportion, setProportion] = useState<any>(0.2)
   const [backing, setBacking] = useState<boolean>(false)
   const [fileInfo, setFileInfo] = useState({
     filename: '',
     size: 0
   })
 
-  const navigate = useNavigate()
-
-  const activePipeLine = useSelector((state: RootState) => {
-    return state.tasksSilce.activePipeLine || {}
-  })
-
-  const { APP_LOCAL_FILE_STEP_1: s1, APP_LOCAL_FILE_STEP_2: s2 } = activePipeLine
-  const { activeType: scene } = s1 || {}
-  const { name, summary, cover } = s2 || {}
-
-  React.useEffect(
-    () => {
-      if (!name || !scene) {
-        navigate({
-          pathname: APP_LOCAL_FILE_STEP_1
-        })
-        socketPushMsgForProject(activePipeLine, {
-          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_1,
-        })
-      }
-    },
-    []
-  )
-
-  const datasetType = useMemo(
-    () => {
-      return activePipeLine?.APP_LOCAL_FILE_STEP_1?.activeType
-    },
-    [activePipeLine]
-  )
-
+  const setCurrentStep = useSetAtom(currentStepAtom)
+  const [proporition, setProportion] = useAtom(proportionAtom)
+  const scene = useAtomValue(trainTypeAtom)
+  const { name, cover, summary } = useAtomValue(baseFormAtom)
+  const exampleUrl = useAtomValue(exampleURLAtom)
 
   const handleCnasel = useDebounceFn(
     async () => {
@@ -157,7 +121,7 @@ const SelectDatasetFile = (): JSX.Element => {
       filename,
       source: 1,
       bucket,
-      val_share: proportion,
+      val_share: proporition,
       hash,
       size,
     }
@@ -168,19 +132,13 @@ const SelectDatasetFile = (): JSX.Element => {
       if (creteDatares.code === 0) {
         message.success('创建数据集成功')
         setLoading(false)
-        navigate({
-          pathname: APP_LOCAL_FILE_STEP_4
-        })
-        // 创建成功就清理
-        socketPushMsgForProject(activePipeLine, {
-          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_4,
-        })
+        setCurrentStep(EMarked.Step.RESULT)
       } else {
         setLoading(false)
         message.warn('创建数据集失败')
       }
     } catch (e) {
-      console.log(e)
+      console.error(e)
       setLoading(false)
     }
   }
@@ -271,26 +229,11 @@ const SelectDatasetFile = (): JSX.Element => {
     )
   }, [fileInfo, percent, handleCnasel])
 
-  const handleProportionChange = useCallback(
-    (value: string) => {
-      if (activePipeLine.APP_LOCAL_FILE_STEP_3) {
-        const obj = Object.assign({ ...activePipeLine.APP_LOCAL_FILE_STEP_3 }, {
-          proportion: value
-        })
+  const handleProportionChange = (value: number) => {
+    setProportion(value)
+  }
 
-        socketPushMsgForProject(activePipeLine, {
-          APP_LOCAL_FILE_STEP_3: obj
-        })
-      } else {
-        socketPushMsgForProject(activePipeLine, {
-          APP_LOCAL_FILE_STEP_3: { proportion: value }
-        })
-      }
-    }, [activePipeLine]
-  )
-
-  const topview = useMemo(() => {
-    return (
+  const topview = (
       <>
         <div className='select_percent'>
           <div className='select_wrap'>
@@ -298,7 +241,7 @@ const SelectDatasetFile = (): JSX.Element => {
               <p>*</p><p>训练集与测试集比例</p>
             </div>
             <div className='form_content'>
-              <GSelect value={proportion} style={{ width: '100%' }} onChange={handleProportionChange}>
+              <GSelect value={proporition} style={{ width: '100%' }} onChange={handleProportionChange}>
                 <Option value={0.3}>7:3</Option>
                 <Option value={0.2}>8:2（推荐使用）</Option>
                 <Option value={0.1}>9:1</Option>
@@ -330,46 +273,7 @@ const SelectDatasetFile = (): JSX.Element => {
           </div>
         </div>
       </>
-    )
-  }, [exampleUrl, handleProportionChange, proportion])
-
-  const rightContent = useMemo(() => {
-    const handleGoback = () => {
-      // 弹窗确认是不是要走
-      // if (isUploading) {
-      //   return
-      // }
-      handleCnasel.run()
-      navigate({
-        pathname: APP_LOCAL_FILE_STEP_2
-      })
-      socketPushMsgForProject(activePipeLine, {
-        active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_2,
-      })
-    }
-
-    return (
-      <div className='footer_btn_wrap'>
-        <GButton className='previous_btn' style={{ width: 132 }} type='default' onClick={handleGoback}>上一步</GButton>
-      </div>
-    )
-  }, [handleCnasel])
-
-  useEffect(() => {
-    if (activePipeLine?.APP_LOCAL_FILE_STEP_3?.proportion) {
-      const { proportion } = activePipeLine.APP_LOCAL_FILE_STEP_3
-      setProportion(proportion)
-    } else {
-      // 默认带上
-      socketPushMsgForProject(activePipeLine, {
-        APP_LOCAL_FILE_STEP_3: { proportion: 0.2 }
-      })
-    }
-  }, [activePipeLine])
-
-  useEffect(() => {
-    setExampleUrl(datasetType ? typeURLMapping.get(datasetType as DatasetType) || '' : '')
-  }, [datasetType])
+  )
 
   return (
     <div styleName='SelectDatasetFile' id='SelectDatasetFile'>
@@ -400,10 +304,10 @@ const SelectDatasetFile = (): JSX.Element => {
             取消
           </SecondaryBtn>
         }
-        rightContent={rightContent}
+        rightContent={<RightActions />}
       />
     </div>
   )
 }
 
-export default SelectDatasetFile
+export default DatasetSelector

@@ -32,4 +32,23 @@ declare namespace Dataset {
       }
     }
   }
+
+  namespace Create {
+    interface Data {
+      bucket?: string
+      cover?: string
+      filename: string
+      hash: string
+      key?: string
+      name: string
+      scene: import("@src/shared/enum/dataset").DatasetScene
+      size: number
+      source: number
+      summary?: string
+      url?: string
+      val_share?: number
+    }
+
+    type Response = Promise<import('@src/shared/types/api').APIResponse<{ id: string }>>
+  }
 }

@@ -1,7 +1,7 @@
 
 import { ReactComponent as GDDI } from './icon/共达地.svg'
 import { ReactComponent as MANFU } from './icon/曼孚科技.svg'
-import { APP_LOCAL_FILE_STEP_1, APP_THIRDPARTY_SelectTrainType, APP_DATA_SET_INDEX } from '@router'
+import { CREATE_DATASET_WITH_MARKED, APP_THIRDPARTY_SelectTrainType, APP_DATA_SET_INDEX } from '@router'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { socketPushMsgForProject } from '@ghooks'
 import { useSelector } from 'react-redux'
@@ -18,9 +18,9 @@ const SelectCreateType = (props: any): JSX.Element => {
     return state.tasksSilce.activePipeLine || {}
   })
   const handleGotoLocal = () => {
-    navigate({ pathname: APP_LOCAL_FILE_STEP_1 })
+    navigate({ pathname: CREATE_DATASET_WITH_MARKED })
     socketPushMsgForProject(activePipeLine, {
-      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_1
+      active_page: SNAPSHOT_KEY_OF_ROUTER.CREATE_DATASET_WITH_MARKED
     })
   }
 

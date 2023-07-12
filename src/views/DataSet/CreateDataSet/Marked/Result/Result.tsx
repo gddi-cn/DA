@@ -1,4 +1,4 @@
-
+import React from 'react'
 import { ReactComponent as WTF } from './icon/wtf.svg'
 import { GButton } from '@src/UIComponents'
 import { useNavigate } from 'react-router-dom'
@@ -8,37 +8,24 @@ import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import { socketPushMsgForProject } from '@ghooks'
-import './AfterUploaded.module.less'
+import './Result.module.less'
 
-// type Props={
-//     setCurrentStep:any
-// }
-const AfterUploaded = (): JSX.Element => {
+const Result: React.FC = () => {
   const activePipeLine = useSelector((state: RootState) => {
     return state.tasksSilce.activePipeLine || {}
   })
   const navigate = useNavigate()
   const handleClose = () => {
     navigate({ pathname: APP_DATA_SET_INDEX })
-    socketPushMsgForProject(activePipeLine, {
-      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
-      APP_LOCAL_FILE_STEP_1: {},
-      APP_LOCAL_FILE_STEP_2: {},
-      APP_LOCAL_FILE_STEP_3: {}
-    })
   }
   const handleGotoCreate = () => {
-    // todo:清理所有之前的流程信息
     navigate({ pathname: APP_DATASET_CREATE_TYPE })
     socketPushMsgForProject(activePipeLine, {
       active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_CREATE_TYPE,
-      APP_LOCAL_FILE_STEP_1: {},
-      APP_LOCAL_FILE_STEP_2: {},
-      APP_LOCAL_FILE_STEP_3: {}
     })
   }
   return (
-    <div styleName='AfterUploaded'>
+    <div styleName='Result'>
       <div className='AfterUploaded_wrap'>
         <WTF />
         <div className='title'>
@@ -55,4 +42,4 @@ const AfterUploaded = (): JSX.Element => {
   )
 }
 
-export default AfterUploaded
+export default Result

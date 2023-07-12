@@ -19,6 +19,21 @@ const datasetAPI = {
     }
   },
 
+  create: async (data: Dataset.Create.Data): Dataset.Create.Response => {
+    try {
+      const { data: _data } = await http.post('/v3/datasets', data)
+      return {
+        success: true,
+        data: _data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
   applyDownload: async (id: IDataset['id']): Promise<APIResponse<void>> => {
     try {
       await http.post(`/v3/datasets/${id}/download`)

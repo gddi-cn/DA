@@ -9,8 +9,9 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   APP_DATA_SET_INDEX,
-  APP_LOCAL_FILE_STEP_1,
-  APP_THIRDPARTY_SelectTrainType, APP_UNREMARKED_CREATE
+  CREATE_DATASET_WITH_MARKED,
+  APP_THIRDPARTY_SelectTrainType,
+  APP_UNREMARKED_CREATE
 } from '@router'
 import { socketPushMsgForProject } from '@ghooks'
 import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
@@ -94,9 +95,9 @@ export const useFooter = () => {
         })
         break
       case DatasetCreateType.UPLOAD_REMARKED:
-        navigate({ pathname: APP_LOCAL_FILE_STEP_1 })
+        navigate({ pathname: CREATE_DATASET_WITH_MARKED })
         socketPushMsgForProject(activePipeLine, {
-          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_LOCAL_FILE_STEP_1
+          active_page: SNAPSHOT_KEY_OF_ROUTER.CREATE_DATASET_WITH_MARKED
         })
         break
       case DatasetCreateType.IMPORT_THIRD_PARTY:

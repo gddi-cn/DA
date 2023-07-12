@@ -5,7 +5,7 @@ import { message } from 'antd'
 import api from '@api'
 import { S3Uploader } from '@src/components'
 
-import UploadingView from '../CreateDataSet/LocalDataSet/SelectDatasetFile/UploadingView'
+import UploadingView from '@src/components/UploadingView'
 import { useNavigate } from 'react-router-dom'
 import { APP_DATASET_DETAIL } from '@router'
 import { useDebounceFn } from 'ahooks'
@@ -146,7 +146,7 @@ const IncreaseData = (): JSX.Element => {
   const handleOnuploadBigData = async (file: File | undefined) => {
     if (!file) return
     setIsUploading(true)
-    setFileInfo({filename: file.name, size: file.size})
+    setFileInfo({ filename: file.name, size: file.size })
 
     const defaultInitConfig = {
       accessKeyId: 'HCIYFRUYM897VE1PUG47',
@@ -199,7 +199,7 @@ const IncreaseData = (): JSX.Element => {
 
       const createRes = await myupload.create(createParams)
 
-      const {hasUploadParts} = createRes
+      const { hasUploadParts } = createRes
       if (hasUploadParts) {
         myupload.continueOrRetry()
       } else {
@@ -228,7 +228,7 @@ const IncreaseData = (): JSX.Element => {
     }
 
     return (<div className="footer_btn_wrap">
-      <GButton className="previous_btn" style={{width: 132}} type="default" onClick={handleGoback}>上一步</GButton>
+      <GButton className="previous_btn" style={{ width: 132 }} type="default" onClick={handleGoback}>上一步</GButton>
     </div>)
   }, [handleCnasel])
 

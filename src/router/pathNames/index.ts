@@ -35,12 +35,15 @@ export const APP_UNREMARKED_CREATE = '/app/create_unremarked'
 // 标注状态
 export const APP_ORDER_PROCESS = '/app/order_process'
 
+// 上传已标注数据集
+export const CREATE_DATASET_WITH_MARKED = '/app/create_dataset_with_marked'
+
 // 上传流程
-export const APP_LOCAL_FILE = '/app/local_file'
-export const APP_LOCAL_FILE_STEP_1 = '/app/local_file/AfterUploaded'
-export const APP_LOCAL_FILE_STEP_2 = '/app/local_file/DatasetBaseInfoForm'
-export const APP_LOCAL_FILE_STEP_3 = '/app/local_file/SelectDatasetFile'
-export const APP_LOCAL_FILE_STEP_4 = '/app/local_file/SelectTrainType'
+// export const APP_LOCAL_FILE = '/app/local_file'
+// export const APP_LOCAL_FILE_STEP_1 = '/app/local_file/AfterUploaded'
+// export const APP_LOCAL_FILE_STEP_2 = '/app/local_file/DatasetBaseInfoForm'
+// export const APP_LOCAL_FILE_STEP_3 = '/app/local_file/SelectDatasetFile'
+// export const APP_LOCAL_FILE_STEP_4 = '/app/local_file/SelectTrainType'
 
 // 第三方流程
 export const APP_THIRDPARTY = '/app/thirdparty'
