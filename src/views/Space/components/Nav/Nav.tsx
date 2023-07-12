@@ -14,6 +14,7 @@ import { useNav } from './hook'
 import { userUsageAtom } from '@src/store/user'
 import { useAtomValue } from 'jotai'
 import Scrollbars from 'react-custom-scrollbars'
+import { formatUinxTime } from '@src/utils'
 
 const Wrap = styled(Paper)`
   height: 100%;
@@ -126,6 +127,16 @@ const Balance: React.FC = () => {
   )
 }
 
+const Expire: React.FC = () => {
+  const usage = useAtomValue(userUsageAtom)
+
+  return (
+    <Typography variant='body1' component='h4' color='primary.main' noWrap>
+      {usage?.expire ? formatUinxTime(usage.expire) : '--'}
+    </Typography>
+  )
+}
+
 const BalanceFallback: React.FC = () => {
   return (
     <Skeleton variant='text' width={100} />
@@ -136,6 +147,8 @@ const Account: React.FC = () => {
   const navigate = useNavigate()
   const match = useMatch(Paths.Space.ACCOUNT)
   const ref = React.useRef<HTMLAnchorElement>(null)
+  const authType = useAtomValue(userUsageAtom)?.auth_type
+  const isOEM = authType === 'OEM'
 
   const handleClick = () => {
     match || navigate(Paths.Space.ACCOUNT)
@@ -165,7 +178,11 @@ const Account: React.FC = () => {
           mt: '20px', columnGap: '10px',
         }}>
         <Box>
-          <Typography variant='body1' component='h4' color='white' noWrap>账户余额</Typography>
+          <Typography variant='body1' component='h4' color='white' noWrap>
+            {
+              isOEM ? '到期时间' : '账户余额'
+            }
+          </Typography>
         </Box>
         <Box
           sx={{
@@ -174,7 +191,13 @@ const Account: React.FC = () => {
           }}
         >
           <React.Suspense fallback={<BalanceFallback />}>
-            <Balance />
+            {
+              isOEM ? (
+                <Expire />
+              ) : (
+                <Balance />
+              )
+            }
           </React.Suspense>
         </Box>
       </Box>
