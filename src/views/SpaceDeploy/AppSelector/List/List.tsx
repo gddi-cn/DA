@@ -53,7 +53,7 @@ const List: React.FC = () => {
                 sx={{
                   px: '20px',
                   display: 'grid',
-                  gridTemplate: 'auto/repeat(auto-fit, minmax(276px, 1fr)) ',
+                  gridTemplate: 'auto/repeat(auto-fill, minmax(276px, 1fr)) ',
                   gap: '20px',
                   pt: '2px',
                   pb: '34px',

@@ -16,6 +16,7 @@ const Card = styled.div`
   padding: 16px;
   overflow: hidden;
   cursor: pointer;
+  position: relative;
   transition:
           box-shadow 0.2s ease-in-out;
   &:hover:not([disabled]) {
@@ -55,10 +56,17 @@ const Desc = styled.p`
   padding: 0 20px;
 `
 
-const ItemCard: React.FC<{ type: DeployType, disabled?: boolean }> = (
+const SubAction = styled.div`
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+`
+
+const ItemCard: React.FC<{ type: DeployType, disabled?: boolean, subAction?: React.ReactNode }> = (
   {
     type,
-    disabled = false
+    disabled = false,
+    subAction,
   }
 ) => {
   const { logo, title, description, handleClick, containerRef } = useItemCard(type, disabled)
@@ -67,6 +75,13 @@ const ItemCard: React.FC<{ type: DeployType, disabled?: boolean }> = (
       <Img src={logo} />
       {title}
       <Desc>{description}</Desc>
+      {
+        subAction ? (
+          <SubAction>
+            { subAction }
+          </SubAction>
+        ) : null
+      }
     </Card>
   )
 }

@@ -4,6 +4,9 @@ import styled from 'styled-components'
 import ItemCard from './ItemCard'
 import { DeployType } from '@src/shared/enum/deploy'
 import { useTypeSelector } from './hook'
+import {Button} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {APP_SDK} from "@router";
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +22,21 @@ const Content = styled.div`
   gap: 20px;
 `
 
+const ToSDK: React.FC = () => {
+  const navigate = useNavigate()
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    navigate(APP_SDK)
+  }
+
+  return (
+    <Button size='small' onClick={handleClick}>
+      SDK 部署
+    </Button>
+  )
+}
+
 const Production: React.FC = () => {
   const { disabledTrial } = useTypeSelector()
 
@@ -26,7 +44,7 @@ const Production: React.FC = () => {
     <Container>
       <Content>
         <ItemCard type={DeployType.EXPERIENCE} disabled={disabledTrial} />
-        <ItemCard type={DeployType.FORMAL} />
+        <ItemCard type={DeployType.FORMAL} subAction={<ToSDK />} />
       </Content>
     </Container>
   )

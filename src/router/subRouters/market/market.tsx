@@ -2,27 +2,18 @@
 import {
   APP_GUIDE_PAGE,
   APP_DATA_SET_INDEX,
-  APP_MODEL_INDEX,
   APP_DATASET_DETAIL,
   APP_DATASET_CREATE_TYPE,
-
   APP_DATASET_ANALYSE,
   APP_MODEL_TRAIN_CONFIG,
   APP_MODEL_TRAIN_DETAIL,
   APP_SELECT_DEPLOY_TYPE,
-  APP_SelectModule,
-  APP_SetModuleConfig,
-  APP_ForecastModule,
-  APP_SelectDevice,
-  APP_AfterDeployed,
-  APP_SDK_Documents,
-  APP_DEVICE_INDEX,
   APP_IncreaseData,
   APP_UNREMARKED_CREATE,
   APP_ORDER_PROCESS,
   APP_EXPERIENCE,
   APP_PLATFORM, SPACE, SPACE_ACCOUNT, SPACE_API, SPACE_DEVICE, SPACE_DEPLOY,
-  CREATE_DATASET_WITH_MARKED,
+  CREATE_DATASET_WITH_MARKED, APP_SDK,
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -189,7 +180,7 @@ export default {
               element: SuspenseFn(Deploy)
             },
             {
-              path: APP_SDK_Documents,
+              path: APP_SDK,
               element: SuspenseFn(Documents),
 
             },
