@@ -25,7 +25,6 @@ const GddiFlow = (props: any): JSX.Element => {
     page_size: number,
     name?: string
   }): Promise<any> => {
-    console.log({ page, page_size, name })
     return modelAPI.modelList({ page, page_size, name, appId: id })
   }
 
@@ -39,7 +38,6 @@ const GddiFlow = (props: any): JSX.Element => {
 
   const updateFn = async (val: any) => {
     try {
-      console.log({ val })
       await api.put(`/v3/apps/${id}`, {
         config: JSON.stringify(val),
       })

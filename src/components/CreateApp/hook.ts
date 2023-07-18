@@ -182,7 +182,6 @@ export const useFooter = (
       setLoading(false)
 
       if (!success || !data) return
-      console.log({ data })
       onCreate(data)
 
     } catch (e) {

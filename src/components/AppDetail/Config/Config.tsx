@@ -24,8 +24,6 @@ const Config: React.FC<{ onClose?(): void }> = ({
 }) => {
   const { handleBack, flowValue, appBaseInfo, init } = useConfig()
 
-  console.log({ flowValue })
-
   return (
     <Dialog
       open={true}
@@ -54,7 +52,7 @@ const Config: React.FC<{ onClose?(): void }> = ({
       </Box>
       {
         init ? (
-          <GddiFlow flowValue={{...flowValue}} appBaseInfo={{...appBaseInfo}} />
+          <GddiFlow flowValue={{ ...flowValue }} appBaseInfo={{ ...appBaseInfo }} />
         ) : null
       }
       <Box

@@ -43,7 +43,6 @@ const ForgetPasswordFrom = (props: any): JSX.Element => {
           setNum(60)
           timerRefs.current = setInterval(() => {
             setNum((num: any) => --num)
-            console.log(888)
           }, 1000)
         } else {
           setErrMsg(res?.message || '')
@@ -58,9 +57,8 @@ const ForgetPasswordFrom = (props: any): JSX.Element => {
 
   const handleSubmit = async () => {
     try {
-      const values:any = await form.validateFields()
+      const values: any = await form.validateFields()
       console.log(values)
-      delete values.confirm
       setLoading(true)
       const res: any = await api.post('/v1/users/reset-pwd', values);
       if (res?.code !== 0) {
@@ -113,7 +111,7 @@ const ForgetPasswordFrom = (props: any): JSX.Element => {
           rules={[
             { required: true, message: '请输入8-20位密码!' },
             ({ getFieldValue }) => ({
-              validator (rule, value) {
+              validator(rule, value) {
                 if (!value || getFieldValue('new_password') === value) {
                   return Promise.resolve();
                 }
@@ -134,7 +132,7 @@ const ForgetPasswordFrom = (props: any): JSX.Element => {
                 noStyle
                 rules={[{ required: true, min: 6, max: 6, message: '请输入6位验证码！' }]}
               >
-                <Input placeholder='请输入验证码！' autoComplete='off' bordered={false} className='no_border'/>
+                <Input placeholder='请输入验证码！' autoComplete='off' bordered={false} className='no_border' />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -146,7 +144,7 @@ const ForgetPasswordFrom = (props: any): JSX.Element => {
         <Form.Item noStyle>
           <div>
             <GButton type='primary' htmlType='submit' loading={isLoading} onClick={handleSubmit}>
-                          确 认
+              确 认
             </GButton>
           </div>
         </Form.Item>

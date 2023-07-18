@@ -17,7 +17,6 @@ const Detail: React.FC = () => {
   } = useDetail()
 
   if (!currentAppId) return null
-  console.log({ handleClose })
 
   return (
     <Dialog

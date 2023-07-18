@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 import moment from 'moment'
-import {ExclamationCircleOutlined} from "@ant-design/icons";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 import { appAtom, currentPageAtom, currentRecordAtom, deployRecordListAtom, onCloseRefAtom, onDeleteRefAtom } from '../store'
 import default_cover from '@src/asset/images/app/default_cover.png'
@@ -47,7 +47,7 @@ export const useMeta = () => {
   } = app || {}
 
   const cover = _cover || default_cover
-  const InputIcon = input === AppTemplateInput.IMAGE? ImgServerIcon : VideoServerIcon
+  const InputIcon = input === AppTemplateInput.IMAGE ? ImgServerIcon : VideoServerIcon
   const inputTip = input === AppTemplateInput.IMAGE ? '图片服务' : '视频流服务'
 
   const created = create_time
@@ -203,7 +203,6 @@ export const useMore = () => {
         }
 
         const onDelete = onDeleteRef?.current
-        console.log({ onDelete })
         onDelete && onDelete()
 
         message.success('删除成功')

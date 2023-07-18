@@ -30,7 +30,6 @@ const LoginForm = (props: any): JSX.Element => {
       const res: any = await api.post('/v1/login', values);
 
       setLoading(false)
-      console.log(res)
       if (res.code === 0) {
         const { data } = res
         localStorage.setItem('login-username', data.username)
@@ -52,7 +51,7 @@ const LoginForm = (props: any): JSX.Element => {
   };
   return (
     <div styleName='LoginForm' >
-      <Title text='登录' errText={errMsg}/>
+      <Title text='登录' errText={errMsg} />
 
       <div className='custom_container'>
         <Form
@@ -74,15 +73,15 @@ const LoginForm = (props: any): JSX.Element => {
           </Form.Item>
 
           <div className='some_opreations'>
-            <AsLink text='忘记密码' onClick={() => setActive('ForgetPasswordFrom') } />
+            <AsLink text='忘记密码' onClick={() => setActive('ForgetPasswordFrom')} />
           </div>
 
           <Form.Item noStyle>
             <GButton type='primary' htmlType='submit' className='login_btn' onClick={handleSubmit} loading={isLoading}>
-                          登 录
+              登 录
             </GButton>
             <GButton type='default' className='login_btn' onClick={() => setActive('RegisterFrom')}>
-                          注册
+              注册
             </GButton>
           </Form.Item>
         </Form>

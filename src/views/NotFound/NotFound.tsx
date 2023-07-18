@@ -30,7 +30,6 @@ const NotFound = (): JSX.Element => {
   useEffect(() => {
     if (canvasIns.current) {
       if (WebGL.isWebGLAvailable()) {
-        console.log('不hi吧')
 
         glRender.current = new WebGLRenderer({
           antialias: true,

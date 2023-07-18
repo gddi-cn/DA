@@ -35,7 +35,6 @@ const column: any[] = [
 ]
 
 const DeviceGridTable = (props: any): JSX.Element => {
-  console.log(props)
   const { dataSource, onChange, loading } = props
 
   // const [dataSource, setDataSource] = useState<any[]>([]); // 数据
@@ -47,7 +46,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
   //   setSelectedRowKeys(value || [])
   // }, [value])
 
-  const getState = (state:any) => {
+  const getState = (state: any) => {
     const objText: any = {
       online: '在线',
       offline: '离线',
@@ -56,7 +55,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
     return objText[state] || '-'
   }
 
-  const getModelAuth = (ModelAuth:any) => {
+  const getModelAuth = (ModelAuth: any) => {
     const objText: any = {
       Authorized: '已授权',
       Unauthorized: '未授权',
@@ -108,10 +107,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
       return !!selectedRowKeys.find((o) => o === option?.id)
     }
 
-    const handleSingleChange = (e: CheckboxChangeEvent, data:any) => {
-      console.log(`checked = ${e.target.checked}`);
-
-      console.log(data)
+    const handleSingleChange = (e: CheckboxChangeEvent, data: any) => {
 
       const checked = e.target.checked
       if (checked) {
@@ -133,10 +129,10 @@ const DeviceGridTable = (props: any): JSX.Element => {
 
     const getStatusCheckbox = (data: any) => {
       if (data?.ModelAuth === 'Unauthorized') {
-        const index = selectedRowKeys.findIndex((o:any) => o === data.id)
+        const index = selectedRowKeys.findIndex((o: any) => o === data.id)
         const checked = index !== -1
         return (
-          <Checkbox onChange={(e: CheckboxChangeEvent) => handleSingleChange(e, data)} checked={checked}/>
+          <Checkbox onChange={(e: CheckboxChangeEvent) => handleSingleChange(e, data)} checked={checked} />
         )
       }
 
@@ -149,7 +145,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
       <div className='DeviceGridTable_body'>
 
         {
-          dataSource.map((data:any, index:any) => {
+          dataSource.map((data: any, index: any) => {
             return (
               <div key={index} className='DeviceGridTable_body_item'>
                 <div className='DeviceGridTable_body_item_wrap_select'>{getStatusCheckbox(data)}</div>
@@ -172,7 +168,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
     console.log(`checked = ${e.target.checked}`);
     const value = e.target.checked
     if (value) {
-      const list = dataSource.filter((o: any) => o?.ModelAuth === 'Unauthorized').map((o:any) => o.id)
+      const list = dataSource.filter((o: any) => o?.ModelAuth === 'Unauthorized').map((o: any) => o.id)
       setSelectedRowKeys(list)
       onChange && onChange(list)
     } else {
@@ -186,7 +182,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
       if (isEmpty(dataSource)) {
         return true
       }
-      const boolValue = dataSource.some((data:any) => {
+      const boolValue = dataSource.some((data: any) => {
         return data?.ModelAuth === 'Unauthorized'
       })
 
@@ -210,7 +206,7 @@ const DeviceGridTable = (props: any): JSX.Element => {
         }
         return selectedRowKeys.length >= 1
       }
-      return <Checkbox indeterminate={indeterminate()} checked={checked} onChange={handleSelectAll}/>
+      return <Checkbox indeterminate={indeterminate()} checked={checked} onChange={handleSelectAll} />
     }
   }
   return (

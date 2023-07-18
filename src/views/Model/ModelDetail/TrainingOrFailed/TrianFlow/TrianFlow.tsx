@@ -71,8 +71,8 @@ const TrianFlow = (): JSX.Element => {
         console.error(e)
       }
     }, [
-      currentVersionId, dispatch, model_id
-    ]
+    currentVersionId, dispatch, model_id
+  ]
   )
 
   const getTrainInfo = useCallback(
@@ -80,7 +80,6 @@ const TrianFlow = (): JSX.Element => {
       if (!currentVersionId) {
         return
       }
-      console.log({ model_id, currentVersionId })
       try {
         const res = await api.get(`/v3/models/${model_id}/versions/${currentVersionId}/progress`)
         if (res.code === 0) {
@@ -181,8 +180,6 @@ const TrianFlow = (): JSX.Element => {
       return null
     }
 
-    console.log({ progress })
-
     if (status === 6) {
       return <Pending />
     }
@@ -191,10 +188,10 @@ const TrianFlow = (): JSX.Element => {
       return (
         <div className='failed_wrap'>
           <div className='failed_icon'>
-            <Failed/>
+            <Failed />
           </div>
           <div className='tips'>
-                  抱歉！训练失败
+            抱歉！训练失败
           </div>
           <div className='btn_wrap'>
             <GButton className='close_btn' onClick={handleDetele}>删除</GButton>

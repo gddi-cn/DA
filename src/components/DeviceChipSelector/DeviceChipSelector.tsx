@@ -27,7 +27,6 @@ const DeviceChipSelector: React.FC<DeviceChipSelectorProps> = (
     (o: Array<Device.Chip.Option>) => {
       if (defaultDeviceId) {
         const find = o.find(({ key }) => key === defaultDeviceId)
-        console.log({ find })
         if (find) {
           onChange && onChange(find)
         }

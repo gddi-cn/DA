@@ -6,7 +6,7 @@ import { Form, FormInstance, InputNumber, Radio, Space } from 'antd'
 import bg from './bg.png'
 
 interface DaySelectProps {
-  Footer: React.FC<{ form: FormInstance<{ day: number, custom?: number }>  }>
+  Footer: React.FC<{ form: FormInstance<{ day: number, custom?: number }> }>
 }
 
 const Container = styled.div`
@@ -31,7 +31,7 @@ const DaySelect: React.FC<DaySelectProps> = (
     Footer,
   }
 ) => {
-  const { form, disabled, handleChange  } = useDateSelect()
+  const { form, disabled, handleChange } = useDateSelect()
 
   return (
     <>
@@ -61,10 +61,8 @@ const DaySelect: React.FC<DaySelectProps> = (
             style={{ paddingLeft: 22 }}
             label={''}
             rules={[
-              ({getFieldValue}) => ({
+              ({ getFieldValue }) => ({
                 validator(_, value) {
-                  console.log({ value })
-                  console.log({ custom: getFieldValue('custom') })
                   if (getFieldValue('day') === 0 && !value) {
                     return Promise.reject('请输入授权天数')
                   }

@@ -113,7 +113,6 @@ const ApplyAuth = (): JSX.Element => {
           }
         }
       } catch (e) {
-        console.log(e, 111)
         setLoading(false)
       }
     }, [model_iter_id, selected]
@@ -179,7 +178,7 @@ const ApplyAuth = (): JSX.Element => {
         </GSelect>
       </div>
       <div className='device_table'>
-        <DeviceGridTable dataSource={dataSource} loading={loading} onChange={setSelectKeys}/>
+        <DeviceGridTable dataSource={dataSource} loading={loading} onChange={setSelectKeys} />
       </div>
       <div className='summit_wrap'>
         <GButton className='btn' type='primary' onClick={handleAuthClick}>申请授权</GButton>

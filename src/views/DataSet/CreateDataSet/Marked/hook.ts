@@ -11,7 +11,6 @@ export const useCancelUpload = (): [boolean, () => void] => {
   const [loading, setLoading] = React.useState<boolean>(false)
 
   const handleCancel = (back = false) => {
-    console.log({ uploading })
     if (!uploading) {
       back && handleBack()
       return
