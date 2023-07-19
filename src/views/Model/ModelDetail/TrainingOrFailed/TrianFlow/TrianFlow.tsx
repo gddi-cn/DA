@@ -177,7 +177,7 @@ const TrianFlow = (): JSX.Element => {
 
   const getAnimationsView = () => {
     if (!trainInfo) {
-      return null
+      return <Pending />
     }
 
     if (status === 6) {
