@@ -10,11 +10,12 @@ import { RootState } from '@reducer/index'
 import { useSelector } from 'react-redux'
 import { RadarChartOutlined, SlidersOutlined } from '@ant-design/icons'
 import './TrainingParameters.module.less'
+import { Box } from '@mui/material'
 
 const { Option } = Select;
 
 const titleObj: {
-  [index:string]:string
+  [index: string]: string
 } = {
   lr: '学习率',
   loss: '损失',
@@ -23,10 +24,18 @@ const titleObj: {
   'map-95': '评价指标2 map-95'
 }
 
-const LineChart = (props:any) => {
+const LineChart = (props: any) => {
   const { option = { xData: {}, yData: [] } } = props
 
-  const { yData, xData } = option
+  const { yData: _yData, xData } = option
+
+  const yData: Array<any> = []
+  Object.keys(_yData)
+    .sort()
+    .forEach((key) => {
+      yData.push(_yData[key])
+    })
+
   return (
     <GEcharts options={getOptions(yData, xData)} />
   )
@@ -137,9 +146,11 @@ const TrainingParameters = (): JSX.Element => {
 
   const getViews = useMemo(
     () => {
-      if (isNil(trainTaskId)) {
+      if (isNil(trainTaskId) || Object.keys(currentData.yData).length <= 0) {
         return (
-          <Empty />
+          <Box sx={{ height: '100%', display: 'grid', placeItems: 'center' }}>
+            <Empty />
+          </Box>
         )
       }
       return (
