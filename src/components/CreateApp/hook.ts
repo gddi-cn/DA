@@ -201,13 +201,19 @@ export const useFooter = (
   }
 }
 
-export const useCreateApp = (onCancel?: () => void) => {
+export const useCreateApp = (onCancel?: () => void, onCreate?: (app: App.Instance) => void) => {
   useResetStore()
   const [step] = useAtom(stepAtom)
   const handleClose = useCancel(onCancel)
 
+  const handleCreate = (app: App.Instance) => {
+    handleClose()
+    onCreate?.(app)
+  }
+
   return {
     step,
     handleClose,
+    handleCreate,
   }
 }
