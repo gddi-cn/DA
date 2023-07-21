@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
             columnGap: '20px',
           }}
         >
-          <CloudDeploy />
+          {/* <CloudDeploy /> */}
           <PrimaryBtn onClick={handleDevice}>设备授权</PrimaryBtn>
         </Box>
       </Box>
