@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import ItemCard from './ItemCard'
 import { DeployType } from '@src/shared/enum/deploy'
 import { useTypeSelector } from './hook'
-import {Button} from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {APP_SDK} from "@router";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { APP_SDK } from "@router";
 
 const Container = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const ToSDK: React.FC = () => {
 
   return (
     <Button size='small' onClick={handleClick}>
-      SDK 部署
+      旧版 SDK 部署
     </Button>
   )
 }
