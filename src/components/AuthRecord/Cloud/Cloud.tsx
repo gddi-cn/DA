@@ -121,26 +121,16 @@ const RecordItem: React.FC<CloudAuth.Instance> = (auth) => {
 
   const [loading, setLoading] = React.useState<boolean>(false)
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (loading || !id || !modelId || !versionId) return
 
     setLoading(true)
+    const { success, data } = await modelAPI.downloadLicense(id, modelId, versionId)
+    setLoading(false)
 
-    Promise.all([
-      modelAPI.downloadModel(modelId, versionId),
-      modelAPI.downloadLicense(id, modelId, versionId)
-    ])
-      .then((resList) => {
-        const success = resList.every(x => x.success)
-        const dataList: Array<Blob> = resList.map(x => x.data).filter(Boolean) as Array<Blob>
-        if (!success || dataList.length !== 2) return
+    if (!success || !data) return
 
-        downloadBlob(dataList[0], 'model.gdd')
-        downloadBlob(dataList[1], 'license')
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    downloadBlob(data, 'license')
   }
 
   return (
@@ -176,9 +166,9 @@ const RecordItem: React.FC<CloudAuth.Instance> = (auth) => {
       </Typography>
       <AuthStatus status={status} />
       <Box display='flex' alignItems='center'>
-        <Button size='small' onClick={handleDownload}>
+        <Button size='small' disabled={status === 4} onClick={handleDownload}>
           {
-            loading ? '下载中...' : '下载授权文件和模型'
+            loading ? '下载中...' : '下载授权文件'
           }
         </Button>
       </Box>
