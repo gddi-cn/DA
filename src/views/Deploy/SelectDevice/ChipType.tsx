@@ -34,10 +34,10 @@ const DeviceType = styled.p`
 
 const ChipType: React.FC = () => {
   const selectedApp = useAtomValue(selectedAppAtom)
-  
+
   return (
     <Container>
-      <Title>设备类型</Title>
+      <Title>芯片类型</Title>
       <Divider />
       <DeviceType>{selectedApp?.adapter_device || '-'}</DeviceType>
     </Container>

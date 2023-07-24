@@ -50,8 +50,9 @@ const CreateApp: React.FC<CreateAppProps> = (
 ) => {
   const {
     step,
-    handleClose
-  } = useCreateApp(onCancel)
+    handleClose,
+    handleCreate,
+  } = useCreateApp(onCancel, onCreate)
 
   return (
     <Dialog
@@ -77,7 +78,7 @@ const CreateApp: React.FC<CreateAppProps> = (
           {step === 'base' ? <BaseForm defaultDeviceId={defaultDeviceId} modelIterId={modelIterId} /> : null}
           {step === 'template' ? <SelecteTemplate /> : null}
         </Content>
-        <Footer modelIterId={modelIterId} onCreate={onCreate} onCancel={onCancel} />
+        <Footer modelIterId={modelIterId} onCreate={handleCreate} onCancel={onCancel} />
       </Container>
     </Dialog>
   )

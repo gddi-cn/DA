@@ -43,6 +43,7 @@ export interface CreateTemplateProps {
 const useCreateTemplate = ({
   onOpen,
   onClose,
+  onCreated,
 }: CreateTemplateProps) => {
   const [step, setStep] = useAtom(currentStepAtom)
   const [open, setOpen] = useAtom(openAtom)
@@ -66,11 +67,17 @@ const useCreateTemplate = ({
     }, 200)
   }
 
+  const handleCreate = () => {
+    handleClose()
+    onCreated?.()
+  }
+
   return {
     open,
     step,
     handleOpen,
     handleClose,
+    handleCreate,
   }
 }
 
@@ -80,6 +87,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = (props) => {
     step,
     handleOpen,
     handleClose,
+    handleCreate,
   } = useCreateTemplate(props)
 
   return (
@@ -123,7 +131,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = (props) => {
           </Content>
           <Footer
             onCancel={handleClose}
-            onCreate={props.onCreated}
+            onCreate={handleCreate}
           />
         </Container>
       </Dialog>

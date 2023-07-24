@@ -1,23 +1,30 @@
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import React from 'react'
 import { currentAppIdAtom, defaultPageAtom, detailOpenAtom } from '../store'
 import AppDetail from '@src/components/AppDetail'
 import { useRefreshAppList } from '../List/hook'
 import { Dialog } from '@mui/material'
+import { selectedAppListAtom } from '../../store'
 
 const useDetail = () => {
   const [open, setOpen] = useAtom(detailOpenAtom)
   const [currentAppId, setCurrentAppId] = useAtom(currentAppIdAtom)
   const [defaultPage, setDefaultPage] = useAtom(defaultPageAtom)
   const refreshAppList = useRefreshAppList()
+  const setSelectedAppList = useSetAtom(selectedAppListAtom)
 
   const handleClose = () => {
     setOpen(false)
-    refreshAppList()
     setTimeout(() => {
+      refreshAppList()
       setDefaultPage()
       setCurrentAppId(undefined)
     });
+  }
+
+  const handleDelete = () => {
+    handleClose()
+    setSelectedAppList(prev => prev.filter(app => app.id !== currentAppId))
   }
 
   return {
@@ -25,6 +32,7 @@ const useDetail = () => {
     currentAppId,
     defaultPage,
     handleClose,
+    handleDelete,
   }
 }
 
@@ -34,6 +42,7 @@ const Detail: React.FC = () => {
     currentAppId,
     defaultPage,
     handleClose,
+    handleDelete,
   } = useDetail()
 
   if (!currentAppId) return null
@@ -59,7 +68,7 @@ const Detail: React.FC = () => {
         id={currentAppId}
         onClose={handleClose}
         defaultPage={defaultPage}
-        onDelete={handleClose}
+        onDelete={handleDelete}
       />
     </Dialog>
   )

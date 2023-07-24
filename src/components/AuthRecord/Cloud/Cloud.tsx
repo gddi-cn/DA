@@ -93,9 +93,11 @@ const AuthStatus: React.FC<{ status: CloudAuth.Instance['status'] }> = (
       sx={{
         backgroundColor: statusBgMapping[status],
         color: '#fff',
-        px: '10px',
+        px: '8px',
         width: 70,
         borderRadius: '6px',
+        fontSize: 14,
+        textAlign: 'center'
       }}
     >
       {statusLabelMapping[status] ?? '-'}
@@ -175,9 +177,9 @@ const RecordItem: React.FC<CloudAuth.Instance> = (auth) => {
       <AuthStatus status={status} />
       <Box display='flex' alignItems='center'>
         <Button size='small' onClick={handleDownload}>
-        {
-          loading ? '下载中...' : '下载授权文件和模型'
-        }
+          {
+            loading ? '下载中...' : '下载授权文件和模型'
+          }
         </Button>
       </Box>
     </Box>

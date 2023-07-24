@@ -66,7 +66,7 @@ const BaseForm: React.FC<{ modelIterId?: string, defaultDeviceId?: Device.Chip.I
             </Form.Item>
             <Form.Item
               name={'adapter_device'}
-              label={'设备类型'}
+              label={'芯片类型'}
               required
               rules={[
                 { required: true, message: '请选择设备类型' }

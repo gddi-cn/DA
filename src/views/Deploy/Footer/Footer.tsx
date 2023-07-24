@@ -93,7 +93,7 @@ const Actions: React.FC = () => {
         alignItems='center'
         columnGap={'20px'}
       >
-        <Cloud />
+        {/* <Cloud /> */}
         <Device />
       </Box>
     )
