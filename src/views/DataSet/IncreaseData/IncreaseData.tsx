@@ -1,7 +1,7 @@
 import React from 'react'
-import { FooterBar, UploadFile, GButton } from '@src/UIComponents'
+import { FooterBar, UploadFile, GButton, GSelect } from '@src/UIComponents'
 import { useState, useRef, useMemo } from 'react'
-import { message } from 'antd'
+import { message, Select } from 'antd'
 import api from '@api'
 import { S3Uploader } from '@src/components'
 
@@ -20,6 +20,7 @@ import { templateDatasetAtom } from '@src/store/dataset'
 import { SecondaryBtn } from '@src/components/Button'
 
 const regExp = /\.(zip|tar|gz)$/
+const { Option } = Select;
 
 enum DatasetType {
   DETECTION = 'detection', // 目标检测
@@ -48,6 +49,7 @@ const IncreaseData = (): JSX.Element => {
   const [isUploading, setIsUploading] = useState(false)
   const [checking, setChecking] = useState<boolean>(false)
   const [backing, setBacking] = useState<boolean>(false)
+  const [proporition, setProporition] = useState<number>(0.2)
   const [exampleUrl, setExampleUrl] = useState('')
   const [fileInfo, setFileInfo] = useState({
     filename: '', size: 0
@@ -113,13 +115,13 @@ const IncreaseData = (): JSX.Element => {
 
     const { bucket, filename, key, hash, size } = s3info
     const createInfo = {
-
       key,
       filename,
       source: 1,
       bucket,
       hash,
       size,
+      val_share: proporition,
     }
     try {
       const dataset_id = activePipeLine?.APP_DATASET_DETAIL?.id
@@ -240,6 +242,20 @@ const IncreaseData = (): JSX.Element => {
     <div className="IncreaseData_wrap">
       <div className="add_data_title">添加数据</div>
       <div>
+
+        <div className='select_wrap'>
+          <div className='form_title'>
+            <p>*</p><p>训练集与测试集比例</p>
+          </div>
+          <div className='form_content'>
+            <GSelect value={proporition} style={{ width: '100%' }} onChange={setProporition}>
+              <Option value={0.3}>7:3</Option>
+              <Option value={0.2}>8:2（推荐使用）</Option>
+              <Option value={0.1}>9:1</Option>
+              <Option value={0}>不划分</Option>
+            </GSelect>
+          </div>
+        </div>
         <div className="tips_wrap">
           <p>文件格式：</p>
           <p>1.请按照引导示例文件构建压缩包，并严格按照示例文件夹名称命名。
