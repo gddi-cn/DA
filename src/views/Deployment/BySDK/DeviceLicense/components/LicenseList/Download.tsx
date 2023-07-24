@@ -50,7 +50,7 @@ const Download: React.FC<DownloadProps> = (
   return (
     <Button type={'link'} disabled={disabled || loading} onClick={handleDownload} style={{ marginLeft: 32 }}>
       {
-        loading ? '下载中...' : '下载授权文件和模型'
+        loading ? '下载中...' : '下载授权文件'
       }
     </Button>
   )
