@@ -34,7 +34,7 @@ const useUserAvatar = () => {
   const userInfo = useAtomValue(currentUserAtom)
   const refreshUserInfo = useSetAtom(refreshUserAtom)
 
-  const { avatar } = userInfo || { avatar: defaultAvatar }
+  const avatar = userInfo?.avatar || defaultAvatar
 
   const handleClick = () => {
     inputRef.current?.click()
