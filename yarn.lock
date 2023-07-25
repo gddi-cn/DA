@@ -9041,12 +9041,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gddi-app-flow@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "gddi-app-flow@npm:0.1.4"
+"gddi-app-flow@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "gddi-app-flow@npm:0.1.5"
   dependencies:
     shared-types: "npm:*"
-  checksum: 97e15317a5ea9b7e13a563e56a56b009fd279ffce0276a3cf266269955f83e04d1603a8fd92f0c5f9195296b8f5f3e6fe0f43060467fa5c8a7c2decc780a85b9
+  checksum: a8031685af68ec1da0715375eb907bac39da6b92096369f17b6fbebe33ad1f439b273319cdb26dd7c1a6aa365f8b466c4c3084aebcddfa9fe3f9928369d56c69
   languageName: node
   linkType: hard
 
@@ -14330,7 +14330,7 @@ __metadata:
     flv.js: "npm:^1.6.2"
     formik: "npm:^2.4.1"
     fs-extra: "npm:^10.0.1"
-    gddi-app-flow: "npm:^0.1.4"
+    gddi-app-flow: "npm:^0.1.5"
     gddi-chat: "link:./src/local_modules/gddi-chat"
     generic-names: "npm:^4.0.0"
     gsap: "npm:^3.10.4"
