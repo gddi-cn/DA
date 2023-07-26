@@ -1,6 +1,6 @@
 {
   "name": "react-cli",
-  "version": "1.2.4",
+  "version": "1.2.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -47,7 +47,7 @@
     "fabric": "^5.2.1",
     "flv.js": "^1.6.2",
     "formik": "^2.4.1",
-    "gddi-app-flow": "^0.1.4",
+    "gddi-app-flow": "^0.1.5",
     "gddi-chat": "link:./src/local_modules/gddi-chat",
     "gsap": "^3.10.4",
     "immer": "^9.0.16",
