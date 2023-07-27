@@ -81,7 +81,7 @@ const Edit: React.FC = () => {
               name='name'
               label='应用名称'
               rules={[
-                { required: true, message: '请输入用户名称' },
+                { required: true, message: '请输入应用名称' },
               ]}
             >
               <Input autoComplete='off' autoFocus />

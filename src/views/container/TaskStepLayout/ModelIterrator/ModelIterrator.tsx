@@ -98,6 +98,7 @@ const ModelIterrator = (): JSX.Element => {
           active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_DETAIL
         })
       }
+      console.log(4)
       return (
         <Popconfirm placement="leftTop" title="是否添加数据再进行迭代？" onCancel={handleIter} onConfirm={handleGotoDataSet} okText="去添加数据" cancelText="直接迭代">
           <GButton className='ModelIterrator_btn' type='default' >迭代</GButton>
