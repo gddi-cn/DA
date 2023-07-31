@@ -152,7 +152,7 @@ const GenCode: React.FC = () => {
       }}
     >
       <SecondaryBtn onClick={handleOpen}>
-        盒子注册码
+        在线注册
       </SecondaryBtn>
       <FlowTip />
       <Dialog
@@ -182,41 +182,41 @@ const GenCode: React.FC = () => {
         </DialogTitle>
         <DialogContent sx={{ px: 0, height: 565, overflow: 'hidden' }}>
           <Scrollbars autoHide>
-          {
-            step === 'group' ? (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                py: '50px'
-              }}
-            >
-              <GroupImg src={group} alt="selecte group" />
-              <GroupTitle>请选择分组</GroupTitle>
-              <Box sx={{ mt: '20px' }}>
-                <GroupSelector
-                  value={selectedDeviceGroup}
-                  onChange={handleChange}
-                  width={436}
-                />
-              </Box>
-            </Box>
-            ) : (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  py: '50px'
-                }}
-              >
-                <DoneImg src={done} alt="done" />
-                <DoneTitle>注册码生成成功，已为您粘贴到剪切板！</DoneTitle>
-                <Code>{code}</Code>
-              </Box>
-            )
-          }
+            {
+              step === 'group' ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    py: '50px'
+                  }}
+                >
+                  <GroupImg src={group} alt="selecte group" />
+                  <GroupTitle>请选择分组</GroupTitle>
+                  <Box sx={{ mt: '20px' }}>
+                    <GroupSelector
+                      value={selectedDeviceGroup}
+                      onChange={handleChange}
+                      width={436}
+                    />
+                  </Box>
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    py: '50px'
+                  }}
+                >
+                  <DoneImg src={done} alt="done" />
+                  <DoneTitle>注册码生成成功，已为您粘贴到剪切板！</DoneTitle>
+                  <Code>{code}</Code>
+                </Box>
+              )
+            }
           </Scrollbars>
         </DialogContent>
         <DialogActions sx={{ p: 0, columnGap: 3 }} disableSpacing>

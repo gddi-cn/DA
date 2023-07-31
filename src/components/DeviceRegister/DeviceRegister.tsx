@@ -13,7 +13,7 @@ import { DeviceRegisterRes, DeviceType } from '@src/shared/enum/device'
 import { DeviceRegisterResult } from '@src/shared/types/device'
 import { deviceRegisterResultNameMapping } from '@src/shared/mapping/device'
 import Document from './Document'
-import {  SecondaryBtn, PrimaryBtn, PrimaryLoadingBtn } from '@src/components/Btn'
+import { SecondaryBtn, PrimaryBtn, PrimaryLoadingBtn } from '@src/components/Btn'
 import Scrollbars from 'react-custom-scrollbars'
 
 const getExtendOptions = (refresh: () => void) => {
@@ -98,7 +98,7 @@ const ItemRes = styled.p<{ type?: 'success' | 'failed' }>`
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: ${props => props.type === 'success' ? '#19a051' : '#ff6177' };
+  color: ${props => props.type === 'success' ? '#19a051' : '#ff6177'};
 `
 
 const ListItem: React.FC<DeviceRegisterResult> = (
@@ -126,10 +126,10 @@ const ListItem: React.FC<DeviceRegisterResult> = (
 
   return (
     <Item>
-      { icon }
+      {icon}
       <ItemName>{name}</ItemName>
       <ItemRes type={result === DeviceRegisterRes.SUCCESS ? 'success' : 'failed'}>
-        { deviceRegisterResultNameMapping.get(result) || '未知错误' }
+        {deviceRegisterResultNameMapping.get(result) || '未知错误'}
       </ItemRes>
     </Item>
   )
@@ -157,21 +157,21 @@ const DeviceRegister: React.FC<DeviceRegisterProps> = (
 
   return (
     <>
-    {
-      primary ? (
-        <PrimaryBtn
-          onClick={handleOpen}
-        >
-          注册设备
-        </PrimaryBtn>
-      ) : (
-        <SecondaryBtn
-          onClick={handleOpen}
-        >
-          注册设备
-        </SecondaryBtn>
-      )
-    }
+      {
+        primary ? (
+          <PrimaryBtn
+            onClick={handleOpen}
+          >
+            离线注册
+          </PrimaryBtn>
+        ) : (
+          <SecondaryBtn
+            onClick={handleOpen}
+          >
+            离线注册
+          </SecondaryBtn>
+        )
+      }
       <Dialog
         open={open}
         onClose={handleClose}
@@ -208,126 +208,126 @@ const DeviceRegister: React.FC<DeviceRegisterProps> = (
               }}
             >
               <Box width={436}>
-              {
-                step === 'device' ? (
-                  <Form form={form} layout='vertical'>
-                    <Form.Item
-                      name='group'
-                      label={'选择分组'}
-                      rules={[{ required: true, message: '请选择分组' }]}
-                    >
-                      <RemoteSearch<DeviceGroupOptions>
-                        style={{ width: 436 }}
-                        showSearch
-                        fetchOptions={
-                          deviceGroupAPI.fetchDeviceGroupByName
-                        }
-                        placeholder={'请选择分组'}
-                        getExtendOptions={getExtendOptions}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name={'device_type_id'}
-                      label={'设备类型'}
-                      required
-                      rules={[
-                        { required: true, message: '请选择设备类型' }
-                      ]}
-                    >
-                      <Select
-                        options={options}
-                        placeholder={'请选择设备类型'}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name={'gtx'}
-                      label={'上传 .gxt 文件'}
-                      rules={[
-                        { required: true, message: '请上传文件' },
-                        () => ({
-                          validator(_, value) {
-                            const pass = (value as Array<any> || []).every(file => /\.gxt$/.test(file.name))
-                            return pass ? Promise.resolve() : Promise.reject('仅支持 gxt 文件')
+                {
+                  step === 'device' ? (
+                    <Form form={form} layout='vertical'>
+                      <Form.Item
+                        name='group'
+                        label={'选择分组'}
+                        rules={[{ required: true, message: '请选择分组' }]}
+                      >
+                        <RemoteSearch<DeviceGroupOptions>
+                          style={{ width: 436 }}
+                          showSearch
+                          fetchOptions={
+                            deviceGroupAPI.fetchDeviceGroupByName
                           }
-                        }),
-                      ]}
-                      validateFirst
-                      valuePropName="fileList"
-                      getValueFromEvent={(e) => {
-                        if (Array.isArray(e)) {
-                          return e
-                        }
-                        return e && e.fileList
-                      }}
-                    >
-                      <Uploader accept={'.gxt'} multiple beforeUpload={() => false}>
-                        <p className="ant-upload-drag-icon">
-                          <UploadIcon />
-                        </p>
-                        <p className="ant-upload-text">
-                          将文件拖到此处，或点击上传
-                        </p>
-                        <p className="ant-upload-hint">
-                          仅支持 gxt 文件
-                        </p>
-                      </Uploader>
-                    </Form.Item>
-                  </Form>
-                ) : null
-              }
-              {
-                step === 'device' ? (
-                  <Document />
-                ) : null
-              }
-              {
-                step === 'reg_res' ? (
-                  <>
-                    {
-                      resList.map(res => (
-                        <ListItem key={res.sn} {...res} />
-                      ))
-                    }
-                  </>
-                ) : null
-              }
+                          placeholder={'请选择分组'}
+                          getExtendOptions={getExtendOptions}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name={'device_type_id'}
+                        label={'设备类型'}
+                        required
+                        rules={[
+                          { required: true, message: '请选择设备类型' }
+                        ]}
+                      >
+                        <Select
+                          options={options}
+                          placeholder={'请选择设备类型'}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name={'gtx'}
+                        label={'上传 .gxt 文件'}
+                        rules={[
+                          { required: true, message: '请上传文件' },
+                          () => ({
+                            validator(_, value) {
+                              const pass = (value as Array<any> || []).every(file => /\.gxt$/.test(file.name))
+                              return pass ? Promise.resolve() : Promise.reject('仅支持 gxt 文件')
+                            }
+                          }),
+                        ]}
+                        validateFirst
+                        valuePropName="fileList"
+                        getValueFromEvent={(e) => {
+                          if (Array.isArray(e)) {
+                            return e
+                          }
+                          return e && e.fileList
+                        }}
+                      >
+                        <Uploader accept={'.gxt'} multiple beforeUpload={() => false}>
+                          <p className="ant-upload-drag-icon">
+                            <UploadIcon />
+                          </p>
+                          <p className="ant-upload-text">
+                            将文件拖到此处，或点击上传
+                          </p>
+                          <p className="ant-upload-hint">
+                            仅支持 gxt 文件
+                          </p>
+                        </Uploader>
+                      </Form.Item>
+                    </Form>
+                  ) : null
+                }
+                {
+                  step === 'device' ? (
+                    <Document />
+                  ) : null
+                }
+                {
+                  step === 'reg_res' ? (
+                    <>
+                      {
+                        resList.map(res => (
+                          <ListItem key={res.sn} {...res} />
+                        ))
+                      }
+                    </>
+                  ) : null
+                }
               </Box>
             </Box>
           </Scrollbars>
         </DialogContent>
         <DialogActions sx={{ p: 0, columnGap: 3 }} disableSpacing>
-            {
-              step === 'device' ? (
-                <>
-                  <SecondaryBtn
-                    onClick={handleClose}
-                  >
-                    取消
-                  </SecondaryBtn>
-                  <PrimaryLoadingBtn
-                    loading={loading} onClick={handleSubmit}
-                  >
-                    注册
-                  </PrimaryLoadingBtn>
-                </>
-              ) : null
-            }
-            {
-              step === 'reg_res' ? (
-                <>
-                  <SecondaryBtn
-                    onClick={handleBack}
-                  >
-                    继续注册
-                  </SecondaryBtn>
-                  <PrimaryBtn
-                    onClick={handleClose}
-                  >
-                    完成
-                  </PrimaryBtn>
-                </>
-              ) : null
-            }
+          {
+            step === 'device' ? (
+              <>
+                <SecondaryBtn
+                  onClick={handleClose}
+                >
+                  取消
+                </SecondaryBtn>
+                <PrimaryLoadingBtn
+                  loading={loading} onClick={handleSubmit}
+                >
+                  注册
+                </PrimaryLoadingBtn>
+              </>
+            ) : null
+          }
+          {
+            step === 'reg_res' ? (
+              <>
+                <SecondaryBtn
+                  onClick={handleBack}
+                >
+                  继续注册
+                </SecondaryBtn>
+                <PrimaryBtn
+                  onClick={handleClose}
+                >
+                  完成
+                </PrimaryBtn>
+              </>
+            ) : null
+          }
         </DialogActions>
       </Dialog>
     </>

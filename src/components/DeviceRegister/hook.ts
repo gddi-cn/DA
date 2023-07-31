@@ -51,7 +51,7 @@ export const useRegister = (
   const refreshDeviceTypeList = useRefreshDeviceTypeList()
   const options = deviceTypeList.map(t => ({ key: t.key, label: t.name, value: t.key }))
 
-  const title = step === 'device' ? '注册设备' : '注册结果'
+  const title = step === 'device' ? '离线注册' : '注册结果'
 
   const handleBack = () => {
     setStep('device')
@@ -132,7 +132,7 @@ export const useDocument = () => {
     if (loading) return
 
     setLoading(true)
-    const { success,data } = await sdkAPI.documentList({})
+    const { success, data } = await sdkAPI.documentList({})
     setLoading(false)
 
     if (!success || !data) {
