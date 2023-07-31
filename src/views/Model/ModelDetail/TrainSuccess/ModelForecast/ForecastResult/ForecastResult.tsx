@@ -88,11 +88,8 @@ const ForecastResult = (props: any): JSX.Element => {
       if (res.code === 0) {
         const list = res.data;
         settotal(list.length);
-
-
         const _list = chunk(list, 10);
-
-
+        setChunkList(_list);
         setFictitiousList(_list[page.current - 1]);
         setFetching(false);
       } else {
