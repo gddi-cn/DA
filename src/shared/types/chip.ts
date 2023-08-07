@@ -2,6 +2,7 @@ import { ApplicationScene } from '@src/shared/enum/application'
 import { ChipBrand, ChipName, ChipType } from '@src/shared/enum/chip'
 import { DatasetScene } from '@src/shared/enum/dataset'
 import { ModelTrainMode } from '@src/shared/enum/model'
+import React from "react";
 
 // 芯片
 export interface Chip {
@@ -50,4 +51,10 @@ export interface ChipRecommendConfigResponse {
   channel: number;
   fps: number;
   result: number;
+}
+
+export interface ChipOption {
+  key: string
+  value: string
+  label: React.ReactNode,
 }

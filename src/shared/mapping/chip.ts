@@ -1,4 +1,4 @@
-import { ChipBrand, ChipConfigType, ChipName } from '@src/shared/enum/chip'
+import {ChipBrand, ChipConfigType, ChipName, ChipType} from '@src/shared/enum/chip'
 
 import cambricon from '@src/asset/images/brand/cambricon.png'
 import nvidia from '@src/asset/images/brand/nvidia.png'
@@ -277,4 +277,10 @@ export const chipNameLogoMapping: Map<ChipName, any> = new Map([
 export const chipConfigNameMapping: Map<ChipConfigType, string> = new Map([
   [ChipConfigType.RECOMMEND, /* */'推荐配置'],
   [ChipConfigType.CUSTOM, /* */'自定义'],
+])
+
+export const chipTypeColorMapping: Map<ChipType, string> = new Map([
+  [ChipType.CPU, '#96E1F0'],
+  [ChipType.GPU, '#EEAAEE'],
+  [ChipType.NPU, '#8BDB59'],
 ])

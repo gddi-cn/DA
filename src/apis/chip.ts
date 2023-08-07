@@ -2,7 +2,13 @@ import { APIResponse } from '@src/shared/types/api'
 import { ChipBrand } from '@src/shared/enum/chip'
 import http from '@src/utils/http'
 import { ApplicationScene } from '@src/shared/enum/application'
-import { Chip, ChipListParams, ChipRecommendConfigParams, ChipRecommendConfigResponse } from '@src/shared/types/chip'
+import {
+  Chip,
+  ChipListParams,
+  ChipOption,
+  ChipRecommendConfigParams,
+  ChipRecommendConfigResponse
+} from '@src/shared/types/chip'
 
 const chipAPI = {
   brandList: async (scene: ApplicationScene): Promise<APIResponse<Array<ChipBrand>>> => {

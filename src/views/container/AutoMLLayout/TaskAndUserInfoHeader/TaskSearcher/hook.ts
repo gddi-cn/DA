@@ -16,7 +16,7 @@ import {
   statusAtom,
   taskListAtom,
   taskNameAtom,
-  totalAtom
+  totalAtom, chipAtom
 } from "./store"
 import {
   modelTrainStatusBgColorMapping,
@@ -29,6 +29,7 @@ import moment from 'moment'
 import { sceneNameMapping } from '@src/shared/mapping/dataset'
 import { visibleActiveTask } from '@reducer/tasksSilce'
 import { DatasetScene } from '@src/shared/enum/dataset'
+import {ChipOption} from "@src/shared/types/chip";
 
 export const useFetchTaskList = () => {
   const [name] = useAtom(taskNameAtom)
@@ -37,6 +38,7 @@ export const useFetchTaskList = () => {
   const [order] = useAtom(orderAtom)
   const [model_status] = useAtom(statusAtom)
   const [page, setPage] = useAtom(pageAtom)
+  const [chip] = useAtom(chipAtom)
 
   const [, setTaskList] = useAtom(taskListAtom)
   const [, setTotal] = useAtom(totalAtom)
@@ -54,6 +56,7 @@ export const useFetchTaskList = () => {
       order,
       page: loadMore ? page + 1 : 1,
       page_size: PAGE_SIZE,
+      chip: chip?.value,
       status: undefined,
     })
     loadMore && setPage(p => p + 1)
@@ -79,6 +82,7 @@ const useResetStore = () => {
   const setSort = useSetAtom(sortAtom)
   const setOrder = useSetAtom(orderAtom)
   const setStatus = useSetAtom(statusAtom)
+  const setChip = useSetAtom(chipAtom)
   const setLoading = useSetAtom(fetchingTaskListAtom)
 
   React.useEffect(
@@ -92,6 +96,7 @@ const useResetStore = () => {
       setSort('desc')
       setOrder('updated')
       setStatus(undefined)
+      setChip(undefined)
       setLoading(false)
     },
     []
@@ -104,6 +109,7 @@ export const useContent = () => {
   const [order] = useAtom(orderAtom)
   const [model_type] = useAtom(modelTypeAtom)
   const [status] = useAtom(statusAtom)
+  const [chip] = useAtom(chipAtom)
   const fetchTaskList = useFetchTaskList()
   
   useResetStore()
@@ -112,7 +118,7 @@ export const useContent = () => {
     () => {
       fetchTaskList()
     },
-    [name, sort, order, model_type, status]
+    [name, sort, order, model_type, status, chip]
   )
 }
 
@@ -308,6 +314,19 @@ export const useStatusFilter = () => {
 
   return {
     value: status,
+    handleChange,
+  }
+}
+
+export const useChipFilter = () => {
+  const [chip, setChip] = useAtom(chipAtom)
+
+  const handleChange = (option?: ChipOption) => {
+    setChip(option)
+  }
+
+  return {
+    value: chip,
     handleChange,
   }
 }

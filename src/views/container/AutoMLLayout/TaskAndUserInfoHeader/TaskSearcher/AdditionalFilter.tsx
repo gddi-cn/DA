@@ -1,12 +1,13 @@
-import { DatasetScene } from '@src/shared/enum/dataset'
-import { Model } from '@src/shared/enum/model'
-import { sceneNameMapping } from '@src/shared/mapping/dataset'
-import { modelVersionStatusNameMapping } from '@src/shared/mapping/model'
-import { Select } from 'antd'
-import { isNaN, parseInt } from 'lodash'
+import {DatasetScene} from '@src/shared/enum/dataset'
+import {Model} from '@src/shared/enum/model'
+import {sceneNameMapping} from '@src/shared/mapping/dataset'
+import {modelVersionStatusNameMapping} from '@src/shared/mapping/model'
+import {Select} from 'antd'
+import {isNaN, parseInt} from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
-import { useModelTypeFilter, useSorter, useStatusFilter } from './hook'
+import {useChipFilter, useModelTypeFilter, useSorter, useStatusFilter} from './hook'
+import ChipSelector from "@src/components/ChipSelector";
 
 const Container = styled.div`
   width: 100%;
@@ -81,13 +82,30 @@ const ModelTypeFilter: React.FC = () => {
   )
 }
 
+
+const ChipFilter: React.FC = () => {
+  const {
+    value,
+    handleChange,
+  } = useChipFilter()
+
+  return (
+    <ChipSelector value={value} onChange={handleChange} />
+  )
+}
+
 const AdditionalFilter: React.FC = () => {
   return (
-    <Container>
-      <ModelTypeFilter />
-      <StatusFilter />
-      <Sorter />
-    </Container>
+    <>
+      <Container>
+        <ModelTypeFilter />
+        <StatusFilter />
+        <Sorter />
+      </Container>
+      <Container>
+        <ChipFilter />
+      </Container>
+    </>
   )
 }
 

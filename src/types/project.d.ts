@@ -28,6 +28,7 @@ declare namespace Project {
     page_size: number,
     model_type?: import('@src/shared/enum/dataset').DatasetScene
     model_status?: import('@src/shared/enum/model').Model.TrainStatus
+    chip?: string
     sort?: 'asc' | 'desc'
     order?: 'created' | 'updated'
   }
