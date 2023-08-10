@@ -70,8 +70,8 @@ export function useGetLineDataV2 ({ trainTaskId }: {
             const key = keys[0]
 
             if (len !== newoptipnsObj.xData[key].length) {
-              setProcessOption(newoptipnsObj)
-              setAccuracyOption(newoptipnsTestObj)
+              setProcessOption(newoptipnsObj || { xData: {}, yData: {} })
+              setAccuracyOption(newoptipnsTestObj || { xData: {}, yData: {} })
               len = newoptipnsObj.xData[key].length
             }
           }

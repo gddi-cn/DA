@@ -10,7 +10,7 @@ import { RootState } from '@reducer/index'
 import { useSelector } from 'react-redux'
 import { RadarChartOutlined, SlidersOutlined } from '@ant-design/icons'
 import './TrainingParameters.module.less'
-import { Box } from '@mui/material'
+import {Box, CircularProgress, Typography} from '@mui/material'
 
 const { Option } = Select;
 
@@ -41,6 +41,25 @@ const LineChart = (props: any) => {
   )
 }
 
+const Fallback: React.FC = () => {
+  return (
+    <Box
+      sx={{
+        height: '100%',
+        display: 'grid',
+        placeItems: 'center',
+      }}
+    >
+      <Box sx={{ margin: 'auto'}}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
+          <CircularProgress sx={{ fontSize: 24 }} />
+        </Box>
+        <Typography textAlign={'center'} variant={'h6'}>数据加载中...</Typography>
+      </Box>
+    </Box>
+  )
+}
+
 const TrainingParameters = (): JSX.Element => {
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
@@ -55,6 +74,8 @@ const TrainingParameters = (): JSX.Element => {
   const realKey = useRef('')
   const isFirst = useRef(true)
   const [accuracyOption, processOption] = useGetLineDataV2({ trainTaskId: trainTaskId })
+  const [init, setInit] = useState(false)
+
   // 初始化
   useEffect(() => {
     if (isFirst.current) {
@@ -63,11 +84,10 @@ const TrainingParameters = (): JSX.Element => {
         const { yData, xData } = processOption
         const defaultV = Object.keys(yData)[0]
         realKey.current = defaultV
-
-        // console.log(xData, 'xDataxDataxData')
-        // console.log(yData, 'yDatayData')
         setCurrentkey(titleObj[defaultV] || defaultV)
         setCurrentData({ xData, yData: Object.values(yData)[0] })
+
+        setInit(true)
       }
     }
   }, [processOption])
@@ -83,15 +103,12 @@ const TrainingParameters = (): JSX.Element => {
 
   useEffect(() => {
     if (!isFirst.current && realKey.current) {
-      // console.log('47触发次数')
       if (tab === 'accuracyOption') {
         const { yData, xData } = accuracyOption
-
         setCurrentData({ xData, yData: yData[realKey.current] })
       }
       if (tab === 'processOption') {
         const { yData, xData } = processOption
-
         setCurrentData({ xData, yData: yData[realKey.current] })
       }
     }
@@ -144,9 +161,10 @@ const TrainingParameters = (): JSX.Element => {
     setCurrentData({ xData, yData: Object.values(yData)[0] })
   }
 
+
   const getViews = useMemo(
     () => {
-      if (isNil(trainTaskId) || Object.keys(currentData.yData).length <= 0) {
+      if (isNil(trainTaskId) || !currentData.yData || Object.keys(currentData.yData).length <= 0) {
         return (
           <Box sx={{ height: '100%', display: 'grid', placeItems: 'center' }}>
             <Empty />
@@ -163,6 +181,11 @@ const TrainingParameters = (): JSX.Element => {
       )
     }, [currentData, trainTaskId]
   )
+
+  if (!init) {
+    return <Fallback />
+  }
+
   return (
     <div styleName='TrainingParameters'>
       <div className='params_wrap'>

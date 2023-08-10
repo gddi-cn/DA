@@ -38,7 +38,7 @@ export const useBack2DatasetIndex = () => {
       socketPushMsgForProject(activePipeLine, {
         active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX
       })
-    }
+   }
 
     navigate(APP_DATA_SET_INDEX)
   }
