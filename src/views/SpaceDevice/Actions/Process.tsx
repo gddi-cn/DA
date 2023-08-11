@@ -121,7 +121,7 @@ const Process: React.FC = () => {
           size='small'
           onClick={handleOpen}
         >
-          修改任务数限制
+          修改路数限制
         </Btn>
       </Fade>
       <Dialog
@@ -144,12 +144,12 @@ const Process: React.FC = () => {
             p: 0,
           }}
         >
-          修改任务最大并发数限制
+          修改路数限制
         </DialogTitle>
         <DialogContent>
           <Content>
             <Label>
-              <span>最大并发数：</span>
+              <span>路数限制：</span>
               <InputNumber<number>
                 value={process}
                 onChange={handleChange}

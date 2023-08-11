@@ -59,7 +59,7 @@ const columns: Array<ColumnType<GroupDevice>> = [
     }
   },
   {
-    title: '任务最大并发数',
+    title: '路数限制',
     dataIndex: 'max_process',
     ellipsis: true,
     width: 2,
