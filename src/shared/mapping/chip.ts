@@ -98,12 +98,6 @@ import Snapdragon855 from '@src/asset/images/chip/Snapdragon855.png'
 import SSC336D from '@src/asset/images/chip/SSC336D.png'
 import V100 from '@src/asset/images/chip/V100.png'
 import _6305E from '@src/asset/images/chip/_6305E.png'
-import i310 from '@src/asset/images/chip/i310.png'
-import i311 from '@src/asset/images/chip/i311.png'
-import i510 from '@src/asset/images/chip/i510.png'
-import i511 from '@src/asset/images/chip/i511.png'
-import i710 from '@src/asset/images/chip/i710.png'
-import i711 from '@src/asset/images/chip/i711.png'
 import MyriadX from '@src/asset/images/chip/MyriadX.png'
 import t40 from '@src/asset/images/chip/T40.png'
 import t41 from '@src/asset/images/chip/T41.png'
@@ -126,6 +120,11 @@ import hi3568v100 from '@src/asset/images/chip/Hi3568V100.png'
 import hi3569v100 from '@src/asset/images/chip/Hi3569V100.png'
 import hi3516cv500 from '@src/asset/images/chip/Hi3516CV500.png'
 import hi3516dv300 from '@src/asset/images/chip/Hi3516DV300.png'
+import i3 from '@src/asset/images/chip/i3.png'
+import i5 from '@src/asset/images/chip/i5.png'
+import i7 from '@src/asset/images/chip/i7.png'
+import i9 from '@src/asset/images/chip/i9.png'
+import xeon from '@src/asset/images/chip/xeon.png'
 
 export const chipBrandNameMapping: Map<ChipBrand, string> = new Map([
   [ChipBrand.CAMBRICON, /*   */'寒武纪'],
@@ -244,12 +243,6 @@ export const chipNameLogoMapping: Map<ChipName, any> = new Map([
   [ChipName.SSC336D, SSC336D],
   [ChipName.V100, V100],
   [ChipName._6305E, _6305E],
-  [ChipName.I310, i310],
-  [ChipName.I311, i311],
-  [ChipName.I510, i510],
-  [ChipName.I511, i511],
-  [ChipName.I710, i710],
-  [ChipName.I711, i711],
   [ChipName.MYRIADX, MyriadX],
   [ChipName.T40, t40],
   [ChipName.T41, t41],
@@ -272,6 +265,39 @@ export const chipNameLogoMapping: Map<ChipName, any> = new Map([
   [ChipName.HI3569V100, hi3569v100],
   [ChipName.HI3516CV500, hi3516cv500],
   [ChipName.HI3516DV300, hi3516dv300],
+  [ChipName.I36, i3],
+  [ChipName.I37, i3],
+  [ChipName.I38, i3],
+  [ChipName.I39, i3],
+  [ChipName.I310, i3],
+  [ChipName.I311, i3],
+  [ChipName.I56, i5],
+  [ChipName.I57, i5],
+  [ChipName.I58, i5],
+  [ChipName.I59, i5],
+  [ChipName.I510, i5],
+  [ChipName.I511, i5],
+  [ChipName.I512, i5],
+  [ChipName.I513, i5],
+  [ChipName.I76, i7],
+  [ChipName.I77, i7],
+  [ChipName.I78, i7],
+  [ChipName.I79, i7],
+  [ChipName.I710, i7],
+  [ChipName.I711, i7],
+  [ChipName.I712, i7],
+  [ChipName.I713, i7],
+  [ChipName.I96, i9],
+  [ChipName.I97, i9],
+  [ChipName.I98, i9],
+  [ChipName.I99, i9],
+  [ChipName.I910, i9],
+  [ChipName.I911, i9],
+  [ChipName.I912, i9],
+  [ChipName.I913, i9],
+  [ChipName.XEONE3, xeon],
+  [ChipName.XEONE5, xeon],
+  [ChipName.XEONE7, xeon],
 ])
 
 export const chipConfigNameMapping: Map<ChipConfigType, string> = new Map([
