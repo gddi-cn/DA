@@ -3,6 +3,7 @@ import { GroupDevice } from '@src/shared/types/device'
 import { formatUnixTime } from '@src/utils/tools'
 import { groupDeviceStateColorMapping, groupDeviceStateNameMapping } from '@src/shared/mapping/device'
 import { Tooltip } from 'antd'
+import { Box, Chip } from '@mui/material'
 
 const columns: Array<ColumnType<GroupDevice>> = [
   {
@@ -11,11 +12,26 @@ const columns: Array<ColumnType<GroupDevice>> = [
     ellipsis: true,
     sorter: true,
     width: 2,
-    render: (name: string) => {
+    render: (name: string, device) => {
       return (
-        <Tooltip title={name || '-'}>
-          <span>{name || '-'}</span>
-        </Tooltip>
+        <Box sx={{ display: 'flex', alignItems: 'center', columnGap: .5 }}>
+          <Box sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'noWrap' }}>
+            <Tooltip title={name || '-'}>
+              <span>{name || '-'}</span>
+            </Tooltip>
+          </Box>
+          {
+            device.is_test ? (
+              <Box sx={{ flexShrink: 0, lineHeight: 1 }}>
+                <Chip
+                  label='测试机' size='small'
+                  color='secondary' variant='outlined'
+                  sx={{ height: 22 }}
+                />
+              </Box>
+            ) : null
+          }
+        </Box>
       )
     }
   },

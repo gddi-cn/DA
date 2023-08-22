@@ -38,6 +38,7 @@ export interface GroupDevice {
   type: string,
   // 更新时间
   update_time: number,
+  is_test: boolean,
 }
 
 export interface DeviceRegisterResult {

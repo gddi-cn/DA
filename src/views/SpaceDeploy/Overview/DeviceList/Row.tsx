@@ -1,8 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button } from 'antd'
-
-import { GroupDevice } from '@src/shared/types/device'
 import {
   groupDeviceStateColorMapping,
   groupDeviceStateNameMapping,
@@ -11,7 +8,7 @@ import { formatUnixTime } from '@src/utils/tools'
 
 import { useDeviceItem } from './hook'
 import { darken, lighten } from 'polished'
-
+import { Chip } from '@mui/material'
 
 const gridTemplate = '6fr 6fr 4fr 6fr 4fr 1fr'
 
@@ -52,6 +49,8 @@ const Btn = styled.p`
   }
 `
 
+
+
 const Row: React.FC<GroupDevice.Instance> = (device) => {
   const {
     name,
@@ -59,13 +58,25 @@ const Row: React.FC<GroupDevice.Instance> = (device) => {
     chip,
     create_time,
     state,
+    is_test,
   } = device
 
   const { handleRemove } = useDeviceItem(device)
 
   return (
     <Container>
-      <RowCell>{name}</RowCell>
+      <RowCell>
+        {name}
+        {
+          is_test ? (
+            <Chip
+              label='测试机' size='small'
+              color='secondary' variant='outlined'
+              sx={{ ml: .5, height: 22 }}
+            />
+          ) : null
+        }
+      </RowCell>
       <RowCell>{sn}</RowCell>
       <RowCell>{chip}</RowCell>
       <RowCell>{create_time ? formatUnixTime(create_time) : '--'}</RowCell>

@@ -11,6 +11,7 @@ declare namespace GroupDevice {
     state: string
     type: string
     update_time: number
+    is_test: boolean
   }
 
   namespace List {
