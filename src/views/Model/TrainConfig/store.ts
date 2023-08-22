@@ -1,27 +1,27 @@
 import React from 'react'
 import { atom, useSetAtom } from 'jotai'
 
-import { ChipBrand, ChipConfigType } from '@src/shared/enum/chip'
-import { Chip, ChipListParams } from '@src/shared/types/chip'
+import { ChipConfigType } from '@src/shared/enum/chip'
+import { ChipListParams } from '@src/shared/types/chip'
 import { ApplicationScene } from '@src/shared/enum/application'
 import { currentDatasetAtom } from '@src/store/dataset'
 
 export const MAX_FPS = 30
 // export const MAX_CHANNEL = 32
 
-export const brandListAtom = atom<Array<ChipBrand>>([])
+export const brandListAtom = atom<Array<Chip.Brand>>([])
 
-export const allChipListAtom = atom<Array<Chip>>([])
-export const hotChipListAtom = atom<Array<Chip>>(
+export const allChipListAtom = atom<Array<Chip.Instance>>([])
+export const hotChipListAtom = atom<Array<Chip.Instance>>(
   (get) => get(allChipListAtom).filter(x => x.is_hot).map(x => ({ ...x, _copy: true }))
 )
 
-export const selectedChipAtom = atom<Chip | undefined>(undefined)
+export const selectedChipAtom = atom<Chip.Instance | undefined>(undefined)
 
 
 // chip list filter
 export const applicationAtom = atom<ChipListParams['application']>(ApplicationScene.ENDPOINT)
-export const brandAtom = atom<ChipListParams['brand']>(undefined)
+export const brandAtom = atom<Chip.Brand | undefined>(undefined)
 export const chipTypeAtom = atom<ChipListParams['chip_type']>(undefined)
 export const nameAtom = atom<ChipListParams['name']>(undefined)
 

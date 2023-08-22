@@ -1,22 +1,19 @@
 import { APIResponse } from '@src/shared/types/api'
-import { ChipBrand } from '@src/shared/enum/chip'
 import http from '@src/utils/http'
 import { ApplicationScene } from '@src/shared/enum/application'
 import {
-  Chip,
   ChipListParams,
-  ChipOption,
   ChipRecommendConfigParams,
   ChipRecommendConfigResponse
 } from '@src/shared/types/chip'
 
 const chipAPI = {
-  brandList: async (scene: ApplicationScene): Promise<APIResponse<Array<ChipBrand>>> => {
+  brandList: async (scene: ApplicationScene): Promise<APIResponse<Array<Chip.Brand>>> => {
     try {
       const { data } = await http.get(`/v3/capacity/${scene}/brands`)
       return {
         success: true,
-        data: (data || []).map((x: any) => x.name).filter(Boolean),
+        data,
       }
     } catch (e) {
       console.error(e)
@@ -26,12 +23,11 @@ const chipAPI = {
     }
   },
 
-  chipList: async (params: ChipListParams): Promise<APIResponse<Array<Chip>>> => {
+  chipList: async (params: ChipListParams): Promise<APIResponse<Array<Chip.Instance>>> => {
     try {
-      const { data }: { data: Array<Chip> } = await http.get(`/v3/capacity/${params.application}/chips`, { params })
+      const { data } = await http.get(`/v3/capacity/${params.application}/chips`, { params })
       return {
         success: true,
-        // data: data.map(x => ({ ...x, name: (x.name as string) === 'SE5' ? 'BM1684' : x.name })) as Array<Chip>, // 将 SE5 改成 BM1684
         data,
       }
     } catch (e) {

@@ -6,7 +6,6 @@ import RemoteSearch, { RemoteSearchRef } from '@src/components/RemoteSearch'
 import deviceGroupAPI from '@src/apis/deviceGroups'
 import { DeviceType } from '@src/shared/enum/device'
 import { PrimaryBtn } from '@src/components/Button'
-import { chipBrandLittleLogoMapping } from '@src/shared/mapping/chip'
 
 
 export interface GroupSelectorProps {

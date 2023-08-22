@@ -1,7 +1,6 @@
 import React from 'react'
 import { styled } from '@mui/material'
-import {Chip} from "@src/shared/types/chip";
-import {chipTypeColorMapping} from "@src/shared/mapping/chip";
+import { chipTypeColorMapping } from "@src/shared/mapping/chip";
 
 const Container = styled('div')`
   display: flex;
@@ -31,7 +30,7 @@ const Type = styled('p', {
 `)
 
 
-const ChipLabel: React.FC<Pick<Chip, 'name' | 'chip_type'>> = (
+const ChipLabel: React.FC<Pick<Chip.Instance, 'name' | 'chip_type'>> = (
   {
     name,
     chip_type,

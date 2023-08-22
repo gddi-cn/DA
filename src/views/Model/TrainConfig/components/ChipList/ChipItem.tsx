@@ -1,7 +1,5 @@
 import React from 'react'
-import { Chip } from '@src/shared/types/chip'
 import styled from 'styled-components'
-import { chipBrandLittleLogoMapping, chipNameLogoMapping } from '@src/shared/mapping/chip'
 import { useChip } from '@views/Model/TrainConfig/components/ChipList/hook'
 
 const ChipContainer = styled.div`
@@ -73,14 +71,14 @@ const formatName = (name: string): string => {
   return name
 }
 
-const ChipItem: React.FC<Chip> = (chip) => {
-  const { chipContainerRef, handleClick } = useChip(chip)
-  const { name, brand, chip_type } = chip
+const ChipItem: React.FC<Chip.Instance> = (chip) => {
+  const { chipContainerRef, handleClick, brandLogo, logo } = useChip(chip)
+  const { name, chip_type } = chip
 
   return (
     <ChipContainer ref={chipContainerRef} onClick={handleClick}>
-      <ChipLogo src={chipNameLogoMapping.get(name)} />
-      <BrandLogo src={chipBrandLittleLogoMapping.get(brand)} />
+      <ChipLogo src={logo} />
+      <BrandLogo src={brandLogo} />
       <ChipName>{formatName(name)}</ChipName>
       <ChipType>{chip_type}</ChipType>
     </ChipContainer>

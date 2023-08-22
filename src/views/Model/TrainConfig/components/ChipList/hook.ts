@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import {
   allChipListAtom,
   applicationAtom,
@@ -12,12 +12,12 @@ import {
   maxFPSAtom,
   nameAtom,
   selectedChipAtom,
+  brandListAtom,
 } from '@views/Model/TrainConfig/store'
 import React from 'react'
 import chipAPI from '@src/apis/chip'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
-import { Chip } from '@src/shared/types/chip'
 import { ChipConfigType } from '@src/shared/enum/chip'
 import { ModelTrainMode } from '@src/shared/enum/model'
 
@@ -67,7 +67,7 @@ export const useChipList = () => {
     setLoading(true)
 
     chipAPI
-      .chipList({ application, brand, chip_type, name, task_type })
+      .chipList({ application, brand: brand?.name, chip_type, name, task_type })
       .then(({ success, data }) => {
         if (!success || !data?.length) return setAllChip([])
         setAllChip(data)
@@ -112,7 +112,10 @@ export const useChipList = () => {
   }
 }
 
-export const useChip = (chip: Chip) => {
+export const useChip = (chip: Chip.Instance) => {
+  const { logo, brand } = chip
+  const [brandLogo, setBrandLogo] = React.useState<string | undefined>(undefined)
+  const brandList = useAtomValue(brandListAtom)
   const chipContainerRef = React.useRef<HTMLDivElement | null>(null)
 
   const [selectedChip, setSelectedChip] = useAtom(selectedChipAtom)
@@ -142,9 +145,24 @@ export const useChip = (chip: Chip) => {
     [selected]
   )
 
+  React.useEffect(
+    () => {
+      const idx = brandList.findIndex(x => x.name === brand)
+      if (idx < 0) {
+        setBrandLogo(undefined)
+        return
+      }
+
+      setBrandLogo(brandList[idx].logoSlim)
+    },
+    [brand, brandList]
+  )
+
 
   return {
     chipContainerRef,
     handleClick,
+    logo,
+    brandLogo,
   }
 }

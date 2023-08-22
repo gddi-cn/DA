@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { useBrandList, useBrandSelect } from './hook'
-import { ChipBrand } from '@src/shared/enum/chip'
-import { chipBrandLogoMapping, chipBrandNameMapping } from '@src/shared/mapping/chip'
 import { Skeleton } from 'antd'
 
 const Title = styled.p`
@@ -57,17 +55,17 @@ const LoadingChipBrandItem: React.FC = () => {
   )
 }
 
-const ChipBrandItem: React.FC<{ brand: ChipBrand }> = (
+const ChipBrandItem: React.FC<{ brand: Chip.Brand }> = (
   {
     brand,
   }
 ) => {
-  const { selected, handleClick } = useBrandSelect(brand)
+  const { selected, handleClick, name, logo } = useBrandSelect(brand)
 
   return (
     <ItemContainer onClick={handleClick}>
-      <Logo src={chipBrandLogoMapping.get(brand)} alt={'logo'} className={selected ? 'selected' : ''} />
-      <BrandName>{chipBrandNameMapping.get(brand) || '-'}</BrandName>
+      <Logo src={logo} alt={'logo'} className={selected ? 'selected' : ''} />
+      <BrandName>{name || '-'}</BrandName>
     </ItemContainer>
   )
 }
@@ -85,7 +83,7 @@ const BrandSelector: React.FC = () => {
               <LoadingChipBrandItem key={idx} />
             ))
             : brandList.map((brand) => (
-              <ChipBrandItem key={brand} brand={brand} />
+              <ChipBrandItem key={brand.name} brand={brand} />
             ))
         }
       </BrandList>
