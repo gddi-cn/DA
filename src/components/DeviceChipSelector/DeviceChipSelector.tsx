@@ -49,7 +49,7 @@ const DeviceChipSelector: React.FC<DeviceChipSelectorProps> = (
       showSearch
       placeholder={placeholder}
       onFirstLoad={onFirstLoad}
-      style={{ width: '100%', zIndex: 9999 }}
+      style={{ width: '100%', zIndex: 999 }}
     />
   )
 }
