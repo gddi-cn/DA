@@ -8,7 +8,7 @@ import { ModelOpreationTitle } from '@src/UIComponents'
 import './UploadFiles.module.less'
 import { DatasetScene } from '@src/shared/enum/dataset'
 
-const UploadFiles = (props:any): JSX.Element => {
+const UploadFiles = (props: any): JSX.Element => {
   const { fetchResult } = props
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo
@@ -19,8 +19,8 @@ const UploadFiles = (props:any): JSX.Element => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const best_threshold = versionInfo?.iter?.result?.best_threshold
-    setthres(best_threshold)
+    const best_threshold: number = (versionInfo?.iter?.result?.best_threshold || 0)
+    setthres(Math.max(0.3, best_threshold) + '')
   }, [versionInfo])
 
   const handleOnChange = (v: string | null) => {
@@ -34,9 +34,10 @@ const UploadFiles = (props:any): JSX.Element => {
       )
     }
     return (
-      <CommonUpload thres={thres} setLoading={setLoading} fetchResult={fetchResult} model_type={model_type}/>
+      <CommonUpload thres={thres} setLoading={setLoading} fetchResult={fetchResult} model_type={model_type} />
     )
   }, [thres, model_type, fetchResult])
+
   return (
     <div styleName='UploadFiles'>
       <Spin spinning={loading} tip='正在上传文件...'>
