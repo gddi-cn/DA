@@ -4,6 +4,8 @@ import datasetAPI from '@src/apis/dataset'
 import { atomWithRefresh } from '@src/utils/atomCreators'
 import modelAPI from '@src/apis/model'
 
+export const currentProjectIdAtom = atom<string | undefined>(undefined)
+
 export const templateDatasetAtom = atom<Data | null>(null)
 export const currentDatasetIdAtom = atom<Data['id'] | undefined>(undefined)
 export const currentDatasetAtom= atom<Promise<Data | undefined>>(async (get) => {

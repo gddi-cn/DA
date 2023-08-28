@@ -44,6 +44,7 @@ export namespace Model {
     TRAINING = 1,
     SUCCESS = 2,
     FAILED = 3,
+    PAUSED = 4,
     WAITING = 6,
   }
 }

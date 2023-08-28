@@ -138,6 +138,21 @@ const modelAPI = {
     }
   },
 
+  versionDetail: async (id: string, versionId: string): Promise<APIResponse<Model.VersionDetail>> => {
+    try {
+      const { data } = await http.get(`/v2/models/${id}/versions/${versionId}`)
+      return {
+        success: true,
+        data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
   versionList: async (id: string): Promise<APIResponse<{ versions: Array<Model.Version> }>> => {
     try {
       const { data } = await http.get(`/v2/models/${id}/versions`)
@@ -164,7 +179,7 @@ const modelAPI = {
         success: false,
       }
     }
-    
+
     return {
       success: true,
       data: _data.versions.map(version => ({

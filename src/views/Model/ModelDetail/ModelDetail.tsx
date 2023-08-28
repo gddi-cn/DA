@@ -1,24 +1,27 @@
-import { lazy, useState, useCallback, useEffect, useMemo } from 'react'
-import { FooterBar, GButton } from '@src/UIComponents'
-import { SuspenseForFC } from '@router/utils'
+import {lazy, useCallback, useEffect, useMemo, useState} from 'react'
+import {FooterBar, GButton} from '@src/UIComponents'
+import {SuspenseForFC} from '@router/utils'
 import api from '@api'
-// import ModelDetailType from './types';
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@reducer/index'
-import { message, Skeleton, Modal } from 'antd';
-import { isEmpty } from 'lodash';
-import { setCurrentVersion, setVersionList, setVersionInfo, setModelId, initModelDetialSlice } from '@reducer/modelDetailSlice'
-import { checkoutTask } from '@reducer/tasksSilce'
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom'
-import { APP_SELECT_DEPLOY_TYPE } from '@router'
-import { socketPushMsgForProject } from '@ghooks'
-import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
+import {useDispatch, useSelector} from 'react-redux'
+import {RootState} from '@reducer/index'
+import {message, Modal, Skeleton} from 'antd';
+import {
+  initModelDetialSlice,
+  setCurrentVersion,
+  setModelId as setStoreModelId,
+  setVersionInfo,
+  setVersionList
+} from '@reducer/modelDetailSlice'
+import {checkoutTask} from '@reducer/tasksSilce'
+import {ExclamationCircleOutlined} from '@ant-design/icons';
+import {useNavigate} from 'react-router-dom'
+import {APP_SELECT_DEPLOY_TYPE} from '@router'
+import {socketPushMsgForProject} from '@ghooks'
+import {SNAPSHOT_KEY_OF_ROUTER} from '@src/constants'
 import './ModelDetail.module.less'
-import { useSetAtom } from 'jotai'
 import projectAPI from '@src/apis/project'
 import modelAPI from '@src/apis/model'
-import { currentModelVersionIdAtom } from '@src/store/dataset'
+import { Model as EModel } from '@src/shared/enum/model'
 
 // ?id=370695350071697408&cuurentVersionId=370695350075891712&
 const { confirm } = Modal;
@@ -26,16 +29,8 @@ const TrainSuccess = lazy(() => import('@src/views/Model/ModelDetail/TrainSucces
 const TrainingOrFailed = lazy(() => import('@src/views/Model/ModelDetail/TrainingOrFailed'));
 
 const ModelDetail = (): JSX.Element => {
-  const setCurrentVersionId = useSetAtom(currentModelVersionIdAtom)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const model_id = useSelector((state: RootState) => {
-    // return '342463664469155840'
-    if (state.tasksSilce.activePipeLine) {
-      return state.tasksSilce.activePipeLine.APP_MODEL_TRAIN_DETAIL?.id
-    }
-    return ''
-  })
 
   const taskId = useSelector((state: RootState) => {
     return state.tasksSilce.activeTaskInfo?.id
@@ -45,7 +40,9 @@ const ModelDetail = (): JSX.Element => {
     return state.tasksSilce.activePipeLine || {}
   })
 
+  const [modelId, setModelId] = useState<string>('')
   const [modelVersionId, setModelVersionId] = useState<string>('')
+  const [version, setVersion] = useState<Model.VersionDetail | null>(null)
 
   useEffect(
     () => {
@@ -56,62 +53,59 @@ const ModelDetail = (): JSX.Element => {
           if (!success || !data) return
           const { model } = data
           if (!model) return
-          const { version_id } = model
+          const { version_id, id } = model
+          setModelId(id)
           setModelVersionId(version_id)
         })
     },
     [taskId]
   )
 
-  const versionInfo = useSelector((state: RootState) => {
-    return state.modelDetailSlice.versionInfo
-  })
+  useEffect(
+    () => {
+      if (!modelId || !modelVersionId) return
+      modelAPI.versionDetail(modelId, modelVersionId)
+        .then(({ success, data }) => {
+          if (!success || !data) return
+          setVersion(data)
+        })
+    },
+    [modelId, modelVersionId]
+  )
 
-  const currentVersion = useSelector((state: RootState) => {
-    return state.modelDetailSlice.currentVersion
-  })
-
-  const currentVersionName = currentVersion?.name || ''
-  const isIter = currentVersionName !== 'v1'
+  const isIter = (version?.name || '') !== 'v1'
 
   const getModelBaseInfo = useCallback(
     async () => {
       try {
-        if (!model_id) {
+        if (!modelId || !modelVersionId) {
           return
         }
         // 后端神奇的默认
-        if ((model_id as any) === '0') {
+        if ((modelId as any) === '0') {
           return
         }
 
-        dispatch(setModelId(model_id))
-        const path = `/v2/models/${model_id}/versions`
-        const res = await api.get(path)
-        if (res.code === 0) {
-          const { versions } = res.data
-          // 默认
-          // 如果还没选择过版本,就默认第一个,选择过了就都是选择后的
-          if (versions) {
-            let _currentVersion = versions[versions.length - 1]
+        dispatch(setStoreModelId(modelId))
+        const { success, data } = await modelAPI.versionList(modelId)
+        if (!success || !data?.versions) return
+        const { versions } = data
+        let _currentVersion = versions[versions.length - 1]
 
-            if (modelVersionId) {
-              const existCurrentVersion = versions.find((o: any) => o.id === modelVersionId)
-              if (existCurrentVersion) {
-                _currentVersion = existCurrentVersion
-              }
-            }
-
-            dispatch(setVersionList(versions))
-            dispatch(setCurrentVersion(_currentVersion))
+        if (modelVersionId) {
+          const existCurrentVersion = versions.find((o: any) => o.id === modelVersionId)
+          if (existCurrentVersion) {
+            _currentVersion = existCurrentVersion
           }
-        } else {
-          message.error(res.message)
         }
+
+        dispatch(setVersionList(versions))
+        dispatch(setCurrentVersion(_currentVersion))
+
       } catch (e) {
 
       }
-    }, [dispatch, model_id, modelVersionId]
+    }, [dispatch, modelId, modelVersionId]
   )
 
   useEffect(() => {
@@ -127,10 +121,10 @@ const ModelDetail = (): JSX.Element => {
   const initVersionData = useCallback(
     async () => {
       try {
-        if (!currentVersion?.id) {
+        if (!modelVersionId || !modelId) {
           return
         }
-        const iterInfoRes = await api.get(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+        const iterInfoRes = await api.get(`/v2/models/${modelId}/versions/${modelVersionId}`)
         if (iterInfoRes.code === 0) {
           const iterInfo = iterInfoRes.data
           dispatch(setVersionInfo(iterInfo))
@@ -138,9 +132,8 @@ const ModelDetail = (): JSX.Element => {
       } catch (e) {
         console.error(e)
       }
-    }, [
-    currentVersion?.id, dispatch, model_id
-  ]
+    },
+    [modelVersionId, dispatch, modelId]
   )
 
   useEffect(() => {
@@ -148,28 +141,26 @@ const ModelDetail = (): JSX.Element => {
   }, [initVersionData])
 
   const views = useMemo(() => {
-    if (isEmpty(versionInfo) || !model_id) {
+    console.log({ version })
+    if (!version || !modelId) {
       return <Skeleton active />
     }
-    const isTrainsiton = [2].includes(+(versionInfo?.iter.status))
-    const key = isTrainsiton ? 'sucess' : 'other'
-    const view_object = {
-      sucess: SuspenseForFC(
-        <TrainSuccess />
-      ),
-      other: SuspenseForFC(
-        <TrainingOrFailed />
+    const success = version?.iter?.status === EModel.TrainStatus.SUCCESS
+
+    if (success) {
+      return (
+        SuspenseForFC(<TrainSuccess />)
       )
     }
-    return view_object[key] || null
-  }, [versionInfo, model_id])
+    return SuspenseForFC(<TrainingOrFailed />)
+  }, [version, modelId])
 
   // 训练失败的时候也有这个，懒得写在saga里边了
   const handleDelete = useCallback(
     () => {
       const okfn = async () => {
         try {
-          const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+          const res = await api.delete(`/v2/models/${modelId}/versions/${modelVersionId}`)
           if (res.code === 0) {
             const updateSnapRes = await api.patch(`/v3/projects/${taskId}`, {
               dataset: {
@@ -214,7 +205,7 @@ const ModelDetail = (): JSX.Element => {
         },
       });
       // /v2/models/{id}/versions/{version_id}
-    }, [activePipeLine, currentVersion?.id, dispatch, model_id, taskId]
+    }, [activePipeLine, modelVersionId, dispatch, modelId, taskId]
   )
 
   const handleCancel = () => {
@@ -223,14 +214,14 @@ const ModelDetail = (): JSX.Element => {
       icon: <ExclamationCircleOutlined />,
       content: '取消后不可恢复，请谨慎。',
       onOk: async () => {
-        const res = await api.delete(`/v2/models/${model_id}/versions/${currentVersion?.id}`)
+        const res = await api.delete(`/v2/models/${modelId}/versions/${modelVersionId}`)
 
         if (res.code !== 0) {
           message.error('取消失败')
           return
         }
 
-        const { success, data } = await modelAPI.versionList(model_id)
+        const { success, data } = await modelAPI.versionList(modelId)
 
         if (!success || !data?.versions?.length) return
 
@@ -238,7 +229,7 @@ const ModelDetail = (): JSX.Element => {
 
         const updateSnapRes = await api.patch(`/v3/projects/${taskId}`, {
           model: {
-            id: model_id,
+            id: modelId,
             version_id: laestVersion.id
           },
         })
@@ -254,7 +245,7 @@ const ModelDetail = (): JSX.Element => {
 
   const handlePause = useCallback(async () => {
     try {
-      const res = await api.patch(`/v3/models/${model_id}/versions/${currentVersion?.id}/pause`)
+      const res = await api.patch(`/v3/models/${modelId}/versions/${modelVersionId}/pause`)
       if (res.code === 0) {
         message.success('已暂停模型训练')
         initVersionData()
@@ -264,11 +255,11 @@ const ModelDetail = (): JSX.Element => {
     } catch (e) {
 
     }
-  }, [currentVersion?.id, initVersionData, model_id])
+  }, [modelVersionId, initVersionData, modelId])
 
   const handleResume = useCallback(async () => {
     try {
-      const res = await api.patch(`/v3/models/${model_id}/versions/${currentVersion?.id}/resume`)
+      const res = await api.patch(`/v3/models/${modelId}/versions/${modelVersionId}/resume`)
       if (res.code === 0) {
         message.success('已恢复模型训练')
         initVersionData()
@@ -278,7 +269,7 @@ const ModelDetail = (): JSX.Element => {
     } catch (e) {
 
     }
-  }, [currentVersion?.id, initVersionData, model_id])
+  }, [modelVersionId, initVersionData, modelId])
 
   const rightContent = useMemo(() => {
     const goNext = async () => {
@@ -286,8 +277,8 @@ const ModelDetail = (): JSX.Element => {
         activePipeLine, {
         active_page: SNAPSHOT_KEY_OF_ROUTER.APP_SELECT_DEPLOY_TYPE,
         APP_MODEL_TRAIN_DETAIL: {
-          id: model_id,
-          version_id: currentVersion?.id
+          id: modelId,
+          version_id: modelVersionId
         },
       }
       )
@@ -295,11 +286,10 @@ const ModelDetail = (): JSX.Element => {
         pathname: APP_SELECT_DEPLOY_TYPE
       })
     }
-    const status = +(versionInfo?.iter?.status)
-    const isTrainsiton = [2].includes(status)
+    const status = version?.iter?.status
+    const isTrainsiton = version?.iter?.status === EModel.TrainStatus.SUCCESS
 
-    const isPause = [4].includes(status)
-    // const can_click = isTrainsiton ? 'yes_sir' : 'not_allow'
+    const isPause = version?.iter?.status === EModel.TrainStatus.PAUSED
 
     const getPauseBtn = () => {
       if (!isTrainsiton) {
@@ -335,7 +325,7 @@ const ModelDetail = (): JSX.Element => {
         <GButton type='primary' disabled={!isTrainsiton} onClick={goNext}>部署</GButton>
       </div>
     )
-  }, [versionInfo?.iter?.status, handleDelete, activePipeLine, navigate, handleResume, handlePause, currentVersion, model_id])
+  }, [version?.iter?.status, handleDelete, activePipeLine, navigate, handleResume, handlePause, version, modelId])
 
   return (
     <div styleName='ModelDetail'>
