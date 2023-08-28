@@ -29,6 +29,8 @@ export enum DatasetScene {
   ImageRetrieval = 'image_retrieval',
   // 人脸识别
   FaceRecognition = 'face_recognition',
+  // ocr 识别
+  OcrRecognition = 'ocr_recognition',
   // 未知
   Unknown = 'unknown'
 }

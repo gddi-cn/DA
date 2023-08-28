@@ -51,7 +51,11 @@ const RenderView = (props: RenderViewProps) => {
         scenes === DatasetScene.KeypointsDetection ||
         scenes === DatasetScene.ImageRetrieval
       }
-      hasHtmlTips={scenes === "classify" || scenes === DatasetScene.ImageRetrieval}
+      hasHtmlTips={
+        scenes === "classify" ||
+        scenes === DatasetScene.ImageRetrieval ||
+        scenes === DatasetScene.OcrRecognition
+      }
     />
   );
 };

@@ -474,6 +474,7 @@ export const sceneNameMapping: Map<DatasetScene, string> = new Map([
   [DatasetScene.KeypointsDetection, '关键点检测'],
   [DatasetScene.ImageRetrieval, '图像检索'],
   [DatasetScene.FaceRecognition, '人脸识别'],
+  [DatasetScene.OcrRecognition, 'OCR 识别'],
   [DatasetScene.Unknown, '未知'],
 ])
 

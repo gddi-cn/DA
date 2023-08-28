@@ -12,9 +12,11 @@ type Props = {
   scenes: string;
 };
 const ListItem = (props: Props): JSX.Element => {
+  console.log({ props })
   const { data, scenes } = props;
   const [visible, setvisible] = useState(false);
   const datainfo = useGetDataInfo(data, scenes);
+  console.log({ datainfo })
 
   // console.log(data)
   const view = useMemo(() => {
@@ -27,6 +29,7 @@ const ListItem = (props: Props): JSX.Element => {
       dataSet,
       // rawImgDataSet,
     } = datainfo;
+
     if (scenes === "keypoints_based_action") {
       return <FlvMp4 src={url as any} />;
     }
@@ -46,7 +49,11 @@ const ListItem = (props: Props): JSX.Element => {
             scenes === DatasetScene.KeypointsDetection ||
             scenes === DatasetScene.ImageRetrieval
           }
-          hasHtmlTips={scenes === "classify" || scenes === DatasetScene.ImageRetrieval}
+          hasHtmlTips={
+            scenes === "classify" ||
+            scenes === DatasetScene.OcrRecognition ||
+            scenes === DatasetScene.ImageRetrieval
+          }
         />
       </div>
     );
@@ -83,7 +90,11 @@ const ListItem = (props: Props): JSX.Element => {
             scenes === "monocular_3d_detection" ||
             scenes === DatasetScene.KeypointsDetection
           }
-          hasHtmlTips={scenes === "classify" || scenes === DatasetScene.ImageRetrieval}
+          hasHtmlTips={
+            scenes === "classify" ||
+            scenes === DatasetScene.OcrRecognition ||
+            scenes === DatasetScene.ImageRetrieval
+          }
         />
       </Modal>
     );

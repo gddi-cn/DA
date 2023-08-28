@@ -15,6 +15,7 @@ export const MODEL_TYPES = {
   keypoint_detection: '关键点检测',
   image_retrieval: '图像检索',
   face_recognition: '人脸识别',
+  ocr_recognition: 'OCR 识别',
 }
 
 export const THIRD_PARTY_MODEL_TYPES = {

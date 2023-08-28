@@ -304,7 +304,11 @@ export const processData = (
     }
   }
 
-  if (scenes === "classify" || scenes === DatasetScene.ImageRetrieval) {
+  if (
+    scenes === "classify"
+    || scenes === DatasetScene.ImageRetrieval
+    || scenes === DatasetScene.OcrRecognition
+  ) {
     dataSet = annotations?.map((dso: any) => {
       const label = dso.class;
       const color = randomColor({
@@ -345,6 +349,7 @@ export const processData = (
       scenes !== "detection" &&
       scenes !== "monocular_3d_detection" &&
       scenes !== DatasetScene.KeypointsDetection &&
+      scenes !== DatasetScene.OcrRecognition &&
       scenes !== DatasetScene.ImageRetrieval
     ) {
       return position;
@@ -359,6 +364,7 @@ export const processData = (
       scenes !== "detection" &&
       scenes !== "monocular_3d_detection" &&
       scenes !== DatasetScene.KeypointsDetection &&
+      scenes !== DatasetScene.OcrRecognition &&
       scenes !== DatasetScene.ImageRetrieval
     ) {
       return position;
