@@ -28,16 +28,19 @@ const Transversion = (): JSX.Element => {
     const list =
     [
       {
-        label: '训练精度',
-        primaryKey: 'TrainingAccuracy',
-        icon: <Xunlianjingdu />
-      },
-      {
         label: '训练参数',
         primaryKey: 'TrainingParameters',
         icon: <Xunliancanshu />
-      }
+      },
     ]
+
+    if (model_type !== DatasetScene.OcrRecognition) {
+      list.push({
+        label: '训练精度',
+        primaryKey: 'TrainingAccuracy',
+        icon: <Xunlianjingdu />
+      })
+    }
 
     if (model_type !== DatasetScene.FaceRecognition) {
       list.unshift({

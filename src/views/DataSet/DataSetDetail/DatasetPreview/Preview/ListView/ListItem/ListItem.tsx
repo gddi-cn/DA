@@ -12,11 +12,9 @@ type Props = {
   scenes: string;
 };
 const ListItem = (props: Props): JSX.Element => {
-  console.log({ props })
   const { data, scenes } = props;
   const [visible, setvisible] = useState(false);
   const datainfo = useGetDataInfo(data, scenes);
-  console.log({ datainfo })
 
   // console.log(data)
   const view = useMemo(() => {

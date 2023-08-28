@@ -141,7 +141,6 @@ const ModelDetail = (): JSX.Element => {
   }, [initVersionData])
 
   const views = useMemo(() => {
-    console.log({ version })
     if (!version || !modelId) {
       return <Skeleton active />
     }

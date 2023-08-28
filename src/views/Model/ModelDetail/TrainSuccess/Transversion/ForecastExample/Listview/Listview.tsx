@@ -78,6 +78,7 @@ const ListItem = (props: any) => {
           }
           hasHtmlTips={
             model_type === "classify" ||
+            model_type === DatasetScene.OcrRecognition ||
             model_type === DatasetScene.ImageRetrieval
           }
         />
@@ -116,6 +117,7 @@ const ListItem = (props: any) => {
               }
               hasHtmlTips={
                 model_type === "classify" ||
+                model_type === DatasetScene.OcrRecognition ||
                 model_type === DatasetScene.ImageRetrieval
               }
               key={data.src + "big"}

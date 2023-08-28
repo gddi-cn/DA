@@ -46,7 +46,6 @@ const TrainInfo = (): JSX.Element => {
   }
 
   const getConfig = () => {
-    console.log({versionInfo})
     try {
       if (!versionInfo?.iter) {
         return ['-', '-', '-', '-', '-', '-', '-', '-']

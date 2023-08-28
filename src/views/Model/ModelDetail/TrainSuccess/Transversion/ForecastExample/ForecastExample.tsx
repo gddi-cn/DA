@@ -18,7 +18,6 @@ const ForecastExample = (): JSX.Element => {
   const [viewType, setViewType] = useState<string>('grid')
 
   const handleTypeChange = (key: string) => {
-    console.log(key, 'handleTypeChange')
     setViewType(key)
   }
 
@@ -29,6 +28,7 @@ const ForecastExample = (): JSX.Element => {
           return
         }
         const { id, iter } = versionInfo
+        if (!id || !iter?.id) return
 
         const res = await api.get(`/v2/models/${id}/versions/${iter?.id}/samples`)
         if (res.code === 0) {

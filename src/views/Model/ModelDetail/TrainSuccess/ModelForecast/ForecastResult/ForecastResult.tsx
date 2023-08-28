@@ -53,6 +53,7 @@ const RenderView = (props: any) => {
       }
       hasHtmlTips={
         scenes === "classify" ||
+        scenes === DatasetScene.OcrRecognition ||
         scenes === DatasetScene.ImageRetrieval
       }
     />

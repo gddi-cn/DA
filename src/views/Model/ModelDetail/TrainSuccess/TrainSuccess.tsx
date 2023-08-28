@@ -9,31 +9,10 @@ import ImgRetrieval from "./ImgRetrieval";
 
 import ModelDetailType from "../types";
 import "./TrainSuccess.module.less";
-import { useAtom } from "jotai";
-import { currentDatasetAtom } from "@src/views/DataSet/DataSetDetail/store";
-import datasetAPI from "@src/apis/dataset";
-import { useSelector } from "react-redux";
-import { RootState } from "@src/controller/reducer";
 
 const TrainSuccess = (): JSX.Element => {
   const [tabIndex, setTabIndex] =
     useState<ModelDetailType.TabIndex>("train_process");
-  const [datasetDetail, setDatasetDetail] = useAtom(currentDatasetAtom);
-
-  const activePipeLine = useSelector((state: RootState) => {
-    return state.tasksSilce.activePipeLine || {};
-  });
-
-  const datasetId = activePipeLine?.APP_DATASET_DETAIL?.id;
-
-  React.useEffect(() => {
-    if (!datasetId) return;
-
-    datasetAPI.detail(datasetId).then(({ success, data }) => {
-      if (!success || !data) return;
-      setDatasetDetail(data);
-    });
-  }, [datasetId]);
 
   const View = useMemo(() => {
     const ReactComp: {

@@ -20,7 +20,10 @@ export const transformModelOutputData = ({
     return dataSet;
   }
 
-  if (modelType === DatasetScene.ImageRetrieval) {
+  if (
+    modelType === DatasetScene.ImageRetrieval
+    || modelType === DatasetScene.OcrRecognition
+  ) {
     let label = "",
       score: string | number = "0";
 
@@ -28,11 +31,11 @@ export const transformModelOutputData = ({
       const d = (data as Array<{ label: string; score: number }>)[0];
       if (!d) return;
       label = d.label || "";
-      score = d.score;
+      score = d.score.toString().slice(0, 4);
     } else {
       const d = data as { label: string; score: number };
       label = d.label || "";
-      score = d.score;
+      score = d.score.toString().slice(0, 4);
     }
 
     const text = `${label}: ${score}`;

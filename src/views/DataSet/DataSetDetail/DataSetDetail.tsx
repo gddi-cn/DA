@@ -7,6 +7,7 @@ import DatasetPreview from "./DatasetPreview";
 import Footer from "./Footer";
 
 import { useDatasetDetail } from './hook'
+import NoDataset from "@views/DataSet/DataSetDetail/NoDataset";
 
 const Container = styled.div`
   height: calc(100vh - 100px);
@@ -27,9 +28,13 @@ const Item = styled.div`
 `;
 
 const DataSetDetail: React.FC = () => {
-  useDatasetDetail()
+  const { datasetId, projectId } = useDatasetDetail()
 
-  const memoedChild = React.useMemo(() => (
+  if (!datasetId) {
+    return <NoDataset />
+  }
+
+  return (
     <Container>
       <Content>
         <ScaleRight
@@ -47,9 +52,7 @@ const DataSetDetail: React.FC = () => {
       </Content>
       <Footer />
     </Container>
-  ), [])
-
-  return memoedChild;
+  )
 };
 
 export default DataSetDetail;

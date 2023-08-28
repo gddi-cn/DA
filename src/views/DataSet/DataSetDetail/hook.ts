@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import {useAtom, useAtomValue} from 'jotai'
 import _ from 'lodash'
 
 import {
@@ -8,7 +8,7 @@ import {
   datasetTypeAtom,
   fetchingDatasetAtom
 } from './store'
-import { currentDatasetIdAtom, templateDatasetAtom } from '@src/store/dataset'
+import {currentDatasetIdAtom, currentProjectIdAtom, templateDatasetAtom} from '@src/store/dataset'
 import datasetAPI from '@src/apis/dataset'
 import { Dataset } from '@src/shared/types/dataset'
 import { classListAtom } from './DatasetInfo/BaseInfo/store'
@@ -67,15 +67,21 @@ export const useDatasetDetail = () => {
 
   const refresh = useRefreshDataset()
 
-  const [datasetId] = useAtom(currentDatasetIdAtom)
+  const projectId = useAtomValue(currentProjectIdAtom)
+  const datasetId = useAtomValue(currentDatasetIdAtom)
 
   React.useEffect(
     () => {
       if (!datasetId) return
-      refresh(datasetId)
+      refresh(datasetId).catch(console.error)
     },
-    [datasetId]
+    [datasetId, projectId]
   )
+
+  return {
+    datasetId,
+    projectId,
+  }
 
 }
 

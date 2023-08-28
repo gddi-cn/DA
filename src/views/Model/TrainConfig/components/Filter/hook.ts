@@ -18,8 +18,6 @@ export const useBrandList = () => {
       chipAPI.brandList(ApplicationScene.ALL)
         .then(({ success, data }) => {
           if (!success || !data) return setBrandList([])
-          console.log({ data })
-
           setBrandList(data)
         })
         .finally(() => {
