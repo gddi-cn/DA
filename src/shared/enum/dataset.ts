@@ -89,3 +89,10 @@ export enum DatasetImportStatus {
   IMPORTING,
   IMPORT_FAILED,
 }
+
+export enum DatasetAnalysisStatus {
+  ANALYZING = 2,
+  FINISHEd = 4,
+  FAILED = 5,
+  PENDING = 6,
+}

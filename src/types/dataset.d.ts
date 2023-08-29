@@ -51,4 +51,21 @@ declare namespace Dataset {
 
     type Response = Promise<import('@src/shared/types/api').APIResponse<{ id: string }>>
   }
+
+  namespace Analysis {
+    type Assess = {
+      progress: number
+      result: {
+        assess_detail: Record<string, number>
+        is_chip_available: boolean
+        resolution: number[]
+      }
+      status: import('@src/shared/enum/dataset').DatasetAnalysisStatus
+    }
+
+    namespace Get {
+      type Response = Promise<{ success: boolean, data?: Assess }>
+    }
+
+  }
 }

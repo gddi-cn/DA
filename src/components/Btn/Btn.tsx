@@ -48,13 +48,13 @@ export const SecondaryBtn: React.FC<ButtonProps & { target?: string }> = (props)
 
 export const PrimaryLoadingBtn: React.FC<LoadingButtonProps & { target?: string }> = (props) => (
   <LoadingButton
-    {...props}
     color='black'
     size='small'
     variant='contained'
     sx={{
       minWidth: 97,
     }}
+    {...props}
   />
 )
 

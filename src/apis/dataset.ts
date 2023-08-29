@@ -79,7 +79,7 @@ const datasetAPI = {
           exampleUrls.push(...(eUrl.filter(Boolean) as Array<string>))
         }
       } else {
-        
+
         const [...res] = await Promise.all(
           examples.map(file => s3API.uploadFile(file))
         )
@@ -109,7 +109,7 @@ const datasetAPI = {
           exampleUrls,
         },
       })
-      
+
       return {
         success: true,
         data,
@@ -157,6 +157,49 @@ const datasetAPI = {
       }
     }
   },
+
+  update: async (id: string, data: { name: string, summary?: string, cover?: string }): Promise<{ success: boolean }> => {
+    try {
+      await http.patch(`/v3/datasets/${id}`, data)
+      return {
+        success: true,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
+  assess: async(id: string): Dataset.Analysis.Get.Response => {
+    try {
+      const { data } = await http.get(`/v3/datasets/${id}/assess`)
+      return {
+        success: true,
+        data,
+      }
+    } catch(e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
+
+  createAssess: async (id: string): Promise<{ success: boolean }> => {
+    try {
+      await http.post(`/v3/datasets/${id}/assess`)
+      return {
+        success: true,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  }
 }
 
 export default datasetAPI
