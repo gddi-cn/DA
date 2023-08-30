@@ -20,7 +20,7 @@ export const limitAtom = atom<number>(1)
 export const useResetDeployStore = () => {
   const setCurrentStep = useSetAtom(currentStepAtom)
   const setSelectedAppList = useSetAtom(selectedAppListAtom)
-  const setSelectedChipAtom = useSetAtom(selectedChipAtom)
+  const setSelectedChip = useSetAtom(selectedChipAtom)
   const setSelectedDeviceIdList = useSetAtom(selectedDeviceListAtom)
   const setNoExpire = useSetAtom(noExpireAtom)
   const setExpire = useSetAtom(expireAtom)
@@ -31,7 +31,7 @@ export const useResetDeployStore = () => {
   return () => {
     setCurrentStep(Deploy.Step.APP)
     setSelectedAppList([])
-    setSelectedChipAtom(null)
+    setSelectedChip(null)
     setSelectedDeviceIdList([])
     setNoExpire(true)
     setExpire(-1)

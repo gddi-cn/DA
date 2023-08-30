@@ -213,7 +213,7 @@ const useReSend = () => {
     const userMsg = deleteMsg(message)
     if (!userMsg) return
     setLoading(true)
-    handleSubmit(userMsg.content).then(() => setLoading(false))
+    handleSubmit(userMsg.content || '').then(() => setLoading(false))
   }
 }
 

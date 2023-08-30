@@ -1,13 +1,15 @@
-import React from 'react'
-import { atom, useSetAtom } from 'jotai'
+import React from "react";
+import {atom, useAtomValue, useSetAtom} from "jotai";
 
-import { ChipConfigType } from '@src/shared/enum/chip'
-import { ChipListParams } from '@src/shared/types/chip'
-import { ApplicationScene } from '@src/shared/enum/application'
-import { currentDatasetAtom } from '@src/store/dataset'
+import {ChipListParams} from "@src/shared/types/chip";
+import {ApplicationScene} from "@src/shared/enum/application";
+import {ChipConfigType} from "@src/shared/enum/chip";
+import {currentDatasetAtom, currentProjectIdAtom} from "@src/store/dataset";
 
 export const MAX_FPS = 30
-// export const MAX_CHANNEL = 32
+
+export const stepAtom = atom<'chip' | 'config'>('chip')
+
 
 export const brandListAtom = atom<Array<Chip.Brand>>([])
 
@@ -18,7 +20,6 @@ export const hotChipListAtom = atom<Array<Chip.Instance>>(
 
 export const selectedChipAtom = atom<Chip.Instance | undefined>(undefined)
 
-
 // chip list filter
 export const applicationAtom = atom<ChipListParams['application']>(ApplicationScene.ENDPOINT)
 export const brandAtom = atom<Chip.Brand | undefined>(undefined)
@@ -27,7 +28,6 @@ export const nameAtom = atom<ChipListParams['name']>(undefined)
 
 export const fetchingChipAtom = atom<boolean>(false)
 
-// Train Setting
 export const cardNumAtom = atom<number>(1)
 export const configTypeAtom = atom<ChipConfigType>(ChipConfigType.RECOMMEND)
 export const configFpsAtom = atom<number>(25)
@@ -38,7 +38,7 @@ export const maxChannelAtom = atom<number>(16)
 
 export const resolutionLimitAtom = atom<number>(get => {
   const chip = get(selectedChipAtom)
-  return chip?.resolution_limited ?? 0
+  return chip?.resolution_limited ?? 1
 })
 
 // 默认分辨率
@@ -72,7 +72,14 @@ export const resolutionListAtom = atom<Array<number>>(get => {
   return [...list].sort((a, b) => a - b)
 })
 
+export const supportClipAtom = atom(get => get(currentDatasetAtom)?.is_clip_available)
+
+export const showClipAtom = atom(get => get(selectedChipAtom)?.name === 'T4')
+
+export const clipAtom = atom<boolean>(false)
+
 export const useResetStore = () => {
+  const projectId = useAtomValue(currentProjectIdAtom)
   const setBrandList = useSetAtom(brandListAtom)
   const setAllChipList = useSetAtom(allChipListAtom)
   const setSelectedChip = useSetAtom(selectedChipAtom)
@@ -87,6 +94,8 @@ export const useResetStore = () => {
   const setConfigConcurrent = useSetAtom(configConcurrentAtom)
   const setMaxFPS = useSetAtom(maxFPSAtom)
   const setMaxChannel = useSetAtom(maxChannelAtom)
+  const setClip = useSetAtom(clipAtom)
+  const setStep = useSetAtom(stepAtom)
 
   React.useEffect(
     () => {
@@ -105,9 +114,11 @@ export const useResetStore = () => {
         setConfigConcurrent(1)
         setMaxFPS(MAX_FPS)
         setMaxChannel(16)
+        setClip(false)
+        setStep('chip')
         setFetchingChip(false)
       }
     },
-    []
+    [projectId]
   )
 }

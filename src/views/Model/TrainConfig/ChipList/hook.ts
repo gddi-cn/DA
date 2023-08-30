@@ -20,8 +20,10 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
 import { ChipConfigType } from '@src/shared/enum/chip'
 import { ModelTrainMode } from '@src/shared/enum/model'
+import {currentProjectIdAtom} from "@src/store/dataset";
 
 export const useChipList = () => {
+  const currentProjectId = useAtomValue(currentProjectIdAtom)
   const [application] = useAtom(applicationAtom)
   const [brand] = useAtom(brandAtom)
   const [chip_type] = useAtom(chipTypeAtom)
@@ -73,10 +75,9 @@ export const useChipList = () => {
         setAllChip(data)
       })
       .finally(() => {
-        setSelectedChip(undefined)
         setLoading(false)
       })
-  }, [application, brand, chip_type, name, task_type])
+  }, [application, brand, chip_type, name, task_type, currentProjectId])
 
   React.useEffect(
     () => {

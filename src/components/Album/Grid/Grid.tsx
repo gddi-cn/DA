@@ -84,7 +84,7 @@ const Grid: React.FC = () => {
     <Container>
       <AutoSizer>
         {
-          ({ height, width }) => (
+          ({ height, width }: { height: number, width: number }) => (
             <InfiniteLoader
               key={key}
               itemCount={data.length}
@@ -131,7 +131,7 @@ const Grid: React.FC = () => {
                           ) : null
                         }
                       }
-                    </FixedSizeGrid>       
+                    </FixedSizeGrid>
                   )
                 }
               }

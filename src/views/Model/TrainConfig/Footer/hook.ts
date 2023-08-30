@@ -2,7 +2,7 @@ import React from 'react'
 import { useAtom, useAtomValue } from 'jotai'
 
 import {
-  cardNumAtom, configConcurrentAtom, configFpsAtom, configTypeAtom, resolutionAtom, selectedChipAtom
+  cardNumAtom, clipAtom, configConcurrentAtom, configFpsAtom, configTypeAtom, resolutionAtom, selectedChipAtom, stepAtom
 } from '@views/Model/TrainConfig/store'
 import { APP_DATASET_ANALYSE, APP_MODEL_TRAIN_DETAIL } from '@router'
 import { useNavigate } from 'react-router-dom'
@@ -17,12 +17,14 @@ import { checkoutTask, getTaskActiveList } from '@reducer/tasksSilce'
 import { ChipConfigType } from '@src/shared/enum/chip'
 
 export const useFooter = () => {
-  const [selectedChip] = useAtom(selectedChipAtom)
-  const [fps] = useAtom(configFpsAtom)
-  const [channel] = useAtom(configConcurrentAtom)
-  const [gpu_count] = useAtom(cardNumAtom)
-  const [configType] = useAtom(configTypeAtom)
+  const selectedChip = useAtomValue(selectedChipAtom)
+  const fps = useAtomValue(configFpsAtom)
+  const channel = useAtomValue(configConcurrentAtom)
+  const gpu_count = useAtomValue(cardNumAtom)
+  const configType = useAtomValue(configTypeAtom)
   const resolution = useAtomValue(resolutionAtom)
+  const is_clip = useAtomValue(clipAtom)
+  const [step, setStep] = useAtom(stepAtom)
 
   const [loading, setLoading] = React.useState<boolean>(false)
 
@@ -40,10 +42,14 @@ export const useFooter = () => {
   })
 
   const handleGoBack = () => {
+    if (step === 'config') return setStep('chip')
+
     navigate({ pathname: APP_DATASET_ANALYSE })
   }
 
   const handleTrain = async () => {
+    if (step === 'chip') return setStep('config')
+
     if (!fps || !selectedChip || !channel || !gpu_count || loading || !activeTaskInfo) return
 
     const mode = configType === ChipConfigType.RECOMMEND ? ModelTrainMode.ACC : ModelTrainMode.CUSTOM
@@ -63,7 +69,7 @@ export const useFooter = () => {
       dataset_id: APP_DATA_SET_INDEX.id,
       describe: '--',
       gpu_count,
-      model_args: { fps, ddr: 50, io: 50, mode, channel, resolution },
+      model_args: { fps, ddr: 50, io: 50, mode, channel, resolution, is_clip },
       name: pro_name,
       platform: [brand, name, chip_type],
       application,
@@ -102,6 +108,7 @@ export const useFooter = () => {
 
 
   return {
+    label: step === 'chip' ? '下一步' : '开始训练',
     disabledNext,
     handleGoBack,
     loading,

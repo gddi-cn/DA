@@ -1,84 +1,43 @@
 import React from 'react'
-import styled from 'styled-components'
+import {useAtomValue} from "jotai";
+import Box from "@mui/material/Box";
 
-import { FooterBar, ReactCusScrollBar } from '@src/UIComponents'
+import {stepAtom, useResetStore} from "@views/Model/TrainConfig/store";
+import SelectChip from './SelectChip'
+import Setting from './Setting'
+import Footer from './Footer'
 
-import Filter from './components/Filter'
-import Config from './components/Config'
-import ChipList from './components/ChipList'
-import Footer from './components/Footer'
+const useTrainConfig = () => {
+  useResetStore()
+  const step = useAtomValue(stepAtom)
 
-import { useTrainConfig } from './hook'
-import { SecondaryBtn } from '@src/components/Button'
-import { useBack2DatasetIndex } from '@src/hooks/task'
-import Resolution from './components/Resolution'
-
-const Container = styled.div`
-  height: calc(100vh - 100px);
-  background-color: #F7F8FA;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const Content = styled.div`
-  flex: 1;
-  max-width: 1920px;
-  width: 100%;
-  padding: 20px 38px;
-  display: flex;
-  overflow: hidden;
-`
-
-const Left = styled.div`
-  width: 248px;
-  padding: 20px 0;
-  background-color: #fff;
-  border-radius: 8px;
-  height: 100%;
-  overflow: hidden;
-`
-
-const LeftContent = styled.div`
-  padding: 0 20px;
-`
-
-const Right = styled.div`
-  margin-left: 56px;
-  height: 100%;
-  padding: 20px 0;
-  overflow: hidden;
-  background-color: #edf8ff;
-  flex: 1;
-  border-radius: 8px;
-`
+  return {
+    step,
+  }
+}
 
 const TrainConfig: React.FC = () => {
-  useTrainConfig()
-  const handleCancel = useBack2DatasetIndex()
+  const { step } = useTrainConfig()
 
   return (
-    <Container>
-      <Content>
-        <Left>
-          <ReactCusScrollBar id={'chip_selected_left_scroll'}>
-            <LeftContent>
-              <Filter />
-              <Config />
-            </LeftContent>
-          </ReactCusScrollBar>
-        </Left>
-        <Right>
-          <ChipList />
-        </Right>
-      </Content>
-      <FooterBar
-        leftContent={
-          <SecondaryBtn width={132} onClick={handleCancel}>取消</SecondaryBtn>
+    <Box
+      sx={{
+        height: 'calc(100vh - 100px)',
+        backgroundColor: '#f5f5f5',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Box sx={{ flexGrow: 1 }}>
+        {
+          step === 'chip' ? <SelectChip /> : null
         }
-        rightContent={<Footer />}
-      />
-    </Container>
+        {
+          step === 'config' ? <Setting /> : null
+        }
+      </Box>
+      <Footer />
+    </Box>
   )
 }
 

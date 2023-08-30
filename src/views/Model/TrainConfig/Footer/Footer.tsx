@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { PrimaryBtn, SecondaryBtn } from '@src/components/Button'
 
 import { useFooter } from './hook'
+import {FooterBar} from "@src/UIComponents";
+import {useBack2DatasetIndex} from "@src/hooks/task";
 
 const Container = styled.div`
   display: flex;
@@ -17,8 +19,16 @@ const Right = styled.div`
   gap: 20px;
 `
 
-const Footer: React.FC = () => {
-  const { disabledNext, handleGoBack, loading, handleTrain } = useFooter()
+const LeftActions: React.FC = () => {
+  const handleCancel = useBack2DatasetIndex()
+
+  return (
+    <SecondaryBtn width={132} onClick={handleCancel}>取消</SecondaryBtn>
+  )
+}
+
+const RightActions: React.FC = () => {
+  const { label, disabledNext, handleGoBack, loading, handleTrain } = useFooter()
 
   return (
     <Container>
@@ -30,10 +40,19 @@ const Footer: React.FC = () => {
           loading={loading}
           onClick={handleTrain}
         >
-          开始训练
+          {label}
         </PrimaryBtn>
       </Right>
     </Container>
+  )
+}
+
+const Footer: React.FC = () => {
+  return (
+    <FooterBar
+      leftContent={<LeftActions />}
+      rightContent={<RightActions />}
+    />
   )
 }
 

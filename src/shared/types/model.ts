@@ -25,6 +25,8 @@ export interface CreateModelData {
     mode: ModelTrainMode;
     // 分辨率
     resolution?: number
+    // 是否开启切图
+    is_clip?: boolean
   };
   // 模型名称
   name: string;

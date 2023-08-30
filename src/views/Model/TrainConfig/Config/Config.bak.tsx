@@ -7,11 +7,9 @@ import { ChipConfigType } from '@src/shared/enum/chip'
 import { chipConfigNameMapping } from '@src/shared/mapping/chip'
 import { useParamsSetting } from './hook'
 
-import LeftTitle from '../LeftTitle'
 import Resolution from '../Resolution'
 
 const Container = styled.div`
-  background-color: #EDF8FF;
   border-radius: 4px;
   padding: 20px 10px;
   margin-top: 10px;
@@ -101,7 +99,6 @@ const Config: React.FC = () => {
 
   return (
     <Container>
-      <LeftTitle>模型配置</LeftTitle>
       <Title>多卡训练</Title>
       <Tooltip open={showTip} color={'#fff'} title={<WarnTip tip={tip} />} placement={'bottom'}>
         <InputNumber

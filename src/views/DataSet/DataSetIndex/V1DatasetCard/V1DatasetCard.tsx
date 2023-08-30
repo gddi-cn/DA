@@ -18,6 +18,7 @@ export type Data = {
     url?: string,
   },
   id: string,
+  is_clip_available: boolean,
   name: string,
   scene: string,
   status: number,

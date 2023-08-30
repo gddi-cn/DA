@@ -4,7 +4,7 @@ import http from '@src/utils/http'
 import { APIResponse } from '@src/shared/types/api'
 
 const datasetAPI = {
-  detail: async (id: IDataset['id']): Promise<APIResponse<IDataset>> => {
+  detail: async (id: IDataset['id']): Promise<APIResponse<Dataset>> => {
     try {
       const { data } = await http.get(`/v3/datasets/${id}`)
       return {

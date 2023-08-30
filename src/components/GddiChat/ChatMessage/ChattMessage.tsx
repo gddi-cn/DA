@@ -79,7 +79,7 @@ const ChatMessage: React.FC<ChatMessageProps> = (props) => {
                 }
                 <div
                   className={styles['chat-message-top-action']}
-                  onClick={() => copyToClipboard(content)}
+                  onClick={() => content && copyToClipboard(content)}
                 >
                   复制
                 </div>
@@ -89,7 +89,7 @@ const ChatMessage: React.FC<ChatMessageProps> = (props) => {
           <React.Suspense fallback={<h4>...</h4>}>
             <Markdown
               key={content}
-              content={content}
+              content={content || ''}
               loading={loading}
               parentRef={parentRef!}
               fontSize={14}

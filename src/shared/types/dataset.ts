@@ -40,6 +40,7 @@ export interface Dataset {
     url?: string,
   },
   id: string,
+  is_clip_available: boolean,
   name: string,
   scene: DatasetScene,
   status: number,

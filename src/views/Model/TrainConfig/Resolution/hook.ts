@@ -4,7 +4,7 @@ import { useAtom, useAtomValue } from 'jotai'
 import React from 'react'
 import {
   configTypeAtom, defaultResolutionAtom, resolutionAtom, resolutionLimitAtom, resolutionListAtom, selectedChipAtom
-} from '../../store'
+} from '../store'
 
 export const useResolution = () => {
   const limit = useAtomValue(resolutionLimitAtom),

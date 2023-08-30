@@ -127,7 +127,7 @@ const DataSetIndex = (): JSX.Element => {
     const value = v.target.value
     setDatasetName(value || '')
   }
-
+  
   return (
     <div styleName='DataSetIndex' className='maxWidthAuto' >
 
@@ -147,13 +147,7 @@ const DataSetIndex = (): JSX.Element => {
       </div>
 
       <div className='dataset_list_wrap'>
-        {
-          useMemo(() => {
-            return (
-              <DatasetList ref={paramsChangeAndFetch} setSelectData={setSelectData} publicStatus={publicStatus} />
-            )
-          }, [publicStatus])
-        }
+        <DatasetList ref={paramsChangeAndFetch} setSelectData={setSelectData} publicStatus={publicStatus} />
       </div>
       <FooterBar rightContent={<FooterRightView/>}/>
     </div>

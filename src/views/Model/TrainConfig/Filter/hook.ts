@@ -1,12 +1,14 @@
 import React from 'react'
-import { useAtom } from 'jotai'
+import {useAtom, useAtomValue} from 'jotai'
 import _ from 'lodash'
 
 import { brandAtom, brandListAtom, nameAtom } from '@views/Model/TrainConfig/store'
 import chipAPI from '@src/apis/chip'
 import { ApplicationScene } from '@src/shared/enum/application'
+import {currentProjectIdAtom} from "@src/store/dataset";
 
 export const useBrandList = () => {
+  const projectId = useAtomValue(currentProjectIdAtom)
   const [brandList, setBrandList] = useAtom(brandListAtom)
   const [loading, setLoading] = React.useState<boolean>(false)
 
@@ -24,7 +26,7 @@ export const useBrandList = () => {
           setLoading(false)
         })
     },
-    []
+    [projectId]
   )
 
   return {

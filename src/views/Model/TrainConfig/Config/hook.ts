@@ -2,15 +2,76 @@ import React from 'react'
 import { useAtom, useAtomValue } from 'jotai'
 
 import {
-  cardNumAtom, configConcurrentAtom, configFpsAtom, configTypeAtom, maxChannelAtom, maxFPSAtom, resolutionAtom, selectedChipAtom
-} from '../../store'
+  cardNumAtom, clipAtom,
+  configConcurrentAtom,
+  configFpsAtom,
+  configTypeAtom, defaultResolutionAtom,
+  maxChannelAtom,
+  maxFPSAtom,
+  resolutionAtom,
+  resolutionLimitAtom, resolutionListAtom,
+  selectedChipAtom, showClipAtom, supportClipAtom
+} from '../store'
 import { message, RadioChangeEvent } from 'antd'
 import { ChipConfigType } from '@src/shared/enum/chip'
 import { RootState } from '@reducer'
 import { useSelector } from 'react-redux'
+import {CheckboxChangeEvent} from "antd/es/checkbox";
+import {SwitchChangeEventHandler} from "antd/es/switch";
 
 const MAX_TIP = '您当前的训练配额卡数是 {cardLimit} 个，想升级服务请联系客服。'
 const PENDING_TIP = '当前选择卡数较大，可能需要较长时间等待训练'
+
+export const useResolution = () => {
+  const limit = useAtomValue(resolutionLimitAtom),
+    defaultResolution = useAtomValue(defaultResolutionAtom),
+    selectedChip = useAtomValue(selectedChipAtom),
+    configType = useAtomValue(configTypeAtom),
+    list = useAtomValue(resolutionListAtom);
+
+  const [resolution, setResolution] = useAtom(resolutionAtom)
+
+  const fixed =
+    selectedChip !== undefined
+    && (resolution === defaultResolution)
+    && (configType === ChipConfigType.RECOMMEND)
+
+  const options = list.map(x => ({ key: x, value: x, label: x }))
+
+  const disabled = configType !== ChipConfigType.CUSTOM
+
+  const handleChange = (e: RadioChangeEvent) => {
+    setResolution(e.target.value)
+  }
+
+  React.useEffect(
+    () => {
+      if (!selectedChipAtom) {
+        setResolution(0)
+        return
+      }
+
+      setResolution(defaultResolution)
+    },
+    [selectedChip, defaultResolution]
+  )
+
+  React.useEffect(
+    () => {
+      setResolution(defaultResolution)
+    },
+    [configType]
+  )
+
+  return {
+    limit,
+    resolution,
+    options,
+    disabled,
+    handleChange,
+    fixed,
+  }
+}
 
 export const useParamsSetting = () => {
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -22,8 +83,11 @@ export const useParamsSetting = () => {
   const [selectedChip] = useAtom(selectedChipAtom)
   const [maxFPS] = useAtom(maxFPSAtom)
   const [maxChannel] = useAtom(maxChannelAtom)
+  const showClip = useAtomValue(showClipAtom)
+  const [clip, setClip] = useAtom(clipAtom)
   const resolution = useAtomValue(resolutionAtom)
   const totalFPS = selectedChip ? Math.floor((selectedChip.fps_limited / Math.pow(resolution / 640, 2))) : 0
+  const disabledClip = !useAtomValue(supportClipAtom)
 
   const [tip, setTip] = React.useState<string>('')
 
@@ -68,6 +132,10 @@ export const useParamsSetting = () => {
     setConfigConcurrent(concurrent || 1)
   }
 
+  const handleClipChange: SwitchChangeEventHandler = (checked) => {
+    setClip(checked)
+  }
+
   React.useEffect(
     () => {
       timerRef.current && clearTimeout(timerRef.current)
@@ -105,6 +173,14 @@ export const useParamsSetting = () => {
     [totalFPS]
   )
 
+  React.useEffect(
+    () => {
+      if (disabledClip || !showClip)
+        setClip(false)
+    },
+    [showClip, disabledClip]
+  )
+
   return {
     tip,
     showTip: Boolean(tip),
@@ -114,6 +190,10 @@ export const useParamsSetting = () => {
     configType,
     configFps,
     configConcurrent,
+    showClip,
+    disabledClip,
+    clip,
+    handleClipChange,
     handleCardNumChange,
     handleTypeChange,
     handleFpsChange,

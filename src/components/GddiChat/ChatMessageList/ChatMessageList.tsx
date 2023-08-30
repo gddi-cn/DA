@@ -60,7 +60,7 @@ const ChatMessageList = React.forwardRef<ChatMessageListRef, ChatMessageListProp
               defaultShow={i >= messageList.length - 10}
               showActions={
                 message.role !== 'user'
-                && !(message.preview || message.content.length === 0)
+                && !(message.preview || message.content?.length === 0)
                 && i > 0
               }
             />

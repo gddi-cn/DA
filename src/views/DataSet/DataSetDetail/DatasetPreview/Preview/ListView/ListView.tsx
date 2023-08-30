@@ -1,14 +1,13 @@
 import React from 'react'
 import { ReactCusScrollBar } from "@src/UIComponents";
 import { useState, useEffect, useRef, useMemo } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { Spin } from "antd";
 import { isNil } from "lodash";
 import ListItem from "./ListItem";
 import api from "@api";
 import "./ListView.module.less";
 import { currentClassAtom } from '../../../store';
 import { useAtom } from 'jotai';
+import ScrollFetcher from "@src/components/ScrollFetcher";
 
 export type FectData = {
   isInit?: boolean;
@@ -74,7 +73,7 @@ const ListView = (props: Props): JSX.Element => {
       );
       setLoading(false)
 
-      if (res.code !== 0 || !res.data) return 
+      if (res.code !== 0 || !res.data) return
 
       const { items, total } = res.data;
 
@@ -93,12 +92,12 @@ const ListView = (props: Props): JSX.Element => {
     fetchData({ isInit: true });
   }, [currentId, id, name]);
 
-  const fetchMoreData = () => {
+  const fetchMoreData = async () => {
     params.current.page++;
-    fetchData();
+    await fetchData();
   };
 
-  const list = 
+  const list =
     (dataListLen === 0 || datasetTotal === 0)
     ? null
     : datasetList.current.map((o, idx) => {
@@ -113,21 +112,13 @@ const ListView = (props: Props): JSX.Element => {
         id="scrollableDiv"
       >
         {show ? (
-          <InfiniteScroll
-            dataLength={datasetList.current.length}
-            next={fetchMoreData}
-            hasMore={datasetList.current.length < datasetTotal}
-            loader={
-              <div className="loader">
-                <Spin spinning={true} tip="loading"></Spin>
-              </div>
-            }
-            scrollableTarget={
-              document.getElementById("scrollableDiv")?.firstChild as any
-            }
-          >
+          <>
             <div className="dataset_list_wrap">{list}</div>
-          </InfiniteScroll>
+            <ScrollFetcher
+              hasMore={datasetList.current.length < datasetTotal}
+              fetchMore={fetchMoreData}
+            />
+          </>
         ) : null}
       </ReactCusScrollBar>
     </div>

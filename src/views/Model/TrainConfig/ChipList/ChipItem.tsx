@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useChip } from '@views/Model/TrainConfig/components/ChipList/hook'
+import { useChip } from './hook'
 
 const ChipContainer = styled.div`
   background-color: #fff;

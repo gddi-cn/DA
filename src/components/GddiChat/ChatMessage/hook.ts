@@ -58,17 +58,17 @@ export const useChatMessage = ({
   const isUser = role === 'user'
   const showTyping = preview && streaming
   const showDate = !isUser && !preview
-  const loading = (preview || content.length === 0) && !isUser
+  const loading = (preview || content?.length === 0) && !isUser
   const dateString = date.toLocaleString()
 
   const onRightClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    if (!selectOrCopy(e.currentTarget, content)) return
+    if (!selectOrCopy(e.currentTarget, (content || ''))) return
 
     e.preventDefault()
   }
 
   const onDoubleClick = () => {
-    _onDoubleClick && _onDoubleClick(content)
+    _onDoubleClick && _onDoubleClick(content || '')
   }
 
   const itemClassName = `chat-message-item${noBorder ? '-no-border' : ''}`

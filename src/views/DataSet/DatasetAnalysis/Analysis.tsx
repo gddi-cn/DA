@@ -45,7 +45,6 @@ const Title = styled.p`
 const useAnalysis = () => {
   const [item, setItem] = useState<AnalyzeItem | undefined>(undefined)
   const dataList = useAtomValue(analysisDataListAtom)
-  console.log({ dataList })
 
   const detailData = useMemo(
     () => {

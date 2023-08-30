@@ -6,33 +6,37 @@ import './flvMp4.module.less'
 
 let flvplayer: any = null;
 const createFlv = (url: any, video: any, setvideoLoading: any) => {
-  flvplayer = flvjs.createPlayer({
-    type: 'mp4',
-    url,
-    // isLive: true,
-    // hasAudio: true,
-  });
-  flvplayer.attachMediaElement(video);
-  flvplayer.load();
-  flvplayer.pause();
-  flvplayer.play()
-  flvplayer.on(flvjs.Events.METADATA_ARRIVED, (args: any) => {
-    console.log('METADATA_ARRIVED', args);
+  try {
+    flvplayer = flvjs.createPlayer({
+      type: 'mp4',
+      url,
+      // isLive: true,
+      // hasAudio: true,
+    });
+    flvplayer.attachMediaElement(video);
+    flvplayer.load();
+    flvplayer.pause();
+    flvplayer.play()
+    flvplayer.on(flvjs.Events.METADATA_ARRIVED, (args: any) => {
+      console.log('METADATA_ARRIVED', args);
 
-    setvideoLoading(false);
-  });
-  flvplayer.on(flvjs.Events.MEDIA_INFO, (args: any) => {
-    console.log(args);
-    setvideoLoading(false);
-  });
+      setvideoLoading(false);
+    });
+    flvplayer.on(flvjs.Events.MEDIA_INFO, (args: any) => {
+      console.log(args);
+      setvideoLoading(false);
+    });
 
-  flvplayer.on(flvjs.Events.ERROR, (args: any) => {
-    console.log(args, 'Events.ERROR');
-    if (flvplayer) {
-      flvplayer.destroy();
-      // createFlv(url, video, setvideoLoading)
-    }
-  });
+    flvplayer.on(flvjs.Events.ERROR, (args: any) => {
+      console.log(args, 'Events.ERROR');
+      if (flvplayer) {
+        flvplayer.destroy();
+        // createFlv(url, video, setvideoLoading)
+      }
+    });
+  } catch (error) {
+    console.error(error)
+  }
 }
 const FlvMp4 = (props: any) => {
   const { src } = props

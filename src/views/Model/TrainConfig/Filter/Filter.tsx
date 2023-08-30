@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import LeftTitle from '../LeftTitle'
+import LeftTitle from './LeftTitle'
 import ChipNameSearch from './ChipNameSearch'
 import BrandSelector from './BrandSelector'
 

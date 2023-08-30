@@ -1,17 +1,16 @@
 
 import { ReactCusScrollBar } from '@src/UIComponents'
 import { useState, useEffect, useRef, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component';
 import AddDataset from '../AddDataset'
 import V1DatasetCard from '../V1DatasetCard'
 import api from '@api'
 import { isNil } from 'lodash';
-import { Spin } from 'antd'
 import type { Data } from '../V1DatasetCard/V1DatasetCard'
 import { socketPushMsgForProject } from '@ghooks'
 import { useSelector } from 'react-redux'
 import { RootState } from '@reducer/index'
 import './DatasetList.module.less'
+import ScrollFetcher from '@src/components/ScrollFetcher'
 
 export type FectData = {
   isInit?: boolean,
@@ -111,9 +110,9 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
 
   useImperativeHandle(ref, () => paramsChangeAndFetch)
 
-  const fetchMoreData = () => {
+  const fetchMoreData = async () => {
     params.current.page++;
-    fetchData()
+    await fetchData()
   }
 
   useEffect(() => {
@@ -155,32 +154,20 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
         {
           show
             ? (
-              <InfiniteScroll
-                dataLength={datasetList.length}
-                next={fetchMoreData}
-                hasMore={datasetList.length < datasetTotal}
-                loader={
-                  <div className='loader'>
-                    <Spin spinning={true} tip="loading"></Spin>
-                  </div>
+            <>
+              <div className={datasetTotal >= 5 ? 'list_wrap' : 'less_data_list_wrap'}>
+                {
+                  addBtn
                 }
-                scrollableTarget={document.getElementById('scrollableDiv')?.firstChild as any}
-              >
-
-                <div className={datasetTotal >= 5 ? 'list_wrap' : 'less_data_list_wrap'}>
-                  <>
-                    {
-                      addBtn
-                    }
-                  </>
-                  <>
-                    {
-                      list
-                    }
-                  </>
-
-                </div>
-              </InfiniteScroll>
+                {
+                  list
+                }
+              </div>
+              <ScrollFetcher
+                fetchMore={fetchMoreData}
+                hasMore={datasetList.length < datasetTotal}
+              />
+            </>
             ) : null
         }
 

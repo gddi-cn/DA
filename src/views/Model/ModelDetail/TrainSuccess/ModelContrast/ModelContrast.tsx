@@ -13,7 +13,7 @@ import { ModelCompare } from '@src/shared/types/model'
 const tranFormData = (rawData: any[]) => {
   const dataset_list:any[] = []
 
-  let modelVersions = []
+  let modelVersions: any[] = []
   for (let i = 0; i < rawData.length; i++) {
     const { dataset_id, name, versions } = rawData[i]
     dataset_list.push(

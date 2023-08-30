@@ -13,7 +13,7 @@ function* workSaga (action: any): any {
     const path = '/v1/users/info'
     const res = yield call(() => api.get(path, params))
     if (res.code === 0) {
-      yield put(saveUserInfo({ data: res.data }))
+      yield put((saveUserInfo as any)({ data: res.data }))
     } else {
       // message.warning('G了')
     }

@@ -8,7 +8,7 @@ export const currentProjectIdAtom = atom<string | undefined>(undefined)
 
 export const templateDatasetAtom = atom<Data | null>(null)
 export const currentDatasetIdAtom = atom<Data['id'] | undefined>(undefined)
-export const currentDatasetAtom= atom<Promise<Data | undefined>>(async (get) => {
+export const currentDatasetAtom= atom(async (get) => {
   const id = get(currentDatasetIdAtom)
   if (!id) return undefined
 
