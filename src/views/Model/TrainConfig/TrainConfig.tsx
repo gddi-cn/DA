@@ -1,20 +1,10 @@
 import React from 'react'
-import {useAtomValue} from "jotai";
 import Box from "@mui/material/Box";
 
-import {stepAtom, useResetStore} from "@views/Model/TrainConfig/store";
 import SelectChip from './SelectChip'
 import Setting from './Setting'
 import Footer from './Footer'
-
-const useTrainConfig = () => {
-  useResetStore()
-  const step = useAtomValue(stepAtom)
-
-  return {
-    step,
-  }
-}
+import {useTrainConfig} from "./hook";
 
 const TrainConfig: React.FC = () => {
   const { step } = useTrainConfig()

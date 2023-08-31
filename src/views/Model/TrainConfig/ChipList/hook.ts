@@ -21,6 +21,7 @@ import { RootState } from '@reducer'
 import { ChipConfigType } from '@src/shared/enum/chip'
 import { ModelTrainMode } from '@src/shared/enum/model'
 import {currentProjectIdAtom} from "@src/store/dataset";
+import {useFetchRecommendConfig} from "@views/Model/TrainConfig/hook";
 
 export const useChipList = () => {
   const currentProjectId = useAtomValue(currentProjectIdAtom)
@@ -34,7 +35,7 @@ export const useChipList = () => {
   const [fps, setFps] = useAtom(configFpsAtom)
   const [channel, setConcurrent] = useAtom(configConcurrentAtom)
   const [, setMaxFPS] = useAtom(maxFPSAtom)
-  const [maxChannel, setMaxChannel] = useAtom(maxChannelAtom)
+  const [, setMaxChannel] = useAtom(maxChannelAtom)
 
   const [loading, setLoading] = useAtom(fetchingChipAtom)
 
@@ -42,27 +43,7 @@ export const useChipList = () => {
     state.tasksSilce?.activePipeLine?.APP_DATA_SET_INDEX?.scene
   )
 
-  const fetchRecommendConfig = () => {
-    if (!selectedChip || !task_type) return
-
-    const { name, chip_type, brand } = selectedChip
-
-    chipAPI
-      .fetchRecommendConfig(application, { task_type, chip_type, name, mode: ModelTrainMode.ACC, brand })
-      .then(({ success, data }) => {
-        if (!success || !data) {
-          setFps(5)
-          setConcurrent(1)
-          return
-        }
-
-        const fps = data.fps || 5
-        const channel = data.channel || 1
-
-        setFps(Math.min(fps, MAX_FPS))
-        setConcurrent(Math.min(channel, maxChannel))
-      })
-  }
+  const fetchRecommendConfig = useFetchRecommendConfig()
 
   React.useEffect(() => {
     if (loading) return
@@ -79,12 +60,6 @@ export const useChipList = () => {
       })
   }, [application, brand, chip_type, name, task_type, currentProjectId])
 
-  React.useEffect(
-    () => {
-      configType === ChipConfigType.RECOMMEND && fetchRecommendConfig()
-    },
-    [configType]
-  )
 
   React.useEffect(
     () => {

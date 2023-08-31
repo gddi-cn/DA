@@ -223,7 +223,12 @@ const Config: React.FC = () => {
                 <InfoIcon />
               </Tooltip>
             </Header>
-            <Switch disabled={disabledClip} id={'clip_switch'} checked={clip} onChange={handleClipChange} />
+            <Switch
+              disabled={disabledClip || disableInput}
+              id={'clip_switch'}
+              checked={clip}
+              onChange={handleClipChange}
+            />
           </div>
         ) : null
       }

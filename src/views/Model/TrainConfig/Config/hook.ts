@@ -1,23 +1,28 @@
 import React from 'react'
-import { useAtom, useAtomValue } from 'jotai'
+import {useAtom, useAtomValue} from 'jotai'
 
 import {
-  cardNumAtom, clipAtom,
+  cardNumAtom,
+  clipAtom,
   configConcurrentAtom,
   configFpsAtom,
-  configTypeAtom, defaultResolutionAtom,
+  configTypeAtom,
+  defaultResolutionAtom,
   maxChannelAtom,
   maxFPSAtom,
   resolutionAtom,
-  resolutionLimitAtom, resolutionListAtom,
-  selectedChipAtom, showClipAtom, supportClipAtom
+  resolutionLimitAtom,
+  resolutionListAtom,
+  selectedChipAtom,
+  showClipAtom,
+  supportClipAtom
 } from '../store'
-import { message, RadioChangeEvent } from 'antd'
-import { ChipConfigType } from '@src/shared/enum/chip'
-import { RootState } from '@reducer'
-import { useSelector } from 'react-redux'
-import {CheckboxChangeEvent} from "antd/es/checkbox";
+import {message, RadioChangeEvent} from 'antd'
+import {ChipConfigType} from '@src/shared/enum/chip'
+import {RootState} from '@reducer'
+import {useSelector} from 'react-redux'
 import {SwitchChangeEventHandler} from "antd/es/switch";
+import {useFetchRecommendConfig} from "@views/Model/TrainConfig/hook";
 
 const MAX_TIP = '您当前的训练配额卡数是 {cardLimit} 个，想升级服务请联系客服。'
 const PENDING_TIP = '当前选择卡数较大，可能需要较长时间等待训练'
@@ -99,6 +104,8 @@ export const useParamsSetting = () => {
   const disableInput = configType !== ChipConfigType.CUSTOM
   const disableCustom = !selectedChip
 
+  const fetchRecommendConfig = useFetchRecommendConfig()
+
   const handleCardNumChange = (cardNum: number | null) => {
     if ((cardNum || 1) > cardLimit)
       return message.warn(MAX_TIP.replace('{cardLimit}', cardLimit + ''))
@@ -151,6 +158,28 @@ export const useParamsSetting = () => {
       )
     },
     [tip]
+  )
+
+  React.useEffect(
+    () => {
+      if (!disabledClip && showClip) {
+        setClip(true)
+      }
+    },
+    [disabledClip, showClip]
+  )
+
+  React.useEffect(
+    () => {
+      if (configType !== ChipConfigType.RECOMMEND) return
+
+      fetchRecommendConfig().catch(console.error)
+
+      if (!disabledClip && showClip) {
+        setClip(true)
+      }
+    },
+    [configType]
   )
 
   React.useEffect(
