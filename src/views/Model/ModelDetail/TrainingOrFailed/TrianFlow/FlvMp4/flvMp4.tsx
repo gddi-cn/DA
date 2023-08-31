@@ -15,11 +15,11 @@ const createFlv = (url: any, video: any, setvideoLoading: any) => {
     });
     flvplayer.attachMediaElement(video);
     flvplayer.load();
-    flvplayer.pause();
-    flvplayer.play()
-    flvplayer.on(flvjs.Events.METADATA_ARRIVED, (args: any) => {
-      console.log('METADATA_ARRIVED', args);
+    // flvplayer.pause();
+    // flvplayer.play()
 
+    flvplayer.on(flvjs.Events.METADATA_ARRIVED, (args: any) => {
+      flvplayer.play()?.catch?.(console.error)
       setvideoLoading(false);
     });
     flvplayer.on(flvjs.Events.MEDIA_INFO, (args: any) => {

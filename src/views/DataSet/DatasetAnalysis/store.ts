@@ -24,6 +24,8 @@ export const analysisAssessAtom = atomWithRefresh(async (get) => {
   return data
 })
 
+export const analysisProgressAtom = atom((get) => get(analysisAssessAtom)?.progress ?? 0)
+
 export const analysisDataListAtom = atom(get => {
   const datasetDetail = get(datasetDetailAtom)
   if (!datasetDetail?.assess) return []
