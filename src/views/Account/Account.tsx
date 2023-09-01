@@ -5,9 +5,22 @@ import Dashboard from './components/Dashboard'
 import Info from './components/Info'
 import Consumes from './components/Consumes'
 import SpaceScroll from '@src/components/SpaceScroll/SpaceScroll'
+import {useSetAtom} from "jotai";
+import {userUsageAtom} from "@src/store/user";
 
+const useAccount = () => {
+  const refreshUsage = useSetAtom(userUsageAtom)
+
+  React.useEffect(
+    () => {
+      refreshUsage()
+    },
+    []
+  )
+}
 
 const Account: React.FC = () => {
+  useAccount()
   return (
     <SpaceScroll>
       <Box

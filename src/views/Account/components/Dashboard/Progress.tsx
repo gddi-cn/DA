@@ -22,7 +22,7 @@ const Progress: React.FC<ProgressProps> = (
     activeBgcolor = '#48a2df',
   }
 ) => {
-  const percent = infinity ? 0 : Math.floor(((value / total) * 100))
+  const percent = infinity ? 0 : Math.min(Math.floor(((value / total) * 100)), 100)
   const statistics = `${value} / ${infinity ? '无限制' : total} ${unit}`
 
   return (

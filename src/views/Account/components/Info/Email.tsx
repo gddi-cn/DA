@@ -1,16 +1,15 @@
 import { Box, IconButton, Skeleton, TextField, Tooltip, Typography } from '@mui/material'
-import { useAtomValue, useSetAtom } from 'jotai'
+import {useAtom} from 'jotai'
 import React from 'react'
 
 import EditIcon from '@mui/icons-material/Edit';
 import Btn, { LoadingBtn } from '@src/components/Btn'
-import { currentUserAtom, refreshUserAtom } from '@src/store/user'
+import { currentUserAtom } from '@src/store/user'
 import userAPI from '@src/apis/user';
 import { message } from 'antd';
 
 const useMail = () => {
-  const userInfo = useAtomValue(currentUserAtom)
-  const refreshUserInfo = useSetAtom(refreshUserAtom)
+  const [userInfo, refreshUserInfo] = useAtom(currentUserAtom)
   const { email } = userInfo || { email: '' }
   const [editing, setEditing] = React.useState(false)
   const [loading, setLoading] = React.useState(false)

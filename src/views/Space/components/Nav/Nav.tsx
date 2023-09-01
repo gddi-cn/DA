@@ -1,6 +1,7 @@
 import { Box, Divider, Paper, Skeleton, Typography, styled } from '@mui/material'
 import React from 'react'
 import { useMatch, useNavigate } from 'react-router-dom'
+import DashboardIcon from '@mui/icons-material/DashboardOutlined';
 
 import { Paths } from '@src/shared/enum/paths'
 import { ReactComponent as ApiIcon } from '@src/asset/spaceNavi/api.svg'
@@ -143,68 +144,6 @@ const BalanceFallback: React.FC = () => {
   )
 }
 
-const Account: React.FC = () => {
-  const navigate = useNavigate()
-  const match = useMatch(Paths.Space.ACCOUNT)
-  const ref = React.useRef<HTMLAnchorElement>(null)
-  const authType = useAtomValue(userUsageAtom)?.auth_type
-  const isOEM = authType === 'OEM'
-
-  const handleClick = () => {
-    match || navigate(Paths.Space.ACCOUNT)
-  }
-
-  React.useEffect(
-    () => {
-      if (match) {
-        ref.current?.setAttribute('selected', '')
-      } else {
-        ref.current?.removeAttribute('selected')
-      }
-    },
-    [match]
-  )
-
-  return (
-    <AccountWrap
-      ref={ref}
-      component='a'
-      onClick={handleClick}
-    >
-      <Typography variant='h6' component='h4' color='white'>个人账户</Typography>
-      <Box
-        sx={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          mt: '20px', columnGap: '10px',
-        }}>
-        <Box>
-          <Typography variant='body1' component='h4' color='white' noWrap>
-            {
-              isOEM ? '到期时间' : '账户余额'
-            }
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            flexGrow: 1, overflow: 'hidden',
-            display: 'flex', justifyContent: 'flex-end', alignItems: 'center',
-          }}
-        >
-          <React.Suspense fallback={<BalanceFallback />}>
-            {
-              isOEM ? (
-                <Expire />
-              ) : (
-                <Balance />
-              )
-            }
-          </React.Suspense>
-        </Box>
-      </Box>
-    </AccountWrap>
-  )
-}
-
 const Nav: React.FC = () => {
   const {
     greeting,
@@ -218,7 +157,12 @@ const Nav: React.FC = () => {
           <Typography variant='h5' component='h3'>{greeting}!</Typography>
           <Typography variant='h5' component='h3' noWrap>{nickname}</Typography>
           <Box sx={{ mt: 2.5 }} component='nav'>
-            <Account />
+            {/*<Account />*/}
+            <Link
+              path={Paths.Space.ACCOUNT}
+              name={'账户'}
+              Icon={<DashboardIcon sx={{ fontSize: 20 }} />}
+            />
             <Link
               Icon={<ApiIcon />}
               ActiveIcon={<ApiActiveIcon />}

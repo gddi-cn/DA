@@ -1,5 +1,5 @@
 import { Box, Grid, List, ListItem, Skeleton, Typography } from '@mui/material'
-import { useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
 import React from 'react'
 
 import { consumesAtom } from './store'
@@ -38,7 +38,14 @@ const getAmount = (type: EUser.Consume.Type, amount: number) => {
 }
 
 const useRecord = () => {
-  const { items: consumeList } = useAtomValue(consumesAtom)
+  const [{ items: consumeList }, refresh] = useAtom(consumesAtom)
+
+  React.useEffect(
+    () => {
+      refresh()
+    },
+    []
+  )
 
   return {
     consumeList,

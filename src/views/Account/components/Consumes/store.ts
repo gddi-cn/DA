@@ -2,6 +2,7 @@ import { atom } from 'jotai'
 
 import { User as EUser } from "@src/shared/enum/user";
 import userAPI from '@src/apis/user';
+import {atomWithRefresh} from "@src/utils/atomCreators";
 
 export const filterAtom = atom<User.Consume.List.Params>({
   page: 1,
@@ -17,7 +18,7 @@ export const pageAtom = atom<number>(get => get(filterAtom).page)
 
 export const pageNumberAtom = atom<number>(get => get(filterAtom).page_size)
 
-export const consumesAtom = atom(async (get) => {
+export const consumesAtom = atomWithRefresh(async (get) => {
   const filter = get(filterAtom)
   const { success, data } = await userAPI.consumes(filter)
   if (!success || !data) return {

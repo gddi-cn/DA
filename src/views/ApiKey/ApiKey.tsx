@@ -1,12 +1,13 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
+import { Provider } from 'jotai';
+import Scrollbars from 'react-custom-scrollbars';
 
 import Actions from './Actions'
 import APIKeyList from './APIKeyList'
 import Footer from './Footer';
-import Scrollbars from 'react-custom-scrollbars';
 
-const ApiKey: React.FC = () => {
+const Inner: React.FC = () => {
   return (
     <Box
       sx={{
@@ -56,6 +57,14 @@ const ApiKey: React.FC = () => {
         </Box>
       </Box>
     </Box>
+  )
+}
+
+const ApiKey: React.FC = () => {
+  return (
+    <Provider>
+      <Inner />
+    </Provider>
   )
 }
 

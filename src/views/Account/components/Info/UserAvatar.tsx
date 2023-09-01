@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Skeleton, Tooltip, styled } from '@mui/material'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtom } from 'jotai'
 
-import { currentUserAtom, refreshUserAtom } from '@src/store/user'
+import { currentUserAtom } from '@src/store/user'
 import defaultAvatar from '@src/asset/defaultAvatar.png'
 import { ReactComponent as CameraIcon } from '@src/asset/camera.svg'
 import s3API from '@src/apis/s3New'
@@ -31,8 +31,7 @@ const Avatar = styled('img')(() => ({
 const useUserAvatar = () => {
   const [loading, setLoading] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
-  const userInfo = useAtomValue(currentUserAtom)
-  const refreshUserInfo = useSetAtom(refreshUserAtom)
+  const [userInfo , refreshUserInfo] = useAtom(currentUserAtom)
 
   const avatar = userInfo?.avatar || defaultAvatar
 

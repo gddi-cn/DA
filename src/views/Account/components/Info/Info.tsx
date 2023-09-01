@@ -6,8 +6,23 @@ import Username from './Username'
 import Nickname from './Nickname'
 import Email from './Email'
 import UpdatePwd from './UpdatePwd'
+import {currentUserAtom} from "@src/store/user";
+import {useSetAtom} from "jotai";
+
+const useInfo = () => {
+  const refreshUser = useSetAtom(currentUserAtom)
+
+  React.useEffect(
+    () => {
+      refreshUser()
+    },
+    []
+  )
+}
 
 const Info: React.FC = () => {
+  useInfo()
+
   return (
     <Box
       sx={{
