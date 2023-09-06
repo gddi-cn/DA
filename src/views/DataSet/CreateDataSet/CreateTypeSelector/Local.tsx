@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import TypeItem from './TypeItem'
 import { DatasetCreateType } from '@src/shared/enum/dataset'
+import AppDownload from "./AppDownload";
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +24,15 @@ const Content = styled.div`
   padding: 20px;
   display: flex;
   gap: 20px;
+  position: relative;
 `
+
+const AppDownloadWrap = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+`
+
 const Local: React.FC = () => {
   return (
     <Container>
@@ -31,6 +40,9 @@ const Local: React.FC = () => {
       <Content>
         <TypeItem type={DatasetCreateType.UPLOAD_UNREMARKED} />
         <TypeItem type={DatasetCreateType.UPLOAD_REMARKED} />
+        <AppDownloadWrap>
+          <AppDownload />
+        </AppDownloadWrap>
       </Content>
     </Container>
   )
