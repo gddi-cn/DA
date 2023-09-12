@@ -27,7 +27,7 @@ export const useRefreshAppList = () => {
     const { success, data } = await appAPI.list(filter)
     setLoading(false)
 
-    if (!success || !data) {
+    if (!success || !data?.items) {
       setTotal(0)
       setAppList([])
       return

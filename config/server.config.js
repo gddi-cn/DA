@@ -7,6 +7,7 @@ module.exports = {
       context: ['/api/v1/ws'],
 
       target: 'ws://market.lab.k8s.gddi.com',
+      // target: 'wss://desauto.net',
       // target: 'http://gddi.ai',
       changeOrigin: true,
       logLevel: 'debug',
@@ -16,6 +17,7 @@ module.exports = {
     {
       context: ['/api'],
       target: 'http://market.lab.k8s.gddi.com',
+      // target: 'https://desauto.net',
       // target: 'http://gddi.ai',
       changeOrigin: true,
       // xfwd: false,
@@ -24,6 +26,7 @@ module.exports = {
     {
       context: ['/upload'],
       target: 'http://market.lab.k8s.gddi.com/',
+      // target: 'https://desauto.net',
       // target: 'http://gddi.ai',
       changeOrigin: true,
       // xfwd: false,
