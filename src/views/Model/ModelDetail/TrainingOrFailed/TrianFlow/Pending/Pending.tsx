@@ -1,27 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
-import waiting from './watting_resource.gif'
+
+import CircularProgress from '@mui/material/CircularProgress'
+import { Typography } from '@mui/material'
 
 const Container = styled.div`
   height: 100%;
   width: 100%;
   overflow: hidden;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-`
-
-const Img = styled.img`
-  display: block;
-  height: 50%;
-  width: 50%;
-  object-fit: contain;
+  row-gap: 24px;
 `
 
 const Pending: React.FC = () => {
   return (
     <Container>
-      <Img src={waiting} />
+      <CircularProgress size={70} />
+      <Typography variant='h5'>等待资源释放，训练排队中</Typography>
     </Container>
   )
 }

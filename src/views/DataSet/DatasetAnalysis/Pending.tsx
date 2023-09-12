@@ -2,13 +2,13 @@ import React from 'react'
 import Box from "@mui/material/Box";
 import {styled} from '@mui/material'
 import Typography from "@mui/material/Typography";
+import CircularProgress from '@mui/material/CircularProgress'
 import LinearProgress, { linearProgressClasses, LinearProgressProps } from '@mui/material/LinearProgress';
 
-import loading from '@src/asset/images/g_loading.gif'
 import {useAtomValue, useSetAtom} from "jotai";
 import {analysisAssessAtom, analysisProgressAtom, datasetDetailAtom} from "@views/DataSet/DatasetAnalysis/store";
 
-const Loading = styled('img')`
+const Loading = styled('div')`
   display: block;
   width: 400px;
   aspect-ratio: 5/4;
@@ -80,7 +80,7 @@ const Pending: React.FC = () => {
   return (
     <Box sx={{ height: '100%', display: 'grid', placeItems: 'center' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', rowGap: 1 }}>
-        <Loading src={loading} alt={'loading'} />
+        <CircularProgress size={100} sx={{ mb: 4 }} />
         <Box width={500}>
           <LinearProgressWithLabel value={progress} />
         </Box>
