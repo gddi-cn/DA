@@ -5893,7 +5893,7 @@ __metadata:
     cose-base: "npm:^2.2.0"
   peerDependencies:
     cytoscape: ^3.2.0
-  checksum: ce472c9f85b9057e75c5685396f8e1f2468895e71b184913e05ad56dcf3092618fe59a1054f29cb0995051ba8ebe566ad0dd49a58d62845145624bd60cd44917
+  checksum: 9990cc408fcb90bc88d4a0ffcb68d40ef482b0af8e6ae0dfe59b7d85c284876d40ae90cd1b34c09c368ecb0d4f94d500258a6d3e6e125389b92c1911b5fc3cf3
   languageName: node
   linkType: hard
 

@@ -4,8 +4,9 @@ import {ReactCusScrollBar} from "@src/UIComponents";
 import styled from "styled-components";
 import Details from "./Details";
 import {useAtomValue} from "jotai";
-import {analysisDataListAtom} from "@views/DataSet/DatasetAnalysis/store";
+import {analysisDataListAtom, datasetDetailAtom} from "@views/DataSet/DatasetAnalysis/store";
 import Radar from "@views/DataSet/DatasetAnalysis/Radar";
+import {useSetAtom} from "jotai";
 
 const Container = styled.div`
   display: grid;
@@ -45,6 +46,7 @@ const Title = styled.p`
 const useAnalysis = () => {
   const [item, setItem] = useState<AnalyzeItem | undefined>(undefined)
   const dataList = useAtomValue(analysisDataListAtom)
+  const refreshDetail = useSetAtom(datasetDetailAtom)
 
   const detailData = useMemo(
     () => {
@@ -75,6 +77,13 @@ const useAnalysis = () => {
   const handleItemChange = (item: AnalyzeItem) => {
     setItem(item)
   }
+
+  React.useEffect(
+    () => {
+      refreshDetail()
+    },
+    []
+  )
 
   return {
     detailData,

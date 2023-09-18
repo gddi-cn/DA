@@ -57,7 +57,7 @@ const NextBtnFallback: React.FC = () => {
 
 const NextBtn: React.FC = () => {
   const access = useAtomValue(analysisAssessAtom)
-  const disabledNext = access?.status !== DatasetAnalysisStatus.FINISHEd
+  const disabledNext = access?.status !== DatasetAnalysisStatus.FINISHED
 
   const navigate = useNavigate()
 

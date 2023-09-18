@@ -6,7 +6,7 @@ import LinearProgress, { linearProgressClasses, LinearProgressProps } from '@mui
 
 import loading from '@src/asset/images/g_loading.gif'
 import {useAtomValue, useSetAtom} from "jotai";
-import {analysisAssessAtom, analysisProgressAtom} from "@views/DataSet/DatasetAnalysis/store";
+import {analysisAssessAtom, analysisProgressAtom, datasetDetailAtom} from "@views/DataSet/DatasetAnalysis/store";
 
 const Loading = styled('img')`
   display: block;
@@ -68,6 +68,7 @@ const usePending = () => {
     },
     []
   )
+
 
   return {
     progress,

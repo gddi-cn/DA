@@ -15,7 +15,7 @@ const useContent = () => {
   const access = useAtomValue(analysisAssessAtom)
   const state: State = !access
     ? 'init'
-    : access.status === DatasetAnalysisStatus.FINISHEd
+    : access.status === DatasetAnalysisStatus.FINISHED
     ? 'success'
     : access?.status === DatasetAnalysisStatus.FAILED
     ? 'failed'

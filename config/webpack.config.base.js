@@ -42,7 +42,7 @@ const imageInlineSizeLimit = parseInt(
 // const modifyVars = require('../src/asset/lessVar/antd_var')
 // const babelrc = fs.readFileSync();
 
-module.exports = function (webpackEnv) {
+module.exports = function(webpackEnv) {
   const isEnvProduction = webpackEnv === 'production';
   const isEnvDevelopment = webpackEnv === 'development';
 
@@ -408,7 +408,7 @@ module.exports = function (webpackEnv) {
 
         typescript: {
           typeCheck: {
-            memoryLimit: 1024 * 8,
+            memoryLimit: 1024 * 24,
           },
           typescriptPath: resolve.sync('typescript', {
             basedir: paths.appNodeModules,
