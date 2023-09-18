@@ -17,6 +17,9 @@ const Result: React.FC = () => {
   const navigate = useNavigate()
   const handleClose = () => {
     navigate({ pathname: APP_DATA_SET_INDEX })
+    socketPushMsgForProject(activePipeLine, {
+      active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATA_SET_INDEX,
+    })
   }
   const handleGotoCreate = () => {
     navigate({ pathname: APP_DATASET_CREATE_TYPE })
@@ -29,7 +32,7 @@ const Result: React.FC = () => {
       <div className='AfterUploaded_wrap'>
         <WTF />
         <div className='title'>
-                  数据导入成功
+          数据导入成功
         </div>
 
         <div className='btn_wrap'>

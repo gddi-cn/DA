@@ -129,7 +129,7 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
     )
   }, [publicStatus])
 
-  const handleCardClick = useCallback((data: Data) => {
+  const handleCardClick = (data: Data) => {
     setActiveId(data.id)
     setSelectData(data)
     socketPushMsgForProject(activePipeLine, {
@@ -137,15 +137,7 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
       APP_DATA_SET_INDEX: data,
       APP_DATASET_DETAIL: { id: data?.id }
     })
-  }, [setSelectData, activePipeLine])
-
-  const list = useMemo(() => {
-    return datasetList.map((o) => {
-      return (
-        <V1DatasetCard key={o.id} data={o} fetchData={fetchData} activeId={activeId} handleCardClick={handleCardClick} />
-      )
-    })
-  }, [datasetList, fetchData, activeId, handleCardClick])
+  }
 
   return (
     <div styleName='DatasetList' id='DataSetIndex'>
@@ -160,7 +152,11 @@ const DatasetList = (props: Props, ref: any): JSX.Element => {
                   addBtn
                 }
                 {
-                  list
+                  datasetList.map((o) => {
+                    return (
+                      <V1DatasetCard key={o.id} data={o} fetchData={fetchData} activeId={activeId} handleCardClick={handleCardClick} />
+                    )
+                  })
                 }
               </div>
               <ScrollFetcher
