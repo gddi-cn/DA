@@ -11,7 +11,8 @@ const typeURLMapping: Map<DatasetScene, string> = new Map([
   [DatasetScene.CarPoseDetection, 'https://s3.local.cdn.desauto.net/public/example/detection_3d_example.zip'],
   [DatasetScene.KeyPointsBasedAction, 'https://s3.local.cdn.desauto.net/public/example/action_detection_example.zip'],
   [DatasetScene.KeypointsDetection, 'https://s3.local.cdn.desauto.net/public/example/keypoint_detection_example.zip'],
-  [DatasetScene.ImageRetrieval, 'https://s3.local.cdn.desauto.net/public/example/image_retrieval.zip']
+  [DatasetScene.ImageRetrieval, 'https://s3.local.cdn.desauto.net/public/example/image_retrieval.zip'],
+  [DatasetScene.OcrRecognition, 'https://s3.hdd.cdn.desauto.net/public/example/ocr_template.zip']
 ])
 
 export const currentStepAtom = atom<EMarked.Step>(EMarked.Step.SELECT_TRAIN_TYPE)

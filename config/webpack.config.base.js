@@ -407,7 +407,9 @@ module.exports = function (webpackEnv) {
       new ForkTsCheckerWebpackPlugin({
 
         typescript: {
-
+          typeCheck: {
+            memoryLimit: 1024 * 8,
+          },
           typescriptPath: resolve.sync('typescript', {
             basedir: paths.appNodeModules,
           }),
