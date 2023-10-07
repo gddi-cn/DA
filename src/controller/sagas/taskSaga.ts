@@ -74,10 +74,12 @@ function* fetchTaskActiveList (action:any):any {
   }
 }
 
-function* addActiveTaskGen (): any {
+function* addActiveTaskGen (action: { type: string,  payload?: { datasetId?: string, name?: string }}): any {
+  const { datasetId, name = '未命名' } = action.payload || {}
   try {
     const res = yield call(() => api.post('/v3/projects', {
-      name: '未命名'
+      name,
+      dataset_id: datasetId
     }))
     if (res?.code === 0) {
       yield put(saveActivePipeLineLoading(true))

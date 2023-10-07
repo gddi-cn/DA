@@ -7,6 +7,7 @@ export namespace Paths {
 
   export enum Layout {
     HOME = '/',
+    LABELING = '/app/labeling',
     SPACE = '/app/space',
     PROJECT = '/project/:id',
   }

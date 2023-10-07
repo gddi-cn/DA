@@ -13,7 +13,7 @@ import {
   APP_ORDER_PROCESS,
   APP_EXPERIENCE,
   APP_PLATFORM, SPACE, SPACE_ACCOUNT, SPACE_API, SPACE_DEVICE, SPACE_DEPLOY,
-  CREATE_DATASET_WITH_MARKED, APP_SDK,
+  CREATE_DATASET_WITH_MARKED, APP_SDK, LABELING,
 } from '../../pathNames'
 import { lazy } from 'react'
 import { SuspenseFn } from '../../utils'
@@ -69,6 +69,8 @@ const ApiKey = lazy(() => import('@src/views/ApiKey'))
 const Device = lazy(() => import('@src/views/SpaceDevice'))
 const SpaceDeploy = lazy(() => import('@src/views/SpaceDeploy'))
 
+const Labeling = lazy(() => import('@src/views/Labeling'))
+
 export default {
   path: '/app',
   strict: true,
@@ -77,6 +79,12 @@ export default {
     // 仅有头部任务的
     {
       element: SuspenseFn(NoScoketLayout),
+      children: [
+      ]
+    },
+    {
+
+      element: SuspenseFn(AutoMLLayout),
       children: [
         {
           path: SPACE,
@@ -99,14 +107,11 @@ export default {
               element: SuspenseFn(SpaceDeploy),
             },
           ],
-        }
-      ]
-
-    },
-    {
-
-      element: SuspenseFn(AutoMLLayout),
-      children: [
+        },
+        {
+          path: LABELING,
+          element: SuspenseFn(Labeling),
+        },
         {
           path: APP_GUIDE_PAGE,
           element: SuspenseFn(GuideHome),

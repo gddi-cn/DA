@@ -109,6 +109,21 @@ export const userAPI = {
       }
     }
   },
+
+  refreshToken: async () => {
+    try {
+      const data = await http.patch('/v3/user/refresh')
+      console.log({ data })
+      return {
+        success: true,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  }
 }
 
 export default userAPI

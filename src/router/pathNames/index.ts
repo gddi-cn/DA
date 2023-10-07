@@ -87,3 +87,5 @@ export const SPACE_ACCOUNT = '/app/space/account'
 export const SPACE_API = '/app/space/api'
 export const SPACE_DEVICE = '/app/space/device'
 export const SPACE_DEPLOY = '/app/space/deploy'
+
+export const LABELING = '/app/labeling'

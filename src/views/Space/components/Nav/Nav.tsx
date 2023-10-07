@@ -16,6 +16,7 @@ import { userUsageAtom } from '@src/store/user'
 import { useAtomValue } from 'jotai'
 import Scrollbars from 'react-custom-scrollbars'
 import { formatUinxTime } from '@src/utils'
+import IconLabelAlt from "@src/icons/LabelAlt";
 
 const Wrap = styled(Paper)`
   height: 100%;
@@ -183,6 +184,13 @@ const Nav: React.FC = () => {
               ActiveIcon={<DeployActiveIcon />}
               path={Paths.Space.DEPLOY}
               name='生产部署'
+              marginTop='20px'
+            />
+            <Link
+              Icon={<IconLabelAlt style={{ color: '#000', fontSize: '22px' }} />}
+              ActiveIcon={<IconLabelAlt style={{ color: '#fff', fontSize: '22px' }} />}
+              path={Paths.Layout.LABELING}
+              name='自动化标注'
               marginTop='20px'
             />
           </Box>

@@ -3,6 +3,20 @@ import http from '@src/utils/http'
 import { UpdateProjectData, UpdateProjectResponse } from '@src/shared/types/project'
 
 const projectAPI = {
+  create: async (data: { name: string, dataset_id?: string }): Promise<APIResponse<Project.Detail>> => {
+    try {
+      const { data: _data } = await http.post('/v3/projects', data)
+      return {
+        success: true,
+        data: _data,
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        success: false,
+      }
+    }
+  },
   detail: async(id: Project.Detail['id']): Promise<APIResponse<Project.Detail>> => {
     try {
       const { data } = await http.get(`/v3/projects/${id}`)
