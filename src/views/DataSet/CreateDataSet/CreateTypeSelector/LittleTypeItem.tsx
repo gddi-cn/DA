@@ -5,15 +5,13 @@ import {DatasetCreateType} from '@src/shared/enum/dataset'
 import {useTypeItem} from './hook'
 
 const Container = styled.div`
-  position: relative;
-  width: 416px;
-  height: 446px;
+  height: 140px;
   background-color: #fff;
   border-radius: 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   padding: 16px;
+  gap: 48px;
   overflow: hidden;
   cursor: pointer;
   transition:
@@ -27,8 +25,8 @@ const Container = styled.div`
   }
 `
 const Img = styled.img`
-  width: 100%;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
 `
 
 const Title = styled.h5`
@@ -43,7 +41,7 @@ const Title = styled.h5`
 interface TypeItemProp {
   type: DatasetCreateType;
 }
-const TypeItem: React.FC<TypeItemProp> = (
+const LittleTypeItem: React.FC<TypeItemProp> = (
   {
     type,
   }
@@ -57,22 +55,10 @@ const TypeItem: React.FC<TypeItemProp> = (
 
   return (
     <Container ref={containerRef} onClick={handleClick}>
-      <div style={{ width: 384, height: 353, display: 'grid', placeContent: 'center' }}>
-        <Img src={logo} />
-      </div>
+      <Img src={logo} />
       <Title>{title}</Title>
-      {
-        type === DatasetCreateType.LABELING ? (
-          <div style={{position: 'absolute', bottom: 15, left: 0, right: 0}}>
-            <p style={{textAlign: 'center', fontSize: 14, color: '#888'}}>
-              目前支持&nbsp;<span style={{color: '#F7C5AA'}}>目标检测</span>&nbsp;算法，采用&nbsp;
-              <span>GDDi 自动化标注</span>
-            </p>
-          </div>
-        ) : null
-      }
     </Container>
   )
 }
 
-export default TypeItem
+export default LittleTypeItem

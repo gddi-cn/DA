@@ -36,9 +36,10 @@ const AppDownloadWrap = styled.div`
 const Local: React.FC = () => {
   return (
     <Container>
-      <Title>本地上传</Title>
+      <Title>数据上传</Title>
       <Content>
-        <TypeItem type={DatasetCreateType.UPLOAD_UNREMARKED} />
+        {/*<TypeItem type={DatasetCreateType.UPLOAD_UNREMARKED} />*/}
+        <TypeItem type={DatasetCreateType.LABELING} />
         <TypeItem type={DatasetCreateType.UPLOAD_REMARKED} />
         <AppDownloadWrap>
           <AppDownload />

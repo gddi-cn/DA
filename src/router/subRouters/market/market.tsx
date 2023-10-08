@@ -80,12 +80,6 @@ export default {
     {
       element: SuspenseFn(NoScoketLayout),
       children: [
-      ]
-    },
-    {
-
-      element: SuspenseFn(AutoMLLayout),
-      children: [
         {
           path: SPACE,
           element: SuspenseFn(Space),
@@ -112,6 +106,13 @@ export default {
           path: LABELING,
           element: SuspenseFn(Labeling),
         },
+      ]
+
+    },
+    {
+
+      element: SuspenseFn(AutoMLLayout),
+      children: [
         {
           path: APP_GUIDE_PAGE,
           element: SuspenseFn(GuideHome),

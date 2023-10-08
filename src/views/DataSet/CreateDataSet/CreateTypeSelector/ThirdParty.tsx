@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import TypeItem from './TypeItem'
+import LittleTypeItem from './LittleTypeItem'
 import { DatasetCreateType } from '@src/shared/enum/dataset'
 
 const Container = styled.div`
@@ -22,15 +22,19 @@ const Content = styled.div`
   background-color: #edf8ff;
   border-radius: 8px;
   padding: 20px;
+  height: 488px;
+  width: 416px;
   display: flex;
+  flex-direction: column;
   gap: 20px;
 `
 const ThirdParty: React.FC = () => {
   return (
     <Container>
-      <Title>第三方导入</Title>
+      <Title>第三方服务</Title>
       <Content>
-        <TypeItem type={DatasetCreateType.IMPORT_THIRD_PARTY} />
+        <LittleTypeItem type={DatasetCreateType.IMPORT_THIRD_PARTY} />
+        <LittleTypeItem type={DatasetCreateType.UPLOAD_UNREMARKED} />
       </Content>
     </Container>
   )

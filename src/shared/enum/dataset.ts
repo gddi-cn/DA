@@ -72,6 +72,7 @@ export enum DatasetCreateType {
   UPLOAD_UNREMARKED = 1,
   UPLOAD_REMARKED,
   IMPORT_THIRD_PARTY,
+  LABELING,
 }
 
 export enum UnmarkedDatasetCreateStep {

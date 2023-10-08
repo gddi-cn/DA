@@ -32,6 +32,7 @@ import keyPoints1 from '@views/DataSet/DatasetAnalysis/analysisImg/key_points1.g
 import unremarked from '@src/asset/images/dataset/unremarked.png'
 import remarked from '@src/asset/images/dataset/remarked.png'
 import thirdParty from '@src/asset/images/dataset/thirdParty.png'
+import labeling from '@src/asset/images/dataset/labeling.png'
 
 export const datasetDownloadStatusNameMapping: Map<DatasetDownloadStatus, string> = new Map([
   [DatasetDownloadStatus.FAILED, /*      */'重新申请'],
@@ -482,12 +483,14 @@ export const datasetCreateTypeLogoMapping: Map<DatasetCreateType, any> = new Map
   [DatasetCreateType.UPLOAD_UNREMARKED, unremarked],
   [DatasetCreateType.UPLOAD_REMARKED, remarked],
   [DatasetCreateType.IMPORT_THIRD_PARTY, thirdParty],
+  [DatasetCreateType.LABELING, labeling],
 ])
 
 export const datasetCreateTypeNameMapping: Map<DatasetCreateType, string> = new Map([
   [DatasetCreateType.UPLOAD_UNREMARKED, '数据标注服务'],
   [DatasetCreateType.UPLOAD_REMARKED, '上传已标注数据'],
   [DatasetCreateType.IMPORT_THIRD_PARTY, '第三方导入'],
+  [DatasetCreateType.LABELING, '未标注数据'],
 ])
 
 export const datasetImportStatusNameMapping: Map<DatasetImportStatus, string> = new Map([

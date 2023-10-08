@@ -1,23 +1,16 @@
-import { DatasetCreateType } from '@src/shared/enum/dataset'
-import { useAtom } from 'jotai'
+import {DatasetCreateType} from '@src/shared/enum/dataset'
+import {useAtom} from 'jotai'
 
-import { selectedTypeAtom } from './store'
-import {
-  datasetCreateTypeLogoMapping, datasetCreateTypeNameMapping
-} from '@src/shared/mapping/dataset'
+import {selectedTypeAtom} from './store'
+import {datasetCreateTypeLogoMapping, datasetCreateTypeNameMapping} from '@src/shared/mapping/dataset'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import {
-  APP_DATA_SET_INDEX,
-  CREATE_DATASET_WITH_MARKED,
-  APP_THIRDPARTY_SelectTrainType,
-  APP_UNREMARKED_CREATE
-} from '@router'
-import { socketPushMsgForProject } from '@ghooks'
-import { SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
-import { useSelector } from 'react-redux'
-import { RootState } from '@reducer'
-import { useBack2DatasetIndex } from '@src/hooks/task'
+import {useNavigate} from 'react-router-dom'
+import {APP_THIRDPARTY_SelectTrainType, APP_UNREMARKED_CREATE, CREATE_DATASET_WITH_MARKED, LABELING} from '@router'
+import {socketPushMsgForProject} from '@ghooks'
+import {SNAPSHOT_KEY_OF_ROUTER} from '@src/constants'
+import {useSelector} from 'react-redux'
+import {RootState} from '@reducer'
+import {useBack2DatasetIndex} from '@src/hooks/task'
 
 export const useTypeItem = (createType: DatasetCreateType) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null)
@@ -105,6 +98,9 @@ export const useFooter = () => {
         socketPushMsgForProject(activePipeLine, {
           active_page: SNAPSHOT_KEY_OF_ROUTER.APP_THIRDPARTY_SelectTrainType
         })
+        break
+      case DatasetCreateType.LABELING:
+        navigate(LABELING)
         break
       default:
         break

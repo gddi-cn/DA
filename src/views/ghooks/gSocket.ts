@@ -147,7 +147,7 @@ export class Ws {
         event_data.text().then((text:any) => {
         //   const { action, data } = JSON.parse(text);
           const data = JSON.parse(text)
-          // console.log(data, 'event_data')
+          console.log(data, 'event_data')
           this.eventCenter?.emit(data.action, data)
         })
       } catch (error) {
