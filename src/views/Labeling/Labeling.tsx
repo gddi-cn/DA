@@ -112,8 +112,8 @@ const Labeling: React.FC = () => {
             <iframe
               ref={iframeRef}
               autoFocus
-               src={ 'http://localhost:8080/'}
-              // src={url}
+               // src={ 'http://localhost:8080/'}
+              src={url}
               style={{
                 width: '1px',
                 minWidth: '100%',
