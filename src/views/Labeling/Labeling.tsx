@@ -44,6 +44,9 @@ const Labeling: React.FC = () => {
   React.useEffect(
     () => {
       setLoading(true)
+      iframeRef.current?.addEventListener('open', () => {
+        console.log('load')
+      })
       getUrl()
         .then(({ success, data }) => {
           if (!success || !data) {
@@ -55,7 +58,6 @@ const Labeling: React.FC = () => {
         .finally(() => {
           setLoading(false)
         })
-
     },
     []
   )
@@ -111,6 +113,12 @@ const Labeling: React.FC = () => {
           ) : (
             <iframe
               ref={iframeRef}
+              onLoad={(e) => {
+                (e.target as HTMLIFrameElement).contentWindow?.postMessage({
+                  type: 'initToken',
+                  payload: window.localStorage.getItem('token'),
+                }, '*')
+              }}
               autoFocus
                // src={ 'http://localhost:8080/'}
               src={url}

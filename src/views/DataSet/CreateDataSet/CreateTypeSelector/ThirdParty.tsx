@@ -24,17 +24,18 @@ const Content = styled.div`
   padding: 20px;
   height: 488px;
   width: 416px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  place-items: center;
 `
 const ThirdParty: React.FC = () => {
   return (
     <Container>
       <Title>第三方服务</Title>
       <Content>
-        <LittleTypeItem type={DatasetCreateType.IMPORT_THIRD_PARTY} />
-        <LittleTypeItem type={DatasetCreateType.UPLOAD_UNREMARKED} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 48, width: '100%' }}>
+          <LittleTypeItem type={DatasetCreateType.IMPORT_THIRD_PARTY} />
+          <LittleTypeItem type={DatasetCreateType.UPLOAD_UNREMARKED} />
+        </div>
       </Content>
     </Container>
   )
