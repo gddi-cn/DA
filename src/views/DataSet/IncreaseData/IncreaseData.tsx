@@ -18,6 +18,7 @@ import { isEmpty } from 'lodash'
 import { useAtom } from 'jotai'
 import { templateDatasetAtom } from '@src/store/dataset'
 import { SecondaryBtn } from '@src/components/Button'
+import {DatasetScene} from "@src/shared/enum/dataset";
 
 const regExp = /\.(zip|tar|gz)$/
 const { Option } = Select;
@@ -34,7 +35,17 @@ enum DatasetType {
   OcrRecognition = 'ocr_recognition', // ocr识别
 }
 
-const typeURLMapping: Map<DatasetType, string> = new Map([[DatasetType.DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/detection_example/detection_example.zip'], [DatasetType.CLASSIFY, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/classify_example/classify_example.zip'], [DatasetType.CITYSCAPES_SEGMENT, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/segmentation_example/segmentation_example.zip'], [DatasetType.POSE_DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/pose_example/pose_example.zip'], [DatasetType.CAR_POSE_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/detection_3d_example.zip'], [DatasetType.KEYPOINTS_BASED_ACTION, 'https://s3.local.cdn.desauto.net/public/example/action_detection_example.zip'], [DatasetType.KEYPOINT_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/keypoint_detection_example.zip'], [DatasetType.IMAGE_RETRIEVAL, 'https://s3.local.cdn.desauto.net/public/example/image_retrieval.zip']])
+const typeURLMapping: Map<DatasetType, string> = new Map([
+  [DatasetType.DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/detection_example/detection_example.zip'],
+  [DatasetType.CLASSIFY, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/classify_example/classify_example.zip'],
+  [DatasetType.CITYSCAPES_SEGMENT, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/segmentation_example/segmentation_example.zip'],
+  [DatasetType.POSE_DETECTION, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/pose_example/pose_example.zip'],
+  [DatasetType.CAR_POSE_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/detection_3d_example.zip'],
+  [DatasetType.KEYPOINTS_BASED_ACTION, 'https://s3.local.cdn.desauto.net/public/example/action_detection_example.zip'],
+  [DatasetType.KEYPOINT_DETECTION, 'https://s3.local.cdn.desauto.net/public/example/keypoint_detection_example.zip'],
+  [DatasetType.IMAGE_RETRIEVAL, 'https://s3.local.cdn.desauto.net/public/example/image_retrieval.zip'],
+  [DatasetType.OcrRecognition, 'https://s3.hdd.cdn.desauto.net/public/example/ocr_template.zip']
+]);
 
 const IncreaseData = (): JSX.Element => {
 

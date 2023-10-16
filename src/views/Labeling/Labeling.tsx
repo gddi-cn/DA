@@ -3,6 +3,7 @@ import http from "@src/utils/http";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import userAPI from "@src/apis/user";
 import {useCreateAndCheckoutTask} from "@src/hooks/task";
+import {message} from "antd";
 
 const getUrl = async () => {
   try {
@@ -75,6 +76,9 @@ const Labeling: React.FC = () => {
           case 'network':
             if ((payload as { code: number }).code === 401) {
               handleRefreshToke().catch(console.error)
+            } else {
+              const { msg } = payload as { code: number, msg: string }
+              message.error(msg)
             }
             break
           default:

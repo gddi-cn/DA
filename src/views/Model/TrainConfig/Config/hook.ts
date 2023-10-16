@@ -86,6 +86,7 @@ export const useParamsSetting = () => {
   const [configFps, setConfigFps] = useAtom(configFpsAtom)
   const [configConcurrent, setConfigConcurrent] = useAtom(configConcurrentAtom)
   const [selectedChip] = useAtom(selectedChipAtom)
+  console.log({ selectedChip })
   const [maxFPS] = useAtom(maxFPSAtom)
   const [maxChannel] = useAtom(maxChannelAtom)
   const showClip = useAtomValue(showClipAtom)

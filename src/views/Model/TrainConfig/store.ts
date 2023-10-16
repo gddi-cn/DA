@@ -8,6 +8,11 @@ import {currentDatasetAtom, currentProjectIdAtom} from "@src/store/dataset";
 
 export const MAX_FPS = 30
 
+const showClipNameList = [
+  'T4',
+  'SE5',
+]
+
 export const stepAtom = atom<'chip' | 'config'>('chip')
 
 
@@ -74,7 +79,7 @@ export const resolutionListAtom = atom<Array<number>>(get => {
 
 export const supportClipAtom = atom(get => get(currentDatasetAtom)?.is_clip_available)
 
-export const showClipAtom = atom(get => get(selectedChipAtom)?.name === 'T4')
+export const showClipAtom = atom(get => showClipNameList.includes(get(selectedChipAtom)?.name || ''))
 
 export const clipAtom = atom<boolean>(false)
 
