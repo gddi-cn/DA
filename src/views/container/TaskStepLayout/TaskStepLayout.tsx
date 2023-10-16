@@ -9,7 +9,7 @@ import './TaskStepLayout.module.less'
 import { useMemo } from 'react'
 
 const TaskStepLayout = (): JSX.Element => {
-  const taskId = useSelector((state: RootState) => state.tasksSilce.activeTaskInfo.id) ?? 'empty'
+  const taskId = useSelector((state: RootState) => state.tasksSilce?.activeTaskInfo?.id) ?? 'empty'
   // const taskList = useSelector((state: RootState) => {
   //   return state.tasksSilce.taskList
   // })
