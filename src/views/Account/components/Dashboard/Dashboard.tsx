@@ -91,13 +91,6 @@ const ProgressList: React.FC = () => {
         unit='个'
         infinity={modelAuthLimited === 0}
       />
-      {/* <Progress */}
-      {/*   name='SDK 设备' */}
-      {/*   value={SDKDeviceUsed} */}
-      {/*   total={SDKDeviceLimited} */}
-      {/*   unit='台' */}
-      {/*   infinity={SDKDeviceLimited === 0} */}
-      {/* /> */}
     </Box>
   )
 }
