@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@reducer'
 import { ChipConfigType } from '@src/shared/enum/chip'
 import { ModelTrainMode } from '@src/shared/enum/model'
-import {currentProjectIdAtom} from "@src/store/dataset";
+import {currentDatasetAtom, currentProjectIdAtom} from "@src/store/dataset";
 import {useFetchRecommendConfig} from "@views/Model/TrainConfig/hook";
 
 export const useChipList = () => {
@@ -39,9 +39,9 @@ export const useChipList = () => {
 
   const [loading, setLoading] = useAtom(fetchingChipAtom)
 
-  const task_type = useSelector((state: RootState) =>
-    state.tasksSilce?.activePipeLine?.APP_DATA_SET_INDEX?.scene
-  )
+
+  const currentDataset = useAtomValue(currentDatasetAtom)
+  const task_type = currentDataset?.scene
 
   const fetchRecommendConfig = useFetchRecommendConfig()
 

@@ -76,14 +76,14 @@ export const useCreateAndCheckoutTask = () => {
     setTimeout(
       () => {
         socketPushMsgForProject({}, {
-            active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_ANALYSE,
-            APP_DATASET_ANALYSE: { id: datasetId },
-            APP_DATASET_DETAIL: { id: datasetId }
+          active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_ANALYSE,
+          APP_DATASET_ANALYSE: { id: datasetId },
+          APP_DATASET_DETAIL: { id: datasetId },
         })
         dispatch(saveActivePipeLine({
           active_page: SNAPSHOT_KEY_OF_ROUTER.APP_DATASET_ANALYSE,
           APP_DATASET_ANALYSE: { id: datasetId },
-          APP_DATASET_DETAIL: { id: datasetId }
+          APP_DATASET_DETAIL: { id: datasetId },
         }))
 
       },
