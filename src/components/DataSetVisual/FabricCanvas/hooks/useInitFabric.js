@@ -152,7 +152,8 @@ export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoo
 
       return () => {
         if (fbIns.current?.dispose) {
-          fbIns.current.dispose()
+          console.log(fbIns.current)
+          // fbIns.current.dispose()
         }
         fbIns.current = null
       }

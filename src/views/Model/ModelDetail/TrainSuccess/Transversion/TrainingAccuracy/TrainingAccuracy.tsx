@@ -8,7 +8,6 @@ import './TrainingAccuracy.module.less'
 
 const FormView = (props:any) => {
   const { dataList } = props
-  console.log(dataList, 'dataList')
 
   return (
     <div className='FormView'>

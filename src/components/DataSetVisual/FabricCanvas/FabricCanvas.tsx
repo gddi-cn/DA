@@ -37,7 +37,6 @@ const FabricCanvas = (props: Props) => {
 
   return (
     <div styleName='FabricCanvas' ref={canvasContainer}>
-
       <canvas ref={canvas} className='canvas' />
     </div>
   )

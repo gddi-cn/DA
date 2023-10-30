@@ -5893,7 +5893,7 @@ __metadata:
     cose-base: "npm:^2.2.0"
   peerDependencies:
     cytoscape: ^3.2.0
-  checksum: 9990cc408fcb90bc88d4a0ffcb68d40ef482b0af8e6ae0dfe59b7d85c284876d40ae90cd1b34c09c368ecb0d4f94d500258a6d3e6e125389b92c1911b5fc3cf3
+  checksum: ce472c9f85b9057e75c5685396f8e1f2468895e71b184913e05ad56dcf3092618fe59a1054f29cb0995051ba8ebe566ad0dd49a58d62845145624bd60cd44917
   languageName: node
   linkType: hard
 
@@ -8214,6 +8214,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"iframe-resizer-react@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "iframe-resizer-react@npm:1.1.0"
+  dependencies:
+    iframe-resizer: "npm:^4.3.0"
+    warning: "npm:^4.0.3"
+  peerDependencies:
+    prop-types: ">=15.7.2"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 2f3d7b1b0bb1a64353554f53d3e8266136a6c8b76fec9f601d05d70909dc44b4acc4cff330a7c0fac75ccf6b2a532c93d1fc078076f25c7802daafa0902b6e6f
+  languageName: node
+  linkType: hard
+
+"iframe-resizer@npm:^4.3.0":
+  version: 4.3.7
+  resolution: "iframe-resizer@npm:4.3.7"
+  checksum: 81cc1b0aa735cfd372c62340c2ad1407bd2df4a2719785294ab157ebd5a334f9dfbab6156e51fb6917448e6cef949c0414771d0e1d2321cc5f36ba001647d3ae
+  languageName: node
+  linkType: hard
+
 "ignore@npm:^5.2.0":
   version: 5.2.4
   resolution: "ignore@npm:5.2.4"
@@ -9116,7 +9137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.0.0, loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -12592,6 +12613,7 @@ __metadata:
     gsap: "npm:^3.10.4"
     history: "npm:^5.3.0"
     html-webpack-plugin: "npm:^5.5.0"
+    iframe-resizer-react: "npm:^1.1.0"
     immer: "npm:^9.0.16"
     interpolate-html-plugin: "npm:^4.0.0"
     jotai: "npm:^1.9.2"
@@ -15113,6 +15135,15 @@ __metadata:
   dependencies:
     xml-name-validator: "npm:^4.0.0"
   checksum: 8c455303ee2aec813f8688f4a1618b78d2fd90156a233c8ef60b853418a6b23f00fe86b680f7584f48d1c2348ee0677ad43be6fb6fcc032130cfda4de8c7188e
+  languageName: node
+  linkType: hard
+
+"warning@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: "npm:^1.0.0"
+  checksum: aebab445129f3e104c271f1637fa38e55eb25f968593e3825bd2f7a12bd58dc3738bb70dc8ec85826621d80b4acfed5a29ebc9da17397c6125864d72301b937e
   languageName: node
   linkType: hard
 
