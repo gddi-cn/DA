@@ -8,9 +8,10 @@ type Props={
     zoom?:boolean,
     drawCanvasData?: boolean,
     hasHtmlTips?: boolean,
+    masks?: [string],
 }
 const UIDatasetVisual = (props: Props): JSX.Element => {
-  const { url, canvasData, zoom, drawCanvasData, hasHtmlTips } = props
+  const { url, masks, canvasData, zoom, drawCanvasData, hasHtmlTips } = props
 
   return (
     <div styleName='UIDatasetVisual'>
@@ -37,7 +38,13 @@ const UIDatasetVisual = (props: Props): JSX.Element => {
           </div>
         )
       }
-      <FabricCanvas zoom={zoom} url={url} data={canvasData} drawCanvasData={drawCanvasData} ></FabricCanvas>
+      <FabricCanvas
+        zoom={zoom}
+        url={url}
+        data={canvasData}
+        drawCanvasData={drawCanvasData}
+        masks={masks}
+      />
     </div>
   )
 }

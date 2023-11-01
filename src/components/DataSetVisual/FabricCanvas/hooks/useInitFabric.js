@@ -55,7 +55,7 @@ const setDropAndScale = (ctx) => {
   });
 }
 
-export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoom = true }) => {
+export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoom = true, masks }) => {
   const fbIns = useRef(null)
   const [imgIns, setImgIns] = useState(null)
 
@@ -101,6 +101,28 @@ export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoo
             // originY: 'top'
           }
         )
+
+        // 设置遮罩 (热力图等）
+        if (masks?.length) {
+          masks?.forEach(mask => {
+            fabric.Image.fromURL(mask, (img) => {
+                img.set({
+                    left: 0,
+                    top: 0,
+                    width,
+                    height,
+                    scaleX: 1,
+                    scaleY: 1,
+                    selectable: false,
+                    evented: false,
+                    hasControls: false,
+                    hasBorders: false,
+                    crossOrigin: 'anonymous',
+                })
+                fbIns.current.add(img)
+            })
+          })
+        }
 
         // 设置画布宽高
         fbIns.current.setWidth((canvasContainer.current).offsetWidth).setHeight((canvasContainer.current).offsetHeight)
@@ -152,7 +174,6 @@ export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoo
 
       return () => {
         if (fbIns.current?.dispose) {
-          console.log(fbIns.current)
           // fbIns.current.dispose()
         }
         fbIns.current = null

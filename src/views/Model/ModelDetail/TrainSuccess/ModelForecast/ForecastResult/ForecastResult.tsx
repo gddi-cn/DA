@@ -9,7 +9,8 @@ import { useSelector } from "react-redux";
 import { transformModelOutputData } from "../../utils";
 import { ImageSlider, UIDatasetVisual, FlvMp4 } from "@src/UIComponents";
 
-import { DatePicker, Skeleton, Empty } from "antd";
+import {DatePicker, Skeleton, Empty, Switch, Tooltip} from "antd";
+import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined'
 
 import "./ForecastResult.module.less";
 import moment from "moment";
@@ -26,7 +27,7 @@ const Loading = styled.img`
 `
 
 const RenderView = (props: any) => {
-  const { data, scenes } = props;
+  const { data, scenes, showHeatMap } = props;
   const datainfo = transformModelOutputData({
     data: data.result || [],
     modelType: scenes,
@@ -56,11 +57,13 @@ const RenderView = (props: any) => {
         scenes === DatasetScene.OcrRecognition ||
         scenes === DatasetScene.ImageRetrieval
       }
+      masks={data?.mask && showHeatMap ? [data.mask] : undefined}
     />
   );
 };
 
 const ForecastResult = (props: any): JSX.Element => {
+  const [showHeatMap, setShowHeatMap] = useState(false)
   const { setFetchResult } = props;
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo;
@@ -137,14 +140,14 @@ const ForecastResult = (props: any): JSX.Element => {
 
     // data.status = 1
 
-    const { url } = data || {};
+    const { url, mask } = data || {};
     const isVideo = /\.mp4$/.test(url);
 
     const getView = () => {
       if (isVideo) {
         return <FlvMp4 src={url as any} />;
       } else {
-        return <RenderView data={data} scenes={model_type} />;
+        return <RenderView data={data} scenes={model_type} showHeatMap={showHeatMap} />;
       }
     };
     // 1-预测中 2-成功 3-失败
@@ -247,6 +250,22 @@ const ForecastResult = (props: any): JSX.Element => {
   return (
     <div styleName="ForecastResult">
       <div className="ForecastResult_header">
+        <label style={{ display: 'flex', alignItems: 'center', columnGap: 4 }}>
+          <p style={{ fontSize: '14px' }}>热力图</p>
+          <Tooltip
+            title={(
+              <p>
+                特征热力图以特殊高亮的形式展示模型学习特征区域，颜色越深表示模型更多学习到了该区域的内容，根据热力图区域颜色深浅可看出模型预测效果，帮助您针对性地分析添加新的数据，优化模型效果。
+              </p>
+            )}
+          >
+            <QuestionCircleOutlined />
+          </Tooltip>
+          <Switch
+            checked={showHeatMap}
+            onChange={setShowHeatMap}
+          />
+        </label>
         <RangePicker
           placement="bottomRight"
           onChange={handleRangeChange}

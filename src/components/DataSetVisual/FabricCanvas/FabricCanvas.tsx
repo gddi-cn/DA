@@ -19,10 +19,11 @@ type Props = {
   data: Array<DataItem>,
   zoom?: boolean,
   drawCanvasData?: boolean
+  masks?: string[]
 }
 
 const FabricCanvas = (props: Props) => {
-  const { url, data, zoom, drawCanvasData } = props
+  const { url, masks, data, zoom, drawCanvasData } = props
 
   const canvas = useRef<any>(null)
   const canvasContainer = useRef<any>(null)
@@ -32,7 +33,8 @@ const FabricCanvas = (props: Props) => {
     canvasContainer,
     canvasData: drawCanvasData ? data : [],
     url,
-    zoom
+    zoom,
+    masks,
   })
 
   return (
