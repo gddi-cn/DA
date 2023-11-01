@@ -24,6 +24,7 @@ declare namespace Model {
       end: string,
       engine: string,
       gpu_count: number,
+      is_clip: boolean,
       id: string,
       mode: number,
       model_type: string,

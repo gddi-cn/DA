@@ -36,6 +36,7 @@ declare namespace ModelDetailSlice {
         engine: string,
         gpu_count: number,
         id: string,
+        is_clip: boolean,
         mode: number,
         model_type: string,
         name: string,

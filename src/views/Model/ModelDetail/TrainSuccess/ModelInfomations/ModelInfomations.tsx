@@ -17,7 +17,8 @@ const ModelInfomations = (): JSX.Element => {
   }
 
   const {iter} = versionInfo
-  const {app_data_args, gpu_count, platform, channel = 1, mode = 1, resolution} = iter
+  const {is_clip, app_data_args, gpu_count, platform, channel = 1, mode = 1, resolution} = iter
+  console.log({ is_clip })
   const platformlist = JSON.parse(platform)
   const {fps = 5} = JSON.parse(app_data_args)
   const getTime = () => {
@@ -121,11 +122,18 @@ const ModelInfomations = (): JSX.Element => {
               <p>分辨率：</p>
               <p>{resolution ?? '-'}</p>
             </div>
+            {
+              is_clip ? (
+                <p style={{fontSize: '12px', marginTop: '16px', color: '#48A2DF'}}>
+                  已为您开启切图训练
+                </p>
+              ) : null
+            }
           </div>
         </Panel>
       </Collapse>
 
-      <Collapse defaultActiveKey={['1']} expandIconPosition="end">
+    <Collapse defaultActiveKey={['1']} expandIconPosition="end">
         <Panel header="验证集评估结果" key="1">
 
           <div className="btm_content_wrap">
