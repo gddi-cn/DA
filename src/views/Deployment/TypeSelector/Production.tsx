@@ -44,7 +44,8 @@ const Production: React.FC = () => {
     <Container>
       <Content>
         <ItemCard type={DeployType.EXPERIENCE} disabled={disabledTrial} />
-        <ItemCard type={DeployType.FORMAL} subAction={<ToSDK />} />
+        {/* <ItemCard type={DeployType.FORMAL} subAction={<ToSDK />} /> */}
+        <ItemCard type={DeployType.FORMAL} />
       </Content>
     </Container>
   )
