@@ -476,6 +476,7 @@ export const sceneNameMapping: Map<DatasetScene, string> = new Map([
   [DatasetScene.ImageRetrieval, '图像检索'],
   [DatasetScene.FaceRecognition, '人脸识别'],
   [DatasetScene.OcrRecognition, 'OCR 识别'],
+  [DatasetScene.CowFaceRecognition, '牛脸识别'],
   [DatasetScene.Unknown, '未知'],
 ])
 
@@ -501,4 +502,17 @@ export const datasetImportStatusNameMapping: Map<DatasetImportStatus, string> = 
   [DatasetImportStatus.VERIFY_SUCCESS, /* */'已验证'],
   [DatasetImportStatus.IMPORTING, /*      */'导入中'],
   [DatasetImportStatus.IMPORT_FAILED, /*  */'导入失败'],
+])
+
+export const datasetSceneExampleURLMapping: Map<DatasetScene, string> = new Map([
+  [DatasetScene.Detection, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/detection_example/detection_example.zip'],
+  [DatasetScene.Classify, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/classify_example/classify_example.zip'],
+  [DatasetScene.CityscapesSegment, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/segmentation_example/segmentation_example.zip'],
+  [DatasetScene.PoseDetection, 'https://storage-0l6qoa.s3.cn-northwest-1.amazonaws.com.cn/example/pose_example/pose_example.zip'],
+  [DatasetScene.CarPoseDetection, 'https://s3.hdd.cdn.desauto.net/public/example/detection_3d_example.zip'],
+  [DatasetScene.KeyPointsBasedAction, 'https://s3.hdd.cdn.desauto.net/public/example/action_detection_example.zip'],
+  [DatasetScene.KeypointsDetection, 'https://s3.hdd.cdn.desauto.net/public/example/keypoint_detection_example.zip'],
+  [DatasetScene.ImageRetrieval, 'https://s3.hdd.cdn.desauto.net/public/example/image_retrieval.zip'],
+  [DatasetScene.OcrRecognition, 'https://s3.hdd.cdn.desauto.net/public/example/ocr_template.zip'],
+  [DatasetScene.CowFaceRecognition, 'https://s3.hdd.cdn.desauto.net/public/example/cow_face_recognition_example.zip'],
 ])

@@ -15,6 +15,8 @@ import { EMarked } from '../enums'
 import { APP_DATASET_CREATE_TYPE } from '@router'
 import { MODEL_TYPES, SNAPSHOT_KEY_OF_ROUTER } from '@src/constants'
 import { RootState } from '@src/controller/reducer'
+import {useCanCreateDatasetScene} from "@src/hooks/dataset";
+import Scrollbars from "react-custom-scrollbars";
 
 const Container = styled.div`
   height: calc(100vh - 186px);
@@ -31,6 +33,7 @@ const Content = styled.div`
 `
 const List = styled.div`
   margin-top: 20px;
+  margin-bottom: 20px;
   display: grid;
   grid-template: auto / repeat(3, 1fr);
   gap: 20px;
@@ -85,19 +88,22 @@ const RightActions: React.FC = () => {
 }
 
 const TrainTypeSelector: React.FC = () => {
+  const canCreateSceneList = useCanCreateDatasetScene()
+
   return (
     <Container>
-      <Content>
-        <List>
-          {
-            Object.keys(MODEL_TYPES)
-            .filter(x => x !== 'face_recognition')
-            .map(scene => (
-              <Item key={scene} scene={scene as DatasetScene} />
-            ))
-          }
-        </List>
-      </Content>
+      <Scrollbars>
+        <Content>
+            <List>
+              {
+                canCreateSceneList
+                  .map(scene => (
+                    <Item key={scene} scene={scene as DatasetScene} />
+                  ))
+              }
+            </List>
+        </Content>
+      </Scrollbars>
       <FooterBar
         leftContent={<LeftActions />}
         rightContent={<RightActions />}

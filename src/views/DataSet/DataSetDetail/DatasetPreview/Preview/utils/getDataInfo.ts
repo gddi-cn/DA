@@ -308,6 +308,7 @@ export const processData = (
     scenes === "classify"
     || scenes === DatasetScene.ImageRetrieval
     || scenes === DatasetScene.OcrRecognition
+    || scenes === DatasetScene.CowFaceRecognition
   ) {
     dataSet = annotations?.map((dso: any) => {
       const label = dso.class;
@@ -350,7 +351,8 @@ export const processData = (
       scenes !== "monocular_3d_detection" &&
       scenes !== DatasetScene.KeypointsDetection &&
       scenes !== DatasetScene.OcrRecognition &&
-      scenes !== DatasetScene.ImageRetrieval
+      scenes !== DatasetScene.ImageRetrieval &&
+      scenes !== DatasetScene.CowFaceRecognition
     ) {
       return position;
     } else {
@@ -365,7 +367,8 @@ export const processData = (
       scenes !== "monocular_3d_detection" &&
       scenes !== DatasetScene.KeypointsDetection &&
       scenes !== DatasetScene.OcrRecognition &&
-      scenes !== DatasetScene.ImageRetrieval
+      scenes !== DatasetScene.ImageRetrieval &&
+      scenes !== DatasetScene.CowFaceRecognition
     ) {
       return position;
     } else {

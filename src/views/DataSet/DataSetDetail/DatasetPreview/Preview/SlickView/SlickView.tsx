@@ -54,7 +54,8 @@ const RenderView = (props: RenderViewProps) => {
       hasHtmlTips={
         scenes === "classify" ||
         scenes === DatasetScene.ImageRetrieval ||
-        scenes === DatasetScene.OcrRecognition
+        scenes === DatasetScene.OcrRecognition ||
+        scenes === DatasetScene.CowFaceRecognition
       }
     />
   );

@@ -33,6 +33,7 @@ declare namespace User {
   }
 
   interface CustomInfo {
+    extraScenes: Array<string>
     is_customized: boolean
     logo_url: string
     plat_desp: string

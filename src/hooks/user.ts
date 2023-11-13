@@ -1,8 +1,9 @@
 import userAPI from '@src/apis/user'
 import { APP_LOGIN } from '@src/router'
-import { authUserInfoAtom, fetchingUserInfo } from '@src/store/user'
-import { useAtom } from 'jotai'
+import {authUserInfoAtom, currentUserAtom, fetchingUserInfo} from '@src/store/user'
+import {useAtom, useAtomValue} from 'jotai'
 import { useNavigate } from 'react-router-dom'
+import {DatasetScene} from "@src/shared/enum/dataset";
 
 export const useRefreshAuthUserInfo = () => {
   const [loading, setLoading] = useAtom(fetchingUserInfo)
@@ -34,3 +35,11 @@ export const useLogout = () => {
     })
   }
 }
+
+export const useShowCowFace = () => {
+  const user = useAtomValue(currentUserAtom)
+
+  return user?.custom_infos?.extraScenes?.includes(
+    DatasetScene.CowFaceRecognition,
+  );
+};

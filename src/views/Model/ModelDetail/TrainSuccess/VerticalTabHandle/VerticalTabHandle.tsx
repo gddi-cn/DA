@@ -151,7 +151,7 @@ const VerticalTabHandle = (
         {TabItem("训练过程", "train_process")}
       </div>
       {
-        model_type === DatasetScene.FaceRecognition ? null : (
+        (model_type === DatasetScene.FaceRecognition || model_type === DatasetScene.CowFaceRecognition) ? null : (
           <div className="VerticalTabHandle_block">
             {Title("模型评估")}
             {TabItem("模型预测 ", "model_forecast")}

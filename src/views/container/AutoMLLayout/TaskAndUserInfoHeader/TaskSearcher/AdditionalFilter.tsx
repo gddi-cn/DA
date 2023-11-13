@@ -8,6 +8,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {useChipFilter, useModelTypeFilter, useSorter, useStatusFilter} from './hook'
 import ChipSelector from "@src/components/ChipSelector";
+import {useAllDatasetScene} from "@src/hooks/dataset";
 
 const Container = styled.div`
   width: 100%;
@@ -23,13 +24,6 @@ const sorterOptions = [
   { key: 10, value: 10, label: '更新时间升序' },
 ]
 
-const modelTypeOptions = Object
-  .values(DatasetScene)
-  .map(datasetScene => ({
-    key: datasetScene,
-    value: datasetScene,
-    label: sceneNameMapping.get(datasetScene) || '-'
-  }))
 
 const statusOptions = Object
   .values(Model.TrainStatus)
@@ -70,6 +64,14 @@ const StatusFilter: React.FC = () => {
 
 const ModelTypeFilter: React.FC = () => {
   const { value, handleChange } = useModelTypeFilter()
+  const allScene = useAllDatasetScene()
+  const modelTypeOptions = allScene
+    .map(datasetScene => ({
+      key: datasetScene,
+      value: datasetScene,
+      label: sceneNameMapping.get(datasetScene) || '-'
+    }))
+
   return (
     <Select
       allowClear

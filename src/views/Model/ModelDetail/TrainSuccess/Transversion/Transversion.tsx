@@ -42,7 +42,7 @@ const Transversion = (): JSX.Element => {
       })
     }
 
-    if (model_type !== DatasetScene.FaceRecognition) {
+    if (model_type !== DatasetScene.FaceRecognition && model_type !== DatasetScene.CowFaceRecognition) {
       list.unshift({
         label: '预测示例',
         primaryKey: 'ForecastExample',
@@ -54,7 +54,7 @@ const Transversion = (): JSX.Element => {
 
   React.useEffect(
     () => {
-      if (model_type === DatasetScene.FaceRecognition) {
+      if (model_type === DatasetScene.FaceRecognition || model_type === DatasetScene.CowFaceRecognition) {
         setSubTabIndex('TrainingAccuracy')
       } else {
         setSubTabIndex('ForecastExample')

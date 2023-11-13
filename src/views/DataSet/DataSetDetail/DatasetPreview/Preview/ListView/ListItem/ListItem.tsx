@@ -50,7 +50,8 @@ const ListItem = (props: Props): JSX.Element => {
           hasHtmlTips={
             scenes === "classify" ||
             scenes === DatasetScene.OcrRecognition ||
-            scenes === DatasetScene.ImageRetrieval
+            scenes === DatasetScene.ImageRetrieval ||
+            scenes === DatasetScene.CowFaceRecognition
           }
         />
       </div>
@@ -91,7 +92,8 @@ const ListItem = (props: Props): JSX.Element => {
           hasHtmlTips={
             scenes === "classify" ||
             scenes === DatasetScene.OcrRecognition ||
-            scenes === DatasetScene.ImageRetrieval
+            scenes === DatasetScene.ImageRetrieval ||
+            scenes === DatasetScene.CowFaceRecognition
           }
         />
       </Modal>

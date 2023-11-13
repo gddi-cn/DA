@@ -1,14 +1,14 @@
 import { Image, Tooltip, Spin } from 'antd'
 import datasetDefault from '@src/asset/images/datasetDefault.png'
 import { Tag } from '@src/UIComponents'
-import { MODEL_TYPES } from '@src/constants'
 import { ReactComponent as Lei } from './images/lei.svg'
 import { ReactComponent as Zhang } from './images/zhang.svg'
 import Operation from './Operation'
 import type { FectData } from '../DatasetList/DatasetList'
 import './V1DatasetCard.module.less'
 import { useState } from 'react'
-import { DatasetDownloadStatus } from '@src/shared/enum/dataset'
+import {DatasetDownloadStatus, DatasetScene} from '@src/shared/enum/dataset'
+import {sceneNameMapping} from "@src/shared/mapping/dataset";
 
 export type Data = {
   cover: string,
@@ -80,7 +80,7 @@ function V1DatasetCard<T extends Data> (props: Props<T>): JSX.Element {
         </div>
         <div className='third_row_wrap'>
           {/* <Tag text='共享' type='nomal' className='dataset_tag' /> */}
-          <Tag text={(MODEL_TYPES as any)[scene] || '未知类型'} type='primary' className='dataset_tag' />
+          <Tag text={sceneNameMapping.get(scene as DatasetScene) || '未知类型'} type='primary' className='dataset_tag' />
         </div>
       </div>
     )

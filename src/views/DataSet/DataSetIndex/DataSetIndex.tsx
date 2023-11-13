@@ -13,24 +13,37 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@reducer'
 import './DataSetIndex.module.less'
 import moment from 'moment'
+import {useAllDatasetScene} from "@src/hooks/dataset";
+import {sceneNameMapping} from "@src/shared/mapping/dataset";
+import {DatasetScene} from "@src/shared/enum/dataset";
 
-const dataList:{label:string, id:string}[] = [
-  { label: '全部类型', id: 'all' }
-]
-
-for (const [k, v] of Object.entries(MODEL_TYPES)) {
-  dataList.push(
-    {
-      label: v,
-      id: k
-    }
-  )
-}
+// const dataList:{label:string, id:string}[] = [
+//   { label: '全部类型', id: 'all' }
+// ]
+//
+// for (const [k, v] of Object.entries(MODEL_TYPES)) {
+//   dataList.push(
+//     {
+//       label: v,
+//       id: k
+//     }
+//   )
+// }
 
 const DataSetIndex = (): JSX.Element => {
   const paramsChangeAndFetch = useRef<any>(null)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const allDatasetScene = useAllDatasetScene()
+  const dataList = [
+    { label: '全部类型', id: 'all' },
+    ...allDatasetScene.map((item) => {
+      return {
+        id: item,
+        label: sceneNameMapping.get(item) || '未知类型'
+      }
+    })
+  ]
 
   const [selectData, setSelectData] = useState<any>({})
 
@@ -75,8 +88,8 @@ const DataSetIndex = (): JSX.Element => {
         message.warning('请选择数据集')
         return
       }
-      const { train_set, val_set } = selectData
-      if (train_set?.class_count !== val_set?.class_count) {
+      const { train_set, val_set, scene } = selectData
+      if (train_set?.class_count !== val_set?.class_count && scene !== DatasetScene.CowFaceRecognition) {
         notification.error({
           message: '提示',
           duration: 3,
@@ -127,7 +140,7 @@ const DataSetIndex = (): JSX.Element => {
     const value = v.target.value
     setDatasetName(value || '')
   }
-  
+
   return (
     <div styleName='DataSetIndex' className='maxWidthAuto' >
 
