@@ -70,6 +70,7 @@ const ForecastResult = (props: any): JSX.Element => {
   });
 
   const { model_type } = versionInfo;
+  const showHeatMapBtn = model_type === DatasetScene.Detection
   const [fictitiousList, setFictitiousList] = useState<any[]>([]);
   const [chunkList, setChunkList] = useState<Array<any>>([]);
   const [total, settotal] = useState(0);
@@ -247,25 +248,36 @@ const ForecastResult = (props: any): JSX.Element => {
 
     fetchData();
   };
+
+  useEffect(() => {
+    if (!showHeatMapBtn) {
+      setShowHeatMap(false)
+    }
+  }, [showHeatMapBtn])
+
   return (
     <div styleName="ForecastResult">
       <div className="ForecastResult_header">
-        <label style={{ display: 'flex', alignItems: 'center', columnGap: 4 }}>
-          <p style={{ fontSize: '14px' }}>热力图</p>
-          <Tooltip
-            title={(
-              <p>
-                特征热力图以特殊高亮的形式展示模型学习特征区域，颜色越深表示模型更多学习到了该区域的内容，根据热力图区域颜色深浅可看出模型预测效果，帮助您针对性地分析添加新的数据，优化模型效果。
-              </p>
-            )}
-          >
-            <QuestionCircleOutlined />
-          </Tooltip>
-          <Switch
-            checked={showHeatMap}
-            onChange={setShowHeatMap}
-          />
-        </label>
+        {
+          showHeatMapBtn ? (
+            <label style={{ display: 'flex', alignItems: 'center', columnGap: 4 }}>
+              <p style={{ fontSize: '14px' }}>热力图</p>
+              <Tooltip
+                title={(
+                  <p>
+                    特征热力图以特殊高亮的形式展示模型学习特征区域，颜色越深表示模型更多学习到了该区域的内容，根据热力图区域颜色深浅可看出模型预测效果，帮助您针对性地分析添加新的数据，优化模型效果。
+                  </p>
+                )}
+              >
+                <QuestionCircleOutlined />
+              </Tooltip>
+              <Switch
+                checked={showHeatMap}
+                onChange={setShowHeatMap}
+              />
+            </label>
+          ) : null
+        }
         <RangePicker
           placement="bottomRight"
           onChange={handleRangeChange}
