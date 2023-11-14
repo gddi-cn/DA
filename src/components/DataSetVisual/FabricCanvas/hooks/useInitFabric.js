@@ -119,7 +119,7 @@ export const useInitFabric = ({ canvasEle, url, canvasContainer, canvasData, zoo
                     hasBorders: false,
                     crossOrigin: 'anonymous',
                 })
-                fbIns.current.add(img)
+                fbIns.current?.add(img)
             })
           })
         }
