@@ -1,7 +1,7 @@
 // import { ReactComponent as Date } from './icon/date.svg'
 import { useState, useRef, useCallback, useEffect } from "react";
 import { chunk } from "lodash";
-import loading from './icon/3dot_loading.gif'
+import loading from "./icon/3dot_loading.gif";
 
 import api from "@api";
 import { RootState } from "@reducer";
@@ -9,22 +9,22 @@ import { useSelector } from "react-redux";
 import { transformModelOutputData } from "../../utils";
 import { ImageSlider, UIDatasetVisual, FlvMp4 } from "@src/UIComponents";
 
-import {DatePicker, Skeleton, Empty, Switch, Tooltip} from "antd";
-import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined'
+import { DatePicker, Skeleton, Empty, Switch, Tooltip } from "antd";
+import QuestionCircleOutlined from "@ant-design/icons/QuestionCircleOutlined";
 
 import "./ForecastResult.module.less";
 import moment from "moment";
 import { DatasetScene } from "@src/shared/enum/dataset";
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const { RangePicker } = DatePicker;
 
 const Loading = styled.img`
   display: block;
-  width: 20px!important;
-  height: 20px!important;
-  object-fit: contain!important;
-`
+  width: 20px !important;
+  height: 20px !important;
+  object-fit: contain !important;
+`;
 
 const RenderView = (props: any) => {
   const { data, scenes, showHeatMap } = props;
@@ -32,7 +32,6 @@ const RenderView = (props: any) => {
     data: data.result || [],
     modelType: scenes,
   });
-
 
   // if (isEmpty(datainfo)) {
   //   return null;
@@ -62,15 +61,22 @@ const RenderView = (props: any) => {
   );
 };
 
+const showHeatMapBtnModelTypes = [
+  DatasetScene.Detection,
+  DatasetScene.CityscapesSegment,
+];
+
 const ForecastResult = (props: any): JSX.Element => {
-  const [showHeatMap, setShowHeatMap] = useState(false)
+  const [showHeatMap, setShowHeatMap] = useState(false);
   const { setFetchResult } = props;
   const versionInfo = useSelector((state: RootState) => {
     return state.modelDetailSlice.versionInfo;
   });
 
   const { model_type } = versionInfo;
-  const showHeatMapBtn = model_type === DatasetScene.Detection
+  const showHeatMapBtn = showHeatMapBtnModelTypes.includes(
+    model_type as DatasetScene,
+  );
   const [fictitiousList, setFictitiousList] = useState<any[]>([]);
   const [chunkList, setChunkList] = useState<Array<any>>([]);
   const [total, settotal] = useState(0);
@@ -88,7 +94,7 @@ const ForecastResult = (props: any): JSX.Element => {
       setFetching(true);
       const res = await api.get(
         `/v3/models/${versionInfo.id}/versions/${versionInfo.iter.id}/inference`,
-        { params: { ...params.current, page: page.current } }
+        { params: { ...params.current, page: page.current } },
       );
       if (res.code === 0) {
         const list = res.data;
@@ -106,14 +112,11 @@ const ForecastResult = (props: any): JSX.Element => {
   }, [versionInfo]);
 
   // 若当前列表存在预测中的数据，则每隔15s刷新一次
-  useEffect(
-    () => {
-      if (fictitiousList?.some((item: any) => item.status === 1)) {
-        setTimeout(fetchData, 15e3)
-      }
-    },
-    [fictitiousList]
-  )
+  useEffect(() => {
+    if (fictitiousList?.some((item: any) => item.status === 1)) {
+      setTimeout(fetchData, 15e3);
+    }
+  }, [fictitiousList]);
 
   useEffect(() => {
     setFetchResult(() => fetchData);
@@ -148,7 +151,13 @@ const ForecastResult = (props: any): JSX.Element => {
       if (isVideo) {
         return <FlvMp4 src={url as any} />;
       } else {
-        return <RenderView data={data} scenes={model_type} showHeatMap={showHeatMap} />;
+        return (
+          <RenderView
+            data={data}
+            scenes={model_type}
+            showHeatMap={showHeatMap}
+          />
+        );
       }
     };
     // 1-预测中 2-成功 3-失败
@@ -158,7 +167,10 @@ const ForecastResult = (props: any): JSX.Element => {
       <div className="ForecastResult_item_werap">
         <div className="canvas_wrap">{getView()}</div>
         <div className={`info_wrap ${textClsArr[data.status] || "success"}`}>
-          <p className="thres" style={{ display: 'flex', alignItems: 'center', columnGap: '2px' }}>
+          <p
+            className="thres"
+            style={{ display: "flex", alignItems: "center", columnGap: "2px" }}
+          >
             状态：{textArr[data.status] || "-"}
             {data.status === 1 ? <Loading src={loading} /> : null}
           </p>
@@ -179,10 +191,10 @@ const ForecastResult = (props: any): JSX.Element => {
 
     const getView = () => {
       if (isVideo) {
-        return <video controls={false} preload={'auto'} src={data?.url} />
+        return <video controls={false} preload={"auto"} src={data?.url} />;
       }
-      return <img className="img_dot_btn" src={data?.url} />
-    }
+      return <img className="img_dot_btn" src={data?.url} />;
+    };
 
     return (
       <div className="ForecastResult_renderDotView">
@@ -196,9 +208,7 @@ const ForecastResult = (props: any): JSX.Element => {
           </div>
         ) : null}
 
-        {
-          getView()
-        }
+        {getView()}
       </div>
     );
   };
@@ -229,7 +239,6 @@ const ForecastResult = (props: any): JSX.Element => {
   };
 
   const handleRangeChange = (dates: any) => {
-
     if (dates) {
       const [start, end] = dates;
       const _start = (start as moment.Moment).valueOf() / 1000;
@@ -251,42 +260,37 @@ const ForecastResult = (props: any): JSX.Element => {
 
   useEffect(() => {
     if (!showHeatMapBtn) {
-      setShowHeatMap(false)
+      setShowHeatMap(false);
     }
-  }, [showHeatMapBtn])
+  }, [showHeatMapBtn]);
 
   return (
     <div styleName="ForecastResult">
       <div className="ForecastResult_header">
-        {
-          showHeatMapBtn ? (
-            <label style={{ display: 'flex', alignItems: 'center', columnGap: 4 }}>
-              <p style={{ fontSize: '14px' }}>热力图</p>
-              <Tooltip
-                title={(
-                  <p>
-                    特征热力图以特殊高亮的形式展示模型学习特征区域，颜色越深表示模型更多学习到了该区域的内容，根据热力图区域颜色深浅可看出模型预测效果，帮助您针对性地分析添加新的数据，优化模型效果。
-                  </p>
-                )}
-              >
-                <QuestionCircleOutlined />
-              </Tooltip>
-              <Switch
-                checked={showHeatMap}
-                onChange={setShowHeatMap}
-              />
-            </label>
-          ) : null
-        }
+        {showHeatMapBtn ? (
+          <label
+            style={{ display: "flex", alignItems: "center", columnGap: 4 }}
+          >
+            <p style={{ fontSize: "14px" }}>热力图</p>
+            <Tooltip
+              title={
+                <p>
+                  特征热力图以特殊高亮的形式展示模型学习特征区域，颜色越深表示模型更多学习到了该区域的内容，根据热力图区域颜色深浅可看出模型预测效果，帮助您针对性地分析添加新的数据，优化模型效果。
+                </p>
+              }
+            >
+              <QuestionCircleOutlined />
+            </Tooltip>
+            <Switch checked={showHeatMap} onChange={setShowHeatMap} />
+          </label>
+        ) : null}
         <RangePicker
           placement="bottomRight"
           onChange={handleRangeChange}
           allowClear
         />
       </div>
-      <div className="ForecastResult_content">
-        {silckView()}
-      </div>
+      <div className="ForecastResult_content">{silckView()}</div>
     </div>
   );
 };
