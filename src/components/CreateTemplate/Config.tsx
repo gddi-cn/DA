@@ -1,16 +1,12 @@
 import React from 'react'
-import {
-  AppFlow,
-  ModuleDefinitions,
-} from 'gddi-app-flow'
 import appFlowAPI from '@src/apis/appFlow'
 import { pipelineAtom } from './store'
 import { useSetAtom } from 'jotai'
-import modelAPI from '@src/apis/model'
+import AppBuilder, { ModuleDefinition } from "gddi-app-builder";
 
 const useConfig = () => {
   const [version, setVersion] = React.useState<AppFlow.ModuleDefinition.Version['version'] | undefined>(undefined)
-  const [moduleDefinitions, setModuleDefinitions] = React.useState<ModuleDefinitions | undefined>(undefined)
+  const [moduleDefinitions, setModuleDefinitions] = React.useState<ModuleDefinition | undefined>(undefined)
   const setPipeline = useSetAtom(pipelineAtom)
 
 
@@ -21,7 +17,8 @@ const useConfig = () => {
         .then(({ success, data }) => {
           if (!success || !data) return
           const { moduleDefinitions, version } = data
-          setVersion(version || '')
+          // setVersion(version || '')
+          setVersion('v3')
           setModuleDefinitions(moduleDefinitions || {})
         })
 
@@ -47,17 +44,25 @@ const Config: React.FC = () => {
     moduleDefinitions,
     handleChange,
   } = useConfig()
+  console.log({ moduleDefinitions, version })
+
+  if (!moduleDefinitions) return null
 
   return (
-    <AppFlow
-      moduleDefinitions={moduleDefinitions || {}}
-      hideDarkModeButton
-      onValueChange={handleChange}
-      propEditingDisabled={false}
-      graphEditingDisabled={false}
-      version={version || 'v1'}
-      layoutVertically
+    <AppBuilder
+      version={'v3'}
+      modules={moduleDefinitions || {}}
+      onFlowChange={(val: any) => handleChange(val)}
     />
+    // <AppFlow
+    //   moduleDefinitions={moduleDefinitions || {}}
+    //   hideDarkModeButton
+    //   onValueChange={handleChange}
+    //   propEditingDisabled={false}
+    //   graphEditingDisabled={false}
+    //   version={version || 'v1'}
+    //   layoutVertically
+    // />
   )
 }
 

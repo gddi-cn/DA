@@ -1,5 +1,5 @@
 import { FormInstance } from 'antd'
-import { Pipeline } from 'gddi-app-flow'
+import { Flow } from 'gddi-app-builder'
 import { atom } from 'jotai'
 
 export const openAtom = atom<boolean>(false)
@@ -12,5 +12,5 @@ export const baseFormAtom = atom<FormInstance<Template.Create.Form> | null>(null
 
 export const baseFormValueAtom = atom<Template.Create.Form | null>(null)
 
-export const pipelineAtom = atom<Pipeline | undefined>(undefined)
+export const pipelineAtom = atom<Flow | undefined>(undefined)
 

@@ -63,8 +63,9 @@ const appFlowAPI = {
       }
 
       const { version, url } = data
+      const hackUrl = url.replace('v1', 'v3')
 
-      const moduleDefinitions = await http.get(url)
+      const moduleDefinitions = await http.get(hackUrl)
 
       if (!moduleDefinitions) {
         return {

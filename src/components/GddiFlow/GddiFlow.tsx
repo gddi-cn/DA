@@ -1,39 +1,24 @@
 import { useCallback, useRef, useMemo } from 'react'
-import {
-  AppFlow,
-  AIAppType,
-  Pipeline,
-} from 'gddi-app-flow'
 
 import { useDebounceFn } from 'ahooks'
 import api from '@api'
 import './GddiFlow.module.less'
 import modelAPI from '@src/apis/model'
+// import AppBuilder from 'app-builder'
+import AppBuilder, { Flow, ModuleDefinition } from "gddi-app-builder"
 
 const GddiFlow = (props: any): JSX.Element => {
   const { flowValue, appBaseInfo } = props
-  const daisyEntity = useRef<null | AIAppType>(null)
+  const { defaultValue, moduleDefinitions } = flowValue || {}
   const daisyEntityTag = useRef<any>(null)
   const { adapter_device, id } = appBaseInfo
 
-  const fetchModelList = ({
-    name,
-    page,
-    page_size,
-  }: {
+  const fetchModelList = (
     page: number,
     page_size: number,
-    name?: string
-  }): Promise<any> => {
+    name?: string,
+  ): Promise<{ items: Array<any>, total: number }> => {
     return modelAPI.modelList({ page, page_size, name, appId: id })
-  }
-
-  const handleAppLoad = (app: AIAppType) => {
-    setTimeout(() => {
-      app.fitView()
-      app.layoutGraph()
-    }, 100);
-    daisyEntity.current = app
   }
 
   const updateFn = async (val: any) => {
@@ -46,7 +31,7 @@ const GddiFlow = (props: any): JSX.Element => {
     }
   }
 
-  const handleValueChange = useDebounceFn((val: Pipeline) => {
+  const handleValueChange = useDebounceFn((val: Flow) => {
     updateFn(val)
   }, {
     wait: 500
@@ -55,18 +40,31 @@ const GddiFlow = (props: any): JSX.Element => {
   return (
     <div styleName='GddiFlow'>
       <div className="AppCanvas_wrap" ref={daisyEntityTag} >
+        {/*{*/}
+        {/*  !flowValue?.moduleDefinitions ? null : (*/}
+        {/*    <AppFlow*/}
+        {/*      {...flowValue}*/}
+        {/*      onLoad={handleAppLoad}*/}
+        {/*      onValueChange={handleValueChange.run}*/}
+        {/*      graphEditingDisabled={true}*/}
+        {/*      propEditingDisabled={false}*/}
+        {/*      hideDarkModeButton={true}*/}
+        {/*      fetchModels={fetchModelList}*/}
+        {/*      version='v1'*/}
+        {/*      layoutVertically*/}
+        {/*    />*/}
+        {/*  )*/}
+        {/*}*/}
         {
           !flowValue?.moduleDefinitions ? null : (
-            <AppFlow
-              {...flowValue}
-              onLoad={handleAppLoad}
-              onValueChange={handleValueChange.run}
-              graphEditingDisabled={true}
-              propEditingDisabled={false}
-              hideDarkModeButton={true}
-              fetchModels={fetchModelList}
-              version='v1'
-              layoutVertically
+            <AppBuilder
+              defaultFlow={defaultValue}
+              modules={moduleDefinitions || {}}
+              onFlowChange={console.log}
+              nodeAndEdgeDisabled
+              getModelList={fetchModelList}
+              version='v3'
+              defaultDirection={'vertical'}
             />
           )
         }
