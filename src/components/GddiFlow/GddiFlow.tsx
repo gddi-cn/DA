@@ -9,6 +9,7 @@ import AppBuilder, { Flow, ModuleDefinition } from "gddi-app-builder"
 
 const GddiFlow = (props: any): JSX.Element => {
   const { flowValue, appBaseInfo } = props
+  console.log({ appBaseInfo })
   const { defaultValue, moduleDefinitions } = flowValue || {}
   const daisyEntityTag = useRef<any>(null)
   const { adapter_device, id } = appBaseInfo
@@ -60,11 +61,10 @@ const GddiFlow = (props: any): JSX.Element => {
             <AppBuilder
               defaultFlow={defaultValue}
               modules={moduleDefinitions || {}}
-              onFlowChange={console.log}
               nodeAndEdgeDisabled
               getModelList={fetchModelList}
               version='v3'
-              defaultDirection={'vertical'}
+              onFlowChange={handleValueChange.run}
             />
           )
         }

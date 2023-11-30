@@ -17,8 +17,7 @@ const useConfig = () => {
         .then(({ success, data }) => {
           if (!success || !data) return
           const { moduleDefinitions, version } = data
-          // setVersion(version || '')
-          setVersion('v3')
+          setVersion(version || '')
           setModuleDefinitions(moduleDefinitions || {})
         })
 
@@ -53,6 +52,7 @@ const Config: React.FC = () => {
       version={'v3'}
       modules={moduleDefinitions || {}}
       onFlowChange={(val: any) => handleChange(val)}
+      // onFlowChange={console.log}
     />
     // <AppFlow
     //   moduleDefinitions={moduleDefinitions || {}}
