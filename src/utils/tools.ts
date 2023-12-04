@@ -1,3 +1,5 @@
+import {ModuleDefinition} from "gddi-app-builder";
+
 export const formatUnixDate = (time: number): string => Intl.DateTimeFormat(
   'zh-CN',
   {
@@ -60,4 +62,16 @@ export const multiDownload = (urls: string[], interval = 1e3) => {
   urls.forEach((url, idx) => {
     iframeDownload(url, idx * interval)
   })
+}
+export const getVersionFromModuleDefinition = (module?: ModuleDefinition, defaultVersion = 'v3'): string => {
+  if (!module) return defaultVersion
+
+  for (const key in module) {
+    const m = module[key]
+    if (m && m.version) {
+      return m.version
+    }
+  }
+
+  return defaultVersion
 }

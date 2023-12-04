@@ -52,6 +52,7 @@ const Config: React.FC = () => {
       version={'v3'}
       modules={moduleDefinitions || {}}
       onFlowChange={(val: any) => handleChange(val)}
+      propsDisabled
       // onFlowChange={console.log}
     />
     // <AppFlow
